@@ -1,0 +1,65 @@
+<div class="pager">
+
+    <button class="pager__btn --currentPage" [disabled]="currentPage == 0 || currentPage == 1" (click)="goToPreviousPage()">
+        <ng-icon name="heroChevronLeft" size="24" strokeWidth="2"></ng-icon>
+    </button>
+
+    <button class="pager__btn --hollow text-body-medium" [ngClass]="{'--currentPage': currentPage == 1}" (click)="setPage(1)">
+        01
+    </button>
+
+    
+
+    @if (totalPages > 5 && currentPage < 5) {
+        <button class="pager__btn --hollow text-body-medium" *ngFor="let page of [].constructor(3); let i = index" [ngClass]="{'--currentPage': currentPage == i + 2}" (click)="setPage(i + 2)">
+            {{ (i + 2).toString().padStart(2, '0') }}
+        </button>
+    }
+
+    @if (currentPage < 5 && totalPages > 5) {
+        <button class="pager__btn --hollow"  (click)="setPage(5)">
+            <ng-icon name="heroEllipsisHorizontal" size="24" strokeWidth="2"></ng-icon>
+        </button>
+    }
+
+    @if (currentPage > 4) {
+        <button class="pager__btn --hollow" (click)="setPage(currentPage - 4)">
+            <ng-icon name="heroEllipsisHorizontal" size="24" strokeWidth="2"></ng-icon>
+        </button>
+
+
+        @if (currentPage < totalPages - 4) {
+
+            <button class="pager__btn --hollow text-body-medium --currentPage">
+                {{ (currentPage).toString().padStart(2, '0') }}
+            </button>
+
+            <button class="pager__btn --hollow text-body-medium" *ngFor="let page of [].constructor(3); let i = index" (click)="setPage(currentPage + i + 1)">
+                {{ (currentPage + i + 1).toString().padStart(2, '0') }}
+            </button>
+
+            <button class="pager__btn --hollow" (click)="setPage(currentPage + 4)">
+                <ng-icon name="heroEllipsisHorizontal" size="24" strokeWidth="2"></ng-icon>
+            </button>
+
+        } @else if (totalPages > currentPage 
+            || (totalPages == currentPage && totalPages > 1)) {
+            
+            <button class="pager__btn --hollow text-body-medium" *ngFor="let page of [].constructor(4); let i = index" [ngClass]="{'--currentPage': currentPage == totalPages - 4 + i}" (click)="setPage(totalPages - 4 + i)">
+                {{ (totalPages - 4 + i).toString().padStart(2, '0') }}
+            </button>
+        }
+    
+    }
+
+
+    @if (totalPages > 1) {
+        <button class="pager__btn --hollow text-body-medium" [ngClass]="{'--currentPage': currentPage == totalPages}" (click)="setPage(totalPages)">
+            {{ totalPages }}
+        </button>
+    }
+    
+    <button class="pager__btn --currentPage" [disabled]="currentPage == totalPages" (click)="goToNextPage()">
+        <ng-icon name="heroChevronRight" size="24" strokeWidth="2"></ng-icon>
+    </button>
+</div>

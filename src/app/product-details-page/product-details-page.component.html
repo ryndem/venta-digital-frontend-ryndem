@@ -1,0 +1,20 @@
+<div class="product-details-page">
+    <div class="product-details-page__main-product">
+        <org-product-details-card [product]="product">
+            <button class="btn" (click)="toggleRelatedProducts(true)">
+                <ng-icon name="heroSquaresPlus" size="24"></ng-icon>
+                <span class="text-large">Alternativos y complementarios</span>
+            </button>
+        </org-product-details-card>
+        <org-product-details [product]="product"></org-product-details>
+    </div>
+    <div class="product-details-page__related-products" [ngClass]="{'--visible': isRelatedProductsVisible}">
+        <org-related-products [productId]="productId">
+            <button class="btn --hollow --fit" (click)="toggleRelatedProducts(false)">
+                <ng-icon name="heroXMark" strokeWidth="2" size="24"></ng-icon>
+            </button>
+        </org-related-products>
+    </div>
+</div>
+
+<org-help-contact></org-help-contact>

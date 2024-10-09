@@ -1,0 +1,16 @@
+.carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    &__buttons {
+        position: absolute;
+        bottom: 8px;
+        padding: 10px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        grid-column-gap: 12px;
+        justify-content: center;
+    }
+}

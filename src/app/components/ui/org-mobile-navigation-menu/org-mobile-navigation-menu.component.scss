@@ -1,0 +1,67 @@
+.org-mobile-navigation-menu {
+    display: grid;
+    overflow-y: auto;
+    width: 100vw;
+    height: 100vh;
+    padding: 16px;
+    background-color: var(--white);
+
+    button {
+        border: none;
+        background-color: transparent;
+    }
+
+    &__header {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        margin: 32px 0px;
+
+        &--logo {
+            justify-self: start;
+        }
+
+        &--icon {
+            justify-self: end;
+        }
+    }
+
+    &__content {
+        margin: 16px 0px;
+
+        p {
+            color: var(--gray-green-900);
+        }
+
+        &.account {
+            margin-bottom: 0px;
+            border-top: 1px solid var(--gray-green-400);
+        }
+
+        &__items {
+            .item::ng-deep {
+                &.atm-category-card {
+                    padding-left: 0px;
+                }
+            }
+        }
+
+    }
+
+    &__footer {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        grid-gap: 16px;
+
+        p {
+            color: var(--red-600);
+        }
+
+        &--icon {
+            width: 44px;
+            height: 44px;
+            transform: rotate(90deg);
+        }
+    }
+}

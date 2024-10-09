@@ -1,0 +1,24 @@
+.categories-bar {
+    align-items: center;
+    border-bottom: 1px solid var(--neutral-400);
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    width: 100%;
+
+    &__item {
+        background-color: transparent;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 6px 12px;
+
+        &:hover, &.--active {
+            background-color: var(--primary-200);
+            opacity: 1;
+        }
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+<ngx-masonry class="products-grid" [options]="{
+        gutter: 8, 
+        horizontalOrder: true,
+        originLeft: true, 
+        originTop: true
+    }">
+    <org-product-card class="grid-item" ngxMasonryItem *ngFor="let product of productList" [product]="product"/>
+</ngx-masonry>

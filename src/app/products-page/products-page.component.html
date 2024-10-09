@@ -1,0 +1,22 @@
+<org-categories-bar></org-categories-bar>
+<div class="products-page">
+    
+    <h1 class="text-title-1 m-0">Resultados</h1>
+
+    <div class="products-page__list">
+        
+        <div class="products-page__list__header">
+            <p class="text-paragraph">Mostrando 30 de 1308</p>
+            <button class="text-paragraph" type="button" (click)="toggleSortDirection()">
+                <span>Ordenar:</span>
+                <span class="text-bold">A-Z</span>
+                <ng-icon *ngIf="sortDirection=='ASC'" name="heroChevronUp" size="24" strokeWidth="2"></ng-icon>
+                <ng-icon *ngIf="sortDirection=='DESC'" name="heroChevronDown" size="24" strokeWidth="2"></ng-icon>
+            </button>
+        </div>
+
+        <org-products-grid [products]="productPage"></org-products-grid>
+        
+        <org-pager [totalResults]="totalResults"></org-pager>
+    </div>
+</div>

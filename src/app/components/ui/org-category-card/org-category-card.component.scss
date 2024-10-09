@@ -1,0 +1,30 @@
+.category-card {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 11px 50px;
+    row-gap: 11px;
+
+    &__img {
+        align-items: center;
+        background-color: var(--neutral-200);
+        border-radius: 100%;
+        display: flex;
+        height: 235px;
+        justify-content: center;
+        width: 235px;
+
+img {
+            height: 91px;
+            width: 72.33px;
+        }
+    }
+    &__details {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+}

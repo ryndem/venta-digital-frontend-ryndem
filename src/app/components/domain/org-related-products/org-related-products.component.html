@@ -1,0 +1,15 @@
+<div class="related-products">
+    <div class="related-products__header">
+        <h3 class="text-title-4 m-0">Descubre más productos</h3>
+        <ng-content></ng-content>
+    </div>
+
+    <div class="related-products__tabs">
+        <button [ngClass]="{'active': isShowingAlternativeProducts}" (click)="updateProducts(true)">Alternativos</button>
+        <button [ngClass]="{'active': !isShowingAlternativeProducts}" (click)="updateProducts(false)">Complementarios</button>
+    </div>
+
+    <div class="related-products__list">
+        <org-products-grid [products]="null"></org-products-grid>
+    </div>
+</div>

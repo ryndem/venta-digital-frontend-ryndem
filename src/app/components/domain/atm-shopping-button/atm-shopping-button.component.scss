@@ -1,0 +1,15 @@
+.atm-shopping-button {
+    align-items: center;
+    background-color: var(--primary-500);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+
+img {
+        height: 24px;
+        width: 24px;
+    }
+}

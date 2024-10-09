@@ -1,0 +1,15 @@
+.carousel-bottom {
+    cursor: pointer;
+    height: 8px;
+    width: 8px;
+    background-color: var(--gray-green-100);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+
+    &.active {
+        height: 10px;
+        width: 10px;
+        background-color: var(--accent-500);
+    }
+}

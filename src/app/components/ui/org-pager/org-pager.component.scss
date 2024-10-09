@@ -1,0 +1,42 @@
+.pager {
+    align-items: center;
+    column-gap: 13px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    &__btn {
+        align-items: center;
+        background-color: transparent;
+        border: 1px solid var(--gray-400);
+        border-radius: 2px;
+        color: var(--gray-green-300);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        padding: 8px;
+        font-weight: 400;
+
+        &.--currentPage  {
+            font-weight: 500;
+            color: var(--gray-green-800);
+        }
+
+        &:hover {
+            opacity: 0.4;
+        }
+
+        &:active {
+            opacity: 1;
+        }
+
+         &:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        &.--hollow {
+            border: none;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+<a [routerLink]="['/products', product.idProduct]"  class="product no-decoration">
+    <div class="product__header">
+        <div class="product__header__section">
+            <p class="text-x-small text-gray-green-900">CAS</p>
+            <p class="text-body-medium text-gray-green-900"> {{ product.cas }} </p>
+        </div>
+        <div class="product__header__section">
+            <p class="text-x-small text-gray-green-900">CAT</p>
+            <p class="text-body-medium text-gray-green-900">  {{ product.cat }} </p>
+        </div>
+        <div class="product__header__section">
+            <img src="assets/icons/default-brand.svg" alt="product brand">
+        </div>
+    </div>
+    <div class="product__img">
+        <img src="assets/icons/flask.svg" alt="image product">
+    </div>
+    <div class="product__details">
+        <div class="product__details__header">
+            <p class="text-body-medium text-neutral-900"> {{ product.category }} </p>
+            <p class="text-body text-gray-green-900"> {{ product.description }} </p>
+        </div>
+        <div class="product__details__shopping">
+            <div class="product__details__shopping__price">
+                <p class="text-small text-gray-green-500 line-through"> {{ product.publicPrice | usdCurrency }} </p>
+                <p class="text-title-5 text-primary-500"> {{ product.userPrice | usdCurrency }} </p>
+            </div>
+            <atm-shopping-button [product]="product"></atm-shopping-button>
+        </div>
+        <div class="product__details__delivery">
+            <p class="text-x-small text-blue-900">Envío en <span class="text-600">10 días hábiles</span></p>
+        </div>
+    </div>
+</a>

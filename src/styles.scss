@@ -1,0 +1,35 @@
+@import "normalize.css";
+@import './assets/styles/colors.scss';
+@import './assets/styles/texts.scss';
+@import './assets/styles/responsive.scss';
+@import './assets/styles/spacing.scss';
+@import './assets/styles/form-elements.scss';
+@import './assets/styles/button.scss';
+@import './assets/fonts/stellar/stylesheet.css';
+@import '@fontsource/work-sans';
+@import '@fontsource/work-sans/500';
+@import '@fontsource/work-sans/600';
+
+html {
+    box-sizing: border-box;
+    height: 100dvh;
+}
+
+body, app-root {
+    display: block;
+    height: 100%;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+p, h2 {
+    margin: 0;
+}
+
+small {
+    font-size: inherit;
+}

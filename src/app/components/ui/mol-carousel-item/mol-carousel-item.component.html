@@ -1,0 +1,10 @@
+<div
+    class="carousel-item"
+    [ngClass]="!isActive ? 'not-active' : '' "
+>
+    <div *ngIf="item">
+        <img *ngIf="item.mobile" alt="banner-mobile" class="only-mobile" [src]="item.mobile">
+        <img *ngIf="item.tablet" alt="banner-tablet" class="only-tablet" [src]="item.tablet">
+        <img *ngIf="item.web" alt="banner-web" class="only-web" [src]="item.web">
+    </div>
+</div>

@@ -1,0 +1,39 @@
+
+<header class="org-layout-header">
+
+    <img routerLink="" class="org-layout-header__logo" src="assets/icons/proquifa-logo-nav.svg" alt="">
+
+    <button class="org-layout-header__menu" (click)="openMobileMenu()">
+        <ng-icon  name="heroBars3" size="24" color="white"></ng-icon>
+    </button>
+
+    <org-navigation-menu class="org-layout-header__catalogs" [navigationItemsGroups]="catalogNavigationGroups" >
+        <mol-nav-button>
+            <ng-icon  name="heroTag" size="24"></ng-icon>
+                Catálogo
+            <ng-icon  name="heroChevronDown" size="16"></ng-icon>
+        </mol-nav-button>
+    </org-navigation-menu>
+
+    <org-mobile-navigation-menu
+        *ngIf="isMobileMenuOpen"
+        class="org-layout-header__catalogs--mobile"
+        [navigationItemsGroups]="catalogNavigationGroups"
+        (closeMenu)="closeMobileMenu()"
+    >
+    </org-mobile-navigation-menu>
+
+    <org-layout-search class="org-layout-header__search" (searchTermChange)="onSearchTermChange($event)" [optionsGroups]="productsGroups"></org-layout-search>
+
+    <mol-nav-button class="org-layout-header__account" (click)="openLogin()" *ngIf="!authService.isAuthenticated()">
+        <ng-icon  name="heroUser" size="24"></ng-icon>
+        <span>Iniciar Sesión</span>
+    </mol-nav-button>
+
+    <mol-nav-button class="org-layout-header__cart">
+        <ng-icon  name="heroShoppingCart" size="24"></ng-icon>
+    </mol-nav-button>
+
+    <org-login-modal *ngIf="authService.isOpenLoginModal()"></org-login-modal>
+
+</header>
