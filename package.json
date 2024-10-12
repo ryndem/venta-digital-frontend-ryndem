@@ -21,6 +21,7 @@
     "@fontsource/work-sans": "^5.0.18",
     "@ng-icons/core": "^27.5.2",
     "@ng-icons/heroicons": "^27.5.2",
+    "@ngrx/store": "^17.2.0",
     "masonry-layout": "^4.2.2",
     "ngx-masonry": "^14.0.1",
     "normalize.css": "^8.0.1",

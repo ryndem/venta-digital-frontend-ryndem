@@ -5,11 +5,9 @@ import { CategoriesService } from 'app/services/categories.service';
 @Component({
   selector: 'org-layout-footer',
   templateUrl: './org-layout-footer.component.html',
-  styleUrl: './org-layout-footer.component.scss'
+  styleUrl: './org-layout-footer.component.scss',
 })
 export class LayoutFooterComponent implements OnInit {
-
-
   catalogNavigationGroups: NavigationItemsGroup[] = [];
 
   constructor(private categoriesService: CategoriesService) {}
@@ -19,29 +17,25 @@ export class LayoutFooterComponent implements OnInit {
   }
 
   private async buildNavigationMenu() {
-
     const tempCategories = await this.categoriesService.list();
-    tempCategories.forEach(category => {
+    tempCategories.forEach((category) => {
       this.categoriesService.setProperties(category);
     });
 
-    let group:number = 0;
-    let count:number = 0;
-    let categoriesGroup:NavigationItemsGroup[] = [];
+    let group: number = 0;
+    let count: number = 0;
+    let categoriesGroup: NavigationItemsGroup[] = [];
 
-    while(tempCategories.length > 0) {
-      let cat = tempCategories.pop()!
-      categoriesGroup[group] ??= {items: []};
-      categoriesGroup[group].items.push(cat);
+    tempCategories.forEach((category) => {
+      categoriesGroup[group] ??= { items: [] };
+      categoriesGroup[group].items.push(category!);
       count++;
 
       if (count % 4 == 0) {
         group += 1;
       }
-
-    }
+    });
 
     this.catalogNavigationGroups = categoriesGroup;
   }
-
 }

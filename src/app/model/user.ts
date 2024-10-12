@@ -1,5 +1,10 @@
 export type User = {
-    access_token?: string,
-    refresh_token?: string;
-    scope?: string;
-}
+  emailUser: string;
+  firstNameUser: string;
+  idCustomer: string;
+  idUser: string;
+  industry: string;
+  lastNameUser: string;
+  nameQustomer: string;
+  userName: string;
+};

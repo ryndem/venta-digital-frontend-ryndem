@@ -1,203 +1,210 @@
 .text-title-1 {
-    font-family: 'Stellar';
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 56px;
-    text-transform: uppercase;
+  font-family: "Stellar";
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  text-transform: uppercase;
 }
 
 .text-title-2 {
-    font-family: 'Stellar';
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 40px;
-    text-transform: uppercase;
+  font-family: "Stellar";
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  text-transform: uppercase;
 }
 
 .text-title-3 {
-    font-family: 'Stellar';
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 32px;
-    text-transform: uppercase;
+  font-family: "Stellar";
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  text-transform: uppercase;
 }
 
 .text-title-4 {
-    font-family: 'Stellar';
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 28px;
-    text-transform: uppercase;
+  font-family: "Stellar";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  text-transform: uppercase;
 }
 
 .text-title-5 {
-    font-family: 'Work Sans';
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    line-height: 20px;
+  font-family: "Work Sans";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 20px;
 }
 
 .text-paragraph {
-    font-family: 'Work Sans';
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
+  font-family: "Work Sans";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
 }
 
 .text-lead {
-    font-family: 'Work Sans';
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 28px;
+  font-family: "Work Sans";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
 }
 
 .text-paragraph-2 {
-    font-family: 'Work Sans';
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 28px;
+  font-family: "Work Sans";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
 }
 
 .text-body-medium {
-    font-family: 'Work Sans';
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 21px;
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
 }
 
 .text-body {
-    font-family: 'Work Sans';
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .text-large {
-    font-family: 'Work Sans';
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 16px;
+  font-family: "Work Sans";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 .text-small {
-    font-family: 'Work Sans';
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
+  font-family: "Work Sans";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.text-small-regular {
+  font-family: "Work Sans";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 .text-subtle {
-    font-family: 'Work Sans';
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .text-x-small {
-    font-family: 'Work Sans';
-    font-size: 10px;
-    font-weight: 400;
-    line-height: 14px;
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 14px;
 }
 
 .text-big {
-    font-family: 'Stellar';
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    line-height: 46px;
+  font-family: "Stellar";
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 46px;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-blue-600 {
-    color: var(--blue-600);
+  color: var(--blue-600);
 }
 
 .text-blue-900 {
-    color: var(--blue-900);
+  color: var(--blue-900);
 }
 
 .text-red-700 {
-    color: var(--red-700);
+  color: var(--red-700);
 }
 
 .text-primary-50 {
-    color: var(--primary-50);
+  color: var(--primary-50);
 }
 
 .text-primary-500 {
-    color: var(--primary-500);
+  color: var(--primary-500);
 }
 
 .line-through {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .text-primary-500 {
-    color: var(--primary-500);
+  color: var(--primary-500);
 }
 
 .text-primary-900 {
-    color: var(--primary-900);
+  color: var(--primary-900);
 }
 
 .text-neutral-50 {
-    color: var(--neutral-50);
+  color: var(--neutral-50);
 }
 
 .text-neutral-100 {
-    color: var(--neutral-100);
+  color: var(--neutral-100);
 }
 
 .text-neutral-200 {
-    color: var(--neutral-200);
+  color: var(--neutral-200);
 }
 
 .text-neutral-800 {
-    color: var(--neutral-800);
+  color: var(--neutral-800);
 }
 
 .text-neutral-900 {
-    color: var(--neutral-900);
+  color: var(--neutral-900);
 }
 
 .text-gray-green-500 {
-    color: var(--gray-green-500);
+  color: var(--gray-green-500);
 }
 
 .text-gray-green-700 {
-    color: var(--gray-green-700);
+  color: var(--gray-green-700);
 }
 
 .text-gray-green-800 {
-    color: var(--gray-green-800);
+  color: var(--gray-green-800);
 }
 
 .text-gray-green-900 {
-    color: var(--gray-green-900);
+  color: var(--gray-green-900);
 }
 
 .text-600 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .no-decoration {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .line-through {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .text-bold {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .text-center {
-    justify-content: center;
-    text-align: center;
+  justify-content: center;
+  text-align: center;
 }

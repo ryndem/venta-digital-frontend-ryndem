@@ -1,10 +1,20 @@
 <div class="org-navigation-menu">
-    <div (click)="toggleItemsContainer()">
-        <ng-content></ng-content>
+  <div (click)="toggleItemsContainer()">
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="org-navigation-menu__items"
+    *ngIf="isItemsContainerOpened"
+    (click)="toggleItemsContainer()"
+  >
+    <div
+      class="org-navigation-menu__items__group"
+      *ngFor="let group of navigationItemsGroups"
+    >
+      <atm-category-card
+        *ngFor="let navigationItem of group.items"
+        [category]="navigationItem"
+      ></atm-category-card>
     </div>
-    <div class="org-navigation-menu__items" *ngIf="isItemsContainerOpened" (click)="toggleItemsContainer()">
-        <div class="org-navigation-menu__items__group" *ngFor="let group of navigationItemsGroups">
-            <atm-category-card *ngFor="let navigationItem of group.items" [category]="navigationItem"></atm-category-card>
-        </div>
-    </div>
+  </div>
 </div>

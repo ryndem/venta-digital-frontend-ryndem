@@ -1,7 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgIconsModule } from '@ng-icons/core';
-import { heroBars3, heroChevronUp, heroChevronDown, heroExclamationCircle, heroEye, heroEyeSlash, heroLockClosed, heroMagnifyingGlass, heroMinus, heroPlus, heroShoppingCart, heroSquaresPlus, heroTag, heroTrash, heroUser, heroXMark, heroArrowUpTray, heroChevronLeft, heroChevronRight, heroEllipsisHorizontal } from '@ng-icons/heroicons/outline';
+import {
+  heroBars3,
+  heroChevronUp,
+  heroChevronDown,
+  heroExclamationCircle,
+  heroEye,
+  heroEyeSlash,
+  heroLockClosed,
+  heroMagnifyingGlass,
+  heroMinus,
+  heroPlus,
+  heroShoppingCart,
+  heroSquaresPlus,
+  heroTag,
+  heroTrash,
+  heroUser,
+  heroXMark,
+  heroArrowUpTray,
+  heroChevronLeft,
+  heroChevronRight,
+  heroEllipsisHorizontal,
+} from '@ng-icons/heroicons/outline';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -49,6 +70,9 @@ import { OrgMobileNavigationMenuComponent } from './components/ui/org-mobile-nav
 import { OrgPagerComponent } from './components/ui/org-pager/org-pager.component';
 import { MolCarouselItemComponent } from './components/ui/mol-carousel-item/mol-carousel-item.component';
 import { AtmCarouselButtonComponent } from './components/ui/atm-carousel-button/atm-carousel-button.component';
+import { provideState, provideStore, StoreModule } from '@ngrx/store';
+import { userReducer } from './store/user.reducer';
+import { AtmLoaderComponent } from './components/ui/atm-loader/atm-loader.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +114,8 @@ import { AtmCarouselButtonComponent } from './components/ui/atm-carousel-button/
     OrgMobileNavigationMenuComponent,
     OrgPagerComponent,
     MolCarouselItemComponent,
-    AtmCarouselButtonComponent
+    AtmCarouselButtonComponent,
+    AtmLoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,35 +124,40 @@ import { AtmCarouselButtonComponent } from './components/ui/atm-carousel-button/
     FormsModule,
     HttpClientModule,
     NgxMasonryModule,
-    NgIconsModule.withIcons(
-      {
-        heroTag,
-        heroChevronUp,
-        heroChevronDown,
-        heroMagnifyingGlass,
-        heroUser,
-        heroShoppingCart,
-        heroXMark,
-        heroEye,
-        heroEyeSlash,
-        heroExclamationCircle,
-        heroBars3,
-        heroTrash,
-        heroPlus,
-        heroLockClosed,
-        heroMinus,
-        heroSquaresPlus,
-        heroArrowUpTray,
-        heroChevronLeft,
-        heroChevronRight,
-        heroEllipsisHorizontal
-      }
-    )
+    NgIconsModule.withIcons({
+      heroTag,
+      heroChevronUp,
+      heroChevronDown,
+      heroMagnifyingGlass,
+      heroUser,
+      heroShoppingCart,
+      heroXMark,
+      heroEye,
+      heroEyeSlash,
+      heroExclamationCircle,
+      heroBars3,
+      heroTrash,
+      heroPlus,
+      heroLockClosed,
+      heroMinus,
+      heroSquaresPlus,
+      heroArrowUpTray,
+      heroChevronLeft,
+      heroChevronRight,
+      heroEllipsisHorizontal,
+    }),
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+    provideStore(),
+    provideState({ name: 'user', reducer: userReducer }),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

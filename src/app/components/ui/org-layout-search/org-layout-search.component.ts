@@ -5,10 +5,9 @@ import { OptionsGroup } from './org-layout-search';
 @Component({
   selector: 'org-layout-search',
   templateUrl: './org-layout-search.component.html',
-  styleUrl: './org-layout-search.component.scss'
+  styleUrl: './org-layout-search.component.scss',
 })
 export class LayoutSearchComponent {
-
   optionsGroups: OptionsGroup[] = [];
 
   @Output()
@@ -36,15 +35,14 @@ export class LayoutSearchComponent {
       queryParams: {
         searchTerm: this.searchTerm,
         category: '',
-        page: 1
+        page: 1,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 
   onSearchTermChange(event: Event) {
-
-    const {value} = event.target as HTMLInputElement;
+    const { value } = event.target as HTMLInputElement;
 
     if (!value) {
       return;
@@ -58,7 +56,6 @@ export class LayoutSearchComponent {
       this.isSearching = true;
       this.searchTermChange.emit(value);
     }, 400) as unknown as number;
-
   }
 
   onCloseSearch() {
@@ -68,5 +65,4 @@ export class LayoutSearchComponent {
   onFocusSearch() {
     this.isResultsVisible = this.optionsGroups.length > 0;
   }
-
 }

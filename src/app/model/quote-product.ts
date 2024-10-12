@@ -1,6 +1,6 @@
-import { Product } from "./product";
+import { Product } from './product';
 
 export type QuoteProduct = {
-    quantity: number;
-    product: Product
-}
+  quantity: number;
+  product: Product;
+};

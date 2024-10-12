@@ -5,10 +5,9 @@ import { CategoriesService } from 'app/services/categories.service';
 @Component({
   selector: 'org-categories-gallery',
   templateUrl: './org-categories-gallery.component.html',
-  styleUrl: './org-categories-gallery.component.scss'
+  styleUrl: './org-categories-gallery.component.scss',
 })
 export class OrgCategoriesGalleryComponent implements OnInit {
-
   constructor(private categoriesService: CategoriesService) {}
 
   @Input()
@@ -18,12 +17,9 @@ export class OrgCategoriesGalleryComponent implements OnInit {
   isOnlyCategories: boolean = false;
 
   async ngOnInit(): Promise<void> {
-      
     this.categories = await this.categoriesService.list();
-    this.categories.forEach(category => {
+    this.categories.forEach((category) => {
       this.categoriesService.setProperties(category);
     });
-
   }
-
 }

@@ -5,10 +5,9 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss'
+  styleUrl: './sign-up.component.scss',
 })
 export class SignUpComponent {
-
   constructor(public authService: AuthService) {}
 
   isPasswordVisible: boolean = false;
@@ -19,18 +18,22 @@ export class SignUpComponent {
 
   isReviewPending: boolean = false;
 
+  errorMessage: string = '';
+
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   async onSubmit(form: NgForm) {
-
     if (!form.valid) {
       return;
     }
 
     const data = form.value;
     try {
+      this.isServerError = false;
+      this.errorMessage = '';
+
       await this.authService.signUp(
         data.email,
         data.company,
@@ -39,12 +42,20 @@ export class SignUpComponent {
         data.lastName,
         data.phoneNumber,
         data.jobTitle,
-        data.password
+        data.password,
+        data.registryType == 'isFinalUser',
+        data.registryType == 'isReseller',
       );
-    } catch(e) {
-      this.isServerError = true;
+
+      this.isSingupRequested = true;
+    } catch (e: any) {
+      if (e.error?.type == 'code_not_found_customer') {
+        this.isSingupRequested = true;
+      } else {
+        this.isServerError = true;
+        this.errorMessage =
+          'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.';
+      }
     }
-
   }
-
 }

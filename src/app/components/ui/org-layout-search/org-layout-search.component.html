@@ -1,32 +1,59 @@
 <div class="search">
-    
-    <div class="search__input">
-        <ng-icon  name="heroMagnifyingGlass" color="var(--primary-500)" size="24"></ng-icon>
-        <input placeholder="Busca por no. de catálogo, concepto, marcas, CAS" type="text" [(ngModel)]="searchTerm" (input)="onSearchTermChange($event)" (keydown.enter)="onEnter()" (focus)="onFocusSearch()">
-        <button class="search__input__close" (click)="onCloseSearch()">
-            <ng-icon name="heroXMark" color="var(--primary-500)" size="24"></ng-icon>
-        </button>
+  <div class="search__input">
+    <ng-icon
+      name="heroMagnifyingGlass"
+      color="var(--primary-500)"
+      size="24"
+    ></ng-icon>
+    <input
+      placeholder="Busca por no. de catálogo, concepto, marcas, CAS"
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchTermChange($event)"
+      (keydown.enter)="onEnter()"
+      (focus)="onFocusSearch()"
+    />
+    <button class="search__input__close" (click)="onCloseSearch()">
+      <ng-icon name="heroXMark" color="var(--primary-500)" size="24"></ng-icon>
+    </button>
+  </div>
+
+  @if (isSearching) {
+    <div class="search__results">
+      <div class="search__results__group">
+        <p class="search__results__group__title text-body-medium">
+          Buscando productos
+        </p>
+      </div>
     </div>
+  }
 
-    @if (isSearching) {
-        <div class="search__results">
-            <div class="search__results__group">
-                <p class="search__results__group__title text-body-medium"> Buscando productos </p>
-            </div>
+  @if (!isSearching && isResultsVisible && optionsGroups.length > 0) {
+    <div class="search__results">
+      <div
+        class="search__results__group"
+        *ngFor="let optionsGroup of optionsGroups"
+      >
+        <p class="search__results__group__title text-title-5">
+          {{ optionsGroup.title }}
+        </p>
+        <ul
+          class="search__results__group__items"
+          *ngIf="optionsGroup.items.length > 0"
+        >
+          <li
+            class="search__results__group__item text-body-medium text-neutral-800"
+            *ngFor="let option of optionsGroup.items"
+            [routerLink]="['/products', option.value]"
+            (click)="onCloseSearch()"
+          >
+            {{ option.label }}
+          </li>
+        </ul>
+        <div *ngIf="optionsGroup.items.length == 0">
+          No se encontraron resultados
         </div>
-    }
-
-    @if (!isSearching && isResultsVisible && optionsGroups.length > 0) {
-        <div class="search__results">
-            <div class="search__results__group" *ngFor="let optionsGroup of optionsGroups">
-                <p class="search__results__group__title text-title-5"> {{ optionsGroup.title }} </p>
-                <ul class="search__results__group__items">
-                    <li class="search__results__group__item text-body-medium text-neutral-800" *ngFor="let option of optionsGroup.items" [routerLink]="['/products', option.value]" (click)="onCloseSearch()">
-                        {{ option.label }}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    }
-
+      </div>
+    </div>
+  }
 </div>

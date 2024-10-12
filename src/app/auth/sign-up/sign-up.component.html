@@ -1,227 +1,453 @@
 <div *ngIf="!isSingupRequested">
-    <p class="text-title-2">
-        REGISTRO
-    </p>
+  <p class="text-title-2">REGISTRO</p>
 
-    <p class="text-subtle mb-32">Regístrate para acceder a nuestros servicios y beneficios exclusivios.</p>
+  <p class="text-subtle mb-32">
+    Regístrate para acceder a nuestros servicios y beneficios exclusivios.
+  </p>
 
-    <form class="form-group mb-32" #signUpForm="ngForm" (ngSubmit)="onSubmit(signUpForm)">
+  <form
+    class="form-group mb-32"
+    #signUpForm="ngForm"
+    (ngSubmit)="onSubmit(signUpForm)"
+  >
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="email"
+        >Email</label
+      >
 
-        <div class="form-control">
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="email"
+          name="email"
+          type="text"
+          placeholder="Email"
+          email
+          required
+          ngModel
+          #emailInput="ngModel"
+        />
+      </div>
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="email">Correo
-                electrónico</label>
+      <div
+        class="text-small text-red-700"
+        *ngIf="(signUpForm.submitted || emailInput.dirty) && emailInput.invalid"
+      >
+        <small class="text-small" *ngIf="emailInput.errors?.['email']"
+          >El formato de correo electrónico es incorrecto</small
+        >
+        <small class="text-small" *ngIf="emailInput.errors?.['required']"
+          >El correo electrónico es requerido</small
+        >
+      </div>
+    </div>
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="email" name="email" type="text" placeholder="Correo electrónico" email required ngModel
-                    #emailInput="ngModel">
-            </div>
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="company"
+        >Empresa</label
+      >
 
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || emailInput.dirty) && emailInput.invalid">
-                <small class="text-small" *ngIf="emailInput.errors?.['email']">El formato de correo electrónico es
-                    incorrecto</small>
-                <small class="text-small" *ngIf="emailInput.errors?.['required']">El correo electrónico es
-                    requerido</small>
-            </div>
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="company"
+          name="company"
+          type="text"
+          placeholder="Nombre de tu empresa"
+          required
+          ngModel
+          #companyInput="ngModel"
+        />
+      </div>
+
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || companyInput.dirty) && companyInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="companyInput.errors?.['required']"
+          >El nombre de tu empresa es requerido</small
+        >
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="registryType"
+        >Tipo de registro</label
+      >
+
+      <div
+        class="text-body-medium text-gray-green-900 form-control__input radio"
+      >
+        <div>
+          <input
+            id="isFinalUser"
+            name="registryType"
+            type="radio"
+            placeholder="Usuario final"
+            value="isFinalUser"
+            ngModel
+            #isFinalUserInput="ngModel"
+            required
+          />
+          <label for="isFinalUser">Usuario final</label>
         </div>
-
-        <div class="form-control">
-
-            <label class="form-control__label text-body-medium text-gray-green-900" for="company">Empresa</label>
-
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="company" name="company" type="text" placeholder="Nombre de tu empresa" required ngModel
-                    #companyInput="ngModel">
-            </div>
-
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || companyInput.dirty) && companyInput.invalid">
-                <small class="text-small" *ngIf="companyInput.errors?.['required']">El nombre de tu empresa es
-                    requerido</small>
-            </div>
+        <div>
+          <input
+            id="isReseller"
+            name="registryType"
+            type="radio"
+            placeholder="Reseller"
+            value="isReseller"
+            ngModel
+            #isResellerInput="ngModel"
+            required
+          />
+          <label for="isReseller">Reseller</label>
         </div>
+      </div>
 
-        <div class="form-control">
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          signUpForm.submitted &&
+          (isFinalUserInput.invalid || isResellerInput.invalid)
+        "
+      >
+        <small
+          class="text-small"
+          *ngIf="
+            isFinalUserInput.errors?.['required'] ||
+            isResellerInput.errors?.['required']
+          "
+          >Tipo de registro es requerido</small
+        >
+      </div>
+    </div>
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="rfc">RFC</label>
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="rfc"
+        >RFC</label
+      >
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="rfc" name="rfc" type="text" placeholder="RFC" required ngModel #rfcInput="ngModel">
-            </div>
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="rfc"
+          name="rfc"
+          type="text"
+          placeholder="RFC"
+          required
+          ngModel
+          #rfcInput="ngModel"
+        />
+      </div>
 
-            <div class="text-small text-red-700" *ngIf="(signUpForm.submitted || rfcInput.dirty) && rfcInput.invalid">
-                <small class="text-small" *ngIf="rfcInput.errors?.['required']">Tu RFC es requerido</small>
-            </div>
-        </div>
+      <div
+        class="text-small text-red-700"
+        *ngIf="(signUpForm.submitted || rfcInput.dirty) && rfcInput.invalid"
+      >
+        <small class="text-small" *ngIf="rfcInput.errors?.['required']"
+          >Tu RFC es requerido</small
+        >
+      </div>
+    </div>
 
-        <div class="form-control">
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="name"
+        >Nombre</label
+      >
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="name">Nombre</label>
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Tu nombre"
+          required
+          ngModel
+          #nameInput="ngModel"
+        />
+      </div>
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="name" name="name" type="text" placeholder="Tu nombre" required ngModel #nameInput="ngModel">
-            </div>
+      <div
+        class="text-small text-red-700"
+        *ngIf="(signUpForm.submitted || nameInput.dirty) && nameInput.invalid"
+      >
+        <small class="text-small" *ngIf="nameInput.errors?.['required']"
+          >Tu nombre es requerido</small
+        >
+      </div>
+    </div>
 
-            <div class="text-small text-red-700" *ngIf="(signUpForm.submitted || nameInput.dirty) && nameInput.invalid">
-                <small class="text-small" *ngIf="nameInput.errors?.['required']">Tu nombre es requerido</small>
-            </div>
-        </div>
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="lastName"
+        >Apellido</label
+      >
 
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          placeholder="Tus apellidos"
+          required
+          ngModel
+          #lastNameInput="ngModel"
+        />
+      </div>
 
-        <div class="form-control">
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || lastNameInput.dirty) && lastNameInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="lastNameInput.errors?.['required']"
+          >Tus apellidos son requeridos</small
+        >
+      </div>
+      <small class="text-small">Ingresa tu apellido paterno y materno</small>
+    </div>
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="lastName">Apellido</label>
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="phoneNumber"
+        >Teléfono</label
+      >
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="lastName" name="lastName" type="text" placeholder="Tus apellidos" required ngModel
-                    #lastNameInput="ngModel">
-            </div>
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="phoneNumber"
+          name="phoneNumber"
+          type="text"
+          placeholder="(00) 0000 0000"
+          required
+          ngModel
+          #phoneNumberInput="ngModel"
+        />
+      </div>
 
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || lastNameInput.dirty) && lastNameInput.invalid">
-                <small class="text-small" *ngIf="lastNameInput.errors?.['required']">Tus apellidos son
-                    requeridos</small>
-            </div>
-            <small class="text-small">Ingresa tu apellido paterno y materno</small>
-        </div>
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || phoneNumberInput.dirty) &&
+          phoneNumberInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="phoneNumberInput.errors?.['required']"
+          >Tu teléfono es requerido</small
+        >
+      </div>
+      <small class="text-small">10 dígitos, incluyendo LADA</small>
+    </div>
 
-        <div class="form-control">
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="jobTitle"
+        >Puesto</label
+      >
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="phoneNumber">Teléfono</label>
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="jobTitle"
+          name="jobTitle"
+          type="text"
+          placeholder="Tu puesto"
+          required
+          ngModel
+          #jobTitleInput="ngModel"
+        />
+      </div>
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="phoneNumber" name="phoneNumber" type="text" placeholder="(00) 0000 0000" required ngModel
-                    #phoneNumberInput="ngModel">
-            </div>
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || jobTitleInput.dirty) && jobTitleInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="jobTitleInput.errors?.['required']"
+          >Tu puesto es requerido</small
+        >
+      </div>
+    </div>
 
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || phoneNumberInput.dirty) && phoneNumberInput.invalid">
-                <small class="text-small" *ngIf="phoneNumberInput.errors?.['required']">Tu teléfono es requerido</small>
-            </div>
-            <small class="text-small">10 dígitos, incluyendo LADA</small>
-        </div>
+    <div class="form-control">
+      <label
+        class="form-control__label text-body-medium text-gray-green-900"
+        for="password"
+        >Contraseña</label
+      >
+      <div class="text-body-medium text-gray-green-900 form-control__input">
+        <input
+          id="password"
+          name="password"
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          placeholder="********"
+          autocomplete="false"
+          required
+          ngModel
+          #passwordInput="ngModel"
+        />
+        <button (click)="togglePasswordVisibility()" type="button">
+          @if (isPasswordVisible) {
+            <ng-icon name="heroEye" size="16"></ng-icon>
+          } @else {
+            <ng-icon name="heroEyeSlash" size="16"></ng-icon>
+          }
+        </button>
+      </div>
 
-        <div class="form-control">
+      <small class="text-small"
+        >Mínimo 8 caracteres, mayúsculas, minúsculas, números y símbolos</small
+      >
 
-            <label class="form-control__label text-body-medium text-gray-green-900" for="jobTitle">Puesto</label>
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || passwordInput.dirty) && passwordInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="passwordInput.errors?.['required']"
+          >La contraseña es requerida</small
+        >
+      </div>
+    </div>
 
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="jobTitle" name="jobTitle" type="text" placeholder="Tu puesto" required ngModel
-                    #jobTitleInput="ngModel">
-            </div>
+    <div class="sign-up__terms-and-conditions">
+      <p class="text-small text-gray-green-900">
+        Al hacer clic en "Registrarme", usted acepta los
+        <a class="text-blue-600" routerLink="/terms-and-conditions"
+          >Términos y Condiciones</a
+        >
+        de uso de nuestro servicio. <br />
+        Por favor, lea detenidamente nuestra política de privacidad y términos
+        de servicio antes de proceder con el registro.
+      </p>
 
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || jobTitleInput.dirty) && jobTitleInput.invalid">
-                <small class="text-small" *ngIf="jobTitleInput.errors?.['required']">Tu puesto es requerido</small>
-            </div>
-        </div>
+      <div class="sign-up__terms-and-conditions__accept">
+        <input
+          type="checkbox"
+          name="accept"
+          id="accept"
+          required
+          ngModel
+          #acceptInput="ngModel"
+        />
+        <label class="text-body text-gray-green-900" for="accept"
+          >Acepto los Términos y Condiciones</label
+        >
+      </div>
 
-        <div class="form-control">
-            <label class="form-control__label text-body-medium text-gray-green-900" for="password">Contraseña</label>
-            <div class="text-body-medium text-gray-green-900 form-control__input">
-                <input id="password" name="password" [type]="isPasswordVisible ? 'text': 'password'"
-                    placeholder="********" autocomplete="false" required ngModel #passwordInput="ngModel">
-                <button (click)="togglePasswordVisibility()" type="button">
-                    @if (isPasswordVisible) {
-                    <ng-icon name="heroEye" size="16"></ng-icon>
-                    } @else {
-                    <ng-icon name="heroEyeSlash" size="16"></ng-icon>
-                    }
-                </button>
-            </div>
+      <div
+        class="text-small text-red-700"
+        *ngIf="
+          (signUpForm.submitted || acceptInput.dirty) && acceptInput.invalid
+        "
+      >
+        <small class="text-small" *ngIf="acceptInput.errors?.['required']"
+          >Debes aceptar los Términos y Condiciones</small
+        >
+      </div>
+    </div>
 
-            <small class="text-small">Mínimo 8 caracteres, mayúsculas, minúsculas, números y símbolos</small>
+    <org-info-card
+      title="Error al enviar el formulario"
+      [description]="errorMessage"
+      *ngIf="isServerError"
+    >
+    </org-info-card>
 
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || passwordInput.dirty) && passwordInput.invalid">
-                <small class="text-small" *ngIf="passwordInput.errors?.['required']">La contraseña es requerida</small>
-            </div>
-        </div>
+    <button>Registrarme</button>
+  </form>
 
-        <div class="sign-up__terms-and-conditions">
-
-            <p class="text-small text-gray-green-900">
-                Al hacer clic en "Registrarme", usted acepta los <a class="text-blue-600" routerLink="/terms-and-conditions">Términos y
-                    Condiciones</a> de uso de nuestro servicio. <br>
-                Por favor, lea detenidamente nuestra política de privacidad y términos de servicio antes de proceder con
-                el registro.
-            </p>
-
-            <div class="sign-up__terms-and-conditions__accept">
-                <input type="checkbox" name="accept" id="accept" required ngModel #acceptInput="ngModel">
-                <label class="text-body text-gray-green-900" for="accept">Acepto los Términos y Condiciones</label>
-            </div>
-
-            <div class="text-small text-red-700"
-                *ngIf="(signUpForm.submitted || acceptInput.dirty) && acceptInput.invalid">
-                <small class="text-small" *ngIf="acceptInput.errors?.['required']">Debes aceptar los Términos y
-                    Condiciones</small>
-            </div>
-
-        </div>
-
-        <org-info-card title="Error al enviar el formulario"
-            description="Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente."
-            *ngIf="isServerError">
-        </org-info-card>
-
-        <button>Registrarme</button>
-
-    </form>
-
-    <a class="text-blue-600 text-body" routerLink>Cancelar y Regresar</a>
-
+  <a class="text-blue-600 text-body" routerLink>Cancelar y Regresar</a>
 </div>
 
 <div class="justify-centered" *ngIf="isSingupRequested && !isReviewPending">
-    <p class="text-title-2 mb-16">
-        TU REGISTRO ESTÁ CASI COMPLETO
-    </p>
+  <p class="text-title-2 mb-16">TU REGISTRO ESTÁ CASI COMPLETO</p>
 
-    <p class="text-paragraph mb-16">Sigue estos pasos para finalizar</p>
+  <p class="text-paragraph mb-16">Sigue estos pasos para finalizar</p>
 
-    <p class="text-paragraph mb-32"> Hemos recibido tu solicitud de registro exitosamente. Para activar tu cuenta, sigue
-        las siguientes instrucciones: </p>
+  <p class="text-paragraph mb-32">
+    Hemos recibido tu solicitud de registro exitosamente. Para activar tu
+    cuenta, sigue las siguientes instrucciones:
+  </p>
 
-    <ol>
-        <li class="text-paragraph mb-16">Revisa la bandeja de entrada del correo que proporcionaste.</li>
-        <li class="text-paragraph mb-16">Encontrarás un mensaje de PROQUIFA con un enlace de verificación.</li>
-        <li class="text-paragraph mb-16">Haz clic en el enlace para validar tu dirección de correo electrónico.</li>
-        <li class="text-paragraph mb-16">¡Listo! Podrás acceder a nuestra plataforma con todos los beneficios.</li>
-    </ol>
+  <ol>
+    <li class="text-paragraph mb-16">
+      Revisa la bandeja de entrada del correo que proporcionaste.
+    </li>
+    <li class="text-paragraph mb-16">
+      Encontrarás un mensaje de PROQUIFA con un enlace de verificación.
+    </li>
+    <li class="text-paragraph mb-16">
+      Haz clic en el enlace para validar tu dirección de correo electrónico.
+    </li>
+    <li class="text-paragraph mb-16">
+      ¡Listo! Podrás acceder a nuestra plataforma con todos los beneficios.
+    </li>
+  </ol>
 
-    <a routerLink="/" class="form-button">Regresar al inicio</a>
-
+  <a routerLink="/" class="form-button">Regresar al inicio</a>
 </div>
 
 <div class="justify-centered" *ngIf="isSingupRequested && isReviewPending">
-    <p class="text-title-2 mb-16">
-        TU REGISTRO ESTÁ EN REVISIÓN
-    </p>
+  <p class="text-title-2 mb-16">TU REGISTRO ESTÁ EN REVISIÓN</p>
 
-    <p class="text-paragraph mb-16">Gracias por iniciar tu registro en nuestra plataforma. Estamos revisando tu
-        solicitud y la información proporcionada.</p>
+  <p class="text-paragraph mb-16">
+    Gracias por iniciar tu registro en nuestra plataforma. Estamos revisando tu
+    solicitud y la información proporcionada.
+  </p>
 
-    <p class="text-paragraph mb-32"> Un Asesor Comercial de PROQUIFA se pondrá en contacto contigo en las próximas 24
-        horas para: </p>
+  <p class="text-paragraph mb-32">
+    Un Asesor Comercial de PROQUIFA se pondrá en contacto contigo en las
+    próximas 24 horas para:
+  </p>
 
-    <ul>
-        <li class="text-paragraph mb-16">Verificar los datos de tu empresa/negocio.</li>
-        <li class="text-paragraph mb-16">Brindarte asesoría sobre nuestros productos y servicios.</li>
-        <li class="text-paragraph mb-16">Finalizar tu registro y activar tu acceso a la plataforma.</li>
-    </ul>
+  <ul>
+    <li class="text-paragraph mb-16">
+      Verificar los datos de tu empresa/negocio.
+    </li>
+    <li class="text-paragraph mb-16">
+      Brindarte asesoría sobre nuestros productos y servicios.
+    </li>
+    <li class="text-paragraph mb-16">
+      Finalizar tu registro y activar tu acceso a la plataforma.
+    </li>
+  </ul>
 
-    <p class="text-paragraph mb-32"> Nota: Si no recibes noticias nuestras en el plazo indicado, no dudes en
-        contactarnos: </p>
+  <p class="text-paragraph mb-32">
+    Nota: Si no recibes noticias nuestras en el plazo indicado, no dudes en
+    contactarnos:
+  </p>
 
-    <ul>
-        <li class="text-paragraph mb-16"><a class="text-blue-600 text-600" href="tel:+525513151498">(55) 1315 1498</a>
-            CDMX</li>
-        <li class="text-paragraph mb-16"><a class="text-blue-600 text-600" href="tel:+523347701170">(33) 4770 1170</a>
-            GDL</li>
-    </ul>
+  <ul>
+    <li class="text-paragraph mb-16">
+      <a class="text-blue-600 text-600" href="tel:+525513151498"
+        >(55) 1315 1498</a
+      >
+      CDMX
+    </li>
+    <li class="text-paragraph mb-16">
+      <a class="text-blue-600 text-600" href="tel:+523347701170"
+        >(33) 4770 1170</a
+      >
+      GDL
+    </li>
+  </ul>
 
-    <a routerLink="/" class="form-button">Regresar al inicio</a>
-
+  <a routerLink="/" class="form-button">Regresar al inicio</a>
 </div>

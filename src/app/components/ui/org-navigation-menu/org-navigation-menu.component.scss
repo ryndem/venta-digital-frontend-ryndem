@@ -1,16 +1,14 @@
 .org-navigation-menu {
+  position: relative;
 
-    position: relative;
-    
-    &__items {
-
-        box-shadow: 0px 4px 6px -4px #0000001A;
-        background-color: var(--gray-green-50);
-        border-radius: 6px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        position: absolute;
-        top: 64px;
-        z-index: 9;
-    }
+  &__items {
+    box-shadow: var(--menu-box-shadow);
+    background-color: var(--gray-green-50);
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    position: absolute;
+    top: 64px;
+    z-index: 9;
+  }
 }

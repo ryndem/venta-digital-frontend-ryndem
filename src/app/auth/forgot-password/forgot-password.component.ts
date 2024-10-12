@@ -5,16 +5,14 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.scss'
+  styleUrl: './forgot-password.component.scss',
 })
 export class ForgotPasswordComponent {
-
   constructor(public authService: AuthService) {}
 
   isPasswordResetted: boolean = false;
 
   async onSubmit(form: NgForm) {
-
     if (!form.valid) {
       return;
     }
@@ -26,7 +24,5 @@ export class ForgotPasswordComponent {
     } catch (exception) {
       throw exception;
     }
-
   }
-
 }

@@ -1,9 +1,16 @@
 <org-carousel></org-carousel>
 
-<div class="container">
+<div class="home-container">
+  <div *ngIf="productResponse" class="home-container__oustanding">
     <h1 class="text-title-2 text-neutral-800 mb-16">Productos Destacados</h1>
-    <org-products-grid [products]="productResponse"></org-products-grid>
-    <org-categories-gallery></org-categories-gallery>
+    <org-products-grid
+      [products]="productResponse"
+      [cardSizeClass]="'product-card-size-home'"
+    ></org-products-grid>
+  </div>
+  <org-categories-gallery
+    class="home-container__categories"
+  ></org-categories-gallery>
 </div>
 
 <org-help-contact></org-help-contact>

@@ -1,9 +1,9 @@
 export type OptionItem = {
-    value: string | number | undefined,
-    label: string | undefined
-}
+  value: string | number | undefined;
+  label: string | undefined;
+};
 
-export type OptionsGroup  = {
-    title: string,
-    items: OptionItem[]
-}
+export type OptionsGroup = {
+  title: string;
+  items: OptionItem[];
+};

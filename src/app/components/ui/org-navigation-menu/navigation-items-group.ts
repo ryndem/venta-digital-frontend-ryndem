@@ -1,5 +1,5 @@
-import { Category } from "app/model/category";
+import { Category } from 'app/model/category';
 
 export type NavigationItemsGroup = {
-    items: Category[];
-}
+  items: Category[];
+};

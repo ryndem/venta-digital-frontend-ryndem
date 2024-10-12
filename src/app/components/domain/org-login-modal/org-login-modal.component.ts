@@ -5,10 +5,9 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'org-login-modal',
   templateUrl: './org-login-modal.component.html',
-  styleUrl: './org-login-modal.component.scss'
+  styleUrl: './org-login-modal.component.scss',
 })
 export class LoginModalComponent {
-
   credentialsError = false;
   loading = false;
   twoFAError = false;
@@ -16,7 +15,6 @@ export class LoginModalComponent {
   constructor(public authService: AuthService) {}
 
   async login(form: NgForm) {
-    console.log('FORM !!! - ', form);
     if (!form.valid) {
       return;
     }
@@ -27,22 +25,23 @@ export class LoginModalComponent {
       this.credentialsError = false;
 
       await this.authService.login(data.email, data.password);
+      await this.authService.loadSession();
+
       this.loading = false;
       this.close();
-
-    } catch(error:any) {
-      console.log('----', error);
-      switch(error?.error?.error) {
-        case 'multiple_session': this.closeMultipleSessions(error?.error, form); break;
-        default: this.credentialsError = true;
+    } catch (error: any) {
+      switch (error?.error?.error) {
+        case 'multiple_session':
+          this.closeMultipleSessions(error?.error, form);
+          break;
+        default:
+          this.credentialsError = true;
       }
       this.loading = false;
     }
-
   }
 
-  private async closeMultipleSessions(error:any, form: NgForm) {
-    console.log('CLOSE MULTIPLE', error.idSessionTemp);
+  private async closeMultipleSessions(error: any, form: NgForm) {
     await this.authService.closeMultipleSessions(error.idSessionTemp);
     await this.login(form);
   }
@@ -50,5 +49,4 @@ export class LoginModalComponent {
   close() {
     this.authService.closeLoginModal();
   }
-
 }

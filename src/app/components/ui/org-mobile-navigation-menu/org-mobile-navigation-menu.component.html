@@ -1,26 +1,48 @@
 <div class="org-mobile-navigation-menu">
-    <div class="org-mobile-navigation-menu__header">
-        <img class="org-mobile-navigation-menu__header--logo" src="assets/icons/proquifa-logo-cyan.svg" alt="proquifa logo">
-        <button class="org-mobile-navigation-menu__header--icon" (click)="onCloseMenu()">
-            <ng-icon name="heroXMark" size="24"></ng-icon>
-        </button>
+  <div class="org-mobile-navigation-menu__header">
+    <img
+      class="org-mobile-navigation-menu__header--logo"
+      src="assets/icons/proquifa-logo-cyan.svg"
+      alt="proquifa logo"
+    />
+    <button
+      class="org-mobile-navigation-menu__header--icon"
+      (click)="onCloseMenu()"
+    >
+      <ng-icon name="heroXMark" size="24"></ng-icon>
+    </button>
+  </div>
+  <div class="org-mobile-navigation-menu__content catalog">
+    <p class="text-body-medium">Catálogo</p>
+    <div
+      class="org-mobile-navigation-menu__content__items"
+      *ngFor="let group of navigationItemsGroups"
+    >
+      <atm-category-card
+        (click)="onCloseMenu()"
+        class="item"
+        *ngFor="let navigationItem of group.items"
+        [category]="navigationItem"
+      ></atm-category-card>
     </div>
-    <div class="org-mobile-navigation-menu__content catalog">
-        <p class="text-body-medium">Catálogo</p>
-        <div class="org-mobile-navigation-menu__content__items" *ngFor="let group of navigationItemsGroups">
-            <atm-category-card class="item" *ngFor="let navigationItem of group.items" [category]="navigationItem"></atm-category-card>
-        </div>
-    </div>
-    <div class="org-mobile-navigation-menu__content account">
-        <p class="text-body-medium">Mi Cuenta</p>
-        <div class="org-mobile-navigation-menu__content__items" *ngFor="let group of navigationItemsGroups">
-            <atm-category-card class="item" *ngFor="let navigationItem of group.items" [category]="navigationItem"></atm-category-card>
-        </div>
-    </div>
-    <div class="org-mobile-navigation-menu__footer">
-        <button class="org-mobile-navigation-menu__footer--icon">
-            <ng-icon class="icon" name="heroArrowUpTray" size="24" color="red" grade="270"></ng-icon>
-        </button>
-        <p class="text-body-medium">Cerrar Sesión</p>
-    </div>
+  </div>
+  <div class="org-mobile-navigation-menu__content account display-none">
+    <p class="text-body-medium">Mi Cuenta</p>
+  </div>
+  <div
+    class="org-mobile-navigation-menu__footer"
+    (click)="logout()"
+    *ngIf="isLogged"
+  >
+    <button class="org-mobile-navigation-menu__footer--icon">
+      <ng-icon
+        class="icon"
+        name="heroArrowUpTray"
+        size="24"
+        color="red"
+        grade="270"
+      ></ng-icon>
+    </button>
+    <p class="text-body-medium">Cerrar Sesión</p>
+  </div>
 </div>

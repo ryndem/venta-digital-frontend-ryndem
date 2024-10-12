@@ -1,64 +1,115 @@
 <div class="product-details-card">
-    <p class="product-details-card__banner" *ngIf="isControlled">
-        <ng-icon size="24" strokeWidth="2" name="heroLockClosed"></ng-icon>
-        <span class="text-title-5">{{ product?.category }}</span>
-    </p>
-    <div class="product-details-card__context">
-        <div class="product-details-card__headings">
-
-            <div class="product-details-card__headings__container">
-                <div class="product-details-card__headings__section">
-                    <p class="m-0 text-subtle">CAS</p>
-                    <p class="m-0 text-paragraph"> {{ product?.cas }} </p>
-                </div>
-                <div class="product-details-card__headings__section">
-                    <p class="m-0 text-subtle">CAT</p>
-                    <p class="m-0 text-paragraph"> {{ product?.cat }} </p>
-                </div>
-                <div class="product-details-card__headings__section">
-                    <img src="assets/icons/default-brand.svg" alt="product brand">
-                </div>
-            </div>
-            <div class="product-details-card__headings__image">
-                <img src="assets/icons/reactive.svg" alt="">
-            </div>
-
+  <p class="product-details-card__banner" *ngIf="isControlled">
+    <ng-icon size="24" strokeWidth="2" name="heroLockClosed"></ng-icon>
+    <span class="text-title-5">Producto Controlado</span>
+  </p>
+  <div class="product-details-card__context">
+    <div class="product-details-card__headings">
+      <div class="product-details-card__headings__container">
+        <div
+          class="product-details-card__headings__section"
+          [ngClass]="{ empty: !product?.cas }"
+        >
+          <p class="m-0 text-subtle">CAS</p>
+          <p class="m-0 text-paragraph text-bold">
+            <span *ngIf="product?.cas; then cas; else empty"></span>
+            <ng-template #cas> {{ product?.cas }} </ng-template>
+            <ng-template #empty>-</ng-template>
+          </p>
         </div>
-        <div class="product-details-card__info">
-            <h1 class="product-details-card__info__title text-bold text-subtle text-primary-900"> {{ product?.category }} </h1>
-            <p class="product-details-card__info__description text-paragraph-2 text-gray-green-900"> {{ product?.description }} </p>
-
-            @if (isControlled) {
-                <p class="product-details-card__banner text-body text-center">Contacta a un Asesor Comercial</p>
-            } @else {
-                <div class="product-details-card__info__market">
-                    <div class="product-details-card__info__market__pricing">
-                        <p class="text-paragraph text-gray-green-500 line-through">{{ product?.publicPrice | usdCurrency}}</p>
-                        <p class="text-title-2 text-primary-500"> {{ product?.userPrice | usdCurrency }}  <sup class="text-paragraph">p/u</sup> </p>
-                    </div>
-                    <div class="product-details-card__info__market__cart">
-                        <p class="text-paragraph">U. Medida <span class="text-bold"> {{ product?.unitMeasure }} </span></p>
-                        <div class="product-details-card__info__market__cart__actions">
-                            <button class="btn" (click)="updateProductUnits(-1)"> <ng-icon name="heroMinus" size="24"></ng-icon> </button>
-                            <span  class="product-details-card__info__market__cart__product-units text-title-3 text-gray-green-800"> {{ productUnits }} </span>
-                            <button class="btn" (click)="updateProductUnits(1)"> <ng-icon name="heroPlus" size="24"></ng-icon> </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-details-card__info__footer">
-                    <p class="text-paragraph text-blue-900">Envío en <span class="text-bold">10 días hábiles</span></p>
-                    <button class="btn --primary" (click)="addToQuotation()">
-                        <ng-icon name="heroShoppingCart" size="24"></ng-icon>
-                        <span class="text-large">Agregar a Cotización</span>
-                    </button>
-                    <ng-content></ng-content>
-                </div>
-            }
-
-
+        <div
+          class="product-details-card__headings__section"
+          [ngClass]="{ empty: !product?.catalog }"
+        >
+          <p class="m-0 text-subtle">CAT</p>
+          <p class="m-0 text-paragraph text-bold">
+            <span *ngIf="product?.catalog; then catalog; else empty"></span>
+            <ng-template #catalog> {{ product?.catalog }} </ng-template>
+            <ng-template #empty>-</ng-template>
+          </p>
         </div>
+        <div class="product-details-card__headings__section">
+          <img
+            *ngIf="brandImgPath"
+            [src]="brandImgPath"
+            alt="product brand"
+            width="32px"
+            height="32px"
+          />
+        </div>
+      </div>
+      <div class="product-details-card__headings__image">
+        <img [src]="presentationImgPath" alt="brand image" />
+      </div>
     </div>
+    <div class="product-details-card__info">
+      <h1
+        class="product-details-card__info__title text-bold text-subtle text-primary-900"
+      >
+        {{ product?.type }}
+      </h1>
+      <p
+        class="product-details-card__info__description text-paragraph-2 text-gray-green-900"
+      >
+        {{ product?.description }}
+      </p>
 
+      @if (isControlled && !isLogged) {
+        <p class="product-details-card__banner text-body text-center">
+          Contacta a un Asesor Comercial
+        </p>
+      } @else {
+        <div class="product-details-card__info__market">
+          <div class="product-details-card__info__market__pricing">
+            <p
+              class="text-paragraph text-gray-green-500 line-through"
+              *ngIf="offert"
+            >
+              {{ offert.unitPrice | usdCurrency }}
+            </p>
+            <p class="regular-price text-primary-500">
+              {{ product?.offert?.unitPrice | usdCurrency }}
+              <span class="text-paragraph text-gray-green-900">p/u</span>
+            </p>
+          </div>
+          <div class="product-details-card__info__market__cart">
+            <p class="text-paragraph text_unit_measure">
+              U. Medida
+              <span class="text-bold"> {{ product?.unitMeasure }} </span>
+            </p>
+            <div class="product-details-card__info__market__cart__actions">
+              <button class="btn" (click)="updateProductUnits(-1)">
+                <ng-icon name="heroMinus" size="24"></ng-icon>
+              </button>
+              <span
+                class="product-details-card__info__market__cart__product-units text-title-3 text-gray-green-800"
+              >
+                {{ productUnits }}
+              </span>
+              <button class="btn" (click)="updateProductUnits(1)">
+                <ng-icon name="heroPlus" size="24"></ng-icon>
+              </button>
+            </div>
+          </div>
+        </div>
 
+        <div class="product-details-card__info__footer">
+          <p
+            class="text-paragraph text-blue-900"
+            *ngIf="product?.offert?.deliveryTime"
+          >
+            Envío en
+            <span class="text-bold text-center">{{
+              product?.offert?.deliveryTime
+            }}</span>
+          </p>
+          <button class="btn --primary">
+            <ng-icon name="heroShoppingCart" size="24"></ng-icon>
+            <span class="text-large">Agregar a Cotización</span>
+          </button>
+          <ng-content></ng-content>
+        </div>
+      }
+    </div>
+  </div>
 </div>

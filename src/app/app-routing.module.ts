@@ -18,38 +18,39 @@ const routes: Routes = [
     path: '',
     component: TempMainLayoutComponent,
     children: [
-      {path: '', component: HomePageComponent},
-      {path: 'products', component: ProductsPageComponent},
-      {path: 'products/:productId', component: ProductDetailsPageComponent},
-      {path: 'terms-and-conditions', component: TermsAndConditionsPageComponent},
-      {path: 'privacy-policy', component: PrivacyPolicyPageComponent},
-    ]
+      { path: '', component: HomePageComponent },
+      { path: 'products', component: ProductsPageComponent },
+      { path: 'products/:productId', component: ProductDetailsPageComponent },
+      {
+        path: 'terms-and-conditions',
+        component: TermsAndConditionsPageComponent,
+      },
+      { path: 'privacy-policy', component: PrivacyPolicyPageComponent },
+    ],
   },
   {
     path: 'auth',
     component: TempAuthLayoutComponent,
     children: [
-      {path: 'reset-password', component: ResetPasswordComponent},
-      {path: 'forgot-password', component: ForgotPasswordComponent},
-      {path: 'sign-up', component: SignUpComponent},
-      {path: 'registered', component: AccountActivatedComponent},
-    ]
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'sign-up', component: SignUpComponent },
+      { path: 'verify', component: AccountActivatedComponent },
+    ],
   },
   {
     path: '404',
     component: TempMainLayoutComponent,
-    children: [
-      {path: '', component: NotFoundPageComponent},
-    ]
+    children: [{ path: '', component: NotFoundPageComponent }],
   },
   {
     path: '**',
-    redirectTo: '404'
-  }
+    redirectTo: '404',
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {bindToComponentInputs: true})],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { bindToComponentInputs: true })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

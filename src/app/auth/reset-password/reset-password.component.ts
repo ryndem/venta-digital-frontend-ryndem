@@ -5,10 +5,9 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.scss'
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetPasswordComponent {
-
   constructor(public authService: AuthService) {}
 
   isPasswordVisible: boolean = false;
@@ -17,13 +16,11 @@ export class ResetPasswordComponent {
 
   isTokenExpired: boolean = false;
 
-
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   onSubmit(form: NgForm) {
-
     if (!form.valid) {
       return;
     }
@@ -31,10 +28,8 @@ export class ResetPasswordComponent {
     const data = form.value;
     try {
       this.authService.resetPassword(data.password);
-    } catch(exception) {
+    } catch (exception) {
       this.restError = true;
     }
-
   }
-
 }
