@@ -2,7 +2,7 @@
 #Mail: snieto@ryndem.mx
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "uat" ]
   workflow_dispatch:
 
 jobs:
