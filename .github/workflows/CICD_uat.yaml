@@ -2,12 +2,12 @@
 #Mail: snieto@ryndem.mx
 on:
   push:
-    branches: [ "uat" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: self-hosted-qa-pqf2
+    runs-on: self-hosted-uat
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: false
@@ -56,7 +56,7 @@ jobs:
 
 
   deploy:
-    runs-on: self-hosted-qa-pqf2
+    runs-on: self-hosted-uat
     needs: build
     steps:
       - name: Mensaje de inicio de deploy
