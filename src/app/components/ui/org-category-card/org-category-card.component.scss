@@ -1,0 +1,36 @@
+.category-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 11px 20px;
+  row-gap: 11px;
+
+  &__img {
+    align-items: center;
+    background-color: var(--neutral-200);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+
+    img {
+      height: 112px;
+      width: 112px;
+    }
+  }
+  &__details {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    p {
+      text-transform: capitalize;
+    }
+  }
+  a {
+    font-family: "Roboto";
+  }
+}

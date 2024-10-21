@@ -1,0 +1,21 @@
+<div class="categories-gallery">
+  @if (!isOnlyCategories) {
+    <h1 class="text-primary-500">
+      POTENCIANDO LA EXCELENCIA EN <br />
+      LA PRESICIÓN FARMACEÚTICA
+    </h1>
+    <p class="text-gray-green-700">
+      Ofreciendo desde hace más de 35 años estándares de referencia de la más
+      alta calidad, columnas cromatográficas y más productos que benefician y
+      generan grandes ahorros en el presupuesto del laboratorio.
+    </p>
+  }
+
+  <div class="categories-list">
+    <org-category-card
+      class="categories-list__element"
+      *ngFor="let category of categories"
+      [category]="category"
+    ></org-category-card>
+  </div>
+</div>

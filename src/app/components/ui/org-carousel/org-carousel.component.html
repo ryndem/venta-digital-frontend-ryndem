@@ -1,0 +1,21 @@
+<div class="carousel">
+  <div class="carousel__items">
+    <div *ngFor="let banner of banners; let i = index">
+      <a [href]="banner.link">
+        <mol-carousel-item
+          [item]="banner"
+          [isActive]="currentImage === i"
+        ></mol-carousel-item>
+      </a>
+    </div>
+  </div>
+  <div class="carousel__buttons">
+    <atm-carousel-button
+      *ngFor="let banner of banners; let i = index"
+      [index]="i"
+      [isActive]="currentImage === i"
+      (indexChangeEmitter)="setImageByIndex($event)"
+    >
+    </atm-carousel-button>
+  </div>
+</div>

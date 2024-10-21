@@ -1,0 +1,27 @@
+.only-web {
+  display: none;
+}
+.only-tablet {
+  display: none;
+}
+.only-mobile {
+  display: none;
+}
+
+@media only screen and (min-width: 1025px) {
+  .only-web {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .only-tablet {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .only-mobile {
+    display: block;
+  }
+}

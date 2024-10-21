@@ -1,0 +1,21 @@
+.display-none {
+  display: none !important;
+}
+
+.product-card-size-results {
+  width: 173.5px;
+  @media (min-width: 1024px) {
+    width: 215px;
+  }
+}
+
+.product-card-size-detail {
+  width: 173.5px;
+}
+
+.product-card-size-home {
+  width: 171.5px;
+  @media (min-width: 1024px) {
+    width: 282px;
+  }
+}

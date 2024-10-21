@@ -1,0 +1,79 @@
+<a
+  [routerLink]="['/products', product.idProduct]"
+  [ngClass]="['product', 'no-decoration', cardSizeClass]"
+>
+  <div class="product__controlled" *ngIf="product.controlled">
+    <div class="product__header__section">
+      <p class="text-body-medium">Producto Controlado</p>
+    </div>
+  </div>
+  <div class="product__header">
+    <div class="product__header__section cas" *ngIf="product.cas">
+      <p class="text-x-small text-gray-green-900">CAS</p>
+      <p class="text-x-small text-gray-green-900 bold">{{ product.cas }}</p>
+    </div>
+    <div class="product__header__section cat" *ngIf="product.catalog">
+      <p class="text-x-small text-gray-green-900">CAT</p>
+      <p class="text-x-small text-gray-green-900 bold">{{ product.catalog }}</p>
+    </div>
+    <div *ngIf="!product.catalog"></div>
+    <div class="product__header__section brand">
+      <img
+        *ngIf="brandImgPath"
+        [src]="brandImgPath"
+        alt="product brand"
+        class="brand-img"
+      />
+    </div>
+  </div>
+
+  <div class="product__img">
+    <img [src]="presentationImgPath" alt="image product" />
+  </div>
+
+  <div class="product__details">
+    <div class="product__details__header">
+      <p class="text-body-medium text-neutral-900">{{ product.type }}</p>
+      <p class="text-body text-gray-green-900">{{ product.description }}</p>
+    </div>
+
+    @if (!product.controlled || isLogged) {
+      <div class="product__details__shopping">
+        <div class="product__details__shopping__price">
+          <p class="text-small text-gray-green-500 line-through display-none">
+            {{ product.offert.unitPrice | usdCurrency }}
+          </p>
+          <p class="text-title-5 text-primary-500">
+            {{ product.offert.unitPrice | usdCurrency }}
+          </p>
+        </div>
+        <atm-shopping-button
+          [product]="product"
+          *ngIf="isLogged"
+        ></atm-shopping-button>
+      </div>
+      <div class="product__details__delivery">
+        <p class="text-x-small instant" *ngIf="hasExistingStock">
+          Entrega inmediata
+        </p>
+        <p
+          class="text-x-small text-blue-900"
+          *ngIf="product.offert.deliveryTime && !hasExistingStock"
+        >
+          Envío en
+          <span class="text-600">{{ product.offert.deliveryTime }}</span>
+        </p>
+        <p class="text-x-small text-blue-900" *ngIf="product.isbn">
+          ISBN <span class="text-600">{{ product.isbn }}</span>
+        </p>
+        <p class="text-x-small express" *ngIf="product.hasExpressFreight">
+          Flete express
+        </p>
+      </div>
+    } @else if (product.controlled) {
+      <div class="product__details__controlled text-body-medium">
+        Inicia sesión para consultar el precio
+      </div>
+    }
+  </div>
+</a>
