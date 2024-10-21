@@ -1,0 +1,84 @@
+.help-contact {
+  padding: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 24px;
+  width: 100%;
+  background-color: var(--neutral-100);
+  text-align: center;
+
+  &__title {
+    font-family: "Stellar";
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  &__description {
+    font-family: "Work Sans";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &__numbers {
+    &__one,
+    &__two {
+      font-family: "Stellar";
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    &__divider {
+      display: none;
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+
+  &__certifications {
+    display: flex;
+    flex-direction: row;
+    column-gap: 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .help-contact {
+    &__title {
+      font-family: "Stellar";
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 56px;
+    }
+
+    &__description {
+      font-family: "Work Sans";
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    &__numbers {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      column-gap: 16px;
+
+      &__one,
+      &__two,
+      &__divider {
+        display: unset;
+        font-family: "Stellar";
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 56px;
+      }
+    }
+  }
+}

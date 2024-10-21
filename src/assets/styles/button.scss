@@ -1,0 +1,41 @@
+.btn {
+  align-items: center;
+  background-color: transparent;
+  border-radius: 2px;
+  column-gap: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 8px 12px;
+  width: fit-content;
+  border: 1px solid black;
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:active {
+    opacity: 1;
+  }
+
+  &.--primary {
+    background-color: var(--primary-500);
+    border: none;
+    color: var(--gray-green-50);
+  }
+
+  &.--red {
+    background-color: transparent;
+    color: var(--red-500);
+    border-color: var(--red-500);
+  }
+
+  &.--hollow {
+    background-color: transparent;
+    border: none;
+  }
+
+  &.--fit {
+    width: fit-content !important;
+  }
+}

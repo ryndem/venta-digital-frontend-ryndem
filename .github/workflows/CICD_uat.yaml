@@ -1,0 +1,88 @@
+#Author: Samuel Nieto
+#Mail: snieto@ryndem.mx
+on:
+  push:
+    branches: [ "uat" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted-qa-pqf2
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Notificar Build
+        run: |
+          ./.github/scripts/status_messages.sh startbuilduat
+        shell: bash
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.18.0'
+
+      - name: Install Angular CLI
+        run: npm i -g @angular/cli@17.3.7
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determinar nueva versión
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./.github/scripts/create_tag_uat.sh
+        shell: bash
+
+      - name: Build app
+        run: |
+          $env:NODE_OPTIONS="--max_old_space_size=4096"
+          ng build --configuration production --source-map=false --progress=false
+
+      - name: Notify success
+        if: success()  # Este paso se ejecuta solo si los pasos anteriores fueron exitosos
+        run: |
+          ./.github/scripts/status_messages.sh successuat
+        shell: bash
+
+      - name: Notify failure
+        if: failure()  # Este paso se ejecuta solo si los pasos anteriores fallaron
+        run: |
+          ./.github/scripts/status_messages.sh erroruat
+        shell: bash
+
+
+  deploy:
+    runs-on: self-hosted-qa-pqf2
+    needs: build
+    steps:
+      - name: Mensaje de inicio de deploy
+        run: |
+          ./.github/scripts/status_messages.sh startdeployuat
+        shell: bash
+
+      - name: Copy files to specific folder
+        run: |
+          $source = "${{ github.workspace }}\dist\browser"
+          $destination = "C:\SitiosVentaDigital\VentaDigital"
+          if (Test-Path $destination) {
+            Remove-Item -Path $destination\* -Recurse -Force
+          }
+          Copy-Item -Path $source\* -Destination $destination -Recurse
+        shell: powershell
+
+      - name: Mensaje de finalizacion de deploy
+        if: success()
+        run: |
+          ./.github/scripts/status_messages.sh finisheduat
+        shell: bash
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          ./.github/scripts/status_messages.sh errordeployuat
+        shell: bash
+

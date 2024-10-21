@@ -1,0 +1,12 @@
+.org-info-card {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 8px;
+  align-items: top;
+  border-radius: 6px;
+  border: 1px solid var(--red-700);
+  &__description {
+    margin-top: 1rem;
+  }
+}

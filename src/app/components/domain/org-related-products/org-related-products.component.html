@@ -1,0 +1,36 @@
+<div class="related-products">
+  <div class="related-products__header">
+    <h3 class="text-title-4 m-0">Descubre más productos</h3>
+    <ng-content></ng-content>
+  </div>
+
+  <div class="related-products__tabs">
+    <button
+      [ngClass]="{ active: isShowingAlternativeProducts }"
+      (click)="updateProducts(true)"
+    >
+      Alternativos
+    </button>
+    <button
+      [ngClass]="{ active: !isShowingAlternativeProducts }"
+      (click)="updateProducts(false)"
+    >
+      Complementarios
+    </button>
+  </div>
+
+  <div class="related-products__list">
+    @if (isShowingAlternativeProducts) {
+      <org-products-grid [products]="alternativeProducts"></org-products-grid>
+    } @else {
+      <org-products-grid [products]="complementaryProducts"></org-products-grid>
+    }
+    <div class="empty-state" *ngIf="isEmptyResult">
+      <h3 class="text-big">No encontramos productos para mostrar</h3>
+      <span class="text-lead"
+        >Por el momento no contamos con sugerencias para mostrar, por favor
+        consulta este apartado más tarde.</span
+      >
+    </div>
+  </div>
+</div>

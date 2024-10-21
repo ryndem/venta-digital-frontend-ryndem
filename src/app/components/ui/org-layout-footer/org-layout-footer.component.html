@@ -1,0 +1,55 @@
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__section">
+      <div class="footer__section__column">
+        <p class="text-body-medium text-neutral-50">Catálogo</p>
+        <div class="footer__section__row">
+          <div *ngFor="let group of catalogNavigationGroups">
+            <p
+              class="text-body text-neutral-200 mb-16"
+              style="cursor: pointer"
+              *ngFor="let item of group.items"
+              [routerLink]="['products']"
+              [queryParams]="{ category: item?.key }"
+              queryParamsHandling="merge"
+            >
+              {{ item.label }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer__section">
+      <div class="footer__section__column">
+        <img
+          class="footer__image"
+          src="assets/icons/proquifa-logo-nav.svg"
+          alt="logo"
+        />
+        <p class="footer__desription text-body text-neutral-200">
+          Somos el distribuidor líder de Material de Referencia químico y
+          biológico para el mercado mexicano.
+        </p>
+        <div class="footer__section__row">
+          <a href="https://www.linkedin.com/company/3861171" target="_blank">
+            <img alt="Linkedin" src="assets/icons/social-linkedin.svg" />
+          </a>
+          <a href="https://www.facebook.com/proquifaoficial" target="_blank">
+            <img alt="Facebook" src="assets/icons/social-facebook.svg" />
+          </a>
+          <a href="https://www.instagram.com/proquifa/" target="_blank">
+            <img alt="Instagram" src="assets/icons/social-instagram.svg" />
+          </a>
+          <a href="https://x.com/PROQUIFA" target="_blank">
+            <img alt="Twitter" src="assets/icons/social-twitter.svg" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer__advice">
+    <p class="text-small text-neutral-50">
+      © 2024 Proquifa. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>
