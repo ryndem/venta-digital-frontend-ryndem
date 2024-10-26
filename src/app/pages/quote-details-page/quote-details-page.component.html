@@ -1,0 +1,19 @@
+<div class="quote-details-page">
+  <a href="/quotes" class="quote-details-page__title" >
+    <ng-icon name="heroArrowLeft" size="16" color="#0E2F2F"></ng-icon>
+    Volver al administrador
+  </a>
+  <main class="quote-details-page__content" *ngIf="quote">
+    <section class="quote-details-page__content__products" *ngIf="quote">
+      <h1>DETALLES DE COTIZACIÓN</h1>
+      <h4 class="text-title-4 m-0">Partidas</h4>
+      <org-quote-card-detail
+        *ngFor="let item of quote.listQuotationItem"
+        [quoteProduct]="item"
+      />
+    </section>
+    <section class="quote-details-page__content__summary">
+      <org-quote-summary-card [quoteProduct]="quote"/>
+    </section>
+  </main>
+</div>

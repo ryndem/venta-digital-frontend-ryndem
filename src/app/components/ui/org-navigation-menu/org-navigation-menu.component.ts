@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavigationItemsGroup } from './navigation-items-group';
+import { Category } from 'app/model/category';
 
 @Component({
   selector: 'org-navigation-menu',
@@ -8,8 +8,7 @@ import { NavigationItemsGroup } from './navigation-items-group';
 })
 export class NavigationMenuComponent {
   @Input()
-  navigationItemsGroups: NavigationItemsGroup[] = [];
-
+  categories: Category[] = [];
   isItemsContainerOpened: boolean = false;
 
   toggleItemsContainer() {

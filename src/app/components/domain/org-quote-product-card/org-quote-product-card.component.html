@@ -1,0 +1,84 @@
+<div>
+
+  <div class="quote-product-card" *ngIf="!isRemoved">
+    <div class="quote-product-card__header">
+
+      <div class="presentation">
+        <img src="assets/icons/flask.svg">
+      </div>
+
+      <div class="cas">
+        <label class="text-subtle" *ngIf="product.cas">CAS</label>
+        <div class="text-body-medium folio-value">{{product.cas}}</div>
+      </div>
+
+      <div class="cat">
+        <label class="text-subtle" *ngIf="product.catalog">CAT</label>
+        <div class="text-small">{{product.catalog}}</div>
+      </div>
+
+      <div class="brand">
+        <img src="assets/icons/default-brand.svg">
+      </div>
+
+    </div>
+
+
+    <div class="quote-product-card__action">
+      <button type="button" class="btn text-gray-green-800" (click)="loadAlternatives()" [disabled]="true" *ngIf="cartMode"><ng-icon name="heroSquaresPlus" size="16"></ng-icon>Alternativos y complementarios</button>
+    </div>
+
+    <div class="quote-product-card__info">
+      <div class="type">
+        <div class="text-body text-bold">{{product.type}}</div>
+      </div>
+
+      <div class="description">
+        <div class="text-paragraph">{{product.description}}</div>
+      </div>
+    </div>
+
+
+    <div class="quote-product-card__totals">
+
+      <div class="quantities">
+        <label class="text-subtle">Cant.</label>
+        <div class="quantities__selector">
+          <button type="button" class="btn" (click)="minus()" [disabled]="isAddingToCar" *ngIf="cartMode">
+            <ng-icon name="heroTrash" size="24" *ngIf="quantity<=1"></ng-icon>
+            <ng-icon name="heroMinus" size="24" *ngIf="quantity>1"></ng-icon>
+          </button>
+          <span class="text-title-3">{{quantity}}</span>
+          <button type="button" class="btn" (click)="plus()" [disabled]="isAddingToCar"  *ngIf="cartMode"><ng-icon name="heroPlus" size="24"></ng-icon></button>
+        </div>
+        <label class="delivery text-subtle display-none">Envio en 10 dias habiles</label>
+      </div>
+
+      <div class="measures">
+        <label class="text-subtle">U. Medida</label>
+        <div class="text-title-5">{{ product.unitMeasure }}</div>
+      </div>
+
+      <div class="prices">
+        <label class="text-subtle">Precio U.</label>
+        <div>
+          <span class="not-price text-subtle">{{ product.webPrice | usdCurrency }}</span>
+          <span class="price text-title-5">{{ product.unitPrice | usdCurrency }}</span>
+        </div>
+      </div>
+
+      <div class="total">
+        <label class="text-subtle">Importe</label>
+        <div class="text-title-3 text-primary-500">{{ product.totalPrice | usdCurrency }}</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="quote-product-card-removed" *ngIf="isRemoved">
+    <span class="text-paragraph text-primary-500">{{product.description}}</span>
+    <span class="text-paragraph"> se ha eliminado de tu carrito.</span>
+  </div>
+
+</div>

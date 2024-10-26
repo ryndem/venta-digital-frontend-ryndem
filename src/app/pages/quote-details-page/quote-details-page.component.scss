@@ -1,0 +1,60 @@
+.quote-details-page {
+  max-width: 1200px;
+  padding: 16px;
+  margin: 0 auto;
+  a {
+    text-decoration: none;
+    font-family: "Work Sans";
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    color: var(--primary-800);
+  }
+  &__content {
+    display: grid;
+    gap: 16px;
+    h1 {
+      margin: 0;
+    }
+    &__products {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+       h1 {
+        font-family: "Stellar";
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: 0.5px;
+        color: var(--primary-500);
+        margin: 16px 0 0 0;
+      }
+    }
+  }
+}
+
+@media(min-width: 1024px) {
+  .quote-details-page {
+    padding: 0px;
+    margin: 32px auto;
+    a {
+      padding: 0px 16px;
+    }
+    &__content {
+      grid-template-columns: [col1] 67.5fr [col2] 32.5fr;
+      gap: 0px;
+      &__products {
+        padding: 16px;
+        gap: 16px;
+        h1 {
+          font-size: 36px;
+          line-height: 46px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,37 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationItemsGroup } from '../org-navigation-menu/navigation-items-group';
+import { Component } from '@angular/core';
 import { AuthService } from 'app/auth/auth.service';
 import { OptionsGroup } from '../org-layout-search/org-layout-search';
-import { CategoriesService } from 'app/services/categories.service';
 import { Store } from '@ngrx/store';
 import { ProductsService } from 'app/services/products.service';
+import { ShoppingCart } from 'app/model/shopping-cart';
+import { Category } from 'app/model/category';
+import { User } from 'app/model/user';
+import { CartService } from 'app/services/cart.service';
 
 @Component({
   selector: 'org-layout-header',
   templateUrl: './org-layout-header.component.html',
   styleUrl: './org-layout-header.component.scss',
 })
-export class LayoutHeaderComponent implements OnInit {
+export class LayoutHeaderComponent {
+  
+  categories: Category[] = [];
+
+  productsGroups: OptionsGroup[] = [];
+  isMobileMenuOpen: boolean = false;
+  isUserMenuOpen: boolean = false;
+  isAuthenticated: boolean = false;
+  user: User | null = null;
+  shoppingCart: ShoppingCart | null = null;
+
+
   constructor(
     public authService: AuthService,
-    private categoriesService: CategoriesService,
+    private cartService: CartService,
     private productsService: ProductsService,
     private store: Store<any>,
   ) {
     this.store.subscribe((state) => {
-      this.userName = state.user.fullName;
+      this.categories = state.product.categories;
+      this.user = state.user.user;
       this.isAuthenticated = state.user.isLogged;
+      this.shoppingCart = state.cart.shoppingCart;
     });
   }
-
-  catalogNavigationGroups: NavigationItemsGroup[] = [];
-
-  productsGroups: OptionsGroup[] = [];
-
-  isMobileMenuOpen: boolean = false;
-  isUserMenuOpen: boolean = false;
-  isAuthenticated: boolean = false;
-  userName: string | null = null;
 
   openLogin(): void {
     this.authService.openLoginModal();
@@ -50,38 +56,6 @@ export class LayoutHeaderComponent implements OnInit {
     });
   }
 
-  private async buildNavigationMenu() {
-    const tempCategories = await this.categoriesService.list();
-    tempCategories.forEach((category) => {
-      this.categoriesService.setProperties(category);
-    });
-
-    let group: number = 0;
-    let count: number = 0;
-    let categoriesGroup: NavigationItemsGroup[] = [];
-
-    tempCategories.forEach((category) => {
-      categoriesGroup[group] ??= { items: [] };
-      categoriesGroup[group].items.push(category!);
-      count++;
-
-      if (count % 4 == 0) {
-        group += 1;
-      }
-    });
-
-    this.catalogNavigationGroups = categoriesGroup;
-  }
-
-  private async loadSession() {
-    await this.authService.loadSession();
-  }
-
-  ngOnInit(): void {
-    this.buildNavigationMenu();
-    this.loadSession();
-  }
-
   openMobileMenu(): void {
     this.isMobileMenuOpen = true;
   }
@@ -96,7 +70,7 @@ export class LayoutHeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    this.isAuthenticated = false;
+    this.cartService.load();
     this.isUserMenuOpen = false;
   }
 }

@@ -12,7 +12,9 @@
 }
 
 .categories-list {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 h1 {
@@ -45,6 +47,7 @@ p {
 @media (min-width: 1024px) {
   .categories-list {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
     row-gap: 1rem;

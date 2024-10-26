@@ -1,53 +1,67 @@
 <div class="product-details-card">
-  <p class="product-details-card__banner" *ngIf="isControlled">
-    <ng-icon size="24" strokeWidth="2" name="heroLockClosed"></ng-icon>
-    <span class="text-title-5">Producto Controlado</span>
-  </p>
+  <div class="product-details-card__auth" *ngIf="!isLogged">
+    <atm-auth-banner />
+  </div>
   <div class="product-details-card__context">
     <div class="product-details-card__headings">
+      <!-- Headings -->
       <div class="product-details-card__headings__container">
-        <div
-          class="product-details-card__headings__section"
-          [ngClass]="{ empty: !product?.cas }"
-        >
-          <p class="m-0 text-subtle">CAS</p>
-          <p class="m-0 text-paragraph text-bold">
-            <span *ngIf="product?.cas; then cas; else empty"></span>
-            <ng-template #cas> {{ product?.cas }} </ng-template>
-            <ng-template #empty>-</ng-template>
-          </p>
+        <div>
+          <!-- Cas -->
+          <div
+            class="product-details-card__headings__section"
+            [ngClass]="{ empty: !product?.cas }"
+          >
+            <p class="m-0 text-subtle">CAS</p>
+            <p class="m-0 text-paragraph text-bold">
+              <span *ngIf="product?.cas; then cas; else empty"></span>
+              <ng-template #cas> {{ product?.cas }} </ng-template>
+              <ng-template #empty>-</ng-template>
+            </p>
+          </div>
+
+          <!-- Cat -->
+          <div
+            class="product-details-card__headings__section"
+            [ngClass]="{ empty: !product?.catalog }"
+          >
+            <p class="m-0 text-subtle">CAT</p>
+            <p class="m-0 text-paragraph text-bold">
+              <span *ngIf="product?.catalog; then catalog; else empty"></span>
+              <ng-template #catalog> {{ product?.catalog }} </ng-template>
+              <ng-template #empty>-</ng-template>
+            </p>
+          </div>
         </div>
-        <div
-          class="product-details-card__headings__section"
-          [ngClass]="{ empty: !product?.catalog }"
-        >
-          <p class="m-0 text-subtle">CAT</p>
-          <p class="m-0 text-paragraph text-bold">
-            <span *ngIf="product?.catalog; then catalog; else empty"></span>
-            <ng-template #catalog> {{ product?.catalog }} </ng-template>
-            <ng-template #empty>-</ng-template>
-          </p>
-        </div>
-        <div class="product-details-card__headings__section">
-          <img
-            *ngIf="brandImgPath"
-            [src]="brandImgPath"
-            alt="product brand"
-            width="32px"
-            height="32px"
-          />
-        </div>
+
+        <img
+          *ngIf="brandImgPath"
+          [src]="brandImgPath"
+          alt="product brand"
+          width="32px"
+          height="32px"
+        />
       </div>
+
+      <!-- Image -->
       <div class="product-details-card__headings__image">
         <img [src]="presentationImgPath" alt="brand image" />
       </div>
     </div>
     <div class="product-details-card__info">
-      <h1
-        class="product-details-card__info__title text-bold text-subtle text-primary-900"
-      >
-        {{ product?.type }}
-      </h1>
+      @if (isControlled) {
+        <div class="product-details-card__info__controlled" *ngIf="isControlled">
+          <ng-icon size="16" strokeWidth="2" name="heroLockClosed" color="#C2410C"></ng-icon>
+          <span class="text-x-small">Controlado</span>
+        </div>
+      } @else {
+        <h1
+          class="product-details-card__info__title text-bold text-subtle text-primary-900"
+        >
+          {{ product?.type }}
+        </h1>
+      }
+
       <p
         class="product-details-card__info__description text-paragraph-2 text-gray-green-900"
       >
@@ -55,10 +69,13 @@
       </p>
 
       @if (isControlled && !isLogged) {
-        <p class="product-details-card__banner text-body text-center">
-          Contacta a un Asesor Comercial
+        <p class="product-details-card__banner text-small-regular text-center">
+          Regístrate para obtener un mejor precio
         </p>
       } @else {
+        <p class="product-details-card__banner text-small-regular text-center" *ngIf="!isLogged">
+            Regístrate para obtener un mejor precio
+        </p>
         <div class="product-details-card__info__market">
           <div class="product-details-card__info__market__pricing">
             <p
@@ -78,7 +95,7 @@
               <span class="text-bold"> {{ product?.unitMeasure }} </span>
             </p>
             <div class="product-details-card__info__market__cart__actions">
-              <button class="btn" (click)="updateProductUnits(-1)">
+              <button class="btn" (click)="updateProductUnits(-1)" [disabled]="productUnits <= 1">
                 <ng-icon name="heroMinus" size="24"></ng-icon>
               </button>
               <span
@@ -96,20 +113,28 @@
         <div class="product-details-card__info__footer">
           <p
             class="text-paragraph text-blue-900"
-            *ngIf="product?.offert?.deliveryTime"
+            *ngIf="product?.offert?.deliveryTimeDays"
           >
             Envío en
             <span class="text-bold text-center">{{
-              product?.offert?.deliveryTime
-            }}</span>
+              product?.offert?.deliveryTimeDays
+            }}  Días</span>
           </p>
-          <button class="btn --primary">
+          <button class="btn --primary shooping-car-button" (click)="addToQuotation()" [disabled]="isAddingToCar">
             <ng-icon name="heroShoppingCart" size="24"></ng-icon>
             <span class="text-large">Agregar a Cotización</span>
           </button>
           <ng-content></ng-content>
         </div>
       }
+
+      <a
+        *ngIf="showSeeAllDetails"
+        [href]="'/products/' + product?.idProduct" class="see-all-details-link no-decoration"
+      >
+        Ver todos los detalles
+        <ng-icon size="16" name="heroChevronRight"></ng-icon>
+      </a>
     </div>
   </div>
 </div>

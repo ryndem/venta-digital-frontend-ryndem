@@ -14,35 +14,31 @@
   </div>
   <div class="org-mobile-navigation-menu__content catalog">
     <p class="text-body-medium">Catálogo</p>
-    <div
-      class="org-mobile-navigation-menu__content__items"
-      *ngFor="let group of navigationItemsGroups"
-    >
       <atm-category-card
         (click)="onCloseMenu()"
         class="item"
-        *ngFor="let navigationItem of group.items"
-        [category]="navigationItem"
+        *ngFor="let category of categories"
+        [category]="category"
       ></atm-category-card>
+  </div>
+  <div class="org-mobile-navigation-menu__content account"  *ngIf="isLogged">
+    <hr>
+    <div class="title">
+      <span class="text-body-medium text-gray-green-900">Mi Cuenta</span>
     </div>
-  </div>
-  <div class="org-mobile-navigation-menu__content account display-none">
-    <p class="text-body-medium">Mi Cuenta</p>
-  </div>
-  <div
-    class="org-mobile-navigation-menu__footer"
-    (click)="logout()"
-    *ngIf="isLogged"
-  >
-    <button class="org-mobile-navigation-menu__footer--icon">
+    <a href="/quotes" class="account-item text-body-medium no-decoration">
+      <img src="assets/icons/menu-file.svg" alt="File icon">
+      <span class="text-gray-green-900">Ver Cotizaciones</span>
+    </a>
+    <button class="account-item" (click)="logout()">
       <ng-icon
-        class="icon"
+        class="--icon"
         name="heroArrowUpTray"
         size="24"
         color="red"
         grade="270"
       ></ng-icon>
+      <span class="text-body-medium text-red-600" id="close-session">Cerrar Sesión</span>
     </button>
-    <p class="text-body-medium">Cerrar Sesión</p>
   </div>
 </div>

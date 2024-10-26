@@ -37,3 +37,12 @@ h2 {
 small {
   font-size: inherit;
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+};

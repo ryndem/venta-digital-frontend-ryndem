@@ -8,6 +8,17 @@
   display: none;
 }
 
+.not-mobile {
+  display: none;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .not-mobile {
+    display: block;
+  }
+}
+
 @media only screen and (min-width: 1025px) {
   .only-web {
     display: block;

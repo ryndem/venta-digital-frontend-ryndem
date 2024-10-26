@@ -1,0 +1,44 @@
+<div class="quote-card-detail">
+  <div class="quote-card-detail__header">
+    <img src="assets/icons/product.svg" alt="product img">
+    <div class="title-header">
+      <div class="title-header__item">
+        <span>CAS</span>
+        <strong>{{quoteProduct.cas}}</strong>
+      </div>
+      <div class="title-header__item">
+        <span>CAT</span>
+        <strong>{{quoteProduct.catalog}}</strong>
+      </div>
+    </div>
+  </div>
+  <div class="quote-card-detail__description">
+    <span>{{quoteProduct.type}}</span>
+    <p>{{quoteProduct.description}}</p>
+  </div>
+  <div class="quote-card-detail__price">
+    <div class="measure-item">
+      <span>U. Medida</span>
+      <strong>{{quoteProduct.unitMeasure}}</strong>
+    </div>
+    <div class="unit-price-item">
+      <span>Precio U.</span>
+      <strong>{{quoteProduct.unitPrice | usdCurrency}} </strong>
+    </div>
+    <div class="quantity-item">
+      <span>Cant.</span>
+      <strong>{{quoteProduct.quantity}}</strong>
+    </div>
+    <div class="amount-item">
+      <span>Importe</span>
+      <h3>{{quoteProduct.totalPrice | usdCurrency }}</h3>
+    </div>
+  </div>
+  <div class="quote-card-detail__footer">
+    <span id="shipping">Envio en 10 días hábiles</span>
+    <div class="express-tag" *ngIf="quoteProduct.appliesExpressFreight">
+      <span> Flete express</span>
+      <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+    </div>
+  </div>
+</div>

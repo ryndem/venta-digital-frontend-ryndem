@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
-import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
   selector: 'org-categories-bar',
@@ -10,21 +10,19 @@ import { CategoriesService } from 'app/services/categories.service';
 })
 export class OrgCategoriesBarComponent implements OnInit {
   categories: Category[] = [];
-
   activeCategory: string = '';
 
   constructor(
-    private categoriesService: CategoriesService,
     private router: Router,
-    private currentRoute: ActivatedRoute,
-  ) {}
+    private currentRoute: ActivatedRoute, 
+    private store: Store<any>,
+  ) {
+    this.store.subscribe((state) => {
+      this.categories = state.product.categories;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
-    this.categories = await this.categoriesService.list();
-    this.categories.forEach((category) => {
-      this.categoriesService.setProperties(category);
-    });
-
     this.currentRoute.queryParams.subscribe((params) => {
       this.activeCategory = params['category'] ?? '';
     });

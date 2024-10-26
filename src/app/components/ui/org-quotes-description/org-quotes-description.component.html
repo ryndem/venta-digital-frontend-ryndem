@@ -1,0 +1,99 @@
+<div class="quotes-description">
+  <div class="quotes-description__content" *ngIf="descriptionType == 'quotes'">
+    <div
+      class="quotes-description__content__header"
+      [ngClass]="{ collapsed: !showMobileDescription }"
+    >
+      <h3 class="text-title-4">Consulta Tus Cotizaciones</h3>
+      <button (click)="toggleShowMobileDescription()">
+        <ng-icon name="heroChevronDown" size="24" color="#2B7777"/>
+      </button>
+    </div>
+    <div
+      class="text-subtle"
+      [ngClass]="{ 'not-mobile': !showMobileDescription }"
+    >
+      <p>
+        Bienvenido a tu sección de cotizaciones. Aquí puedes consultar tus
+        cotizaciones vigentes. Recuerda revisar el periodo de vigencia de cada
+        cotización para tramitar tus pedidos a tiempo.
+      </p>
+      <p>
+        Para ver los detalles de una cotización, selecciona la que te interese.
+      </p>
+      <p>
+        Las cotizaciones que incluyan cambios de dirección de envío o productos
+        controlados serán procesadas por un Asesor Comercial y no aparecerán
+        aquí. Un asesor se pondrá en contacto contigo para dar seguimiento.
+      </p>
+      <p>
+        Cuando estés listo para proceder, selecciona "Tramitar Pedido" para
+        agregar partidas a una orden de compra.
+      </p>
+      <p>
+        Si tienes dudas, contacta a nuestro equipo de ventas en
+        <a href="mailto:ventas@proquifa.com">ventas&#64;proquifa.com</a>
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="quotes-description__content"
+    *ngIf="descriptionType == 'in-progress'"
+  >
+    <div
+      class="quotes-description__content__header"
+      [ngClass]="{ collapsed: !showMobileDescription }"
+    >
+      <h3 class="text-title-4">Consulta Tus Pedidos en Proceso</h3>
+      <button (click)="toggleShowMobileDescription()">
+        <ng-icon name="heroChevronDown" size="24" color="#2B7777" />
+      </button>
+    </div>
+    <div
+      class="text-subtle"
+      [ngClass]="{ 'not-mobile': !showMobileDescription }"
+    >
+      <p>
+        Mientras tanto, puedes consultar los detalles del pedido para verificar
+        el estado y la información adicional.
+      </p>
+      <p>
+        Si tienes dudas, contacta a nuestro equipo de ventas en
+        <a href="mailto:ventas@proquifa.com">ventas&#64;proquifa.com</a>
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="quotes-description__content"
+    *ngIf="descriptionType == 'confirmed'"
+  >
+    <div
+      class="quotes-description__content__header"
+      [ngClass]="{ collapsed: !showMobileDescription }"
+    >
+      <h3 class="text-title-4">Consulta Tus Pedidos Confirmados</h3>
+      <button (click)="toggleShowMobileDescription()">
+        <ng-icon name="heroChevronDown" size="24" color="#2B7777" />
+      </button>
+    </div>
+    <div
+      class="text-subtle"
+      [ngClass]="{ 'not-mobile': !showMobileDescription }"
+    >
+      <p>El pedido ha sido confirmado por el ESAC.</p>
+      <p>
+        En esta sección, puedes consultar los detalles y el estado de cada
+        partida en tus pedidos. Para ver los detalles de pedido, selecciona la
+        que te interese. Esto incluye información sobre el envío y estado de
+        cada partida. Recuerda revisar todos los detalles para estar al tanto
+        del progreso de tu pedido.
+      </p>
+      <p>
+        Si tienes dudas, contacta a nuestro equipo de ventas en
+        <a href="mailto:ventas@proquifa.com">ventas&#64;proquifa.com</a>
+      </p>
+    </div>
+  </div>
+</div>

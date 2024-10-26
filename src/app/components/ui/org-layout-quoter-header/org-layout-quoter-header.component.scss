@@ -1,0 +1,18 @@
+#org-layout-quoter-header-container {
+  background-color: var(--primary-500);
+  width: 100%;
+}
+
+.org-layout-quoter-header {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 20px 16px;
+  text-align: center;
+
+  &__logo {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+
+}

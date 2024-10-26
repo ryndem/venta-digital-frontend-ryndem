@@ -21,9 +21,9 @@
 
   <div class="related-products__list">
     @if (isShowingAlternativeProducts) {
-      <org-products-grid [products]="alternativeProducts"></org-products-grid>
+      <org-products-grid [products]="alternativeProducts" gridSectionClass="alternative-complementary"></org-products-grid>
     } @else {
-      <org-products-grid [products]="complementaryProducts"></org-products-grid>
+      <org-products-grid [products]="complementaryProducts" gridSectionClass="alternative-complementary"></org-products-grid>
     }
     <div class="empty-state" *ngIf="isEmptyResult">
       <h3 class="text-big">No encontramos productos para mostrar</h3>

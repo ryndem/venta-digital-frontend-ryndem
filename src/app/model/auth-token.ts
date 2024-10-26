@@ -4,4 +4,5 @@ export type AuthToken = {
   token_type: string;
   scope: string;
   idSession: string;
+  refresh_token: string;
 };

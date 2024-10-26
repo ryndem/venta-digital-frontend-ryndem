@@ -2,10 +2,10 @@ import { environment } from 'environments/environment';
 import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthToken } from 'app/model/auth-token';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateIsLogged, updateName } from 'app/store/user.actions';
+import { updateAddresses, updateIsLogged, updateUser } from 'app/store/users/user.actions';
 import { AddressResponse } from 'app/model/address';
 
 @Injectable({
@@ -15,9 +15,10 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient,
     private store: Store<any>,
-  ) {}
+  ) { }
   private TOKEN_KEY = 'authtoken';
   private SESSION_KEY = 'sessionid';
+  private REFRESH_TOKEN_KEY = "refresh_token";
 
   isOpenLoginModal = signal<boolean>(false);
   isAuthenticated = signal<boolean>(false);
@@ -32,6 +33,67 @@ export class AuthService {
 
   openLoginModal() {
     this.isOpenLoginModal.set(true);
+  }
+
+  async login(username: string, password: string): Promise<AuthToken> {
+    const form: URLSearchParams = this.getLoginForm(username, password);
+
+    const options = {
+      headers: new HttpHeaders().set(
+        'Content-Type',
+        'application/x-www-form-urlencoded',
+      ),
+    };
+
+    const token: AuthToken = await firstValueFrom(
+      this.httpClient.post<AuthToken>(
+        `${environment.authApiUrl}/connect/token`,
+        form.toString(),
+        options,
+      ),
+    );
+
+    this.authToken.set(token.access_token);
+    localStorage.setItem(this.TOKEN_KEY, token.access_token);
+    localStorage.setItem(this.SESSION_KEY, token.idSession);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, token.refresh_token);
+    return token;
+  }
+
+  async refreshToken(): Promise<AuthToken | null> {
+    const refresh_token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    if (!refresh_token) return null;
+
+    const body = new URLSearchParams();
+    body.append('grant_type', 'refresh_token');
+    body.append('client_id', 'ro.client');
+    body.append('refresh_token', refresh_token);
+
+    const options = {
+      headers: new HttpHeaders().set(
+        'Content-Type',
+        'application/x-www-form-urlencoded'
+      ),
+    };
+
+    try {
+      const token: AuthToken = await firstValueFrom(
+        this.httpClient.post<AuthToken>(
+          `${environment.authApiUrl}/connect/token`,
+          body.toString(),
+          options
+        )
+      );
+
+      this.authToken.set(token.access_token);
+      localStorage.setItem(this.TOKEN_KEY, token.access_token);
+      localStorage.setItem(this.SESSION_KEY, token.idSession);
+      localStorage.setItem(this.REFRESH_TOKEN_KEY, token.refresh_token);
+      return token;
+    } catch (error) {
+      console.error('Failed to refresh token', error);
+      return null;
+    }
   }
 
   logout() {
@@ -100,6 +162,12 @@ export class AuthService {
   }
 
   private updateAddress(addresses: AddressResponse | null) {
+    if(addresses && addresses.results) {
+      this.store.dispatch(
+        updateAddresses({ addresses: addresses.results}),
+      );
+    }
+
     if (addresses && addresses?.results?.length > 0) {
       this.addressId.set(addresses.results[0].idAddress);
     } else {
@@ -112,13 +180,13 @@ export class AuthService {
       this.isAuthenticated.set(true);
       this.customerId.set(user.idCustomer);
       this.store.dispatch(
-        updateName({ fullName: user.firstNameUser + ' ' + user.lastNameUser }),
+        updateUser({ user: user }),
       );
       this.store.dispatch(updateIsLogged({ isLogged: true }));
     } else {
       this.isAuthenticated.set(false);
       this.customerId.set(null);
-      this.store.dispatch(updateName({ fullName: null }));
+      this.store.dispatch(updateUser({ user: null }));
       this.store.dispatch(updateIsLogged({ isLogged: false }));
     }
   }
@@ -139,30 +207,6 @@ export class AuthService {
         '',
       ),
     );
-  }
-
-  async login(username: string, password: string): Promise<AuthToken> {
-    const form: URLSearchParams = this.getLoginForm(username, password);
-
-    const options = {
-      headers: new HttpHeaders().set(
-        'Content-Type',
-        'application/x-www-form-urlencoded',
-      ),
-    };
-
-    const token: AuthToken = await firstValueFrom(
-      this.httpClient.post<AuthToken>(
-        `${environment.authApiUrl}/connect/token`,
-        form.toString(),
-        options,
-      ),
-    );
-
-    this.authToken.set(token.access_token);
-    localStorage.setItem(this.TOKEN_KEY, token.access_token);
-    localStorage.setItem(this.SESSION_KEY, token.idSession);
-    return token;
   }
 
   private getLoginForm(username: string, password: string): URLSearchParams {
@@ -187,7 +231,7 @@ export class AuthService {
     password: string,
     isFinalUser: boolean,
     isReseller: boolean,
-  ): Promise<any> {
+  ): Promise<{ email: string, status: string }> {
     let body = {
       email,
       customerName,
@@ -200,21 +244,37 @@ export class AuthService {
       isFinalUser,
       isReseller,
     };
-    const token: any = await firstValueFrom(
-      this.httpClient.post<any>(`${environment.apiUrl}/UserRegistration`, body),
+    const result = await firstValueFrom(
+      this.httpClient.post<Promise<{ email: string, status: string }>>(`${environment.apiUrl}/UserRegistration`, body),
     );
-    return token;
-  }
-
-  async resetPassword(newPassword: string): Promise<void> {
-    await this.login('testing', newPassword);
+    return result;
   }
 
   async sendForgotPasswordEmail(email: string): Promise<void> {
-    new Promise((resolve, reject) => {
-      resolve('');
-    }).then(() => {
-      console.log('Forgot password email sent to:', email);
-    });
+    await firstValueFrom(
+      this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email })
+    )
+  }
+
+  async validateRequestResetPassword(token: string) {
+    await firstValueFrom(
+      this.httpClient.post(
+        `${environment.apiUrl}/validateRequestResetPassword`,
+        { requestResetToken: token }
+      )
+    )
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    await firstValueFrom(
+      this.httpClient.post(
+        `${environment.apiUrl}/resetPassword`,
+        { token, password: newPassword }
+      )
+    )
   }
 }
+function updateAddesses(arg0: { addresses: import("app/model/address").Address[]; }): any {
+  throw new Error('Function not implemented.');
+}
+

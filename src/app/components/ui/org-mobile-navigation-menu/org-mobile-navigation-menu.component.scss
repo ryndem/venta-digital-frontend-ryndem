@@ -34,37 +34,42 @@
     }
 
     &.account {
-      margin-bottom: 0px;
-      border-top: 1px solid var(--gray-green-400);
+      margin: 0;
+      hr {
+        margin: 0;
+      }
+
+      .title {
+        padding-top: 16px;
+        padding-bottom: 8px;
+      }
 
       p {
-        padding: 16px;
+        color: var(--gray-green-900);
       }
-    }
 
-    &__items {
-      .item::ng-deep {
-        &.atm-category-card {
-          padding-left: 0px;
+      .account-item {
+        width: 100%;
+        padding: 8px 0px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        .--icon {
+          width: 44px;
+          height: 44px;
+          transform: rotate(90deg);
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
-    }
-  }
 
-  &__footer {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    grid-gap: 16px;
-
-    p {
-      color: var(--red-600);
     }
 
-    &--icon {
-      width: 44px;
-      height: 44px;
-      transform: rotate(90deg);
+    .item::ng-deep {
+      &.atm-category-card {
+        padding-left: 0px;
+      }
     }
   }
 }

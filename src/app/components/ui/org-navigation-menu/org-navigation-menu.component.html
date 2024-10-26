@@ -9,11 +9,10 @@
   >
     <div
       class="org-navigation-menu__items__group"
-      *ngFor="let group of navigationItemsGroups"
     >
       <atm-category-card
-        *ngFor="let navigationItem of group.items"
-        [category]="navigationItem"
+        *ngFor="let category of categories"
+        [category]="category"
       ></atm-category-card>
     </div>
   </div>

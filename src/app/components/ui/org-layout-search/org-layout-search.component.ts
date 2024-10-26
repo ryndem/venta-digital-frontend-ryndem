@@ -13,6 +13,8 @@ export class LayoutSearchComponent {
   @Output()
   searchTermChange = new EventEmitter<string>();
 
+  
+
   searchTerm: string = '';
 
   debounce: number | null = null;
@@ -20,6 +22,8 @@ export class LayoutSearchComponent {
   isSearching: boolean = false;
 
   isResultsVisible: boolean = false;
+
+  private MIN_SEARCH_LENGHT = 3;
 
   @Input('optionsGroups')
   set updateOptionsGroups(optionsGroups: OptionsGroup[]) {
@@ -31,6 +35,9 @@ export class LayoutSearchComponent {
   constructor(private router: Router) {}
 
   onEnter() {
+    if(this.searchTerm?.length < this.MIN_SEARCH_LENGHT)
+      return;
+
     this.router.navigate(['products'], {
       queryParams: {
         searchTerm: this.searchTerm,
@@ -47,6 +54,8 @@ export class LayoutSearchComponent {
     if (!value) {
       return;
     }
+    if(value.length < this.MIN_SEARCH_LENGHT)
+      return;
 
     if (this.debounce) {
       clearTimeout(this.debounce);

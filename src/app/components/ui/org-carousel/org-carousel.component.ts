@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CarouselItem } from '../mol-carousel-item/carousel-image';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'org-carousel',
@@ -7,40 +8,95 @@ import { CarouselItem } from '../mol-carousel-item/carousel-image';
   styleUrl: './org-carousel.component.scss',
 })
 export class OrgCarouselComponent {
+
+  constructor(private router: Router) {}
+
   banners: CarouselItem[] = [
     {
       mobile: 'assets/imgs/banners/01_mobile.jpg',
       tablet: 'assets/imgs/banners/01_tablet.jpg',
       web: 'assets/imgs/banners/01_web.jpg',
-      link: 'https://proquifa.dev-lk.mx/products?category=standards',
+      action: 'categories',
     },
     {
       mobile: 'assets/imgs/banners/02_mobile.jpg',
       tablet: 'assets/imgs/banners/02_tablet.jpg',
       web: 'assets/imgs/banners/02_web.jpg',
-      link: 'https://proquifa.dev-lk.mx/products/a1bc16a8-6829-4138-b963-bb2cf56641a2',
+      action: 'hplc-column',
     },
     {
       mobile: 'assets/imgs/banners/03_mobile.jpg',
       tablet: 'assets/imgs/banners/03_tablet.jpg',
       web: 'assets/imgs/banners/03_web.jpg',
-      link: 'https://proquifa.dev-lk.mx/products/c9c8601e-18bf-4f26-b476-3894dbb41868',
+      action: 'mini-parasep',
     },
     {
-      mobile: 'assets/imgs/banners/04_mobile.jpg',
-      tablet: 'assets/imgs/banners/04_tablet.jpg',
-      web: 'assets/imgs/banners/04_web.jpg',
-      link: 'https://proquifa.dev-lk.mx/products?category=&page=1',
+      mobile: 'assets/imgs/banners/04_mobile.png',
+      tablet: 'assets/imgs/banners/04_tablet.png',
+      web: 'assets/imgs/banners/04_web.png',
+      action: 'standards',
     },
   ];
 
   currentImage: number = 0;
+  intervalId: any;
+
+  ngOnInit(): void {
+    this.startImageAutoChange();
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  startImageAutoChange(): void {
+    this.intervalId = setInterval(() => {
+      this.currentImage = (this.currentImage + 1) % this.banners.length;
+    }, 8000);
+  }
 
   setImageByIndex(index: number): void {
-    if (index > this.banners.length || index < 0) {
-      return;
-    }
+    if (index >= 0 && index < this.banners.length) {
+      this.currentImage = index;
 
-    this.currentImage = index;
+      clearInterval(this.intervalId);
+      this.startImageAutoChange();
+    }
+  }
+
+  open(item:CarouselItem) {
+
+    switch (item.action) {
+      case 'categories':
+          let el = document.getElementById('categories');
+          el?.scrollIntoView();
+          break;
+
+      case 'hplc-column':
+        this.router.navigate(['products'], {
+            queryParams: {
+              searchTerm: 'hplc column',
+            }
+          });
+          break;
+
+      case 'mini-parasep':
+        this.router.navigate(['products'], {
+          queryParams: {
+            searchTerm: 'Mini Parasep',
+          }
+        });
+          break;
+
+      case 'standards':
+          this.router.navigate(['products'], {
+            queryParams: {
+              category: 'standards',
+            }
+          });
+          break;
+    }
   }
 }

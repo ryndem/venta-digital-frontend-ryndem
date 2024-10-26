@@ -1,0 +1,76 @@
+<org-categories-bar></org-categories-bar>
+<div class="products-page">
+
+  <div class="products-page__auth__banner" *ngIf="!isLogged">
+    <atm-auth-banner />
+  </div>
+
+  <h1 class="text-title-1 m-0">Resultados</h1>
+
+  <div class="products-page__list">
+    <div class="products-page__list__header">
+      <p class="text-paragraph">
+        <span *ngIf="isLoading"
+          ><atm-loader message="Actualizando resultados"
+        /></span>
+        <span *ngIf="!isLoading && productPage && productPage.totalResults > 0"
+          >Mostrando {{ productPage.results.length }} de
+          {{ productPage.totalResults }}</span
+        >
+      </p>
+
+      <button
+        class="text-paragraph"
+        type="button"
+        (click)="toggleSortDirection()"
+        [disabled]="isLoading"
+      >
+        <span>Ordenar:</span>
+        <span class="text-bold" *ngIf="sortDirection == 'ASC'"
+          >A-Z
+          <ng-icon
+            class="icon"
+            name="heroChevronUp"
+            size="24"
+            strokeWidth="2"
+          ></ng-icon
+        ></span>
+        <span class="text-bold" *ngIf="sortDirection == 'DESC'"
+          >Z-A
+          <ng-icon
+            class="icon"
+            name="heroChevronDown"
+            size="24"
+            strokeWidth="2"
+          ></ng-icon
+        ></span>
+      </button>
+    </div>
+
+    <div
+      class="empty-state"
+      *ngIf="!isLoading && productPage && productPage.totalResults == 0"
+    >
+      <img src="assets/icons/search-loop.svg" alt="search loop">
+      <h3 class="text-big text-uppercase m-0">Búsqueda sin resultados</h3>
+      <span class="text-lead"
+        >Parece que no encontramos resultados para tu búsqueda. Intenta con otro
+        término o explora nuestras familias de productos.</span
+      >
+    </div>
+    <div class="first-loader" *ngIf="isLoading && !productPage">
+      <img src="assets/icons/loader-icon.svg" alt="Loading Icon" class="mb-16" id="loader">
+      <h3 class="text-big text-uppercase m-0">Un momento</h3>
+      <span class="text-lead"
+        >Estamos buscando las mejores opciones para ti.</span
+      >
+    </div>
+
+    <org-products-grid [products]="productPage" gridSectionClass="products-result"/>
+
+    <org-pager
+      *ngIf="!isLoading && productPage && productPage.totalResults > 0"
+      [totalResults]="productPage.totalResults"
+    ></org-pager>
+  </div>
+</div>

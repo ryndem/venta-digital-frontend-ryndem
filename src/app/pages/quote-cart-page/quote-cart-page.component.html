@@ -1,0 +1,51 @@
+<div class="quote-cart-page container">
+  
+  <div class="quote-cart-page__loader" *ngIf="isLoading && !shoppingCart">
+    <atm-loader />
+  </div>
+
+  <div *ngIf="shoppingCart && shoppingCart.listQuotationItem.length > 0">
+
+    <div class="quote-cart-page__header text-paragraph">
+      <a routerLink="/"><ng-icon class="icon" name="heroChevronLeft" size="16"></ng-icon> Volver al Catálogo</a>
+    </div>
+
+    <div class="quote-cart-page__content">
+
+      <div class="quote-cart-page__content__list">
+        <h1 class="text-big text-primary-500">Carrito</h1>
+        
+        <div class="quote-items">
+          <org-quote-product-card *ngFor="let item of shoppingCart.listQuotationItem" [product]="item"></org-quote-product-card>
+        </div>
+      </div>
+      
+      <div class="quote-cart-page__content__total">
+
+        <div class="actions text-paragraph">
+          El subtotal no incluye envío e impuestos. Estos se calcularán en el siguiente paso.
+          <div class="actions__subtotal">
+            <div class="text-paragraph">Subtotal:</div>
+            <div class="text-title-4 text-primary-500">{{shoppingCart.quotationDetails.subtotal | usdCurrency}}</div>
+          </div>
+
+          <button class="btn text-large text-gray-green-50" (click)="submitQuote()" [disabled]="shoppingCart.listQuotationItem.length <= 0 || isLoading">Cotizar {{ shoppingCart.listQuotationItem.length }} Partidas</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="quote-cart-page__empty" *ngIf="!isLoading && (!shoppingCart || shoppingCart.listQuotationItem.length == 0)">
+    <div class="image-container"><img src="assets/icons/box.svg"></div>
+    <h3 class="text-title-3">Tu carrito se encuentra vacío</h3>
+    <span class="text-paragraph">Descubre nuestra amplia selección y encuentra justo lo que buscas.</span>
+
+    <div class="quote-cart-page__empty__categories">
+      <atm-category-card
+        *ngFor="let category of categories"
+        [category]="category"
+      ></atm-category-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+.quote-card {
+  border: solid 1px var(--neutral-400);
+  border-radius: 2px;
+  padding: 0.5rem;
+
+  display: grid;
+  row-gap: 4px;
+  grid-template-areas: "folio status"
+                        "folio products"
+                        "creation total"
+                        "expiration total";
+
+  .folio {
+    grid-area: folio;
+  }
+  .status {
+    grid-area: status;
+    text-align: right;
+  }
+  .products {
+    grid-area: products;
+    text-align: right;
+  }
+  .creation-date {
+    grid-area: creation;
+  }
+  .expiration-date {
+    grid-area: expiration;
+  }
+  .creation-date, .expiration-date {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    :nth-child(2) {
+      text-align: right;
+    }
+  }
+  .total {
+    grid-area: total;
+    text-align: right;
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .folio-value {
+    color: var(--blue-600);
+    text-decoration: underline;
+  }
+}

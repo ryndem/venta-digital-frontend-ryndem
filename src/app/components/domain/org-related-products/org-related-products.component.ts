@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {
-  ProductResponse,
-  ProductsService,
-} from 'app/services/products.service';
+import { ProductResponse } from 'app/model/product-response';
+import { ProductsService } from 'app/services/products.service';
 
 @Component({
   selector: 'org-related-products',
