@@ -1,38 +1,36 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from 'app/model/product';
-import { QuoteProduct } from 'app/model/quote-product';
+import { Quote } from 'app/model/quote';
+import { QuotePage } from 'app/model/quote-page';
+import { ShoppingCart } from 'app/model/shopping-cart';
+import { environment } from 'environments/environment.development';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuotesService {
-  products: QuoteProduct[] = [];
+  private apiPath: string = environment.apiUrl + '/Quotation';
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
-  addProduct(product: Product, quantity: number) {
-    const temp = this.products.find(
-      (p) => p.product.idProduct == product.idProduct,
-    );
-
-    if (!temp) {
-      this.products.push({ product: product, quantity: quantity });
-    } else {
-      temp.quantity = quantity;
-    }
-
-    alert(
-      `Product with id: ${product.idProduct}, was added with: ${quantity} units`,
-    );
+  async getById(quoteId: string): Promise<ShoppingCart> {
+    return firstValueFrom(this.httpClient.get<ShoppingCart>(`${this.apiPath}?idQuotation=${quoteId}`));
   }
 
-  removeProduct(productId: string) {
-    const productIndex = this.products.findIndex(
-      (p) => p.product.idProduct == productId,
-    );
+  async getQuotes(folio: string|null): Promise<QuotePage> {
+    let body:any = {
+      pageSize: 10,
+      desiredPage: 1
+    };
 
-    if (productIndex > -1) {
-      this.products.splice(productIndex, 1);
+    if(folio && folio.length > 0) {
+      body.filters = [{
+        'FilterName': 'Folio',
+        'FilterValue': folio
+      }];
     }
+    return firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/ListQuotation', body));
   }
+
 }

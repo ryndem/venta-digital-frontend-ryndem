@@ -44,7 +44,7 @@
             >
             <input
               id="email"
-              class="form-control__input text-body-medium text-gray-green-900"
+              class="form-control__input text-paragraph text-gray-green-900"
               name="email"
               placeholder="Correo electrónico"
               type="email"
@@ -75,17 +75,26 @@
               class="form-control__label text-body-medium text-gray-green-900"
               >Contraseña</label
             >
-            <input
-              id="password"
-              class="form-control__input text-body-medium text-gray-green-900"
-              name="password"
-              placeholder="Contraseña"
-              type="password"
-              autocomplete="false"
-              required
-              ngModel
-              #passwordInput="ngModel"
-            />
+            <div class="form-control__input text-paragraph text-gray-green-900">
+              <input
+                id="password"
+                name="password"
+                class="text-paragraph"
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                placeholder="Contraseña"
+                autocomplete="false"
+                required
+                ngModel
+                #passwordInput="ngModel"
+              />
+              <button (click)="togglePasswordVisibility()" type="button">
+                @if (isPasswordVisible) {
+                <ng-icon name="heroEye" size="16"></ng-icon>
+                } @else {
+                <ng-icon name="heroEyeSlash" size="16"></ng-icon>
+                }
+              </button>
+            </div>
             <div
               class="text-small text-red-700"
               *ngIf="
@@ -101,18 +110,22 @@
 
           <button [disabled]="loading">Iniciar Sesión</button>
         </form>
+      </div>
 
+      <div class="login-card__form__footer">
         <a
           routerLink="auth/forgot-password"
-          class="text-body text-blue-600 mb-32 display-none"
-          >Recupera el acceso a tu cuenta</a
+          class="text-body text-blue-600"
+          (click)="close()"
         >
+          Recupera el acceso a tu cuenta
+        </a>
 
         <p class="text-body">
           ¿Aún no tienes acceso?
-          <a class="text-blue-600" routerLink="auth/sign-up"
-            >Regístrate ahora</a
-          >
+          <a class="text-blue-600" routerLink="auth/sign-up" (click)="close()">
+            Regístrate ahora
+          </a>
           para activar tu cuenta y disfrutar de todos los beneficios.
         </p>
       </div>

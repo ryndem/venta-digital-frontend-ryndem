@@ -1,21 +1,24 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .display-none {
   display: none !important;
 }
 
-.product-card-size-results {
-  width: 173.5px;
-  @media (min-width: 1024px) {
-    width: 215px;
-  }
-}
+.quote-status {
+  font-family: "Work Sans";
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 1px 4px;
+  border-radius: 4px;
 
-.product-card-size-detail {
-  width: 173.5px;
-}
-
-.product-card-size-home {
-  width: 171.5px;
-  @media (min-width: 1024px) {
-    width: 282px;
+  &.valid {
+    color: var(--green-900);
+    background-color: var(--green-200);
   }
 }

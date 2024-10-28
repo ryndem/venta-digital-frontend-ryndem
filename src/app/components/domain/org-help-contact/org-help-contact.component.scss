@@ -1,5 +1,5 @@
 .help-contact {
-  padding: 64px;
+  padding: 64px 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,6 +21,8 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
+    max-width: 782px;
+    color: var(--gray-green-700);
   }
 
   &__numbers {
@@ -37,6 +39,12 @@
     }
     a {
       text-decoration: none;
+    }
+  }
+
+  &__sell {
+    h1 {
+      color: var(--primary-500);
     }
   }
 
@@ -57,8 +65,6 @@
     }
 
     &__description {
-      font-family: "Work Sans";
-      font-weight: 400;
       font-size: 18px;
       line-height: 28px;
     }

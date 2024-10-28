@@ -24,6 +24,7 @@
     "@ngrx/store": "^17.2.0",
     "masonry-layout": "^4.2.2",
     "ngx-masonry": "^14.0.1",
+    "ngx-toastr": "^19.0.0",
     "normalize.css": "^8.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

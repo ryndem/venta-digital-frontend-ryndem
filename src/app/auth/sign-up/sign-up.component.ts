@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'app/auth/auth.service';
@@ -8,7 +9,7 @@ import { AuthService } from 'app/auth/auth.service';
   styleUrl: './sign-up.component.scss',
 })
 export class SignUpComponent {
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService) { }
 
   isPasswordVisible: boolean = false;
 
@@ -34,7 +35,7 @@ export class SignUpComponent {
       this.isServerError = false;
       this.errorMessage = '';
 
-      await this.authService.signUp(
+      const response = await this.authService.signUp(
         data.email,
         data.company,
         data.rfc,
@@ -46,15 +47,20 @@ export class SignUpComponent {
         data.registryType == 'isFinalUser',
         data.registryType == 'isReseller',
       );
-
       this.isSingupRequested = true;
-    } catch (e: any) {
-      if (e.error?.type == 'code_not_found_customer') {
-        this.isSingupRequested = true;
-      } else {
-        this.isServerError = true;
-        this.errorMessage =
-          'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.';
+      if (response.status === "pending") {
+        this.isReviewPending = true;
+      }
+    } catch (e: unknown) {
+      if (e instanceof HttpErrorResponse) {
+        if (e.error?.type === 'code_not_found_customer') {
+          this.isSingupRequested = true;
+          this.isReviewPending = true;
+        } else {
+          this.isServerError = true;
+          this.errorMessage =
+            'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.';
+        }
       }
     }
   }

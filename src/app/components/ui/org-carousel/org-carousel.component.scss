@@ -3,6 +3,10 @@
   overflow: hidden;
   position: relative;
 
+  &__items {
+    cursor: pointer;
+  }
+  
   &__buttons {
     position: absolute;
     bottom: 8px;

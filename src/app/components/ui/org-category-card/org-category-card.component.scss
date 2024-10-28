@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 11px 20px;
   row-gap: 11px;
 
   &__img {
@@ -25,10 +24,6 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-
-    p {
-      text-transform: capitalize;
-    }
   }
   a {
     font-family: "Roboto";

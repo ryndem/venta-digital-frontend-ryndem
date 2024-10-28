@@ -5,6 +5,7 @@ import { Product } from 'app/model/product';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/auth/auth.service';
 import { PriceOffert } from 'app/model/price-offert';
+import { ProductResponse } from 'app/model/product-response';
 
 export type SearchProductProps = {
   pageSize: number;
@@ -23,11 +24,6 @@ export type SearchProductProps = {
       suggestionValue?: string;
     },
   ];
-};
-
-export type ProductResponse = {
-  totalResults: number;
-  results: Product[];
 };
 
 export type SearchedProduct = {
@@ -117,7 +113,7 @@ export class ProductsService {
       sortDirection: 'ASC',
       filters: [
         {
-          filterName: 'supplementary',
+          filterName: 'alternative',
           filterValue: productId,
         },
       ],
@@ -154,19 +150,27 @@ export class ProductsService {
     return firstValueFrom(this.httpClient.get<Product>(apiPath));
   }
 
-  async getProductOffer(productId: string): Promise<PriceOffert> {
-    let apiPath: string = `${environment.apiUrl}/ProductWeb/${productId}`;
-    let body: any = {};
-
+  async getProductOfferVD(productId: string): Promise<PriceOffert> {
+    let apiPath: string = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
+    let body: any = {
+      IdProduct: productId,
+      Pieces: 1,
+    };
     if (this.authService.isAuthenticated()) {
-      body = {
-        IdProduct: productId,
-        IdCustomer: this.authService.customerId(),
-        IdDeliveryAddress: this.authService.addressId(),
-        Pieces: 1,
-      };
-      apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
+      body.IdCustomer = this.authService.customerId();
+      body.IdDeliveryAddress = this.authService.addressId();
+      apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferVD`;
     }
+
+    return firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
+  }
+
+  async getProductOfferWeb(productId: string): Promise<PriceOffert> {
+    let apiPath: string = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
+    let body: any = {
+      IdProduct: productId,
+      Pieces: 1,
+    };
 
     return firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
   }

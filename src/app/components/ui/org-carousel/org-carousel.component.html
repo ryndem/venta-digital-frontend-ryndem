@@ -1,12 +1,11 @@
 <div class="carousel">
   <div class="carousel__items">
     <div *ngFor="let banner of banners; let i = index">
-      <a [href]="banner.link">
-        <mol-carousel-item
-          [item]="banner"
-          [isActive]="currentImage === i"
-        ></mol-carousel-item>
-      </a>
+      <mol-carousel-item
+        [item]="banner"
+        [isActive]="currentImage === i"
+        (click)="open(banner)"
+      ></mol-carousel-item>
     </div>
   </div>
   <div class="carousel__buttons">

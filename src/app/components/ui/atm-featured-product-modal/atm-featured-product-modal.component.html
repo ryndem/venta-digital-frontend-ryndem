@@ -1,0 +1,8 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <button (click)="closeModal()"><ng-icon name="heroXMark" size="24"/></button>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+.quote-summary-card {
+  font-family: "Work Sans";
+  background-color: var(--neutral-100);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+    button {
+      border: 0;
+      background-color: transparent;
+      padding: 0;
+      height: 16px;
+      width: 16px;
+      cursor: pointer;
+    }
+  }
+  &__customer__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    &__notes {
+      span {
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 500;
+      }
+      ul {
+        padding: 0px 0px 0px 24px;
+        margin: 0;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+  hr {
+    margin: 24px 0px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .quote-summary-card {
+    position: sticky;
+    top: 16px;
+    &__header {
+      span {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+      }
+    }
+  }
+}

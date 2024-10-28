@@ -1,0 +1,31 @@
+<div class="quote-card">
+  
+  <div class="folio">
+    <label class="text-small">Folio</label>
+    <div class="text-body-medium folio-value">{{quote.folio}}</div>
+  </div>
+
+  <div class="creation-date">
+    <label class="text-small">Creación:</label>
+    <div class="text-small">{{quote.registrationDate | date:'dd/MM/YYYY'}}</div>
+  </div>
+
+  <div class="expiration-date">
+    <label class="text-small">Expiración:</label>
+    <div class="text-small">{{quote.expirationDate | date:'dd/MM/YYYY'}}</div>
+  </div>
+
+  <div class="status">
+    <div class="quote-status" [ngClass]="{'valid': quote.isValid}">VIGENTE</div>
+  </div>
+
+  <div class="products">
+    <div class="text-small text-600">{{quote.items}} partidas</div>
+  </div>
+
+  <div class="total">
+    <label class="text-small">Monto Total</label>
+    <div class="text-title-4 text-primary-500">{{quote.total | usdCurrency}}</div>
+  </div>
+
+</div>

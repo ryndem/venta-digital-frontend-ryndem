@@ -11,6 +11,7 @@ export class LoginModalComponent {
   credentialsError = false;
   loading = false;
   twoFAError = false;
+  isPasswordVisible: boolean = false;
 
   constructor(public authService: AuthService) {}
 
@@ -48,5 +49,9 @@ export class LoginModalComponent {
 
   close() {
     this.authService.closeLoginModal();
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

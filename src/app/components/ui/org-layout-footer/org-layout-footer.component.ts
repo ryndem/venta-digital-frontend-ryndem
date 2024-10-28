@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationItemsGroup } from '../org-navigation-menu/navigation-items-group';
 import { CategoriesService } from 'app/services/categories.service';
+import { Category } from 'app/model/category';
+import { Store } from '@ngrx/store';
+import { AuthService } from 'app/auth/auth.service';
+import { CartService } from 'app/services/cart.service';
+import { updateCategories } from 'app/store/products/product.actions';
 
 @Component({
   selector: 'org-layout-footer',
@@ -8,34 +12,43 @@ import { CategoriesService } from 'app/services/categories.service';
   styleUrl: './org-layout-footer.component.scss',
 })
 export class LayoutFooterComponent implements OnInit {
-  catalogNavigationGroups: NavigationItemsGroup[] = [];
 
-  constructor(private categoriesService: CategoriesService) {}
+  categories: Category[] = [];
+  isAuthenticated: boolean = false;
 
-  ngOnInit(): void {
-    this.buildNavigationMenu();
+  constructor(
+      private categoriesService: CategoriesService,
+      private cartService: CartService,
+      public authService: AuthService, 
+      private store: Store<any> ) {
+    this.store.subscribe(state => {
+      this.isAuthenticated = state.user.isLogged;
+      this.categories = state.product.categories;
+    });
+  }
+  
+  async ngOnInit() {
+    await this.loadSession();
+    this.loadCategories();
   }
 
-  private async buildNavigationMenu() {
-    const tempCategories = await this.categoriesService.list();
-    tempCategories.forEach((category) => {
-      this.categoriesService.setProperties(category);
+  async loadCategories() {
+    let categories = await this.categoriesService.list();
+    categories.forEach( category => {
+      this.categoriesService.setProperties(category)
     });
 
-    let group: number = 0;
-    let count: number = 0;
-    let categoriesGroup: NavigationItemsGroup[] = [];
+    this.categories = categories;
+    this.store.dispatch(updateCategories({categories: this.categories}));
+  }
 
-    tempCategories.forEach((category) => {
-      categoriesGroup[group] ??= { items: [] };
-      categoriesGroup[group].items.push(category!);
-      count++;
-
-      if (count % 4 == 0) {
-        group += 1;
-      }
-    });
-
-    this.catalogNavigationGroups = categoriesGroup;
+  private async loadSession() {
+    await this.authService.loadSession();
+    this.loadCart();
+  }
+  private async loadCart() {
+    if (this.isAuthenticated) {
+      await this.cartService.load();
+    }
   }
 }

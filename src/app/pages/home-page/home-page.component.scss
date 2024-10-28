@@ -1,0 +1,29 @@
+.home-container {
+  padding: 32px 16px 16px 16px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+
+  &__categories {
+    margin-top: 5rem;
+    display: block;
+  }
+  @media (min-width: 1024px) {
+    max-width: 1200px;
+    padding: 32px 0px 32px 0px;;
+  }
+  &__oustanding {
+    h1 {
+      font-family: "Stellar";
+      font-size: 24px;
+      line-height: 32px;
+      margin-top: 0px;
+      text-transform: uppercase;
+      @media (min-width: 1024px) {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 40px;
+      }
+    }
+  }
+}

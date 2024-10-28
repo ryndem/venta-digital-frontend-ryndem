@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AuthService } from 'app/auth/auth.service';
 import { Product } from 'app/model/product';
-import { QuotesService } from 'app/services/quotes.service';
+import { CartService } from 'app/services/cart.service';
+import { updateCartIsLoading } from 'app/store/cart/cart.actions';
 
 @Component({
   selector: 'atm-shopping-button',
@@ -11,11 +14,33 @@ export class ShoppingButtonComponent {
   @Input()
   product!: Product;
 
-  constructor(private quoteService: QuotesService) {}
+  isAddingToCar: boolean = false;
+  isLogged: boolean = false;
 
-  addToCart(event: Event) {
+  constructor(
+    private cartService: CartService,
+    public authService: AuthService,
+    private store: Store<any>,
+  ) {
+    this.store.subscribe((state) => {
+      this.isLogged = state.user.isLogged;
+      this.isAddingToCar = state.cart.isLoading;
+    });
+  }
+
+  async addToCart(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.quoteService.addProduct(this.product, 1);
+
+    try {
+      if (!this.isLogged) {
+        this.authService.openLoginModal();
+        return;
+      }
+
+      await this.cartService.addProduct(this.product, 1);
+    } catch (error:any) {
+    }
+    this.isAddingToCar = false;
   }
 }

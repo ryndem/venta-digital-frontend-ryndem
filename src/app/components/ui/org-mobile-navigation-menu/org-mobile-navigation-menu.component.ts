@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
-import { NavigationItemsGroup } from 'app/components/ui/org-navigation-menu/navigation-items-group';
+import { Category } from 'app/model/category';
 
 @Component({
   selector: 'org-mobile-navigation-menu',
@@ -10,7 +10,7 @@ import { NavigationItemsGroup } from 'app/components/ui/org-navigation-menu/navi
 })
 export class OrgMobileNavigationMenuComponent {
   @Input()
-  navigationItemsGroups: NavigationItemsGroup[] = [];
+  categories: Category[] = [];
 
   @Output()
   closeMenu = new EventEmitter<void>();

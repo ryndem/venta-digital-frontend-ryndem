@@ -11,11 +11,16 @@
   width: fit-content;
   border: 1px solid black;
   &:hover {
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   &:active {
     opacity: 1;
+  }
+  
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
   }
 
   &.--primary {

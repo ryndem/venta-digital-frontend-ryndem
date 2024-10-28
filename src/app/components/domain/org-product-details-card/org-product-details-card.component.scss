@@ -1,15 +1,13 @@
 .product-details-card {
-  column-gap: 24px;
+  row-gap: 32px;
   display: flex;
   flex-direction: column;
   width: 100%;
-  row-gap: 22px;
   padding: 16px;
   &__context {
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
-
     grid-template-areas:
       "banner"
       "headings"
@@ -22,12 +20,18 @@
     flex-direction: row;
     align-items: center;
     column-gap: 12px;
-    background-color: var(--orange-100);
-    color: var(--orange-700);
-    padding: 6px;
+    border-radius: 2px;
+    background-color: var(--yellow-300);
+    color: var(--yellow-900);
+    padding: 2px;
     span {
       margin: 0;
       padding: 0;
+    }
+    &.controlled {
+      background-color: var(--orange-100);
+      color: var(--orange-700);
+      padding: 12px 8px;
     }
   }
 
@@ -40,17 +44,13 @@
     &__container {
       align-items: center;
       display: flex;
-      flex-direction: row;
       justify-content: space-between;
-
-      &__section {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-      }
     }
+
     &__section {
-      align-self: baseline;
+      align-items: center;
+      display: flex;
+      gap: 8px;
       &.empty {
         opacity: 0.2;
       }
@@ -78,6 +78,15 @@
     padding: 8px 0px;
     row-gap: 8px;
 
+    &__controlled {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      span {
+        color: var(--orange-700);
+      }
+    }
+
     h1 {
       margin: 0px;
     }
@@ -86,7 +95,6 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-top: 1rem;
 
       &__pricing {
         .regular-price {
@@ -114,6 +122,14 @@
           flex-direction: row;
           justify-content: space-between;
           row-gap: 4px;
+          .btn {
+            padding: 7px;
+            border-color: var(--gray-400);
+            &:disabled {
+              cursor: default;
+              opacity: 1;
+            }
+          }
         }
       }
     }
@@ -122,16 +138,30 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      row-gap: 12px;
+      row-gap: 8px;
       button.btn {
         width: 100%;
+        &:disabled {
+          opacity: 0.8;
+        }
       }
+    }
+
+    .see-all-details-link {
+      font-family: "Work Sans";
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--primary-500);
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 }
 
 @media (min-width: 1024px) {
   .product-details-card {
+    row-gap: 22px;
     &__context {
       display: flex;
       flex-direction: row;
@@ -146,6 +176,7 @@
 
     &__info {
       flex: 1;
+      padding: 0px;
       &__market {
         &__pricing {
           .regular-price {
@@ -168,6 +199,12 @@
         button.btn.--primary {
           width: fit-content;
         }
+      }
+    }
+
+    &__banner {
+      &.controlled {
+        padding: 6px 8px;
       }
     }
   }
