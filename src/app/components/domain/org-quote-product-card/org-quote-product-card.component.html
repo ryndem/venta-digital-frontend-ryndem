@@ -7,14 +7,14 @@
         <img src="assets/icons/flask.svg">
       </div>
 
-      <div class="cas">
-        <label class="text-subtle" *ngIf="product.cas">CAS</label>
-        <div class="text-body-medium folio-value">{{product.cas}}</div>
+      <div class="cas" *ngIf="product.cas">
+        <label class="text-subtle">CAS</label>
+        <p class="text-paragraph">{{product.cas}}</p>
       </div>
 
-      <div class="cat">
-        <label class="text-subtle" *ngIf="product.catalog">CAT</label>
-        <div class="text-small">{{product.catalog}}</div>
+      <div class="cat" *ngIf="product.catalog">
+        <label class="text-subtle">CAT</label>
+        <p class="text-paragraph">{{product.catalog}}</p>
       </div>
 
       <div class="brand">
@@ -25,7 +25,14 @@
 
 
     <div class="quote-product-card__action">
-      <button type="button" class="btn text-gray-green-800" (click)="loadAlternatives()" [disabled]="true" *ngIf="cartMode"><ng-icon name="heroSquaresPlus" size="16"></ng-icon>Alternativos y complementarios</button>
+      <button
+        type="button" class="btn text-gray-green-800"
+        (click)="loadAlternatives()"
+        [disabled]="true" *ngIf="cartMode"
+      >
+      <ng-icon name="heroSquaresPlus" size="16"></ng-icon>
+      <span class="text-large">Alternativos y complementarios</span>
+    </button>
     </div>
 
     <div class="quote-product-card__info">

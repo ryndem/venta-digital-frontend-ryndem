@@ -9,7 +9,7 @@
     <div class="product__header__section__brand">
       <div class="cat__cas">
         <span *ngIf="product.cas"> CAS <strong>{{ product.cas }}</strong></span>
-        <span>CAT <strong>{{ product.catalog }}</strong></span>
+        <span *ngIf="product.catalog">CAT <strong>{{ product.catalog }}</strong></span>
       </div>
       <img
         *ngIf="brandImgPath"

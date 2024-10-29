@@ -2,11 +2,11 @@
   <div class="quote-card-detail__header">
     <img src="assets/icons/product.svg" alt="product img">
     <div class="title-header">
-      <div class="title-header__item">
+      <div class="title-header__item" *ngIf="quoteProduct.cas">
         <span>CAS</span>
         <strong>{{quoteProduct.cas}}</strong>
       </div>
-      <div class="title-header__item">
+      <div class="title-header__item" *ngIf="quoteProduct.catalog">
         <span>CAT</span>
         <strong>{{quoteProduct.catalog}}</strong>
       </div>

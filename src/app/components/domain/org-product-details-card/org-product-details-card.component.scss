@@ -51,9 +51,6 @@
       align-items: center;
       display: flex;
       gap: 8px;
-      &.empty {
-        opacity: 0.2;
-      }
     }
 
     &__image {
