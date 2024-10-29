@@ -10,26 +10,19 @@
           <!-- Cas -->
           <div
             class="product-details-card__headings__section"
-            [ngClass]="{ empty: !product?.cas }"
+            *ngIf="product?.cas"
           >
             <p class="m-0 text-subtle">CAS</p>
             <p class="m-0 text-paragraph text-bold">
-              <span *ngIf="product?.cas; then cas; else empty"></span>
-              <ng-template #cas> {{ product?.cas }} </ng-template>
-              <ng-template #empty>-</ng-template>
+              {{ product?.cas }}
             </p>
           </div>
 
           <!-- Cat -->
-          <div
-            class="product-details-card__headings__section"
-            [ngClass]="{ empty: !product?.catalog }"
-          >
+          <div class="product-details-card__headings__section" *ngIf="product?.catalog">
             <p class="m-0 text-subtle">CAT</p>
             <p class="m-0 text-paragraph text-bold">
-              <span *ngIf="product?.catalog; then catalog; else empty"></span>
-              <ng-template #catalog> {{ product?.catalog }} </ng-template>
-              <ng-template #empty>-</ng-template>
+              {{ product?.catalog }}
             </p>
           </div>
         </div>

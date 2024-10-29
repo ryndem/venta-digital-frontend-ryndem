@@ -19,6 +19,13 @@
     grid-template-columns: auto 1fr 1fr auto;
     column-gap: 0.5rem;
 
+    .cas,
+    .cat {
+      p {
+        font-weight: 650;
+      }
+    }
+
     .presentation {
       img {
         width: 50px;

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Quote } from 'app/model/quote';
 import { QuoteProduct } from 'app/model/quote-product';
 
 @Component({

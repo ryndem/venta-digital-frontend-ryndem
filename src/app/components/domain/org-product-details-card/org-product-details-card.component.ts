@@ -45,7 +45,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
   ) {
     this.store.subscribe((state) => {
       this.isAddingToCar = state.cart.isLoading;
-      
+
       if(this.isLogged != state.user.isLogged) {
         this.isLogged = state.user.isLogged;
         this.loadPriceOffer();

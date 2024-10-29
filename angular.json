@@ -33,7 +33,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss", "node_modules/ngx-toastr/toastr.css"],
             "scripts": [],
-            "baseHref": "/"
+            "baseHref": "/VentaDigitalFront/"
           },
           "configurations": {
             "production": {
