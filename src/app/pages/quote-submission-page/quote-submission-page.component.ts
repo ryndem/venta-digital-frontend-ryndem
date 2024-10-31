@@ -15,8 +15,8 @@ export class QuoteSubmissionPageComponent implements OnInit {
 
   isLoading: boolean = true;
   shoppingCart : ShoppingCart | null = null;
-  addresses: Address[] | null = null;
-  addressId: string | null = null;
+  selectedAddress: Address | null = null;
+  addressId: string = '';
 
   constructor( 
     private cartService : CartService, 
@@ -26,7 +26,6 @@ export class QuoteSubmissionPageComponent implements OnInit {
 
     this.store.subscribe( event => {
       this.shoppingCart = event.cart.shoppingCart;
-      this.addresses = event.user.addresses;
       this.isLoading = event.cart.isLoading;
     });
 
@@ -50,6 +49,13 @@ export class QuoteSubmissionPageComponent implements OnInit {
     } catch (error) {
       this.notificationService.showError('No se pudo enviar la cotización');
     }
+  }
+
+  onAddressSelected(event:any) {
+    this.addressId = event.idAddress;
+  }
+  onOtherSelected(event:any) {
+    this.addressId = 'other';
   }
 
 }

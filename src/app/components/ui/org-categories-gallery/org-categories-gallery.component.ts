@@ -8,6 +8,7 @@ import { Category } from 'app/model/category';
   styleUrl: './org-categories-gallery.component.scss',
 })
 export class OrgCategoriesGalleryComponent {
+  
   constructor(private store: Store<any>) {
     this.store.subscribe( state => {
       this.categories = state.product.categories;

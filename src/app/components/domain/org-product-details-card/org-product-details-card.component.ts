@@ -93,4 +93,9 @@ export class OrgProductDetailsCardComponent implements OnChanges {
     }
   }
 
+  openLoginModal(event: Event) {
+    event.preventDefault();
+    this.authService.openLoginModal();
+  }
+
 }

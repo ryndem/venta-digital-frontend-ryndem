@@ -4,21 +4,23 @@
     <div class="quote-product-card__header">
 
       <div class="presentation">
-        <img src="assets/icons/flask.svg">
+        <img [src]="presentationImage" *ngIf="presentationImage">
       </div>
 
-      <div class="cas" *ngIf="product.cas">
-        <label class="text-subtle">CAS</label>
-        <p class="text-paragraph">{{product.cas}}</p>
+      <div class="cas-cat">
+        <div class="cas" *ngIf="product.cas">
+          <label class="text-subtle">CAS</label>
+          <p class="text-paragraph">{{product.cas}}</p>
+        </div>
+
+        <div class="cat" *ngIf="product.catalog">
+          <label class="text-subtle">CAT</label>
+          <p class="text-paragraph">{{product.catalog}}</p>
+        </div>
       </div>
 
-      <div class="cat" *ngIf="product.catalog">
-        <label class="text-subtle">CAT</label>
-        <p class="text-paragraph">{{product.catalog}}</p>
-      </div>
-
-      <div class="brand">
-        <img src="assets/icons/default-brand.svg">
+      <div class="brand" *ngIf="brandImage">
+        <img [src]="brandImage">
       </div>
 
     </div>
@@ -27,8 +29,9 @@
     <div class="quote-product-card__action">
       <button
         type="button" class="btn text-gray-green-800"
-        (click)="loadAlternatives()"
-        [disabled]="true" *ngIf="cartMode"
+        (click)="loadRelated()"
+        *ngIf="cartMode"
+        [disabled]="!product.idProduct"
       >
       <ng-icon name="heroSquaresPlus" size="16"></ng-icon>
       <span class="text-large">Alternativos y complementarios</span>
@@ -58,7 +61,7 @@
           <span class="text-title-3">{{quantity}}</span>
           <button type="button" class="btn" (click)="plus()" [disabled]="isAddingToCar"  *ngIf="cartMode"><ng-icon name="heroPlus" size="24"></ng-icon></button>
         </div>
-        <label class="delivery text-subtle display-none">Envio en 10 dias habiles</label>
+        <label class="delivery text-subtle" *ngIf="product.tee">Envío en {{product.tee}} días hábiles</label>
       </div>
 
       <div class="measures">

@@ -111,6 +111,24 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
+      &__price__blurred {
+        position: relative;
+        .login-text {
+          cursor: pointer;
+          position: absolute;
+          bottom: 0%;
+          font-family: "Work Sans";
+          font-size: 10px;
+          font-weight: 450px;
+          line-height: 12px;
+          text-align: left;
+          color: var(--primary-500);
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      }
+
     }
 
     &__controlled {

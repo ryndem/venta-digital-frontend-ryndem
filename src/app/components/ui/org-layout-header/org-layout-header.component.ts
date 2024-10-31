@@ -68,9 +68,4 @@ export class LayoutHeaderComponent {
     this.isUserMenuOpen = !this.isUserMenuOpen;
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.cartService.load();
-    this.isUserMenuOpen = false;
-  }
 }

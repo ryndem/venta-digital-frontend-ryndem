@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Quote } from 'app/model/quote';
 import { QuotePage } from 'app/model/quote-page';
 import { ShoppingCart } from 'app/model/shopping-cart';
-import { environment } from 'environments/environment.development';
+import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({

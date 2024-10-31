@@ -1,6 +1,8 @@
 <div class="quote-card-detail">
   <div class="quote-card-detail__header">
-    <img src="assets/icons/product.svg" alt="product img">
+    <div class="presentation-image">
+      <img [src]="presentationImage" alt="product img" *ngIf="presentationImage">
+    </div>
     <div class="title-header">
       <div class="title-header__item" *ngIf="quoteProduct.cas">
         <span>CAS</span>
@@ -10,6 +12,9 @@
         <span>CAT</span>
         <strong>{{quoteProduct.catalog}}</strong>
       </div>
+    </div>
+    <div class="brand" *ngIf="brandImage">
+      <img [src]="brandImage"/>
     </div>
   </div>
   <div class="quote-card-detail__description">
@@ -35,7 +40,7 @@
     </div>
   </div>
   <div class="quote-card-detail__footer">
-    <span id="shipping">Envio en 10 días hábiles</span>
+    <span id="shipping" *ngIf="quoteProduct.tee">Envio en {{quoteProduct.tee}} días hábiles</span>
     <div class="express-tag" *ngIf="quoteProduct.appliesExpressFreight">
       <span> Flete express</span>
       <ng-icon name="heroBoltSolid" size="16" color="#F97316" />

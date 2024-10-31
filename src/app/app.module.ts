@@ -1,3 +1,4 @@
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgIconsModule } from '@ng-icons/core';
@@ -98,6 +99,9 @@ import { AtmFeaturedProductModalComponent } from './components/ui/atm-featured-p
 import { OrgQuoteUserInfoComponent } from './components/domain/org-quote-user-info/org-quote-user-info.component';
 import { OrgQuoteTotalsComponent } from './components/domain/org-quote-totals/org-quote-totals.component';
 import { AtmAuthBannerComponent } from './components/ui/atm-auth-banner/atm-auth-banner.component';
+import { MolAddressSelectorComponent } from './components/ui/mol-address-selector/mol-address-selector.component';
+import { MolUserMenuComponent } from './components/ui/mol-user-menu/mol-user-menu.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -156,8 +160,11 @@ import { AtmAuthBannerComponent } from './components/ui/atm-auth-banner/atm-auth
     OrgQuoteUserInfoComponent,
     OrgQuoteTotalsComponent,
     OrgQuoteSummaryCardComponent,
+    MolAddressSelectorComponent,
     AtmFeaturedProductModalComponent,
     AtmAuthBannerComponent,
+    MolUserMenuComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -204,6 +211,11 @@ import { AtmAuthBannerComponent } from './components/ui/atm-auth-banner/atm-auth
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
     },
     provideStore(),
     provideState({ name: 'user', reducer: userReducer }),

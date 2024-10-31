@@ -16,8 +16,14 @@
   &__header {
     grid-area: header;
     display: grid;
-    grid-template-columns: auto 1fr 1fr auto;
+    grid-template-columns: auto 1fr auto;
     column-gap: 0.5rem;
+
+    .cas-cat {
+      display: grid;
+      column-gap: 0.5rem;
+      grid-template-columns: 1fr 1fr;
+    }
 
     .cas,
     .cat {

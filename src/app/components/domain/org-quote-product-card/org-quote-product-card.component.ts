@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { QuoteProduct } from 'app/model/quote-product';
 import { CartService } from 'app/services/cart.service';
@@ -14,14 +14,20 @@ export class OrgQuoteProductCardComponent implements OnInit {
   @Input()
   product!: QuoteProduct;
   
+  @Output()
+  onRelatedProductSelectedEmitter = new EventEmitter<string>();
+
   @Input()
   cartMode: boolean = true;
 
   isAddingToCar: boolean = false;
   quantity: number = 0;
   isRemoved: boolean = false;
+  brandImage: string | null = null;
+  presentationImage: string | null = null;
 
-  constructor(private imageService: ImageService,
+  constructor(
+      private imageService: ImageService,
       private cartService: CartService,
       private store: Store<any>
   ) {
@@ -32,9 +38,14 @@ export class OrgQuoteProductCardComponent implements OnInit {
 
   ngOnInit() {
     this.quantity = this.product.quantity;
+    this.brandImage = this.imageService.getBrandImage(this.product);
+    this.presentationImage = this.imageService.getPresentationImage(this.product);
   }
 
-  loadAlternatives() {
+  loadRelated() {
+    if(this.product.idProduct) {
+      this.onRelatedProductSelectedEmitter.emit(this.product.idProduct);
+    }
   }
 
   plus() {

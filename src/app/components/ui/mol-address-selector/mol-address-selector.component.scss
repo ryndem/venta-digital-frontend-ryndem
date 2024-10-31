@@ -1,0 +1,60 @@
+.address-selector {
+    margin-bottom: 1rem;
+
+    &__selected {
+        background-color: white;
+        padding: 1rem;
+        border: solid 1px var(--neutral-800);
+        border-radius: 2px;
+        cursor: pointer;
+
+        display: grid;
+        column-gap: 0.5rem;
+        grid-template-columns: 1fr auto;
+
+        .icon {
+            margin: auto;
+        }
+    }
+
+    &__wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    &__options {
+        width: 100%;
+        position: absolute;
+        background-color: white;
+        border: 1px solid var(--neutral-400);
+        border-radius: 2px;
+        box-shadow: 0px 4px 6px 0px #00000017;
+
+        .option {
+            background-color: white;
+            padding: 0.5rem;
+            width: 100%;
+            border: 0;
+            
+            span {
+                text-align: left;
+                background-color: white;
+                display: block;
+                width: 100%;
+                
+                border-radius: 6px;
+                padding: 0.5rem;
+                
+            }
+
+            &.other {
+                border-top: 1px solid var(--neutral-400);
+            }
+            &:hover {
+                span {
+                    background-color: var(--primary-100);
+                }
+            }
+        }
+    }
+}

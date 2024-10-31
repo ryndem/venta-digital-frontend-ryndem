@@ -1,12 +1,15 @@
 export type QuoteProduct = {
   idQuotation: string;
   idQuotationItem: string;
+  idProduct: string | null;
   inPurchaseOrder: boolean;
   folioPurchaseOrder: boolean;
   number: number;
   cas: string;
   catalog: string;
   type: string;
+  brandName: string | null;
+  presentationTypeKey: string | null;
   description: string;
   unitMeasure: string;
   quantity: number;

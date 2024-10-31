@@ -1,36 +1,40 @@
 <div class="related-products">
   <div class="related-products__header">
     <h3 class="text-title-4 m-0">Descubre más productos</h3>
-    <ng-content></ng-content>
   </div>
 
   <div class="related-products__tabs">
-    <button
-      [ngClass]="{ active: isShowingAlternativeProducts }"
-      (click)="updateProducts(true)"
-    >
+    <button [ngClass]="{ active: isShowingAlternativeProducts }" (click)="updateProducts(true)" >
       Alternativos
     </button>
-    <button
-      [ngClass]="{ active: !isShowingAlternativeProducts }"
-      (click)="updateProducts(false)"
-    >
+    <button [ngClass]="{ active: !isShowingAlternativeProducts }" (click)="updateProducts(false)" >
       Complementarios
     </button>
   </div>
 
-  <div class="related-products__list">
-    @if (isShowingAlternativeProducts) {
+  <div class="related-products__list" *ngIf="isShowingAlternativeProducts && !isEmptyResult">
+    @if (alternativeProducts) {
       <org-products-grid [products]="alternativeProducts" gridSectionClass="alternative-complementary"></org-products-grid>
     } @else {
-      <org-products-grid [products]="complementaryProducts" gridSectionClass="alternative-complementary"></org-products-grid>
+      <atm-loader></atm-loader>
     }
-    <div class="empty-state" *ngIf="isEmptyResult">
-      <h3 class="text-big">No encontramos productos para mostrar</h3>
-      <span class="text-lead"
-        >Por el momento no contamos con sugerencias para mostrar, por favor
-        consulta este apartado más tarde.</span
-      >
-    </div>
+  </div>
+
+
+  <div class="related-products__list" *ngIf="!isShowingAlternativeProducts && !isEmptyResult">
+    @if (complementaryProducts) {
+      <org-products-grid [products]="complementaryProducts" gridSectionClass="alternative-complementary"></org-products-grid>
+    } @else {
+      <atm-loader></atm-loader>
+    }
+  </div>
+
+  <div class="empty-state" *ngIf="isEmptyResult">
+    <img src="assets/icons/search-loop.svg" alt="search loop">
+    <h3 class="text-title-3 text-zinc-400 no-transform">No encontramos productos para mostrar</h3>
+    <span class="text-paragraph text-neutral-400"
+      >Por el momento no contamos con sugerencias para mostrar, por favor
+      consulta este apartado más tarde.</span
+    >
   </div>
 </div>

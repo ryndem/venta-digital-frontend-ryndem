@@ -69,7 +69,7 @@ export class ProductCardComponent implements OnInit {
       this.priceVD = offert.unitPrice;
       this.price = this.priceVD;
     }
-    
+
   }
 
   openPreviewViewModal(event: Event) {
@@ -78,4 +78,9 @@ export class ProductCardComponent implements OnInit {
     this.isModalOpen = true;
   }
 
+  openLoginModal(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.authService.openLoginModal();
+  }
 }

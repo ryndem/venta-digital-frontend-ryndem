@@ -1,6 +1,12 @@
 .quotes-page {
-
+    max-width: 1200px;
+    padding: 16px;
+    width: 100%;
+    margin: 0 auto;
     &__header {
+        h1 {
+          margin-top: 0px;
+        }
         &__opts {
             margin-bottom: 1rem;
             display: grid;
@@ -34,7 +40,7 @@
     &__content {
         &__section {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1fr 1fr;
             grid-template-areas: 'list description';
             column-gap: 1rem;
 
@@ -84,8 +90,6 @@
                     border-bottom: 1px solid var(--gray-green-100);
                     h3 {
                         cursor: pointer;
-                        &.collapsed {
-                        }
                     }
                 }
             }
