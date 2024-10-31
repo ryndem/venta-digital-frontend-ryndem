@@ -1,0 +1,80 @@
+.server-error-page {
+  max-width: 1040px;
+  padding: 32px 16px 0px 16px;
+  display: grid;
+  gap: 44px;
+  margin: 0 auto;
+  &__message {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    h1 {
+      font-family: "Stellar";
+      text-transform: uppercase;
+      margin: 0;
+    }
+    &__contact {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      ul {
+        margin: 0;
+        padding: 0px;
+        list-style-type: none;
+        text-transform: none;
+        text-decoration: none;
+        li {
+          font-family: "Stellar";
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 20px;
+          letter-spacing: 0.5px;
+        }
+        a {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0 auto;
+    img {
+      width: 156px;
+      height: 226.68px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0px;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+
+    &__message {
+      order: 2;
+      align-self: center;
+      max-width: 457px;
+      margin: 0 auto;
+      &__contact {
+        ul {
+          li {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+    &__image {
+      order: 1;
+      align-self: end;
+      img {
+        width: 341px;
+        height: 496px;
+      }
+    }
+  }
+}

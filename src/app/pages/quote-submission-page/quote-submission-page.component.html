@@ -27,13 +27,9 @@
         <div class="quote-submission-page__content__summary__container">
           <div class="address section">
             <h3 class="text-title-4">Dirección de Entrega</h3>
-
-            <select [(ngModel)]="addressId">
-              <option value="" disabled selected>Elige una dirección de entrega</option>
-              <option *ngFor="let address of addresses" [value]="address.idAddress">{{address.address}}</option>
-              <option value="other">Solicitar entrega en otra dirección</option>
-            </select>
-
+            <mol-address-selector 
+                (addressSelectedEmitter)="onAddressSelected($event)" 
+                (selectedOtherEmitter)="onOtherSelected($event)"></mol-address-selector>
           </div>
           
           <div class="section">

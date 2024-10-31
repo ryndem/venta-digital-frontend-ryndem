@@ -18,6 +18,7 @@ import { QuoteCartPageComponent } from './pages/quote-cart-page/quote-cart-page.
 import { QuoteDetailsPageComponent } from './pages/quote-details-page/quote-details-page.component';
 import { ThankYouPageComponent } from './pages/thank-you-page/thank-you-page.component';
 import { QuoteSubmissionPageComponent } from './pages/quote-submission-page/quote-submission-page.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
 
 const routes: Routes = [
   {
@@ -61,13 +62,18 @@ const routes: Routes = [
     children: [{ path: '', component: NotFoundPageComponent }],
   },
   {
+    path: 'server-error',
+    component: TempMainLayoutComponent,
+    children: [{ path: '', component: ServerErrorComponent }],
+  },
+  {
     path: '**',
     redirectTo: '404',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { bindToComponentInputs: true })],
+  imports: [RouterModule.forRoot(routes, { bindToComponentInputs: true, useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

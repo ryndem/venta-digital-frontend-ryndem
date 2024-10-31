@@ -1,38 +1,45 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OptionsGroup } from './org-layout-search';
+import { ClosableComponent } from 'app/components/commons/closable.component';
 
 @Component({
   selector: 'org-layout-search',
   templateUrl: './org-layout-search.component.html',
   styleUrl: './org-layout-search.component.scss',
 })
-export class LayoutSearchComponent {
-  optionsGroups: OptionsGroup[] = [];
+export class LayoutSearchComponent extends ClosableComponent {
 
   @Output()
   searchTermChange = new EventEmitter<string>();
 
-  
+  optionsGroups: OptionsGroup[] = [];
 
   searchTerm: string = '';
-
   debounce: number | null = null;
-
   isSearching: boolean = false;
-
   isResultsVisible: boolean = false;
-
   private MIN_SEARCH_LENGHT = 3;
-
+  
   @Input('optionsGroups')
   set updateOptionsGroups(optionsGroups: OptionsGroup[]) {
     this.optionsGroups = optionsGroups;
     this.isSearching = false;
-    this.isResultsVisible = true;
+    this.isResultsVisible = optionsGroups.length > 0;
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private currentRoute: ActivatedRoute) {
+    super();
+    this.currentRoute.queryParams.subscribe((params) => {
+      if (params['searchTerm']) {
+        this.searchTerm = params['searchTerm'];
+      }
+    });
+  }
+
+  override close() {
+    this.isResultsVisible = false;
+  }
 
   onEnter() {
     if(this.searchTerm?.length < this.MIN_SEARCH_LENGHT)
@@ -46,6 +53,7 @@ export class LayoutSearchComponent {
       },
       queryParamsHandling: 'merge',
     });
+    this.isResultsVisible = false;
   }
 
   onSearchTermChange(event: Event) {
@@ -68,7 +76,24 @@ export class LayoutSearchComponent {
   }
 
   onCloseSearch() {
-    this.isResultsVisible = false;
+    if (this.isResultsVisible ) {
+      this.isResultsVisible = false;
+    } else {
+      this.searchTerm = '';
+
+      if( this.router.url.startsWith('/products?') ) {
+        this.router.navigate(['products'], {
+          queryParams: {
+            searchTerm: this.searchTerm,
+            page: 1,
+          },
+          queryParamsHandling: 'merge',
+        });
+      }
+      
+    }
+    
+
   }
 
   onFocusSearch() {

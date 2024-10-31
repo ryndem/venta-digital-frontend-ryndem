@@ -42,10 +42,11 @@
     }
   }
 
-  &__list {
-    .empty-state {
-      text-align: center;
-      padding: 0 1rem;
+  .empty-state {
+    text-align: center;
+    padding: 0 1rem;
+    img {
+      margin-top: 1rem;
     }
   }
 }

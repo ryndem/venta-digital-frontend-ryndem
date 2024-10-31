@@ -48,21 +48,7 @@
         <span>Iniciar Sesión</span>
       </mol-nav-button>
 
-      <mol-nav-button
-        class="org-layout-header__account auth"
-        (click)="toggleUserMenu()"
-        *ngIf="isAuthenticated"
-      >
-        <ng-icon class="icon" name="heroUser" size="24"></ng-icon>
-        <span *ngIf="user">Hola, {{ user.firstNameUser }}</span>
-      </mol-nav-button>
-
-      <div class="org-layout-header__account__menu" *ngIf="isUserMenuOpen">
-        <a routerLink="quotes" (click)="toggleUserMenu()">Ver Cotizaciones</a>
-        <button type="button" class="logout-btn" (click)="logout()">
-          Cerrar Sesión
-        </button>
-      </div>
+      <mol-user-menu></mol-user-menu>
 
       <mol-nav-button class="org-layout-header__cart" routerLink="quote-cart">
         <ng-icon name="heroShoppingCart" size="24"></ng-icon>

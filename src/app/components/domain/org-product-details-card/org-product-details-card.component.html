@@ -61,14 +61,26 @@
         {{ product?.description }}
       </p>
 
-      @if (isControlled && !isLogged) {
-        <p class="product-details-card__banner text-small-regular text-center">
-          Regístrate para obtener un mejor precio
+      @if (!isLogged) {
+        <div class="product-details-card__info__price__blurred">
+          <p class="blurred-text regular-price text-primary-500">
+            {{ 234 | usdCurrency }}
+            <span class="text-paragraph text-gray-green-900">p/u</span>
+          </p>
+          <span class="login-text" (click)="openLoginModal($event)">
+            Inicia sesión para ver precios
+          </span>
+        </div>
+        <p
+          class="text-paragraph text-blue-900"
+          *ngIf="product?.offert?.deliveryTimeDays"
+        >
+          Envío en
+          <span class="text-bold text-center">{{
+            product?.offert?.deliveryTimeDays
+          }}  Días</span>
         </p>
       } @else {
-        <p class="product-details-card__banner text-small-regular text-center" *ngIf="!isLogged">
-            Regístrate para obtener un mejor precio
-        </p>
         <div class="product-details-card__info__market">
           <div class="product-details-card__info__market__pricing">
             <p
@@ -123,7 +135,8 @@
 
       <a
         *ngIf="showSeeAllDetails"
-        [href]="'/products/' + product?.idProduct" class="see-all-details-link no-decoration"
+        [routerLink]="['/products', product?.idProduct]"
+        class="see-all-details-link no-decoration"
       >
         Ver todos los detalles
         <ng-icon size="16" name="heroChevronRight"></ng-icon>

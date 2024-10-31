@@ -11,6 +11,8 @@ export class OrgCarouselComponent {
 
   constructor(private router: Router) {}
 
+  SECONDS_INTERVAL = 8;
+
   banners: CarouselItem[] = [
     {
       mobile: 'assets/imgs/banners/01_mobile.jpg',
@@ -54,7 +56,7 @@ export class OrgCarouselComponent {
   startImageAutoChange(): void {
     this.intervalId = setInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.banners.length;
-    }, 8000);
+    }, this.SECONDS_INTERVAL * 1000);
   }
 
   setImageByIndex(index: number): void {
@@ -67,7 +69,7 @@ export class OrgCarouselComponent {
   }
 
   open(item:CarouselItem) {
-
+    console.log('ACTION ', item);
     switch (item.action) {
       case 'categories':
           let el = document.getElementById('categories');

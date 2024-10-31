@@ -1,80 +1,67 @@
 <div class="thank-you-page container">
-  
+
   <div class="thank-you-page__loader" *ngIf="!quote">
     <atm-loader />
   </div>
 
   <div *ngIf="quote">
-
     <div class="thank-you-page__content">
-
-      <div class="thank-you-page__content__list">
-
-        <div class="header">
-          <h1 class="text-big text-primary-500">Su Cotización ha sido enviada con éxito</h1>
-          <div class="text-paragraph">En los próximos minutos recibirás un mensaje de confirmación al correo {{user?.emailUser}}</div>
-          <div class="disclaimer text-amber-500" *ngIf="showDisclaimer">
-            <span class="text-body-medium">El equipo de asesores comerciales tomará esta cotización. Aunque fue enviada con éxito, no se verá en el listado de 'Cotizaciones Vigentes' porque se llevará por el método tradicional.</span>
-            <img src="assets/icons/info.svg">
-            </div>
+      <div class="thank-you-page__content__header">
+        <h1 class="text-big text-primary-500">Su Cotización ha sido <br/> enviada con éxito</h1>
+        <p class="text-paragraph">En los próximos minutos recibirás un mensaje de confirmación al correo {{user?.emailUser}}</p>
+        <div class="disclaimer text-amber-500" *ngIf="showDisclaimer">
+          <span class="text-body-medium">El equipo de asesores comerciales tomará esta cotización. Aunque fue enviada con éxito, no se verá en el listado de 'Cotizaciones Vigentes' porque se llevará por el método tradicional.</span>
+          <img src="assets/icons/info.svg">
         </div>
+      </div>
 
+      <div class="thank-you-page__content__quote__items">
         <h5 class="text-title-5">Partidas</h5>
-        
-        <div class="quote-items">
-          <org-quote-card-detail *ngFor="let item of quote.listQuotationItem" [quoteProduct]="item"></org-quote-card-detail>
-        </div>
+        <org-quote-card-detail
+          *ngFor="let item of quote.listQuotationItem"
+          [quoteProduct]="item"
+        />
       </div>
 
       <div class="thank-you-page__content__summary">
-        
-        <div class="thank-you-page__content__summary__container">
-          
-          <div class="quote-info text-small-regular" >
-            <div>
-              <label>Folio</label>
-            </div>
-            <div class="text-body-medium underline text-blue-600">{{quote.quotationDetails.folio}}</div>
+        <div class="quote-info text-small-regular" >
+          <div>
+            <label>Folio</label>
+          </div>
+          <div class="text-body-medium underline text-blue-600">{{quote.quotationDetails.folio}}</div>
 
-            <div>
-              Moneda: <span>{{quote.quotationDetails.currency}}</span>
-            </div>
-
-            <div class="status">
-              <div class="quote-status valid">VIGENTE</div>
-            </div>
-
-            <div class="double-field">
-              <div>Creación:</div>
-              <div>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</div>
-            </div>
-
-            <div class="double-field">
-              <div>Expiración:</div>
-              <div>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</div>
-            </div>
+          <div>
+            Moneda: <span>{{quote.quotationDetails.currency}}</span>
           </div>
 
-          <div class="section">
-            <org-quote-totals [quote]="quote"/>
+          <div class="status">
+            <div class="quote-status valid">VIGENTE</div>
           </div>
 
-          <div class="">
-            <h3 class="text-title-4">Informacion del cliente</h3>
-            <org-quote-user-info [address]="quote.quotationDetails.address"/>
+          <div class="double-field">
+            <div>Creación:</div>
+            <div>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</div>
           </div>
 
+          <div class="double-field">
+            <div>Expiración:</div>
+            <div>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</div>
+          </div>
         </div>
 
+        <org-quote-totals [quote]="quote"/>
 
-        <div class="disclaimer">
-          <h3 class="text-title-3">Convierte tu cotización en una orden de compra</h3>
-          <span class="text-paragraph">Es el último paso para recibir pronto tus productos.</span>
+        <div class="customer-info">
+          <h4>Informacion del cliente</h4>
+          <org-quote-user-info [address]="quote.quotationDetails.address"/>
         </div>
-
 
       </div>
 
+      <div class="thank-you-page__content__next__step">
+        <h3 class="text-title-3">Convierte tu cotización <br> en una orden de compra</h3>
+        <span class="text-paragraph">Es el último paso para recibir pronto <br> tus productos.</span>
+      </div>
     </div>
   </div>
 </div>

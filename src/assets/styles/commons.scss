@@ -22,3 +22,10 @@ html {
     background-color: var(--green-200);
   }
 }
+
+.blurred-text {
+  position: relative;
+  color: transparent;
+  filter: blur(3px);
+  text-shadow: 0 0 3px #2B7777;
+}

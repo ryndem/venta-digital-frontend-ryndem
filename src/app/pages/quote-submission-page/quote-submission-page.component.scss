@@ -33,12 +33,20 @@
                 }
 
                 &.address {
+                    .fake-select {
+                        background-color: white;
+                        padding: 1rem;
+                        border-radius: 2px;
+                        border: 1px solid var(--neutral-900);
+                        display: grid;
+                        column-gap: 0.5rem;
+                        grid-template-columns: 1fr auto;
+                        cursor: pointer;
+                        .icon {
+                            margin: auto;
+                        }
+                    }
                     select {
-                        max-width: 325px;
-                        height: 75px;
-                        text-wrap: auto;
-                        padding: 0.5rem;
-                        font-family: "Work Sans";
                     }
                 }
             }

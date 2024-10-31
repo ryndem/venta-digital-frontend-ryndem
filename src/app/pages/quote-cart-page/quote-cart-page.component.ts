@@ -14,6 +14,7 @@ export class QuoteCartPageComponent implements OnInit {
   
   isLoading: boolean = true;
   shoppingCart : ShoppingCart | null = null;
+  relatedProductsId: string | null = null;
   categories: Category[] = [];
 
   constructor( 
@@ -33,6 +34,9 @@ export class QuoteCartPageComponent implements OnInit {
     await this.cartService.load();
   }
 
+  loadRelated(productId : string) {
+    this.relatedProductsId = productId;
+  }
   submitQuote() {
     this.router.navigate(['quote-submission']);
   }

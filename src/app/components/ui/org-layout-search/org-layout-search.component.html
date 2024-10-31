@@ -13,8 +13,8 @@
       (keydown.enter)="onEnter()"
       (focus)="onFocusSearch()"
     />
-    <button class="search__input__close" (click)="onCloseSearch()">
-      <ng-icon name="heroXMark" color="var(--primary-500)" size="24"></ng-icon>
+    <button class="search__input__close" *ngIf="isResultsVisible || searchTerm.length > 0" (click)="onCloseSearch()">
+      <ng-icon name="heroXMark" color="var(--primary-500)" size="19"></ng-icon>
     </button>
   </div>
 

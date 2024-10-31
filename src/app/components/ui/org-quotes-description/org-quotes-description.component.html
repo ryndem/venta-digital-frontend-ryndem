@@ -38,7 +38,7 @@
   </div>
 
   <div
-    class="quotes-description__content"
+    class="quotes-description__content in-progress"
     *ngIf="descriptionType == 'in-progress'"
   >
     <div
@@ -54,6 +54,7 @@
       class="text-subtle"
       [ngClass]="{ 'not-mobile': !showMobileDescription }"
     >
+      <p id="quote-confirmation-note">El pedido está en espera de ser confirmado por parte del ESAC.</p>
       <p>
         Mientras tanto, puedes consultar los detalles del pedido para verificar
         el estado y la información adicional.

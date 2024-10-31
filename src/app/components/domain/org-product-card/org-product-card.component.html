@@ -49,10 +49,11 @@
 
     <p class="text-body text-gray-green-900 product-description">{{ product.description }}</p>
 
-    @if (!product.controlled || isLogged) {
+    <!-- Price -->
+    @if (isLogged) {
       <div class="product__details__shopping">
         <div class="product__details__shopping__price">
-          <p class="text-small text-gray-green-500 line-through" *ngIf="isLogged && priceWeb">
+          <p class="text-small text-gray-green-500 line-through" *ngIf="priceWeb">
             {{ priceWeb | usdCurrency }}
           </p>
           <p class="text-title-5 text-primary-500">
@@ -61,27 +62,33 @@
         </div>
         <atm-shopping-button [product]="product" />
       </div>
-      <div class="product__details__delivery">
-        <div class="text-x-small instant" *ngIf="hasExistingStock">
-          <ng-icon class="icon" size="12" strokeWidth="2" name="heroCheckCircle"></ng-icon>
-          <span>Entrega inmediata </span>
-        </div>
-        <p
-          class="text-x-small text-blue-900"
-          *ngIf="product.offert.deliveryTimeDays && !hasExistingStock"
-        >
-          Envío en
-          <strong class="text-600">{{ product.offert.deliveryTimeDays }} Días</strong>
-        </p>
-        <p class="text-x-small text-blue-900" *ngIf="product.isbn">
-          ISBN <strong class="text-600">{{ product.isbn }}</strong>
-        </p>
-      </div>
-    } @else if (product.controlled) {
-      <div class="product__details__controlled text-small-regular">
-        Regístrate para obtener un precio
+    } @else {
+      <div class="product__details__shopping__price__blurred">
+        <p class="blurred-text">{{ 1234 | usdCurrency }}</p>
+        <span class="login-text" (click)="openLoginModal($event)" >
+          Inicia sesión para ver precios
+        </span>
       </div>
     }
+
+    <!-- Delivery Details -->
+    <div class="product__details__delivery">
+      <div class="text-x-small instant" *ngIf="hasExistingStock">
+        <ng-icon class="icon" size="12" strokeWidth="2" name="heroCheckCircle"></ng-icon>
+        <span>Entrega inmediata </span>
+      </div>
+      <p
+        class="text-x-small text-blue-900"
+        *ngIf="product.offert.deliveryTimeDays && !hasExistingStock"
+      >
+        Envío en
+        <strong class="text-600">{{ product.offert.deliveryTimeDays }} Días</strong>
+      </p>
+      <p class="text-x-small text-blue-900" *ngIf="product.isbn">
+        ISBN <strong class="text-600">{{ product.isbn }}</strong>
+      </p>
+    </div>
+
   </div>
 </a>
 

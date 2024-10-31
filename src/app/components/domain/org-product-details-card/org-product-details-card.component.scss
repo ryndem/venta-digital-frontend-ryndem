@@ -88,6 +88,27 @@
       margin: 0px;
     }
 
+    &__price__blurred {
+      p {
+        display: flex;
+        gap: 8px;
+      }
+      position: relative;
+      .login-text {
+        position: absolute;
+        cursor: pointer;
+        bottom: 0%;
+        font-family: "Work Sans";
+        font-size: 16px;
+        font-weight: 450px;
+        line-height: 24px;
+        text-align: left;
+        color: var(--primary-500);
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
     &__market {
       display: flex;
       flex-direction: row;
@@ -95,11 +116,13 @@
 
       &__pricing {
         .regular-price {
+          display: flex;
+          align-items: center;
+          gap: 5px;
           font-family: "Stellar";
           font-size: 24px;
           font-weight: 700;
           line-height: 32px;
-          text-transform: uppercase;
         }
       }
 
@@ -174,9 +197,22 @@
     &__info {
       flex: 1;
       padding: 0px;
+
+      &__price__blurred {
+        font-family: "Stellar";
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: 0.5px;
+        .login-text {
+          bottom: 25%;
+        }
+      }
+
       &__market {
         &__pricing {
           .regular-price {
+            align-items: normal;
             font-size: 36px;
             font-weight: 700;
             line-height: 40px;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product } from 'app/model/product';
+import { QuoteProduct } from 'app/model/quote-product';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ export class ImageService {
 
   constructor() {}
 
-  getPresentationImage(product: Product | null): string {
+  getPresentationImage(product: Product | QuoteProduct | null): string {
     switch (product?.presentationTypeKey) {
       case 'ampolleta': return 'assets/imgs/presentations/ampolleta.png';
       case 'blister': return 'assets/imgs/presentations/blister.png';
@@ -26,16 +27,24 @@ export class ImageService {
     }
   }
 
-  getBrandImage(product: Product | null) : string | null {
+  getBrandImage(product: Product | QuoteProduct | null) : string | null {
     switch (product?.brandName) {
       case 'BP': return 'assets/imgs/brands/british_pharmacopoeia.png';
       case 'EP': return 'assets/imgs/brands/edqm.svg';
-      case 'CHEMSERVICE': return 'assets/imgs/brands/feum.svg';
       case 'LGC STANDARDS': return 'assets/imgs/brands/lgc.svg';
-      case 'PHARMAFFILIATES': return 'assets/imgs/brands/pharmaffiliates.png';
+      case 'PHARMAFFILIATES': return 'assets/imgs/brands/pharmaffiliates.svg';
       case 'TLC': return 'assets/imgs/brands/tlc.svg';
       case 'TORONTO RESEARCH CHEMICALS INC.': return 'assets/imgs/brands/trc.svg';
       case 'USP': return 'assets/imgs/brands/usp.svg';
+      case 'MICROBIOLOGICS': return 'assets/imgs/brands/microbiologics.svg';
+      case 'CYTIVA': return 'assets/imgs/brands/cytiva.svg';
+      case 'APACOR': return 'assets/imgs/brands/apacor.svg';
+      case 'CHROMADEX': return 'assets/imgs/brands/chroma-dex.svg';
+      case 'FAPAS': return 'assets/imgs/brands/fapas.svg';
+      case 'Hixwer': return 'assets/imgs/brands/hixwer.svg';
+      case 'CAPE COD': return 'assets/imgs/brands/capecod.svg';
+      case 'FEUM': return 'assets/imgs/brands/feum.svg';
+      case 'THERMO FISHER SCIENTIFIC, INC.': return 'assets/imgs/brands/thermofisher.svg';
       default: return null;
     }
   }
