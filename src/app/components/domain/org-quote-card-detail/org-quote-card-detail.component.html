@@ -1,26 +1,28 @@
 <div class="quote-card-detail">
   <div class="quote-card-detail__header">
-    <div class="presentation-image">
-      <img [src]="presentationImage" alt="product img" *ngIf="presentationImage">
-    </div>
-    <div class="title-header">
-      <div class="title-header__item" *ngIf="quoteProduct.cas">
-        <span>CAS</span>
-        <strong>{{quoteProduct.cas}}</strong>
+    <img [src]="presentationImage" alt="product img" *ngIf="presentationImage" width="50" height="50">
+
+    <div class="column-two">
+      <div class="column-two__cas__cat">
+        <div class="column-two__item" *ngIf="quoteProduct.cas">
+          <span>CAS</span>
+          <strong>{{quoteProduct.cas}}</strong>
+        </div>
+        <div class="column-two__item" *ngIf="quoteProduct.catalog">
+          <span>CAT</span>
+          <strong>{{quoteProduct.catalog}}</strong>
+        </div>
       </div>
-      <div class="title-header__item" *ngIf="quoteProduct.catalog">
-        <span>CAT</span>
-        <strong>{{quoteProduct.catalog}}</strong>
-      </div>
-    </div>
-    <div class="brand" *ngIf="brandImage">
-      <img [src]="brandImage"/>
+
+      <img *ngIf="brandImage" [src]="brandImage" width="32" height="32"/>
     </div>
   </div>
+
   <div class="quote-card-detail__description">
     <span>{{quoteProduct.type}}</span>
     <p>{{quoteProduct.description}}</p>
   </div>
+
   <div class="quote-card-detail__price">
     <div class="measure-item">
       <span>U. Medida</span>
@@ -39,8 +41,9 @@
       <h3>{{quoteProduct.totalPrice | usdCurrency }}</h3>
     </div>
   </div>
+
   <div class="quote-card-detail__footer">
-    <span id="shipping" *ngIf="quoteProduct.tee">Envio en {{quoteProduct.tee}} días hábiles</span>
+    <span id="shipping" *ngIf="quoteProduct.tee">Envío en {{quoteProduct.tee}} días hábiles</span>
     <div class="express-tag" *ngIf="quoteProduct.appliesExpressFreight">
       <span> Flete express</span>
       <ng-icon name="heroBoltSolid" size="16" color="#F97316" />

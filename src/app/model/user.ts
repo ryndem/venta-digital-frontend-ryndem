@@ -2,6 +2,7 @@ export type User = {
   emailUser: string;
   firstNameUser: string;
   idCustomer: string;
+  idContactCustomer: string;
   idUser: string;
   industry: string;
   lastNameUser: string;
@@ -11,4 +12,5 @@ export type User = {
   userName: string;
   department: string;
   position: string;
+  taxId: string;
 };

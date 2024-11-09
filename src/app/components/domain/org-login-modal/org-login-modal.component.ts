@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'app/auth/auth.service';
+import { CartService } from 'app/services/cart.service';
 
 @Component({
   selector: 'org-login-modal',
@@ -13,7 +14,10 @@ export class LoginModalComponent {
   twoFAError = false;
   isPasswordVisible: boolean = false;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private cartService: CartService,
+  ) {}
 
   async login(form: NgForm) {
     if (!form.valid) {
@@ -30,6 +34,7 @@ export class LoginModalComponent {
 
       this.loading = false;
       this.close();
+      this.cartService.load();
     } catch (error: any) {
       switch (error?.error?.error) {
         case 'multiple_session':

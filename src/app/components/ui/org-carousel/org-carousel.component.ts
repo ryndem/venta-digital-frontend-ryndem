@@ -69,7 +69,6 @@ export class OrgCarouselComponent {
   }
 
   open(item:CarouselItem) {
-    console.log('ACTION ', item);
     switch (item.action) {
       case 'categories':
           let el = document.getElementById('categories');

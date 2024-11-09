@@ -1,25 +1,28 @@
-<div class="quote-cart-page container">
-  
+<div class="quote-cart-page">
+
   <div class="quote-cart-page__loader" *ngIf="isLoading && !shoppingCart">
     <atm-loader />
   </div>
 
   <div *ngIf="shoppingCart && shoppingCart.listQuotationItem.length > 0">
 
-    <div class="quote-cart-page__header text-paragraph">
-      <a routerLink="/"><ng-icon class="icon" name="heroChevronLeft" size="16"></ng-icon> Volver al Catálogo</a>
+    <div class="breadcrumbs">
+      <a routerLink="/">
+        <ng-icon name="heroArrowLeft" size="16" />
+        Volver al Catálogo
+      </a>
     </div>
 
     <div class="quote-cart-page__content">
 
       <div class="quote-cart-page__content__list">
-        <h1 class="text-big text-primary-500">Carrito</h1>
-        
+        <h1 class="text-big text-primary-500 text-uppercase">Carrito</h1>
+
         <div class="quote-items">
           <org-quote-product-card *ngFor="let item of shoppingCart.listQuotationItem" [product]="item" (onRelatedProductSelectedEmitter)="loadRelated($event)"></org-quote-product-card>
         </div>
       </div>
-      
+
       <div class="quote-cart-page__content__total">
 
         <div class="actions text-paragraph">

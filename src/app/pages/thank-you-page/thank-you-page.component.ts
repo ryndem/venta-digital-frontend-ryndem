@@ -43,7 +43,15 @@ export class ThankYouPageComponent implements OnInit {
   async loadQuote() {
     if( this.quoteId ) {
       this.quote = await this.quotesService.getById(this.quoteId);
-      this.showDisclaimer = this.quote.quotationDetails.address.trim() == '';
+      
+      if (this.quote.quotationDetails.address.trim() == '') {
+        this.showDisclaimer = true;
+      }
+
+      if (this.quote.listQuotationItem.filter(p => p.controlled).length > 0) {
+        this.showDisclaimer = true;
+      }
+        
     }
   }
 }

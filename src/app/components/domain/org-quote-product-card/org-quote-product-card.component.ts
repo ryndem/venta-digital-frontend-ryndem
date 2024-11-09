@@ -13,12 +13,24 @@ export class OrgQuoteProductCardComponent implements OnInit {
 
   @Input()
   product!: QuoteProduct;
-  
-  @Output()
-  onRelatedProductSelectedEmitter = new EventEmitter<string>();
 
   @Input()
   cartMode: boolean = true;
+
+  @Input()
+  showExpressFreightInput: boolean = false;
+
+  @Input()
+  disabledExpressFreightCheckbox: boolean = false;
+
+  @Input()
+  checkboxMarked: boolean = false;
+
+  @Output()
+  onRelatedProductSelectedEmitter = new EventEmitter<string>();
+
+  @Output()
+  expressFreightChange = new EventEmitter<{ checked: boolean, product: QuoteProduct }>();
 
   isAddingToCar: boolean = false;
   quantity: number = 0;
@@ -52,6 +64,7 @@ export class OrgQuoteProductCardComponent implements OnInit {
     this.quantity += 1;
     this.updateCart();
   }
+
   minus() {
     if(this.quantity > 0) {
       this.quantity -= 1;
@@ -66,4 +79,8 @@ export class OrgQuoteProductCardComponent implements OnInit {
       this.isRemoved = true;
   }
 
+  onExpressFreightToggle(event: Event, product: QuoteProduct) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.expressFreightChange.emit({ product, checked });
+  }
 }

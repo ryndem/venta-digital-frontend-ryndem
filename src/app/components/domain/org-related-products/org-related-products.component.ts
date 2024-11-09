@@ -21,13 +21,12 @@ export class OrgRelatedProductsComponent implements OnChanges {
   set setProductId(productId: string) {
     this.updateProducts(true);
   }
-  
+
   constructor(private productsService: ProductsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     let productId: SimpleChange = changes['productId'];
     if (productId) {
-      console.log('ProductId changed', productId);
       this.alternativeProducts = null;
       this.complementaryProducts = null;
       this.updateProducts(true);
@@ -65,5 +64,5 @@ export class OrgRelatedProductsComponent implements OnChanges {
     }
     this.isEmptyResult = this.complementaryProducts.results.length == 0;
   }
-  
+
 }

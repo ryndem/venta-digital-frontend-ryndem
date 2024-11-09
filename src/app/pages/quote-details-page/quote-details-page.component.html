@@ -1,8 +1,11 @@
 <div class="quote-details-page">
-  <a routerLink="/quotes" class="quote-details-page__title" >
-    <ng-icon name="heroArrowLeft" size="16" color="#0E2F2F"></ng-icon>
-    Volver al administrador
-  </a>
+  <div class="breadcrumbs">
+    <a routerLink="/quotes">
+        <ng-icon name="heroArrowLeft" size="16"></ng-icon>
+        Volver al administrador
+    </a>
+  </div>
+
   <main class="quote-details-page__content" *ngIf="quote">
     <section class="quote-details-page__content__products" *ngIf="quote">
       <h1>DETALLES DE COTIZACIÓN</h1>

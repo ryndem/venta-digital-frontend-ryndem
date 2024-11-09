@@ -1,0 +1,26 @@
+.quote-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  &__column__two,
+  &__column__one {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    .folio {
+      display: flex;
+      flex-direction: column;
+    }
+    .payment-terms-label {
+      margin-right: 10px;
+    }
+    .currency-label {
+      margin-right: 4px;
+    }
+  }
+  &__column__two {
+    text-align: right;
+    .date-label {
+      margin-right: 10px;
+    }
+  }
+}

@@ -12,6 +12,10 @@
         <ng-template #empty>-</ng-template>
       </p>
     </div>
+    <div class="product-details__detail" *ngIf="product?.isbn">
+      <span class="text-small-regular text-gray-green-900">ISBN</span>
+      <p class="text-body-medium text-gray-green-900 m-0">{{ product?.isbn }}</p>
+    </div>
   </div>
   <div class="product-details__section">
     <div class="product-details__detail">

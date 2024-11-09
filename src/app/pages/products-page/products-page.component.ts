@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
 import { ProductsService } from 'app/services/products.service';
@@ -18,6 +19,7 @@ export class ProductsPageComponent implements OnInit {
   productss: Product[] = [];
   isLoading: boolean = false;
   isLogged: boolean = false;
+  categories: Category[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -27,6 +29,9 @@ export class ProductsPageComponent implements OnInit {
   ) {
     this.store.subscribe((state) => {
       this.isLogged = state.user.isLogged;
+    });
+    this.store.subscribe(state => {
+      this.categories = state.product.categories;
     });
   }
 
@@ -45,9 +50,13 @@ export class ProductsPageComponent implements OnInit {
 
   async loadPage(searchParams: any) {
     this.isLoading = true;
-    this.productPage =
-      await this.productsService.listProductsByCategory(searchParams);
-    this.isLoading = false;
+    try {
+      this.productPage = await this.productsService.listProductsByCategory(searchParams);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   toggleSortDirection() {

@@ -1,5 +1,9 @@
 <div class="quotes-list">
 
-  <org-quote-card class="quote" *ngFor="let quote of quotes" [routerLink]="['/quotes', quote.idQuotation]" [quote]="quote"></org-quote-card>
+  <org-quote-card 
+        class="quote" 
+        *ngFor="let quote of quotes" 
+        (click)="goToDetails(quote)"
+        [quote]="quote" />
 
 </div>

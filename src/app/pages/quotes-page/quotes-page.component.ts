@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Quote } from 'app/model/quote';
 import { QuotesService } from 'app/services/quotes.service';
 import { AuthService } from 'app/auth/auth.service';
+import { OrderService } from 'app/services/order.service';
 
 @Component({
   selector: 'quotes-page',
@@ -21,6 +22,7 @@ export class QuotesPageComponent implements OnInit {
 
   constructor(
     private quoteService: QuotesService,
+    private orderService: OrderService,
     public authService: AuthService,
     private store: Store<{ user: { isLogged: boolean } }>,
     private router: Router
@@ -72,7 +74,8 @@ export class QuotesPageComponent implements OnInit {
     }
 
     if( this.tab.key == 'in-progress' ) {
-      this.quotes = [];
+      let page = await this.orderService.getOrders(this.q);
+      this.quotes = page.results;
     }
 
     if( this.tab.key == 'confirmed' ) {

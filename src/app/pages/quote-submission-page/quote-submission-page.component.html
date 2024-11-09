@@ -1,55 +1,79 @@
-<div class="quote-submission-page container">
-  
+<div class="quote-submission-page">
+
   <div class="quote-submission-page__loader" *ngIf="!shoppingCart">
     <atm-loader />
   </div>
 
   <div *ngIf="shoppingCart">
 
-    <div class="quote-submission-page__header text-paragraph">
-      <a routerLink="/quote-cart"><ng-icon class="icon" name="heroChevronLeft" size="16"></ng-icon> Volver al Carrito</a>
+    <div class="breadcrumbs">
+      <a routerLink="/quote-cart">
+          <ng-icon name="heroArrowLeft" size="16"></ng-icon>
+          Volver al Carrito
+      </a>
     </div>
 
     <div class="quote-submission-page__content">
 
       <div class="quote-submission-page__content__list">
-        <h1 class="text-big text-primary-500">Enviar Cotización</h1>
+        <h1 class="text-big text-primary-500 text-uppercase">Enviar Cotización</h1>
         <h5 class="text-title-5">Partidas</h5>
 
         <div class="quote-items">
-          <org-quote-product-card *ngFor="let item of shoppingCart.listQuotationItem" [product]="item" [cartMode]="false"></org-quote-product-card>
+          <org-quote-product-card
+            *ngFor="let item of shoppingCart.listQuotationItem"
+            [product]="item"
+            [cartMode]="false"
+            [showExpressFreightInput]="true"
+            (expressFreightChange)="onExpressFreightChange($event)"
+            [disabledExpressFreightCheckbox]="!addressId || isLoading || addressId === 'other'"
+            [checkboxMarked]="item.appliesFreightExpress"
+          >
+          </org-quote-product-card>
         </div>
       </div>
 
-
       <div class="quote-submission-page__content__summary">
-        
+
         <div class="quote-submission-page__content__summary__container">
           <div class="address section">
             <h3 class="text-title-4">Dirección de Entrega</h3>
-            <mol-address-selector 
-                (addressSelectedEmitter)="onAddressSelected($event)" 
-                (selectedOtherEmitter)="onOtherSelected($event)"></mol-address-selector>
+            <mol-address-selector
+              (addressSelectedEmitter)="onAddressSelected($event)"
+              (selectedOtherEmitter)="onOtherSelected($event)">
+            </mol-address-selector>
+            <div class="other-selection" *ngIf="addressId === 'other'">
+              <span class="text-body-medium text-amber-500">
+                Al elegir esta opción de entrega, tu <br>
+                cotización será atendida directamente <br>
+                por un Asesor Comercial.
+              </span>
+              <ng-icon name="heroInformationCircleSolid" size="24" color="#F59E0B"/>
+            </div>
           </div>
-          
+
           <div class="section">
             <h3 class="text-title-4">Informacion del cliente</h3>
             <org-quote-user-info [address]="shoppingCart.quotationDetails.address"/>
           </div>
-          
+
           <div class="section">
             <h3 class="text-title-4">Totales</h3>
             <org-quote-totals [quote]="shoppingCart"/>
           </div>
 
           <div class="actions text-paragraph">
-            <button class="btn text-large text-gray-green-50" (click)="submitQuote()" [disabled]="!addressId || isLoading || shoppingCart.listQuotationItem.length <= 0">Enviar Cotización</button>
+            <button
+              class="btn text-large text-gray-green-50"
+              (click)="submitQuote()"
+              [disabled]="!addressId || isLoading || shoppingCart.listQuotationItem.length <= 0"
+            >
+              Enviar Cotización
+            </button>
           </div>
         </div>
 
       </div>
-
-
     </div>
   </div>
 </div>

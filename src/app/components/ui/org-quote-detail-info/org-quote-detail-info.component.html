@@ -1,0 +1,36 @@
+<div class="quote-info text-small-regular">
+  <div class="quote-info__column__one">
+    <div class="folio">
+      <label>Folio</label>
+      <span class="text-body-medium underline text-blue-600">
+        {{quote.quotationDetails.folio}}
+      </span>
+    </div>
+
+    <div>
+      <label class="payment-terms-label">C.Pago: </label>
+      <span class="text-red-500">{{quote.quotationDetails.paymentTerms}}</span>
+    </div>
+
+    <div>
+      <label class="currency-label">Moneda: </label>
+      <span>{{quote.quotationDetails.currency}}</span>
+    </div>
+  </div>
+
+  <div class="quote-info__column__two">
+    <div>
+      <span class="quote-status valid">VIGENTE</span>
+    </div>
+
+    <div>
+      <label class="date-label">Creación: </label>
+      <span>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</span>
+    </div>
+
+    <div>
+      <label class="date-label">Expiración: </label>
+      <span>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</span>
+    </div>
+  </div>
+</div>

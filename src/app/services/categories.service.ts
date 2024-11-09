@@ -37,7 +37,7 @@ export class CategoriesService {
       microbiology: 'assets/icons/category-microscope.svg',
       publications: 'assets/icons/category-book.svg',
       training: 'assets/icons/category-trainings.svg',
-      labware: 'assets/icons/category-labware.svg',
+      labware: 'assets/icons/category-filtros-y-columnas.svg',
       default: 'assets/icons/no-image.svg',
     };
 

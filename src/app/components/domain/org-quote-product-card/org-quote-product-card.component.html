@@ -25,17 +25,16 @@
 
     </div>
 
-
     <div class="quote-product-card__action">
       <button
         type="button" class="btn text-gray-green-800"
         (click)="loadRelated()"
-        *ngIf="cartMode"
         [disabled]="!product.idProduct"
+        *ngIf="cartMode"
       >
-      <ng-icon name="heroSquaresPlus" size="16"></ng-icon>
-      <span class="text-large">Alternativos y complementarios</span>
-    </button>
+        <ng-icon name="heroSquaresPlus" size="16"></ng-icon>
+        <span class="text-large">Alternativos y complementarios</span>
+      </button>
     </div>
 
     <div class="quote-product-card__info">
@@ -47,7 +46,6 @@
         <div class="text-paragraph">{{product.description}}</div>
       </div>
     </div>
-
 
     <div class="quote-product-card__totals">
 
@@ -61,7 +59,6 @@
           <span class="text-title-3">{{quantity}}</span>
           <button type="button" class="btn" (click)="plus()" [disabled]="isAddingToCar"  *ngIf="cartMode"><ng-icon name="heroPlus" size="24"></ng-icon></button>
         </div>
-        <label class="delivery text-subtle" *ngIf="product.tee">Envío en {{product.tee}} días hábiles</label>
       </div>
 
       <div class="measures">
@@ -82,6 +79,28 @@
         <div class="text-title-3 text-primary-500">{{ product.totalPrice | usdCurrency }}</div>
       </div>
 
+    </div>
+
+    <div class="quote-product-card__shipping">
+      <div>
+        <span *ngIf="product.tee">Envío en {{product.tee}} días hábiles</span>
+      </div>
+      <div
+        class="express-tag"
+        [ngClass]="{'disabled': disabledExpressFreightCheckbox}"
+        *ngIf="product.expressFreightAvailable && showExpressFreightInput"
+      >
+        <input
+          type="checkbox"
+          (change)="onExpressFreightToggle($event, product)"
+          [disabled]="disabledExpressFreightCheckbox"
+          [checked]="checkboxMarked"
+        >
+        <div class="express-tag-label">
+          <span>Flete express</span>
+          <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+        </div>
+      </div>
     </div>
   </div>
 

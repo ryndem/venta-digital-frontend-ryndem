@@ -24,30 +24,7 @@
       </div>
 
       <div class="thank-you-page__content__summary">
-        <div class="quote-info text-small-regular" >
-          <div>
-            <label>Folio</label>
-          </div>
-          <div class="text-body-medium underline text-blue-600">{{quote.quotationDetails.folio}}</div>
-
-          <div>
-            Moneda: <span>{{quote.quotationDetails.currency}}</span>
-          </div>
-
-          <div class="status">
-            <div class="quote-status valid">VIGENTE</div>
-          </div>
-
-          <div class="double-field">
-            <div>Creación:</div>
-            <div>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</div>
-          </div>
-
-          <div class="double-field">
-            <div>Expiración:</div>
-            <div>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</div>
-          </div>
-        </div>
+        <org-quote-detail-info [quote]="quote" />
 
         <org-quote-totals [quote]="quote"/>
 

@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ClosableComponent } from 'app/components/commons/closable.component';
 import { Address } from 'app/model/address';
+import { User } from 'app/model/user';
 
 @Component({
   selector: 'mol-address-selector',
@@ -10,29 +11,37 @@ import { Address } from 'app/model/address';
 })
 export class MolAddressSelectorComponent extends ClosableComponent {
 
+  @Input()
+  otherAddressDisabled: boolean = false;
+
   @Output()
   addressSelectedEmitter = new EventEmitter<Address|null>();
-  
+
   @Output()
   selectedOtherEmitter = new EventEmitter();
-  
-  
+
+
   showAddresses: boolean = false;
   addresses: Address[] | null = null;
   selectionLabel:string = 'Elige una dirección de entrega';
+  user: User | null = null;
 
   constructor(private store: Store<any>) {
     super();
     this.store.subscribe( state => {
       this.addresses = state.user.addresses;
+      this.user = state.user.user;
     })
   }
-  
+
+  get isAddressSelectionValid(): boolean {
+    return this.selectionLabel !== 'Elige una dirección de entrega' && this.selectionLabel !== 'Solicitar entrega en otra dirección';
+  }
 
   override close() {
     this.showAddresses = false;
   }
-  
+
   toggleShowAddresses() {
     this.showAddresses = !this.showAddresses;
   }
@@ -48,5 +57,4 @@ export class MolAddressSelectorComponent extends ClosableComponent {
     this.selectionLabel = 'Solicitar entrega en otra dirección';
     this.toggleShowAddresses();
   }
-
 }

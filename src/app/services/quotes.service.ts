@@ -17,19 +17,41 @@ export class QuotesService {
     return firstValueFrom(this.httpClient.get<ShoppingCart>(`${this.apiPath}?idQuotation=${quoteId}`));
   }
 
+
   async getQuotes(folio: string|null): Promise<QuotePage> {
+    let filters = [];
+
+    if(folio && folio.length > 0) {
+      filters.push({
+        'FilterName': 'Folio',
+        'FilterValue': folio
+      });
+    }
+    return this.getQuotesByFilters(filters);
+  }
+
+
+  async getQuotesByAddressId(addressId: string): Promise<QuotePage> {
+    let filters = [{
+        'FilterName': 'IdAddress',
+        'FilterValue': addressId
+    }];
+    
+    return this.getQuotesByFilters(filters);
+  }
+
+
+  private getQuotesByFilters(filters: any[]) {
     let body:any = {
       pageSize: 10,
       desiredPage: 1
     };
 
-    if(folio && folio.length > 0) {
-      body.filters = [{
-        'FilterName': 'Folio',
-        'FilterValue': folio
-      }];
+    if(filters && filters.length > 0) {
+      body.filters = filters;
     }
     return firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/ListQuotation', body));
   }
+
 
 }

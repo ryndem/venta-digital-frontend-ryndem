@@ -57,7 +57,6 @@
     }
   }
 
-
   &__info {
     grid-area: info;
   }
@@ -69,6 +68,7 @@
     grid-template-areas:  "quantities measures prices total";
     column-gap: 0.5rem;
     row-gap: 0.5rem;
+    align-items: center;
 
     .quantities {
       grid-area: quantities;
@@ -112,6 +112,35 @@
     }
   }
 
+  &__shipping {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .express-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      .express-tag-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        span {
+          font-family: "Work Sans";
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: 600;
+        }
+      }
+    }
+
+  }
+
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     grid-template-areas: "header"
@@ -126,6 +155,11 @@
                             "quantities total";
     }
 
+    &__shipping {
+      flex-direction: column;
+      align-items: start;
+    }
+
     &__action {
       button {
         width: 100%;
@@ -133,4 +167,13 @@
     }
   }
 
+  input[type="checkbox"]:checked {
+    background-color: white;
+    border: 1px solid black;
+    outline: 1px solid #E5E7EB;
+  }
+
+  input[type="checkbox"] {
+    accent-color: white;
+  }
 }

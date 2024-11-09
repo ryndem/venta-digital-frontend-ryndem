@@ -1,45 +1,54 @@
-<div class="quote-summary-card">
-  <div class="quote-summary-card__header">
-    <span>Detalles de cliente y notas.</span>
-    <button (click)="showHideCustomerInfo()">
-      <ng-icon name="heroChevronDown" size="16" color="#2B7777"/>
-    </button>
-  </div>
+<aside class="quote-summary-card">
 
+  <org-quote-detail-info [quote]="quoteProduct"/>
 
-  <div class="quote-summary-card__customer__info" *ngIf="isShowingCustomerInfo">
-    <org-quote-user-info [address]="quoteProduct.quotationDetails.address"/>
+  <org-quote-totals [quote]="quoteProduct" />
 
-    <div class="quote-summary-card__customer__info__notes">
-      <span>Notas Importantes</span>
-      <ul>
-        <li>
-          Una vez tramitado y confirmado su pedido no se aceptan cambios (cancelaciones y/o modificaciones), ni
-          devoluciones.
-        </li>
-        <li>
-          Disponibilidad y precios aquí registrados sujetos a cambio sin previo aviso.
-        </li>
-        <li>
-          En caso de vernos favorecidos con su pedido, favor de hacer referencia en su orden de compra al folio de esta
-          cotización.
-        </li>
-        <li>
-          Si usted va a utilizar esta cotización como orden de compra, enviarla sellada y firmada por quien corresponda
-          al correo
-          ventas&#64;proquifa.com.mx.
-        </li>
-        <li>
-          Precios más impuestos (IVA)
-        </li>
-        <li>
-          Los precios incluyen envío
-        </li>
-      </ul>
-    </div>
-  </div>
+  <atm-file-downloader
+    [fileName]="'C -' + quoteProduct.quotationDetails.folio"
+    [fileId]="quoteProduct.quotationDetails.idfilePdf"
+  />
+
   <hr />
 
-  <org-quote-totals [quote]="quoteProduct"/>
-  
-</div>
+  <div class="quote-summary-card__customer">
+    <div class="quote-summary-card__customer__toggle">
+      <span>Detalles de cliente y notas.</span>
+      <button (click)="showHideCustomerInfo()">
+        <ng-icon name="heroChevronDown" size="16" color="#2B7777"/>
+      </button>
+    </div>
+
+    <div class="quote-summary-card__customer__info" *ngIf="isShowingCustomerInfo">
+      <org-quote-user-info [address]="quoteProduct.quotationDetails.address"/>
+
+      <div class="quote-summary-card__customer__info__notes">
+        <span>Notas Importantes</span>
+        <ul>
+          <li>
+            Una vez tramitado y confirmado su pedido no se aceptan cambios (cancelaciones y/o modificaciones), ni
+            devoluciones.
+          </li>
+          <li>
+            Disponibilidad y precios aquí registrados sujetos a cambio sin previo aviso.
+          </li>
+          <li>
+            En caso de vernos favorecidos con su pedido, favor de hacer referencia en su orden de compra al folio de esta
+            cotización.
+          </li>
+          <li>
+            Si usted va a utilizar esta cotización como orden de compra, enviarla sellada y firmada por quien corresponda
+            al correo
+            ventas&#64;proquifa.com.mx.
+          </li>
+          <li>
+            Precios más impuestos (IVA)
+          </li>
+          <li>
+            Los precios incluyen envío
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</aside>

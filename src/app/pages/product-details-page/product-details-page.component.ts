@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input as RouterInput } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -38,14 +39,16 @@ export class ProductDetailsPageComponent {
     this.loadProduct();
   }
 
-  loadProduct() {
+  async loadProduct() {
     if (this.productId) {
-      this.productsService
-        .getProduct(this.productId)
-        .then((product) => (this.product = product))
-        .catch(() => {
+      try {
+        const product = await this.productsService.getProduct(this.productId)
+        this.product = product;
+      } catch (error) {
+        if (error instanceof HttpErrorResponse && error.status === 400) {
           this.router.navigate(['404']);
-        });
+        }
+      }
     }
   }
 

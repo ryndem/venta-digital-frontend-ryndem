@@ -6,20 +6,26 @@
 >
   <!-- Header -->
   <div class="product__header">
-    <div class="product__header__section__brand">
-      <div class="cat__cas">
-        <span *ngIf="product.cas"> CAS <strong>{{ product.cas }}</strong></span>
-        <span *ngIf="product.catalog">CAT <strong>{{ product.catalog }}</strong></span>
+    @if (product.type === "Capacitaciones") {
+      <div class="product__header__no__heading">
+        <img src="assets/icons/no-image.svg" alt="logo proquifa" width="28" height="28">
       </div>
-      <img
-        *ngIf="brandImgPath"
-        [src]="brandImgPath"
-        alt="product brand"
-        class="brand-img"
-        width="40"
-        height="40"
-      />
-    </div>
+    } @else {
+      <div class="product__header__section__brand">
+        <div class="cat__cas">
+          <span *ngIf="product.cas"> CAS <strong>{{ product.cas }}</strong></span>
+          <span *ngIf="product.catalog">CAT <strong>{{ product.catalog }}</strong></span>
+        </div>
+        <img
+          *ngIf="brandImgPath"
+          [src]="brandImgPath"
+          alt="product brand"
+          class="brand-img"
+          width="40"
+          height="40"
+        />
+      </div>
+    }
   </div>
 
   <!-- Img -->
@@ -43,11 +49,37 @@
       <span>Controlado</span>
     </div>
 
-    <p class="product__details__type" *ngIf="!product.controlled">
-      {{ product.type }}
+    <div class="product__details__heading">
+      <p class="product__details__type">
+        {{ product.type }}
+      </p>
+
+      <span class="media-type" *ngIf="product.mediaOutlet">
+        {{ product.mediaOutlet }}
+      </span>
+
+      <span class="media-type" *ngIf="product.publicationFormat">
+        {{ product.publicationFormat }}
+      </span>
+    </div>
+
+    <p class="text-body text-gray-green-900 product-description">
+      {{ product.description }}
     </p>
 
-    <p class="text-body text-gray-green-900 product-description">{{ product.description }}</p>
+    <p
+      class="text-small-regular text-neutral-500 training-product-description"
+      *ngIf="product.trainingProductDescription"
+    >
+      {{ product.trainingProductDescription }}
+    </p>
+
+    <span
+      class="text-small-regular text-neutral-500 product-author"
+      *ngIf="product.author"
+    >
+      por {{ product.author }}
+    </span>
 
     <!-- Price -->
     @if (isLogged) {
@@ -64,7 +96,7 @@
       </div>
     } @else {
       <div class="product__details__shopping__price__blurred">
-        <p class="blurred-text">{{ 1234 | usdCurrency }}</p>
+        <p class="blurred-text no-select">{{ 1234 | usdCurrency }}</p>
         <span class="login-text" (click)="openLoginModal($event)" >
           Inicia sesión para ver precios
         </span>
@@ -79,7 +111,7 @@
       </div>
       <p
         class="text-x-small text-blue-900"
-        *ngIf="product.offert.deliveryTimeDays && !hasExistingStock"
+        *ngIf="product.offert.deliveryTimeDays && !hasExistingStock && product.typeKey !== 'training'"
       >
         Envío en
         <strong class="text-600">{{ product.offert.deliveryTimeDays }} Días</strong>

@@ -192,12 +192,14 @@ export class AuthService {
   }
 
   async closeMultipleSessions(idSessionTemp: string): Promise<void> {
+    try {
     await firstValueFrom(
       this.httpClient.post<string>(
         `${environment.authApiUrl}/api/Session/CloseOtherSession?idSession=${idSessionTemp}`,
         '',
       ),
     );
+    } catch(error) {}
   }
 
   async activateUser(token: string): Promise<void> {

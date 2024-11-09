@@ -11,7 +11,7 @@ export type Product = {
   presentationType?: string;
   presentationTypeKey?: string;
   presentation: string;
-  isbn?: string;
+  isbn: string | null;
   brandImageName: string;
   type: string;
   typeKey: string;
@@ -28,6 +28,10 @@ export type Product = {
   transportHandling?: string;
   storageHandling?: string;
   purity?: string;
+  mediaOutlet: string | null;
+  trainingProductDescription: string | null;
+  publicationFormat: string | null;
+  author: string | null;
 
   // All these are missing to confirm
   publicPrice?: number;

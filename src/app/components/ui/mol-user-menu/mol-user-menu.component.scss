@@ -1,6 +1,6 @@
 .user-menu {
     position: relative;
-    
+
     &__name {
         color: white;
         border: 0;
@@ -10,17 +10,19 @@
         position: absolute;
         z-index: 10;
         border: 0;
-        min-width: 100%;
         border-radius: 6px;
         box-shadow: var(--menu-box-shadow);
         overflow: hidden;
+        width: 200px;
+        padding: 8px;
+        top: 45px;
 
         .btn {
             width: 100%;
             border: 0;
             display: block;
             text-align: left;
-            padding: 1rem;
+            padding: 6px 4px;
 
             &:hover {
                 background-color: var(--neutral-200);
