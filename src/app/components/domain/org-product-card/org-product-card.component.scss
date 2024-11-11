@@ -14,6 +14,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    &__no__heading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     &__section__brand {
       display: flex;
       justify-content: space-between;
@@ -76,6 +81,18 @@
     row-gap: 4px;
     word-break: break-all;
 
+    &__heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .media-type {
+        color: var(--cyan-700);
+        font-size: 8px;
+        line-height: 13px;
+        font-weight: 700;
+      }
+    }
+
     &__controlled__label {
       display: flex;
       gap: 4px;
@@ -101,6 +118,16 @@
       display: -webkit-box;
       -webkit-line-clamp: 1;
       line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .training-product-description,
+    .product-author {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;

@@ -19,6 +19,9 @@ import { QuoteDetailsPageComponent } from './pages/quote-details-page/quote-deta
 import { ThankYouPageComponent } from './pages/thank-you-page/thank-you-page.component';
 import { QuoteSubmissionPageComponent } from './pages/quote-submission-page/quote-submission-page.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { OrderCreationPageComponent } from './pages/order-creation-page/order-creation-page.component';
+import { PurchaseOrderDetailsPageComponent } from './pages/purchase-order-details-page/purchase-order-details-page.component';
+import { PurchaseOrderCreatedPageComponent } from './pages/purchase-order-created-page/purchase-order-created-page.component';
 
 const routes: Routes = [
   {
@@ -30,10 +33,10 @@ const routes: Routes = [
       { path: 'products/:productId', component: ProductDetailsPageComponent },
       { path: 'quotes', component: QuotesPageComponent },
       { path: 'quotes/:quoteId', component: QuoteDetailsPageComponent },
-      {
-        path: 'terms-and-conditions',
-        component: TermsAndConditionsPageComponent,
-      },
+      { path: 'purchase-orders/created', component: PurchaseOrderCreatedPageComponent },
+      { path: 'purchase-orders/:purchaseOrderId', component: PurchaseOrderDetailsPageComponent },
+      { path: 'orders/creation', component: OrderCreationPageComponent },
+      { path: 'terms-and-conditions', component: TermsAndConditionsPageComponent },
       { path: 'privacy-policy', component: PrivacyPolicyPageComponent },
     ],
   },

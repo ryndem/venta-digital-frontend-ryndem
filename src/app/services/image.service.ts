@@ -10,7 +10,11 @@ export class ImageService {
   constructor() {}
 
   getPresentationImage(product: Product | QuoteProduct | null): string {
-    switch (product?.presentationTypeKey) {
+    if (!product) return 'assets/imgs/presentations/undefined.svg';
+
+    const key =  product.presentationTypeKey || product.typeKey;
+
+    switch (key) {
       case 'ampolleta': return 'assets/imgs/presentations/ampolleta.png';
       case 'blister': return 'assets/imgs/presentations/blister.png';
       case 'bolsa_de_aluminio': return 'assets/imgs/presentations/bolsa_de_aluminio.png';
@@ -23,6 +27,8 @@ export class ImageService {
       case 'frasco': return 'assets/imgs/presentations/frasco.png';
       case 'publicacion': return 'assets/imgs/presentations/publicacion.svg';
       case 'vial': return 'assets/imgs/presentations/vial.png';
+      case 'publications': return 'assets/imgs/presentations/publications.svg';
+      case 'training': return 'assets/imgs/presentations/training.svg';
       default: return 'assets/imgs/presentations/undefined.svg';
     }
   }

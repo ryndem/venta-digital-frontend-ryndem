@@ -5,7 +5,7 @@
   <div class="product-details-card__context">
     <div class="product-details-card__headings">
       <!-- Headings -->
-      <div class="product-details-card__headings__container">
+      <div class="product-details-card__headings__container" *ngIf="product?.type !== 'Capacitaciones'">
         <div>
           <!-- Cas -->
           <div
@@ -31,8 +31,8 @@
           *ngIf="brandImgPath"
           [src]="brandImgPath"
           alt="product brand"
-          width="32px"
-          height="32px"
+          width="62px"
+          height="62px"
         />
       </div>
 
@@ -41,6 +41,7 @@
         <img [src]="presentationImgPath" alt="brand image" />
       </div>
     </div>
+
     <div class="product-details-card__info">
       @if (isControlled) {
         <div class="product-details-card__info__controlled" *ngIf="isControlled">
@@ -48,22 +49,40 @@
           <span class="text-x-small">Controlado</span>
         </div>
       } @else {
-        <h1
-          class="product-details-card__info__title text-bold text-subtle text-primary-900"
-        >
-          {{ product?.type }}
-        </h1>
+        <div class="product-details-card__info__heading">
+          <h1 class="product-details-card__info__title text-bold text-subtle text-primary-900">
+            {{ product?.type }}
+          </h1>
+
+          <span class="media-type" *ngIf="product?.mediaOutlet">
+            {{ product?.mediaOutlet }}
+          </span>
+
+          <span class="media-type" *ngIf="product?.publicationFormat">
+            {{ product?.publicationFormat }}
+          </span>
+        </div>
       }
 
-      <p
-        class="product-details-card__info__description text-paragraph-2 text-gray-green-900"
-      >
+      <p class="product-details-card__info__description text-paragraph-2 text-gray-green-900">
         {{ product?.description }}
+      </p>
+
+      <p class="text-paragraph text-neutral-500 training-product-description" *ngIf="product?.trainingProductDescription">
+        {{ product?.trainingProductDescription }}
+      </p>
+
+      <span class="text-paragraph text-neutral-500 product-author" *ngIf="product?.author">
+        por {{ product?.author }}
+      </span>
+
+      <p class="text-subtle text-blue-900" *ngIf="product?.isbn">
+        ISBN <span class="text-bold">{{ product?.isbn }}</span>
       </p>
 
       @if (!isLogged) {
         <div class="product-details-card__info__price__blurred">
-          <p class="blurred-text regular-price text-primary-500">
+          <p class="blurred-text no-select regular-price text-primary-500">
             {{ 234 | usdCurrency }}
             <span class="text-paragraph text-gray-green-900">p/u</span>
           </p>
@@ -118,7 +137,7 @@
         <div class="product-details-card__info__footer">
           <p
             class="text-paragraph text-blue-900"
-            *ngIf="product?.offert?.deliveryTimeDays"
+            *ngIf="product?.offert?.deliveryTimeDays && product?.typeKey !== 'training'"
           >
             Envío en
             <span class="text-bold text-center">{{

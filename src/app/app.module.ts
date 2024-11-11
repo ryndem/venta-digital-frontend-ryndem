@@ -1,4 +1,3 @@
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgIconsModule } from '@ng-icons/core';
@@ -27,7 +26,7 @@ import {
   heroEllipsisHorizontal,
   heroInformationCircle,
 } from '@ng-icons/heroicons/outline';
-import  { heroBoltSolid } from "@ng-icons/heroicons/solid"
+import { heroBoltSolid, heroInformationCircleSolid } from "@ng-icons/heroicons/solid"
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -102,6 +101,15 @@ import { AtmAuthBannerComponent } from './components/ui/atm-auth-banner/atm-auth
 import { MolAddressSelectorComponent } from './components/ui/mol-address-selector/mol-address-selector.component';
 import { MolUserMenuComponent } from './components/ui/mol-user-menu/mol-user-menu.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { OrderCreationPageComponent } from './pages/order-creation-page/order-creation-page.component';
+import { OrgQuoteDetailInfoComponent } from './components/ui/org-quote-detail-info/org-quote-detail-info.component';
+import { AtmFileDownloaderComponent } from './components/ui/atm-file-downloader/atm-file-downloader.component';
+import { OrgQuoteProductOrderCardComponent } from './components/domain/org-quote-product-order-card/org-quote-product-order-card.component';
+import { AtmFileUploaderComponent } from './components/ui/atm-file-uploader/atm-file-uploader.component';
+import { PurchaseOrderDetailsPageComponent } from './pages/purchase-order-details-page/purchase-order-details-page.component';
+import { PurchaseOrderCreatedPageComponent } from './pages/purchase-order-created-page/purchase-order-created-page.component';
+import { OrgOrderSummaryCardComponent } from './components/domain/org-order-summary-card/org-order-summary-card.component';
+import { OrgOrderTotalComponent } from './components/domain/org-order-totals/org-order-totals.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +138,7 @@ import { ServerErrorComponent } from './pages/server-error/server-error.componen
     OrgQuotesDescriptionComponent,
     OrgQuoteCardComponent,
     OrgQuoteProductCardComponent,
+    OrgQuoteProductOrderCardComponent,
     AccountActivatedComponent,
     OrgHelpContactComponent,
     OrgCarouselComponent,
@@ -164,7 +173,15 @@ import { ServerErrorComponent } from './pages/server-error/server-error.componen
     AtmFeaturedProductModalComponent,
     AtmAuthBannerComponent,
     MolUserMenuComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    OrderCreationPageComponent,
+    PurchaseOrderCreatedPageComponent,
+    PurchaseOrderDetailsPageComponent,
+    OrgQuoteDetailInfoComponent,
+    AtmFileDownloaderComponent,
+    AtmFileUploaderComponent,
+    OrgOrderSummaryCardComponent,
+    OrgOrderTotalComponent
   ],
   imports: [
     BrowserModule,
@@ -197,7 +214,8 @@ import { ServerErrorComponent } from './pages/server-error/server-error.componen
       heroChevronRight,
       heroEllipsisHorizontal,
       heroBoltSolid,
-      heroInformationCircle
+      heroInformationCircle,
+      heroInformationCircleSolid
     }),
     StoreModule.forRoot({}, {}),
     ToastrModule.forRoot({
@@ -211,11 +229,6 @@ import { ServerErrorComponent } from './pages/server-error/server-error.componen
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
     },
     provideStore(),
     provideState({ name: 'user', reducer: userReducer }),

@@ -8,6 +8,7 @@ export type QuoteProduct = {
   cas: string;
   catalog: string;
   type: string;
+  typeKey: string;
   brandName: string | null;
   presentationTypeKey: string | null;
   description: string;
@@ -16,7 +17,10 @@ export type QuoteProduct = {
   unitPrice: number;
   webPrice: number;
   tee: number;
+  controlled: boolean;
+  //TODO: Remove one of these once the API is fixed
   appliesExpressFreight: boolean;
+  appliesFreightExpress: boolean;
   totalPrice: number;
   expressFreightAvailable: boolean;
 };

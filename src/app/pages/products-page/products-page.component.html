@@ -57,7 +57,17 @@
         >Parece que no encontramos resultados para tu búsqueda. Intenta con otro
         término o explora nuestras familias de productos.</span
       >
+
+      <div class="products-page__categories">
+        <div class="products-page__categories__item">
+          <atm-category-card
+            *ngFor="let navigationItem of categories"
+            [category]="navigationItem"
+          />
+        </div>
+      </div>
     </div>
+
     <div class="first-loader" *ngIf="isLoading && !productPage">
       <img src="assets/icons/loader-icon.svg" alt="Loading Icon" class="mb-16" id="loader">
       <h3 class="text-big text-uppercase m-0">Un momento</h3>

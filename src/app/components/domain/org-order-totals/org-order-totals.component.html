@@ -1,0 +1,22 @@
+<div class="order-totals">
+  <div class="order-totals__item text-subtle">
+    <span>Subtotal</span>
+    <span>{{order.subtotal | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle">
+    <span>Flete Foráneo ({{order.freightOutsiderDetails.itemCount}})</span>
+    <span>{{order.freightOutsiderDetails.amount | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle">
+    <span>Flete Express ({{order.freightExpressDetails.itemCount}})</span>
+    <span>{{order.freightExpressDetails.amount | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle">
+    <span>IVA</span>
+    <span>{{order.saleTax | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__total">
+    <span class="text-paragraph">Total</span>
+    <strong class="text-title-3 text-primary-500">{{order.total | usdCurrency}} </strong>
+  </div>
+</div>

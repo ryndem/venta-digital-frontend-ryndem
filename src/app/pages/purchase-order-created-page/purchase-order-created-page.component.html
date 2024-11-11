@@ -1,0 +1,27 @@
+<div class="purchase-order-created-page container">
+
+  <div class="purchase-order-created-page__loader" *ngIf="!order">
+    <atm-loader />
+  </div>
+
+  <div *ngIf="order">
+    <div class="purchase-order-created-page__content">
+
+      <div class="purchase-order-created-page__content__header">
+        <h1 class="text-big text-primary-500">Tu pedido está en proceso</h1>
+        <p class="text-paragraph">Dentro de las próximas 24 horas recibirás una confirmación.  ¡Gracias por tu paciencia!</p>
+        <button [routerLink]="['/purchase-orders', order.idPurchaseOrder]" class="btn text-body-medium" type="button">Ver Pedido</button>
+      </div>
+
+      <div class="purchase-order-created-page__content__summary">
+        <org-order-totals [order]="order"/>
+
+        <div class="customer-info">
+          <h4>Informacion del cliente</h4>
+          <org-quote-user-info [address]="order.address"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,8 +1,8 @@
 .server-error-page {
   max-width: 1040px;
-  padding: 32px 16px 0px 16px;
+  padding: 32px 16px 32px 16px;
   display: grid;
-  gap: 44px;
+  gap: 16px;
   margin: 0 auto;
   &__message {
     display: flex;
@@ -43,14 +43,14 @@
     align-items: flex-end;
     margin: 0 auto;
     img {
-      width: 156px;
-      height: 226.68px;
+      width: 100%;
     }
   }
 
   @media (min-width: 1024px) {
     padding: 0px;
     grid-template-columns: 1fr 1fr;
+    gap: 0px;
     height: 100%;
 
     &__message {
@@ -70,11 +70,7 @@
     }
     &__image {
       order: 1;
-      align-self: end;
-      img {
-        width: 341px;
-        height: 496px;
-      }
+      align-self: center;
     }
   }
 }

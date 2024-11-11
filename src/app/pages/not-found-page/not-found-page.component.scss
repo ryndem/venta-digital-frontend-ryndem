@@ -11,15 +11,10 @@
   }
 
   h1 {
-    font-family: "Stellar";
-    font-size: 24px;
-    line-height: 32px;
+    font-family: "Work Sans";
+    font-size: 16px;
+    line-height: 24px;
     font-weight: 700;
-    text-transform: uppercase;
-    @media (min-width: 1024px) {
-      font-size: 36px;
-      line-height: 40px;
-    }
   }
 
   p {
@@ -27,27 +22,15 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
-    @media (min-width: 768px) {
-      font-size: 20px;
-      line-height: 28px;
-    }
   }
 
   &__image {
-    background-color: var(--neutral-100);
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    padding: 1.4rem 1rem 1rem 1.4rem;
-    overflow: hidden;
+    margin-bottom: 16px;
   }
 
   &__instructions {
-    max-width: 670px;
     margin-bottom: 16px;
-    @media (min-width: 768px) {
-      height: 84px;
-    }
+    height: 72px;
   }
   &__categories {
     &__item {

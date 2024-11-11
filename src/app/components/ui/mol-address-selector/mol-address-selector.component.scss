@@ -12,8 +12,14 @@
         column-gap: 0.5rem;
         grid-template-columns: 1fr auto;
 
+        .selection {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
         .icon {
-            margin: auto;
+          margin: auto;
         }
     }
 
@@ -35,26 +41,26 @@
             padding: 0.5rem;
             width: 100%;
             border: 0;
-            
-            span {
-                text-align: left;
+
+            .option-item {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
                 background-color: white;
-                display: block;
                 width: 100%;
-                
                 border-radius: 6px;
-                padding: 0.5rem;
-                
+                padding: 6px 8px;
+                text-align: left;
+
+                &:hover {
+                  background-color: var(--primary-100);
+                }
+
             }
 
             &.other {
                 border-top: 1px solid var(--neutral-400);
             }
-            &:hover {
-                span {
-                    background-color: var(--primary-100);
-                }
-            }
-        }
+          }
     }
 }

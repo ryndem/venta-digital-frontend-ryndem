@@ -1,0 +1,11 @@
+.file-downloader {
+  width: 100%;
+  background-color: white;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--neutral-400);
+  border-radius: 2px;
+  cursor: pointer;
+}

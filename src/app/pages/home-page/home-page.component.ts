@@ -42,15 +42,17 @@ export class HomePageComponent implements OnInit {
     await this.addProduct('39c33489-ef29-4bfe-bdba-2636be3d3688');
     await this.addProduct('37a416f7-65c4-4e7d-adb9-4da281744f0b');
     await this.addProduct('c9c8601e-18bf-4f26-b476-3894dbb41868');
-    
+
   }
 
   private async addProduct(productId: string) {
     try {
       let product = await this.productsService.getProduct(productId);
-      this.store.dispatch(addOutstandingProduct({ outstandingProduct: product}));
+      if (product) {
+        this.store.dispatch(addOutstandingProduct({ outstandingProduct: product}));
+      }
     } catch( error ) {
+      console.error(error);
     }
-    
   }
 }

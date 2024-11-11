@@ -2,19 +2,18 @@
   border: solid 1px var(--neutral-400);
   border-radius: 2px;
   padding: 0.5rem;
-
   display: grid;
-  row-gap: 4px;
   grid-template-areas: "folio status"
                         "folio products"
-                        "creation total"
-                        "expiration total";
+                        "dates total"
+  ;
 
   .folio {
     grid-area: folio;
   }
   .status {
     grid-area: status;
+    height: 14px;
     text-align: right;
   }
   .products {
@@ -24,14 +23,15 @@
   .creation-date {
     grid-area: creation;
   }
-  .expiration-date {
-    grid-area: expiration;
-  }
-  .creation-date, .expiration-date {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    :nth-child(2) {
-      text-align: right;
+  .dates {
+    grid-area: dates;
+    display: flex;
+    gap: 16px;
+    align-self: end;
+    .creation-date,
+    .expiration-date {
+      display: flex;
+      flex-direction: column;
     }
   }
   .total {
@@ -39,12 +39,31 @@
     text-align: right;
     label {
       display: block;
-      margin-bottom: 0.25rem;
     }
+    p {
+      font-family: "Stellar";
+    }
+
   }
 
   .folio-value {
     color: var(--blue-600);
     text-decoration: underline;
   }
+
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 29% 29% 42%;
+    row-gap: 4px;
+    grid-template-areas:
+      "status dates products"
+      "folio dates total";
+    .status {
+      text-align: left;
+    }
+    .dates {
+      align-self: flex-end;
+    }
+  }
+
 }

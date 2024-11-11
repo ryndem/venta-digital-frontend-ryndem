@@ -18,7 +18,13 @@
   <div class="quotes-page__content">
     <div class="quotes-page__content__section">
       <div class="list">
-        <h3 class="text-title-4">{{tab.title}}</h3>
+        <div class="quotes-page__content__section__header">
+          <h3 class="text-title-4">{{tab.title}}</h3>
+          <div class="actions">
+            <button routerLink="/orders/creation" type="button" class="create-order-btn btn text-paragraph" *ngIf="tab.key == 'quotes'">Tramitar Pedido</button>
+          </div>
+        </div>
+
         @if(!quotes) {
           <atm-loader/>
         } @else if(quotes.length > 0) {

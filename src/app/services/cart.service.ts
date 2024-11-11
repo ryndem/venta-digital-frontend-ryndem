@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CartProduct } from 'app/model/cart-product';
@@ -9,20 +9,22 @@ import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
+import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  
+
   private apiPath: string = environment.apiUrl + '/Quotation';
   cart: ShoppingCart | null = null;
   products: CartProduct[] = [];
 
   constructor(
-    private notificationService: NotificationService, 
-    private store: Store<any>, 
-    private httpClient: HttpClient) {}
+    private notificationService: NotificationService,
+    private store: Store<any>,
+    private httpClient: HttpClient
+  ) {}
 
   async getShoppingCart() {
     return firstValueFrom(this.httpClient.post<ShoppingCart>(this.apiPath+ '/GetShoppingCart', {}));
@@ -39,17 +41,20 @@ export class CartService {
   }
 
 
-  
   async addProduct(product: Product, quantity: number) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
-    const temp = this.products.find( (p) => p.product.idProduct == product.idProduct );
 
-    if (!temp) {
-      this.products.push({ product: product, quantity: quantity, alternatives: null, complementaries: null });
-    } else {
-      temp.quantity = quantity;
+    if(this.cart?.listQuotationItem) {
+      let products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
+      let quoteProduct = products.find(p => p.idProduct == product.idProduct);
+      if(quoteProduct) {
+        await this.updateQuantity(quoteProduct.idQuotationItem, quoteProduct.quantity+quantity);
+        this.notificationService.showSuccess('Producto agregado');
+        return;
+      }
     }
-    
+
+
     let body = {
       productId: product.idProduct,
       quantity: quantity,
@@ -67,25 +72,17 @@ export class CartService {
   }
 
 
-
-  async submit( quoteId: string, addressId: string | null ) {
+  async submit(quoteId: string, addressId: string | null, cartItems: QuoteProduct[] ) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
     let body = {
       idQuotation: quoteId,
       addressId: addressId,
-      listQuotationItem: this.cart?.listQuotationItem,
+      listQuotationItem: cartItems,
       refresh: true,
     }
-    
-    try {
-      await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
-    } catch( error ) {
-    }
-    this.load();
+   await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
   }
-
-
 
   async updateQuantity(quoteItemId: string, quantity: number) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
@@ -107,6 +104,109 @@ export class CartService {
       } catch ( error ) {
       }
       this.load();
+    }
+  }
+
+  async updateFreightExpress(
+    quoteItemId: string,
+    appliesFreightExpress: boolean,
+    addressId: string,
+    cartItems: QuoteProduct[],
+  ) {
+    if(!addressId) return;
+    this.store.dispatch(updateCartIsLoading({ isLoading: true }));
+
+    let products: QuoteProduct[] = JSON.parse(JSON.stringify(cartItems));
+    let product = products.find(p => p.idQuotationItem == quoteItemId);
+
+    if (product) {
+      const targetBrand = product.brandName;
+
+      products.forEach(p => {
+        if (p.brandName === targetBrand || p.idQuotationItem === quoteItemId) {
+          p.appliesFreightExpress = appliesFreightExpress;
+        }
+      });
+
+      let body = {
+        idQuotation: this.cart?.quotationDetails.idQuotation,
+        addressId: addressId,
+        refresh: true,
+        listQuotationItem: products,
+      };
+
+      try {
+        const response  = await firstValueFrom(this.httpClient.post<RefreshShoppingCartResponse>(
+          this.apiPath + '/RefreshShoppingCart', body)
+        );
+        if (this.cart) {
+          this.store.dispatch(updateCart({ shoppingCart: {
+            ...this.cart,
+            listQuotationItem: products,
+            freightExpressDetails: response.freightExpressDetails,
+            freightOutsiderDetails: response.freightOutsiderDetails,
+            quotationDetails: {
+              ...this.cart.quotationDetails,
+              subtotal: response.subtotal,
+              saleTax: response.saleTax,
+              total: response.total,
+            }
+          }}));
+        }
+      } catch (error) {
+        if (error instanceof HttpErrorResponse) {
+          if (error.error && error.error.detail) {
+            this.notificationService.showError(error.error.detail);
+          } else {
+            this.notificationService.showError("Ocurrió un problema.");
+          }
+        }
+      } finally {
+        this.store.dispatch(updateCartIsLoading({ isLoading: false }));
+      }
+    }
+  }
+
+  async updateShippingAddress(addressId: string) {
+    if (!addressId) return;
+    this.store.dispatch(updateCartIsLoading({ isLoading: true }));
+
+    let body = {
+      idQuotation: this.cart?.quotationDetails.idQuotation,
+      addressId: addressId,
+      refresh: true,
+      listQuotationItem: this.cart?.listQuotationItem,
+    };
+
+    try {
+      const response = await firstValueFrom(this.httpClient.post<RefreshShoppingCartResponse>(
+        this.apiPath + '/RefreshShoppingCart', body)
+      );
+      if (this.cart) {
+        this.store.dispatch(updateCart({
+          shoppingCart: {
+            ...this.cart,
+            freightExpressDetails: response.freightExpressDetails,
+            freightOutsiderDetails: response.freightOutsiderDetails,
+            quotationDetails: {
+              ...this.cart.quotationDetails,
+              subtotal: response.subtotal,
+              saleTax: response.saleTax,
+              total: response.total,
+            }
+          }
+        }));
+      }
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error && error.error.detail) {
+          this.notificationService.showError(error.error.detail);
+        } else {
+          this.notificationService.showError("Ocurrió un problema.");
+        }
+      }
+    } finally {
+      this.store.dispatch(updateCartIsLoading({ isLoading: false }));
     }
   }
 

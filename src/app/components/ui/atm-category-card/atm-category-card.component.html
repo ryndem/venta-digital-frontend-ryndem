@@ -5,12 +5,12 @@
   class="atm-category-card"
 >
   <div class="atm-category-card__icon">
-    <img [src]="category?.iconPath" alt="" />
+    <img [src]="category?.iconPath" [alt]="'category-icon-' + category?.label" />
   </div>
   <p class="atm-category-card__detail">
-    <span style="display: block" class="text-body-medium text-gray-green-900">{{
-      category?.label
-    }}</span>
+    <span style="display: block" class="text-body-medium text-gray-green-900">
+      {{category?.label}}
+    </span>
     <span class="text-body text-gray-green-900">{{
       category?.description
     }}</span>

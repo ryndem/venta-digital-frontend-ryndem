@@ -1,20 +1,19 @@
 .categories-gallery {
+  max-width: 860px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   row-gap: 24px;
-  padding: 16px;
-  @media (min-width: 1024px) {
-    padding: 0px;
-  }
 }
 
 .categories-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 8px;
+  row-gap: 8px;
 }
 
 h1 {
@@ -24,11 +23,6 @@ h1 {
   line-height: 32px;
   margin: 0px;
   text-transform: uppercase;
-
-  @media (min-width: 1024px) {
-    font-size: 48px;
-    line-height: 56px;
-  }
 }
 
 p {
@@ -36,24 +30,39 @@ p {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-
-  @media (min-width: 1024px) {
-    font-size: 18px;
-    line-height: 28px;
-    max-width: 782px;
-  }
 }
 
 @media (min-width: 1024px) {
+  .categories-gallery {
+    h1 {
+      font-size: 48px;
+      line-height: 56px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
   .categories-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    row-gap: 1rem;
+    justify-content: center;
+    column-gap: 16px;
+    row-gap: 32px;
 
     &__element {
       flex-basis: 21%;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .categories-list> :nth-child(odd):last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 174.5px;
+    margin: 0 auto;
   }
 }

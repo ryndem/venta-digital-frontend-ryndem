@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Product } from 'app/model/product';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/auth/auth.service';
 import { PriceOffert } from 'app/model/price-offert';
 import { ProductResponse } from 'app/model/product-response';
+import { Router } from '@angular/router';
 
 export type SearchProductProps = {
   pageSize: number;
@@ -38,9 +39,11 @@ export class ProductsService {
   constructor(
     private authService: AuthService,
     private httpClient: HttpClient,
+    private router: Router
   ) {}
 
   private PAGE_SIZE = 30;
+  private SERVER_ERROR_PAGE_PATH = '/server-error';
 
   async listProductsByCategory(searchParams: any): Promise<ProductResponse> {
     const body: SearchProductProps = {
@@ -58,13 +61,21 @@ export class ProductsService {
 
     if (searchParams.q) {
       body.filters?.push({
-        filterName: 'description',
+        filterName: 'search',
         filterValue: searchParams.q,
       });
     }
 
     let apiPath: string = this.getApiPath();
-    return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
+
+    try {
+      return await firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 500) {
+        this.redirectToSeverErrorPage();
+      }
+      throw error;
+    }
   }
 
   private getApiPath(): string {
@@ -147,7 +158,16 @@ export class ProductsService {
       apiPath = `${environment.apiUrl}/ProductCustomer/${productId}/${customerId}/${addressId}`;
     }
 
-    return firstValueFrom(this.httpClient.get<Product>(apiPath));
+    try {
+      return await firstValueFrom(this.httpClient.get<Product>(apiPath));
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 500) {
+          this.redirectToSeverErrorPage();
+        }
+      }
+      throw error;
+    }
   }
 
   async getProductOfferVD(productId: string): Promise<PriceOffert> {
@@ -191,5 +211,9 @@ export class ProductsService {
     return firstValueFrom(
       this.httpClient.post<SearchedProduct[]>(apiPath, body),
     );
+  }
+
+  private redirectToSeverErrorPage() {
+    this.router.navigate([ this.SERVER_ERROR_PAGE_PATH ]);
   }
 }

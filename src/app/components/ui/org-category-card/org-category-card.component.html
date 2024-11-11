@@ -2,18 +2,21 @@
   <div class="category-card__img">
     <img [src]="category?.iconPath || 'assets/icons/reactive.svg'" alt="" />
   </div>
-  <div class="category-card__details mt-16">
-    <p class="category-card__details__title text-title-3 text-neutral-900 text-capitalize">
-      {{ category?.label }}
-    </p>
-    <p class="category-card__details__description text-body text-neutral-900">
-      {{ category?.description }}
-    </p>
+  <div class="category-card__content">
+    <div class="category-card__content__details">
+      <p class="text-title-3 text-neutral-900 text-capitalize">
+        {{ category?.label }}
+      </p>
+      <p class="text-body text-neutral-900">
+        {{ category?.description }}
+      </p>
+    </div>
+    <a
+      class="text-body text-primary-500 no-decoration category-card__content__link"
+      [routerLink]="['/products']"
+      [queryParams]="{ category: category?.key }"
+    >
+      Ver Catálogo
+    </a>
   </div>
-  <a
-    [routerLink]="['/products']"
-    [queryParams]="{ category: category?.key }"
-    class="text-body text-blue-600 no-decoration mb-16"
-    >Ver Catálogo</a
-  >
 </div>

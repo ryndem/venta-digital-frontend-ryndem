@@ -10,24 +10,22 @@
   font-family: "Work Sans";
   &__header {
     display: grid;
-    column-gap: 1rem;
-    grid-template-columns: auto 1fr auto;
-
-    .presentation-image {
-      padding: 0.5rem;
-      img {
-        width: 32px;
-        height: 32px;
-        margin: auto;
-      }
-    }
-    .title-header {
-      display: flex;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    .column-two {
+      margin-left: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
       gap: 4px;
+      &__cas__cat {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+      }
       &__item {
         display: flex;
         flex-direction: column;
-        min-width: 119.5px;
         span {
           font-size: 14px;
           font-weight: 400;
@@ -38,14 +36,6 @@
           font-weight: 650;
           line-height: 24px;
         }
-      }
-    }
-
-    .brand {
-      padding: 0.5rem;
-      img {
-        width: 32px;
-        height: 32px;
       }
     }
   }
@@ -130,6 +120,9 @@
 
 @media (min-width: 1024px) {
   .quote-card-detail {
+    &__header {
+      grid-template-columns: auto 1fr auto;
+    }
     &__description {
       span {
         font-size: 14px;
