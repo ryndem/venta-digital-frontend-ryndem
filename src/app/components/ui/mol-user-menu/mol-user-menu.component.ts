@@ -9,11 +9,11 @@ import { CartService } from 'app/services/cart.service';
 @Component({
   selector: 'mol-user-menu',
   templateUrl: './mol-user-menu.component.html',
-  styleUrl: './mol-user-menu.component.scss',
+  styleUrls: ['./mol-user-menu.component.scss'],
 })
 export class MolUserMenuComponent extends ClosableComponent {
   
-  isMenuOpened: boolean = false;
+  isMenuOpened = false;
   user: User | null = null;
 
   constructor(private authService: AuthService, 

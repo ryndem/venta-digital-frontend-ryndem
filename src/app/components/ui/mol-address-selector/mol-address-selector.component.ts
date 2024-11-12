@@ -7,12 +7,12 @@ import { User } from 'app/model/user';
 @Component({
   selector: 'mol-address-selector',
   templateUrl: './mol-address-selector.component.html',
-  styleUrl: './mol-address-selector.component.scss',
+  styleUrls: ['./mol-address-selector.component.scss'],
 })
 export class MolAddressSelectorComponent extends ClosableComponent {
 
   @Input()
-  otherAddressDisabled: boolean = false;
+  otherAddressDisabled = false;
 
   @Output()
   addressSelectedEmitter = new EventEmitter<Address|null>();
@@ -21,9 +21,9 @@ export class MolAddressSelectorComponent extends ClosableComponent {
   selectedOtherEmitter = new EventEmitter();
 
 
-  showAddresses: boolean = false;
+  showAddresses = false;
   addresses: Address[] | null = null;
-  selectionLabel:string = 'Elige una dirección de entrega';
+  selectionLabel = 'Elige una dirección de entrega';
   user: User | null = null;
 
   constructor(private store: Store<any>) {

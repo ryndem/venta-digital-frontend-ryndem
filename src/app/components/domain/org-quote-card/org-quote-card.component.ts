@@ -4,7 +4,7 @@ import { Quote } from 'app/model/quote';
 @Component({
   selector: 'org-quote-card',
   templateUrl: './org-quote-card.component.html',
-  styleUrl: './org-quote-card.component.scss',
+  styleUrls: ['./org-quote-card.component.scss'],
 })
 export class OrgQuoteCardComponent {
 

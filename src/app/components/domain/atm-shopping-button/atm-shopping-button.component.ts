@@ -3,19 +3,18 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { Product } from 'app/model/product';
 import { CartService } from 'app/services/cart.service';
-import { updateCartIsLoading } from 'app/store/cart/cart.actions';
 
 @Component({
   selector: 'atm-shopping-button',
   templateUrl: './atm-shopping-button.component.html',
-  styleUrl: './atm-shopping-button.component.scss',
+  styleUrls: ['./atm-shopping-button.component.scss'],
 })
 export class ShoppingButtonComponent {
   @Input()
   product!: Product;
 
-  isAddingToCar: boolean = false;
-  isLogged: boolean = false;
+  isAddingToCar = false;
+  isLogged = false;
 
   constructor(
     private cartService: CartService,
@@ -40,6 +39,7 @@ export class ShoppingButtonComponent {
 
       await this.cartService.addProduct(this.product, 1);
     } catch (error:any) {
+      console.error(error);
     }
     this.isAddingToCar = false;
   }

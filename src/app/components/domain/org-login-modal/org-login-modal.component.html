@@ -1,5 +1,8 @@
 <div class="login-card">
-  <div class="login-card__background" (click)="close()"></div>
+  <div class="login-card__background" role="button" tabindex="0" 
+    (click)="close()" 
+    (keydown.enter)="close()" 
+    (keydown.space)="close()"></div>
 
   <div class="login-card__container">
     <button class="login-card__close" (click)="close()">
@@ -88,11 +91,8 @@
                 #passwordInput="ngModel"
               />
               <button (click)="togglePasswordVisibility()" type="button">
-                @if (isPasswordVisible) {
-                <ng-icon name="heroEye" size="16"></ng-icon>
-                } @else {
-                <ng-icon name="heroEyeSlash" size="16"></ng-icon>
-                }
+                <ng-icon name="heroEye" size="16" *ngIf="isPasswordVisible"></ng-icon>
+                <ng-icon name="heroEyeSlash" size="16"  *ngIf="!isPasswordVisible"></ng-icon>
               </button>
             </div>
             <div

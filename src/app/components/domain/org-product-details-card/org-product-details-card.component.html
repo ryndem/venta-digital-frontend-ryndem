@@ -43,26 +43,23 @@
     </div>
 
     <div class="product-details-card__info">
-      @if (isControlled) {
-        <div class="product-details-card__info__controlled" *ngIf="isControlled">
-          <ng-icon size="16" strokeWidth="2" name="heroLockClosed" color="#C2410C"></ng-icon>
-          <span class="text-x-small">Controlado</span>
-        </div>
-      } @else {
-        <div class="product-details-card__info__heading">
-          <h1 class="product-details-card__info__title text-bold text-subtle text-primary-900">
-            {{ product?.type }}
-          </h1>
 
-          <span class="media-type" *ngIf="product?.mediaOutlet">
-            {{ product?.mediaOutlet }}
-          </span>
+      <div class="product-details-card__info__controlled" *ngIf="isControlled">
+        <ng-icon size="16" strokeWidth="2" name="heroLockClosed" color="#C2410C"></ng-icon>
+        <span class="text-x-small">Controlado</span>
+      </div>
 
-          <span class="media-type" *ngIf="product?.publicationFormat">
-            {{ product?.publicationFormat }}
-          </span>
-        </div>
-      }
+      <div class="product-details-card__info__heading" *ngIf="!isControlled">
+        <h1 class="product-details-card__info__title text-bold text-subtle text-primary-900">
+          {{ product?.type }}
+        </h1>
+        <span class="media-type" *ngIf="product?.mediaOutlet">
+          {{ product?.mediaOutlet }}
+        </span>
+        <span class="media-type" *ngIf="product?.publicationFormat">
+          {{ product?.publicationFormat }}
+        </span>
+      </div>
 
       <p class="product-details-card__info__description text-paragraph-2 text-gray-green-900">
         {{ product?.description }}
@@ -80,8 +77,8 @@
         ISBN <span class="text-bold">{{ product?.isbn }}</span>
       </p>
 
-      @if (!isLogged) {
-        <div class="product-details-card__info__price__blurred">
+      <div *ngIf="!isLogged">
+        <div class="product-details-card__info__price__blurred" *ngIf="!isLogged">
           <p class="blurred-text no-select regular-price text-primary-500">
             {{ 234 | usdCurrency }}
             <span class="text-paragraph text-gray-green-900">p/u</span>
@@ -99,7 +96,9 @@
             product?.offert?.deliveryTimeDays
           }}  Días</span>
         </p>
-      } @else {
+      </div>
+
+      <div *ngIf="isLogged">
         <div class="product-details-card__info__market">
           <div class="product-details-card__info__market__pricing">
             <p
@@ -150,7 +149,7 @@
           </button>
           <ng-content></ng-content>
         </div>
-      }
+      </div>
 
       <a
         *ngIf="showSeeAllDetails"

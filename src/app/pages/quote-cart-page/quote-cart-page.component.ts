@@ -8,11 +8,11 @@ import { CartService } from 'app/services/cart.service';
 @Component({
   selector: 'quote-cart-page',
   templateUrl: './quote-cart-page.component.html',
-  styleUrl: './quote-cart-page.component.scss',
+  styleUrls: ['./quote-cart-page.component.scss'],
 })
 export class QuoteCartPageComponent implements OnInit {
   
-  isLoading: boolean = true;
+  isLoading = true;
   shoppingCart : ShoppingCart | null = null;
   relatedProductsId: string | null = null;
   categories: Category[] = [];

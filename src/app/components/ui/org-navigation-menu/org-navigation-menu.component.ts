@@ -5,13 +5,13 @@ import { Category } from 'app/model/category';
 @Component({
   selector: 'org-navigation-menu',
   templateUrl: './org-navigation-menu.component.html',
-  styleUrl: './org-navigation-menu.component.scss',
+  styleUrls: ['./org-navigation-menu.component.scss'],
 })
 export class NavigationMenuComponent extends ClosableComponent {
   
   @Input()
   categories: Category[] = [];
-  isItemsContainerOpened: boolean = false;
+  isItemsContainerOpened = false;
 
   close() {
     this.isItemsContainerOpened = false;

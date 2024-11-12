@@ -1,12 +1,11 @@
 import { Component, Input as RouterInput } from '@angular/core';
-import { Quote } from 'app/model/quote';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { QuotesService } from 'app/services/quotes.service';
 
 @Component({
   selector: 'quote-details-page',
   templateUrl: './quote-details-page.component.html',
-  styleUrl: './quote-details-page.component.scss',
+  styleUrls: ['./quote-details-page.component.scss'],
 })
 export class QuoteDetailsPageComponent {
 

@@ -9,15 +9,15 @@ import { ProductsService } from 'app/services/products.service';
 @Component({
   selector: 'app-product-details-page',
   templateUrl: './product-details-page.component.html',
-  styleUrl: './product-details-page.component.scss',
+  styleUrls: ['./product-details-page.component.scss'],
 })
 export class ProductDetailsPageComponent {
   productId!: string;
 
   product!: Product;
 
-  isRelatedProductsVisible: boolean = false;
-  isLogged: boolean = false;
+  isRelatedProductsVisible = false;
+  isLogged = false;
 
   constructor(
     private productsService: ProductsService,

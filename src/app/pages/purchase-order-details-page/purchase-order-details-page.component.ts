@@ -5,7 +5,7 @@ import { OrderService } from 'app/services/order.service';
 @Component({
   selector: 'purchase-order-details-page',
   templateUrl: './purchase-order-details-page.component.html',
-  styleUrl: './purchase-order-details-page.component.scss',
+  styleUrls: ['./purchase-order-details-page.component.scss'],
 })
 export class PurchaseOrderDetailsPageComponent {
 

@@ -52,7 +52,6 @@ import { NavigationMenuComponent } from './components/ui/org-navigation-menu/org
 import { SplitScreenComponent } from './components/ui/org-split-screen/org-split-screen.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UsdCurrencyPipe } from './pipes/usd-currency.pipe';
-import { NgxMasonryModule } from 'ngx-masonry';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrgProductsGridComponent } from './components/ui/org-products-grid/org-products-grid.component';
 import { OrgCategoryCardComponent } from './components/ui/org-category-card/org-category-card.component';
@@ -189,7 +188,6 @@ import { OrgOrderTotalComponent } from './components/domain/org-order-totals/org
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgxMasonryModule,
     NgIconsModule.withIcons({
       heroTag,
       heroCheckCircle,

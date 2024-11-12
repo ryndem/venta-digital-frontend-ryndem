@@ -7,8 +7,6 @@ import { QuoteProduct } from 'app/model/quote-product';
 })
 export class ImageService {
 
-  constructor() {}
-
   getPresentationImage(product: Product | QuoteProduct | null): string {
     if (!product) return 'assets/imgs/presentations/undefined.svg';
 

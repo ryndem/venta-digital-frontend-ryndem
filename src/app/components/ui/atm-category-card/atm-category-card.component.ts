@@ -10,7 +10,7 @@ export type CategoryCardProps = {
 @Component({
   selector: 'atm-category-card',
   templateUrl: './atm-category-card.component.html',
-  styleUrl: './atm-category-card.component.scss',
+  styleUrls: ['./atm-category-card.component.scss'],
 })
 export class AtmCategoryCardComponent {
   @Input()

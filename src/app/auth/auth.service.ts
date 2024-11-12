@@ -2,7 +2,7 @@ import { environment } from 'environments/environment';
 import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthToken } from 'app/model/auth-token';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
 import { updateAddresses, updateIsLogged, updateUser } from 'app/store/users/user.actions';
@@ -97,7 +97,7 @@ export class AuthService {
   }
 
   logout() {
-    let sessionId = localStorage.getItem(this.SESSION_KEY);
+    const sessionId = localStorage.getItem(this.SESSION_KEY);
     firstValueFrom(
       this.httpClient.post<string>(
         `${environment.authApiUrl}/api/Session/CloseSession?idSession=${sessionId}`,
@@ -110,16 +110,16 @@ export class AuthService {
   }
 
   async loadSession(): Promise<User | null> {
-    let token = localStorage.getItem(this.TOKEN_KEY);
+    const token = localStorage.getItem(this.TOKEN_KEY);
 
     if (token) {
       try {
         this.authToken.set(token);
 
-        let addresses = await this.loadUserAddress();
+        const addresses = await this.loadUserAddress();
         this.updateAddress(addresses);
 
-        let user = await this.loadUserInfo();
+        const user = await this.loadUserInfo();
         this.updateUser(user);
 
         return user;
@@ -130,6 +130,7 @@ export class AuthService {
     }
     return null;
   }
+
   async loadUserInfo(): Promise<User> {
     const result: any = await firstValueFrom(
       this.httpClient.post<any>(`${environment.apiUrl}/WhoAmI`, ''),
@@ -139,7 +140,7 @@ export class AuthService {
   }
 
   async loadUserAddress(): Promise<AddressResponse> {
-    let filters = {
+    const filters = {
       Filters: [
         {
           FilterName: 'Activo',
@@ -199,7 +200,9 @@ export class AuthService {
         '',
       ),
     );
-    } catch(error) {}
+    } catch(error) {
+      console.error(error);
+    }
   }
 
   async activateUser(token: string): Promise<void> {
@@ -234,7 +237,7 @@ export class AuthService {
     isFinalUser: boolean,
     isReseller: boolean,
   ): Promise<{ email: string, status: string }> {
-    let body = {
+    const body = {
       email,
       customerName,
       taxId,
@@ -275,8 +278,5 @@ export class AuthService {
       )
     )
   }
+  
 }
-function updateAddesses(arg0: { addresses: import("app/model/address").Address[]; }): any {
-  throw new Error('Function not implemented.');
-}
-

@@ -10,14 +10,14 @@ import { NotificationService } from 'app/services/notification.service';
 @Component({
   selector: 'quote-submission-page',
   templateUrl: './quote-submission-page.component.html',
-  styleUrl: './quote-submission-page.component.scss',
+  styleUrls: ['./quote-submission-page.component.scss'],
 })
 export class QuoteSubmissionPageComponent implements OnInit {
 
-  isLoading: boolean = true;
+  isLoading = true;
   shoppingCart : ShoppingCart | null = null;
   selectedAddress: Address | null = null;
-  addressId: string = '';
+  addressId = '';
 
   constructor(
     private cartService : CartService,
@@ -39,7 +39,7 @@ export class QuoteSubmissionPageComponent implements OnInit {
   async submitQuote() {
     if(!this.shoppingCart || !this.addressId) return;
 
-    let addressId: string | null = this.addressId == 'other'? null : this.addressId;
+    const addressId: string | null = this.addressId == 'other'? null : this.addressId;
     try {
       await this.cartService.submit(
         this.shoppingCart.quotationDetails.idQuotation,

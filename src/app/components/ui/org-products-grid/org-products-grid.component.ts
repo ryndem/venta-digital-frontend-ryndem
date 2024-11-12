@@ -17,7 +17,7 @@ export type GridSectionClass =
 @Component({
   selector: 'org-products-grid',
   templateUrl: './org-products-grid.component.html',
-  styleUrl: './org-products-grid.component.scss',
+  styleUrls: ['./org-products-grid.component.scss'],
 })
 export class OrgProductsGridComponent implements OnInit, OnChanges {
   @Input()
@@ -31,7 +31,7 @@ export class OrgProductsGridComponent implements OnInit, OnChanges {
     this.productList = this.products ? this.products.results : [];
   }
   ngOnChanges(changes: SimpleChanges) {
-    let products: SimpleChange = changes['products'];
+    const products: SimpleChange = changes['products'];
     if (products) {
       this.productList = products.currentValue?.results;
     }

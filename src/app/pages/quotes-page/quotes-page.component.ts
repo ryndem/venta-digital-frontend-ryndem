@@ -11,13 +11,13 @@ import { OrderService } from 'app/services/order.service';
 @Component({
   selector: 'quotes-page',
   templateUrl: './quotes-page.component.html',
-  styleUrl: './quotes-page.component.scss',
+  styleUrls: ['./quotes-page.component.scss'],
 })
 export class QuotesPageComponent implements OnInit {
   tabs: any[] = [];
   tab: any = {};
   quotes: Quote[] | null = null;
-  q: string = '';
+  q = '';
   isAuthenticated$: Observable<boolean>;
 
   constructor(
@@ -69,12 +69,12 @@ export class QuotesPageComponent implements OnInit {
 
   async loadQuotes() {
     if( this.tab.key == 'quotes' ) {
-      let page = await this.quoteService.getQuotes(this.q);
+      const page = await this.quoteService.getQuotes(this.q);
       this.quotes = page.results;
     }
 
     if( this.tab.key == 'in-progress' ) {
-      let page = await this.orderService.getOrders(this.q);
+      const page = await this.orderService.getOrders(this.q);
       this.quotes = page.results;
     }
 

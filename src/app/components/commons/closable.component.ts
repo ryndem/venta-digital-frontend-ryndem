@@ -8,7 +8,7 @@ import { User } from 'app/model/user';
 })
 export abstract class ClosableComponent {
   
-  private isInsideClick: boolean = false;
+  private isInsideClick = false;
 
   abstract close():void;
   

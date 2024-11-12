@@ -6,13 +6,13 @@ import { User } from 'app/model/user';
 @Component({
   selector: 'org-order-summary-card',
   templateUrl: './org-order-summary-card.component.html',
-  styleUrl: './org-order-summary-card.component.scss'
+  styleUrls: ['./org-order-summary-card.component.scss']
 })
 export class OrgOrderSummaryCardComponent {
   @Input()
   order!: Order;
 
-  isShowingCustomerInfo: boolean = true;
+  isShowingCustomerInfo = true;
   user: User | null = null;
 
   constructor(private store: Store<any>) {

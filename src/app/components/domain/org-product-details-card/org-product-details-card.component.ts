@@ -16,14 +16,14 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'org-product-details-card',
   templateUrl: './org-product-details-card.component.html',
-  styleUrl: './org-product-details-card.component.scss',
+  styleUrls: ['./org-product-details-card.component.scss'],
 })
 export class OrgProductDetailsCardComponent implements OnChanges {
-  isControlled: boolean = false;
-  isLogged: boolean = false;
-  isAddingToCar: boolean = false;
+  isControlled = false;
+  isLogged = false;
+  isAddingToCar = false;
 
-  productUnits: number = 1;
+  productUnits = 1;
 
   presentationImgPath: string | null = null;
   brandImgPath: string | null = null;
@@ -32,7 +32,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
   product?: Product;
 
   @Input()
-  showSeeAllDetails: boolean = false;
+  showSeeAllDetails = false;
 
   offert: PriceOffert | null = null;
 
@@ -54,7 +54,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let product: SimpleChange = changes['product'];
+    const product: SimpleChange = changes['product'];
     if (product) {
       this.presentationImgPath = this.imageService.getPresentationImage(this.product || null);
       this.brandImgPath = this.imageService.getBrandImage(this.product || null);
@@ -90,6 +90,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
 
       await this.cartService.addProduct(this.product!, this.productUnits);
     } catch (error: any) {
+      console.error(error);
     }
   }
 

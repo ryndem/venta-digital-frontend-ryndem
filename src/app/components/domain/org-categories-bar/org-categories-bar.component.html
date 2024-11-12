@@ -1,7 +1,7 @@
 <div class="categories-bar">
   <button
     class="categories-bar__item text-body"
-    [ngClass]="{ '--active': activeCategory == '' }"
+    [ngClass]="{ '--active': activeCategory === '' }"
     (click)="setCategoryParam('')"
   >
     Todos
@@ -9,7 +9,7 @@
   <button
     class="categories-bar__item text-body"
     *ngFor="let category of categories"
-    [ngClass]="{ '--active': category.key == activeCategory }"
+    [ngClass]="{ '--active': category.key === activeCategory }"
     (click)="setCategoryParam(category.key!)"
   >
     {{ category.label }}

@@ -1,5 +1,5 @@
 <div class="quotes-description">
-  <div class="quotes-description__content" *ngIf="descriptionType == 'quotes'">
+  <div class="quotes-description__content" *ngIf="descriptionType === 'quotes'">
     <div
       class="quotes-description__content__header"
       [ngClass]="{ collapsed: !showMobileDescription }"
@@ -39,7 +39,7 @@
 
   <div
     class="quotes-description__content in-progress"
-    *ngIf="descriptionType == 'in-progress'"
+    *ngIf="descriptionType === 'in-progress'"
   >
     <div
       class="quotes-description__content__header"
@@ -68,7 +68,7 @@
 
   <div
     class="quotes-description__content"
-    *ngIf="descriptionType == 'confirmed'"
+    *ngIf="descriptionType === 'confirmed'"
   >
     <div
       class="quotes-description__content__header"

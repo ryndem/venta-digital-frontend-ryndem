@@ -14,27 +14,27 @@ import { Order } from 'app/model/order';
 @Component({
   selector: 'order-creation-page',
   templateUrl: './order-creation-page.component.html',
-  styleUrl: './order-creation-page.component.scss',
+  styleUrls: ['./order-creation-page.component.scss'],
 })
 export class OrderCreationPageComponent {
   
   selectedAddress: Address | null = null;
   quotes: Quote[] = [];
   selectedQuote: ShoppingCart | null = null;
-  isQuotesLoading: boolean = false;
-  isCreatingOrder: boolean = false;
+  isQuotesLoading = false;
+  isCreatingOrder = false;
   customerId: string | null = null;
   contactId: string | null = null;
 
-  tabFilter: string = 'available';
-  textFilter: string = '';
+  tabFilter = 'available';
+  textFilter = '';
 
   availableProducts: QuoteProduct[] = [];
   selectedProducts: any[] = [];
   selectedItems: string[] = [];
   
-  fileId: string = '';
-  purchaseOrderNumber: string = '';
+  fileId = '';
+  purchaseOrderNumber = '';
   
 
   constructor(
@@ -56,7 +56,7 @@ export class OrderCreationPageComponent {
     this.isQuotesLoading = true;
     this.selectedAddress = address;
 
-    let quotePage = await this.quoteService.getQuotesByAddressId(address.idAddress);
+    const quotePage = await this.quoteService.getQuotesByAddressId(address.idAddress);
     this.quotes = quotePage.results;
     
     this.selectedQuote = null;
@@ -97,7 +97,7 @@ export class OrderCreationPageComponent {
     // text filter
     if( this.textFilter.length > 0 ) {
       result = result.filter( item => {
-        let result = item.cas.toLowerCase().includes(this.textFilter.toLowerCase()) ||
+        const result = item.cas.toLowerCase().includes(this.textFilter.toLowerCase()) ||
           item.catalog.toLowerCase().includes(this.textFilter.toLowerCase()) ||
           item.brandName?.toLowerCase().includes(this.textFilter.toLowerCase()) ||
           item.description.toLowerCase().includes(this.textFilter.toLowerCase());
@@ -109,7 +109,7 @@ export class OrderCreationPageComponent {
     return result;
   }
 
-  onAddToOrderEmitter(quoteItemId: string) {
+  onAddedToOrderEmitter(quoteItemId: string) {
     if (!this.selectedItems.includes(quoteItemId)) {
       this.selectedItems.push(quoteItemId);
       this.selectedProducts.push({
@@ -121,7 +121,7 @@ export class OrderCreationPageComponent {
     }
   }
 
-  onRemoveToOrderEmitter(quoteItemId: string) {
+  onRemovedFromOrderEmitter(quoteItemId: string) {
     if (this.selectedItems.includes(quoteItemId)) {
       this.selectedItems = this.selectedItems.filter( i => i !== quoteItemId );
       this.selectedProducts = this.selectedProducts.filter( p => p.item.idQuotationItem !== quoteItemId);
@@ -143,13 +143,12 @@ export class OrderCreationPageComponent {
 
       this.isCreatingOrder = true;
       try {
-        let order: Order = await this.orderService.create(this.customerId, 
+        const order: Order = await this.orderService.create(this.customerId, 
               this.contactId, 
               this.purchaseOrderNumber, 
               this.fileId, 
               this.selectedItems);
-              this.notificationService.showSuccess('Orden creada');
-
+              
         this.router.navigate(['purchase-orders/created'], {
           queryParams: {
             purchaseOrderId: order.idPurchaseOrder

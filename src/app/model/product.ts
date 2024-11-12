@@ -1,7 +1,6 @@
 import { offert } from './offert';
 
 export type Product = {
-  // Properties from ProductWeb
   idProduct: string;
   hasCAS?: boolean;
   cas?: string;
@@ -32,11 +31,5 @@ export type Product = {
   trainingProductDescription: string | null;
   publicationFormat: string | null;
   author: string | null;
-
-  // All these are missing to confirm
-  publicPrice?: number;
-  userPrice?: number;
   unitMeasure?: number;
-  category?: string;
-  cat?: string;
 };

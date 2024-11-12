@@ -302,11 +302,8 @@
           #passwordInput="ngModel"
         />
         <button (click)="togglePasswordVisibility()" type="button">
-          @if (isPasswordVisible) {
-            <ng-icon name="heroEye" size="16"></ng-icon>
-          } @else {
-            <ng-icon name="heroEyeSlash" size="16"></ng-icon>
-          }
+            <ng-icon *ngIf="isPasswordVisible" name="heroEye" size="16"></ng-icon>
+            <ng-icon *ngIf="!isPasswordVisible" name="heroEyeSlash" size="16"></ng-icon>
         </button>
       </div>
 

@@ -4,23 +4,23 @@
     <div class="quote-product-card__header">
 
       <div class="presentation">
-        <img [src]="presentationImage" *ngIf="presentationImage">
+        <img [src]="presentationImage" alt="product presentation" *ngIf="presentationImage">
       </div>
 
       <div class="cas-cat">
         <div class="cas" *ngIf="product.cas">
-          <label class="text-subtle">CAS</label>
+          <span class="text-subtle">CAS</span>
           <p class="text-paragraph">{{product.cas}}</p>
         </div>
 
         <div class="cat" *ngIf="product.catalog">
-          <label class="text-subtle">CAT</label>
+          <span class="text-subtle">CAT</span>
           <p class="text-paragraph">{{product.catalog}}</p>
         </div>
       </div>
 
       <div class="brand" *ngIf="brandImage">
-        <img [src]="brandImage">
+        <img [src]="brandImage" alt="product brand">
       </div>
 
     </div>
@@ -50,7 +50,7 @@
     <div class="quote-product-card__totals">
 
       <div class="quantities">
-        <label class="text-subtle">Cant.</label>
+        <span class="text-subtle">Cant.</span>
         <div class="quantities__selector">
           <button type="button" class="btn" (click)="minus()" [disabled]="isAddingToCar" *ngIf="cartMode">
             <ng-icon name="heroTrash" size="24" *ngIf="quantity<=1"></ng-icon>
@@ -62,12 +62,12 @@
       </div>
 
       <div class="measures">
-        <label class="text-subtle">U. Medida</label>
+        <span class="text-subtle">U. Medida</span>
         <div class="text-title-5">{{ product.unitMeasure }}</div>
       </div>
 
       <div class="prices">
-        <label class="text-subtle">Precio U.</label>
+        <span class="text-subtle">Precio U.</span>
         <div>
           <span class="not-price text-subtle">{{ product.webPrice | usdCurrency }}</span>
           <span class="price text-title-5">{{ product.unitPrice | usdCurrency }}</span>
@@ -75,7 +75,7 @@
       </div>
 
       <div class="total">
-        <label class="text-subtle">Importe</label>
+        <span class="text-subtle">Importe</span>
         <div class="text-title-3 text-primary-500">{{ product.totalPrice | usdCurrency }}</div>
       </div>
 

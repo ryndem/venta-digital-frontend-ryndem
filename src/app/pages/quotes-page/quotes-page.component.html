@@ -4,7 +4,7 @@
 
     <div class="quotes-page__header__opts">
       <div class="quotes-page__header__tabs">
-        <button class="btn tab text-subtle" *ngFor="let t of tabs" [ngClass]="{ selected: tab.key == t.key }" (click)="updateTab(t.key)">
+        <button class="btn tab text-subtle" *ngFor="let t of tabs" [ngClass]="{ selected: tab.key === t.key }" (click)="updateTab(t.key)">
           {{t.title}}
         </button>
       </div>
@@ -21,23 +21,18 @@
         <div class="quotes-page__content__section__header">
           <h3 class="text-title-4">{{tab.title}}</h3>
           <div class="actions">
-            <button routerLink="/orders/creation" type="button" class="create-order-btn btn text-paragraph" *ngIf="tab.key == 'quotes'">Tramitar Pedido</button>
+            <button routerLink="/orders/creation" type="button" class="create-order-btn btn text-paragraph" *ngIf="tab.key === 'quotes'">Tramitar Pedido</button>
           </div>
         </div>
 
-        @if(!quotes) {
-          <atm-loader/>
-        } @else if(quotes.length > 0) {
-          <org-quotes-list [quotes]="quotes"></org-quotes-list>
-        } @else {
-          <div class="quotes-page__content__empty-state">
+          <atm-loader *ngIf="!quotes"/>
+          <org-quotes-list [quotes]="quotes" *ngIf="quotes && quotes.length > 0"></org-quotes-list>
+          <div class="quotes-page__content__empty-state" *ngIf="quotes && quotes.length === 0">
             <div class="img-halo">
-              <img src="assets/icons/empty-page.svg">
+              <img src="assets/icons/empty-page.svg" alt="page icon">
             </div>
-            <label class="text-large text-neutral-400">{{ tab.emptyMessage }}</label>
+            <span class="text-large text-neutral-400">{{ tab.emptyMessage }}</span>
           </div>
-
-        }
       </div>
       <div class="description">
         <org-quotes-description [descriptionType]="tab.key"></org-quotes-description>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OptionsGroup } from './org-layout-search';
 import { ClosableComponent } from 'app/components/commons/closable.component';
@@ -6,28 +6,22 @@ import { ClosableComponent } from 'app/components/commons/closable.component';
 @Component({
   selector: 'org-layout-search',
   templateUrl: './org-layout-search.component.html',
-  styleUrl: './org-layout-search.component.scss',
+  styleUrls: ['./org-layout-search.component.scss'],
 })
-export class LayoutSearchComponent extends ClosableComponent {
+export class LayoutSearchComponent extends ClosableComponent implements OnInit {
+
+  @Input()
+  optionsGroups: OptionsGroup[] = [];
 
   @Output()
   searchTermChange = new EventEmitter<string>();
 
-  optionsGroups: OptionsGroup[] = [];
-
-  searchTerm: string = '';
+  searchTerm = '';
   debounce: number | null = null;
-  isSearching: boolean = false;
-  isResultsVisible: boolean = false;
+  isSearching = false;
+  isResultsVisible = false;
   private MIN_SEARCH_LENGHT = 3;
   
-  @Input('optionsGroups')
-  set updateOptionsGroups(optionsGroups: OptionsGroup[]) {
-    this.optionsGroups = optionsGroups;
-    this.isSearching = false;
-    this.isResultsVisible = optionsGroups.length > 0;
-  }
-
   constructor(private router: Router, private currentRoute: ActivatedRoute) {
     super();
     this.currentRoute.queryParams.subscribe((params) => {
@@ -35,6 +29,10 @@ export class LayoutSearchComponent extends ClosableComponent {
         this.searchTerm = params['searchTerm'];
       }
     });
+  }
+  ngOnInit(): void {
+    this.isSearching = false;
+    this.isResultsVisible = this.optionsGroups.length > 0;
   }
 
   override close() {

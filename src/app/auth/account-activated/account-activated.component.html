@@ -1,9 +1,9 @@
 <div class="justify-centered">
-  <div *ngIf="state == 'loading'">
+  <div *ngIf="state === 'loading'">
     <atm-loader message="Cargando" />
   </div>
 
-  <div *ngIf="state == 'successfull'">
+  <div *ngIf="state === 'successfull'">
     <p class="text-title-2 mb-16">TU REGISTRO HA SIDO EXITOSO</p>
 
     <p class="text-paragraph mb-16">
@@ -13,7 +13,7 @@
     <a class="form-button" routerLink="/">Regresar al inicio</a>
   </div>
 
-  <div *ngIf="state == 'error'">
+  <div *ngIf="state === 'error'">
     <p class="text-paragraph mb-16">Error al verificar el usuario</p>
 
     <a class="form-button" routerLink="/">Regresar al inicio</a>

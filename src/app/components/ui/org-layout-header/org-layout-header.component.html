@@ -52,7 +52,7 @@
 
       <mol-nav-button class="org-layout-header__cart" routerLink="quote-cart">
         <ng-icon name="heroShoppingCart" size="24"></ng-icon>
-        <label class="counter text-x-small" *ngIf="shoppingCart && shoppingCart.listQuotationItem.length > 0">{{shoppingCart.listQuotationItem.length}}</label>
+        <span class="counter text-x-small" *ngIf="shoppingCart && shoppingCart.listQuotationItem.length > 0">{{shoppingCart.listQuotationItem.length}}</span>
       </mol-nav-button>
 
     </div>

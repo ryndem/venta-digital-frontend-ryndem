@@ -34,7 +34,7 @@
             <div class="quotes"  *ngIf="!isQuotesLoading">
                 <button type="button" 
                     class="btn text-body-medium quote" 
-                    [ngClass]="{'selected': selectedQuote?.quotationDetails?.idQuotation == quote.idQuotation}" 
+                    [ngClass]="{'selected': selectedQuote?.quotationDetails?.idQuotation === quote.idQuotation}" 
                     *ngFor="let quote of quotes" 
                     (click)="selectQuote(quote)">{{quote.folio}}</button>
             </div>
@@ -75,11 +75,11 @@
                         *ngFor="let product of availableProducts" 
                         [quoteFolio]="selectedQuote?.quotationDetails?.folio||''" 
                         [product]="product"
-                        (onAddToOrderEmitter)="onAddToOrderEmitter($event)"/>
+                        (addedToOrderEmitter)="onAddedToOrderEmitter($event)"/>
                 </div>
 
                 <div class="empty-state" *ngIf="availableProducts.length === 0">
-                    <div class="circle-icon"><img src="assets/icons/truck.svg" /></div>
+                    <div class="circle-icon"><img src="assets/icons/truck.svg" alt="truck icon"/></div>
                     <span class="text-neutral-400 text-subtle">Elige una dirección de entrega para visualizar tus cotizaciones disponibles.</span>
                 </div>
             </div>
@@ -93,12 +93,12 @@
                         *ngFor="let product of selectedProducts" 
                         [quoteFolio]="product.quoteFolio || ''" 
                         [product]="product.item"
-                        (onRemoveToOrderEmitter)="onRemoveToOrderEmitter($event)"
+                        (removedFromOrderEmitter)="onRemovedFromOrderEmitter($event)"
                         mode="remove"/>
                 </div>
 
                 <div class="empty-state" *ngIf="selectedProducts.length === 0">
-                    <div class="circle-icon"><img src="assets/icons/empty-page.svg" /></div>
+                    <div class="circle-icon"><img src="assets/icons/empty-page.svg" alt="page icon"/></div>
                     <span class="text-neutral-400 text-subtle">Prueba agregando algunas de la columna de cotizaciones vigentes.</span>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                     junto con el subtotal.
                 </div>
                 
-                <atm-file-uploader (onFileUploadEmitter)="onFileUploaded($event)"></atm-file-uploader>
+                <atm-file-uploader (fileUploadedEmitter)="onFileUploaded($event)"></atm-file-uploader>
                 
                 <div class="text-body-medium">
                     <span>Núm. de Referencia Orden de Compra</span>

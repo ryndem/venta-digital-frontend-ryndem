@@ -19,7 +19,7 @@ export class QuotesService {
 
 
   async getQuotes(folio: string|null): Promise<QuotePage> {
-    let filters = [];
+    const filters = [];
 
     if(folio && folio.length > 0) {
       filters.push({
@@ -32,7 +32,7 @@ export class QuotesService {
 
 
   async getQuotesByAddressId(addressId: string): Promise<QuotePage> {
-    let filters = [{
+    const filters = [{
         'FilterName': 'IdAddress',
         'FilterValue': addressId
     }];
@@ -42,7 +42,7 @@ export class QuotesService {
 
 
   private getQuotesByFilters(filters: any[]) {
-    let body:any = {
+    const body:any = {
       pageSize: 10,
       desiredPage: 1
     };

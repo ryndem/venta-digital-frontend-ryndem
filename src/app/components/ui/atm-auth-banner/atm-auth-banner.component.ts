@@ -5,10 +5,10 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'atm-auth-banner',
   templateUrl: './atm-auth-banner.component.html',
-  styleUrl: './atm-auth-banner.component.scss'
+  styleUrls: ['./atm-auth-banner.component.scss']
 })
 export class AtmAuthBannerComponent {
-  isLogged: boolean = false;
+  isLogged = false;
 
   constructor(
     public authService: AuthService,

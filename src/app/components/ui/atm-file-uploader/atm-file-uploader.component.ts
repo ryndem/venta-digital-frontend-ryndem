@@ -5,14 +5,14 @@ import { OrderFile } from 'app/model/order-file';
 @Component({
   selector: 'atm-file-uploader',
   templateUrl: './atm-file-uploader.component.html',
-  styleUrl: './atm-file-uploader.component.scss'
+  styleUrls: ['./atm-file-uploader.component.scss']
 })
 export class AtmFileUploaderComponent {
 
   @Output()
-  onFileUploadEmitter = new EventEmitter<OrderFile>();
+  fileUploadedEmitter = new EventEmitter<OrderFile>();
 
-  isUploading: boolean = false;
+  isUploading = false;
   fileName: string|null = null;
   
   constructor(
@@ -27,8 +27,8 @@ export class AtmFileUploaderComponent {
       this.fileName = input.files[0].name;
       formData.append('file', input.files[0], input.files[0].name);
 
-      let response = await this.fileService.uploadFile(formData);
-      this.onFileUploadEmitter.emit(response);
+      const response = await this.fileService.uploadFile(formData);
+      this.fileUploadedEmitter.emit(response);
       this.isUploading = false;
     }
   }

@@ -13,20 +13,14 @@
   </div>
 
   <div class="related-products__list" *ngIf="isShowingAlternativeProducts && !isEmptyResult">
-    @if (alternativeProducts) {
-      <org-products-grid [products]="alternativeProducts" gridSectionClass="alternative-complementary"></org-products-grid>
-    } @else {
-      <atm-loader></atm-loader>
-    }
+      <org-products-grid [products]="alternativeProducts" gridSectionClass="alternative-complementary" *ngIf="alternativeProducts"></org-products-grid>
+      <atm-loader *ngIf="!alternativeProducts"/>
   </div>
 
 
   <div class="related-products__list" *ngIf="!isShowingAlternativeProducts && !isEmptyResult">
-    @if (complementaryProducts) {
-      <org-products-grid [products]="complementaryProducts" gridSectionClass="alternative-complementary"></org-products-grid>
-    } @else {
-      <atm-loader></atm-loader>
-    }
+      <org-products-grid [products]="complementaryProducts" gridSectionClass="alternative-complementary" *ngIf="complementaryProducts"></org-products-grid>
+      <atm-loader *ngIf="!complementaryProducts"/>
   </div>
 
   <div class="empty-state" *ngIf="isEmptyResult">
