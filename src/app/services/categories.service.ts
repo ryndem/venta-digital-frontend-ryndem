@@ -41,9 +41,9 @@ export class CategoriesService {
       default: 'assets/icons/no-image.svg',
     };
 
-    let catKey = category.key || '';
-    let keyDescriptions: string = catKey in descriptions ? catKey : 'default';
-    let keyIcons: string = catKey in icons ? catKey : 'default';
+    const catKey = category.key || '';
+    const keyDescriptions: string = catKey in descriptions ? catKey : 'default';
+    const keyIcons: string = catKey in icons ? catKey : 'default';
 
     category.label = category.description;
     category.description = descriptions[keyDescriptions];

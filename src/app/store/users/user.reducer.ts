@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';

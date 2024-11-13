@@ -7,20 +7,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.scss',
+  styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent {
-  isTokenValid: boolean = false;
+  isTokenValid = false;
 
-  isPasswordVisible: boolean = false;
+  isPasswordVisible = false;
 
-  restError: boolean = false;
+  restError = false;
 
-  isTokenExpired: boolean = false;
+  isTokenExpired = false;
 
-  isPasswordChangeSuccess: boolean = false;
+  isPasswordChangeSuccess = false;
 
-  token: string = '';
+  token = '';
 
   constructor(
     public authService: AuthService,
@@ -28,7 +28,7 @@ export class ResetPasswordComponent {
   ) {
     this.currentRoute.queryParams.subscribe((params) => {
       if (params['token']) {
-        let token = params['token'].replace(/ /g, '+');
+        const token = params['token'].replace(/ /g, '+');
         const decodedToken = decodeURIComponent(token);
         this.processActivation(decodedToken);
         this.token = decodedToken;

@@ -5,7 +5,7 @@ import { ProductsService } from 'app/services/products.service';
 @Component({
   selector: 'org-related-products',
   templateUrl: './org-related-products.component.html',
-  styleUrl: './org-related-products.component.scss',
+  styleUrls: ['./org-related-products.component.scss'],
 })
 export class OrgRelatedProductsComponent implements OnChanges {
 
@@ -15,8 +15,8 @@ export class OrgRelatedProductsComponent implements OnChanges {
   @Input()
   productId!: string;
 
-  isShowingAlternativeProducts: boolean = true;
-  isEmptyResult: boolean = false;
+  isShowingAlternativeProducts = true;
+  isEmptyResult = false;
 
   set setProductId(productId: string) {
     this.updateProducts(true);
@@ -25,7 +25,7 @@ export class OrgRelatedProductsComponent implements OnChanges {
   constructor(private productsService: ProductsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    let productId: SimpleChange = changes['productId'];
+    const productId: SimpleChange = changes['productId'];
     if (productId) {
       this.alternativeProducts = null;
       this.complementaryProducts = null;
@@ -46,7 +46,7 @@ export class OrgRelatedProductsComponent implements OnChanges {
   async loadAlternatives() {
     if (!this.alternativeProducts) {
       this.isEmptyResult = false;
-      let results = await this.productsService.listAlternativeProducts(
+      const results = await this.productsService.listAlternativeProducts(
         this.productId,
       );
       this.alternativeProducts = results;
@@ -57,7 +57,7 @@ export class OrgRelatedProductsComponent implements OnChanges {
   async loadComplementary() {
     if (!this.complementaryProducts) {
       this.isEmptyResult = false;
-      let results = await this.productsService.listComplementaryProducts(
+      const results = await this.productsService.listComplementaryProducts(
         this.productId,
       );
       this.complementaryProducts = results;

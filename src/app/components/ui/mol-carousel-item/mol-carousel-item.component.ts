@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { CarouselItem } from './carousel-image';
+import { CarouselItem } from 'app/model/carousel-image';
 
 @Component({
   selector: 'mol-carousel-item',
   templateUrl: './mol-carousel-item.component.html',
-  styleUrl: './mol-carousel-item.component.scss',
+  styleUrls: ['./mol-carousel-item.component.scss'],
 })
 export class MolCarouselItemComponent {
   @Input()
   item: CarouselItem | null = null;
 
   @Input()
-  isActive: boolean = false;
+  isActive = false;
 }

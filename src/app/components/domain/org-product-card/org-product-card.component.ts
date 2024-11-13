@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'org-product-card',
   templateUrl: './org-product-card.component.html',
-  styleUrl: './org-product-card.component.scss',
+  styleUrls: ['./org-product-card.component.scss'],
 })
 export class ProductCardComponent implements OnInit {
   @Input()
@@ -21,8 +21,8 @@ export class ProductCardComponent implements OnInit {
 
   presentationImgPath: string | null = null;
   brandImgPath: string | null = null;
-  hasExistingStock: boolean = false;
-  isLogged: boolean = false;
+  hasExistingStock = false;
+  isLogged = false;
   isModalOpen = false;
   enablePreviewViewButton = false;
   isHovered = false;
@@ -60,12 +60,12 @@ export class ProductCardComponent implements OnInit {
     this.price = this.product?.offert.unitPrice;
 
     if( !this.priceWeb ) {
-      let webOffert = await this.productsService.getProductOfferWeb( this.product?.idProduct );
+      const webOffert = await this.productsService.getProductOfferWeb( this.product?.idProduct );
       this.priceWeb = webOffert.unitPrice;
     }
 
     if(!this.priceVD && this.isLogged) {
-      let offert = await this.productsService.getProductOfferVD( this.product?.idProduct );
+      const offert = await this.productsService.getProductOfferVD( this.product?.idProduct );
       this.priceVD = offert.unitPrice;
       this.price = this.priceVD;
     }

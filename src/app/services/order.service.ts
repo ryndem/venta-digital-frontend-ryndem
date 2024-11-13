@@ -21,7 +21,7 @@ export class OrderService {
 
 
   async getOrders(folio: string|null) {
-    let body:any = {
+    const body:any = {
       pageSize: 100,
       desiredPage: 1
     };

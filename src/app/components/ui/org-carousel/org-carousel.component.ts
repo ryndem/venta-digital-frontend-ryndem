@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { CarouselItem } from '../mol-carousel-item/carousel-image';
+import { CarouselItem } from 'app/model/carousel-image';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'org-carousel',
   templateUrl: './org-carousel.component.html',
-  styleUrl: './org-carousel.component.scss',
+  styleUrls: ['./org-carousel.component.scss'],
 })
 export class OrgCarouselComponent {
 
   constructor(private router: Router) {}
 
-  SECONDS_INTERVAL = 8;
+  secondsInterval = 8;
 
   banners: CarouselItem[] = [
     {
@@ -40,7 +40,7 @@ export class OrgCarouselComponent {
     },
   ];
 
-  currentImage: number = 0;
+  currentImage = 0;
   intervalId: any;
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class OrgCarouselComponent {
   startImageAutoChange(): void {
     this.intervalId = setInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.banners.length;
-    }, this.SECONDS_INTERVAL * 1000);
+    }, this.secondsInterval * 1000);
   }
 
   setImageByIndex(index: number): void {
@@ -70,34 +70,42 @@ export class OrgCarouselComponent {
 
   open(item:CarouselItem) {
     switch (item.action) {
-      case 'categories':
-          let el = document.getElementById('categories');
-          el?.scrollIntoView();
-          break;
+      case 'categories': {
+        const el = document.getElementById('categories');
+        el?.scrollIntoView();
+        break;
+      }
 
-      case 'hplc-column':
+      case 'hplc-column': {
         this.router.navigate(['products'], {
             queryParams: {
               searchTerm: 'hplc column',
             }
-          });
-          break;
+        });
+        break;
+      }
 
-      case 'mini-parasep':
+      case 'mini-parasep': {
         this.router.navigate(['products'], {
           queryParams: {
             searchTerm: 'Mini Parasep',
           }
         });
-          break;
+        break;
+      }
 
-      case 'standards':
-          this.router.navigate(['products'], {
-            queryParams: {
-              category: 'standards',
-            }
-          });
-          break;
+      case 'standards': {
+        this.router.navigate(['products'], {
+          queryParams: {
+            category: 'standards',
+          }
+        });
+        break;
+      }
+
+      default: {
+        break;
+      }
     }
   }
 }

@@ -32,7 +32,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Refresh the token
           return from(this.authService.refreshToken()).pipe(
             switchMap((newToken) => {
               if (newToken) {

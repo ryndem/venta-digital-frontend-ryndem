@@ -32,7 +32,7 @@ export class CartService {
 
   async load() {
     try {
-      let cart = await this.getShoppingCart();
+      const cart = await this.getShoppingCart();
       this.cart = cart;
       this.store.dispatch(updateCart({ shoppingCart: cart}));
     } catch( error ) {
@@ -45,8 +45,8 @@ export class CartService {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
     if(this.cart?.listQuotationItem) {
-      let products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
-      let quoteProduct = products.find(p => p.idProduct == product.idProduct);
+      const products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
+      const quoteProduct = products.find(p => p.idProduct == product.idProduct);
       if(quoteProduct) {
         await this.updateQuantity(quoteProduct.idQuotationItem, quoteProduct.quantity+quantity);
         this.notificationService.showSuccess('Producto agregado');
@@ -55,7 +55,7 @@ export class CartService {
     }
 
 
-    let body = {
+    const body = {
       productId: product.idProduct,
       quantity: quantity,
       hasStock: product.hasStock,
@@ -75,7 +75,7 @@ export class CartService {
   async submit(quoteId: string, addressId: string | null, cartItems: QuoteProduct[] ) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
-    let body = {
+    const body = {
       idQuotation: quoteId,
       addressId: addressId,
       listQuotationItem: cartItems,
@@ -87,13 +87,13 @@ export class CartService {
   async updateQuantity(quoteItemId: string, quantity: number) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
-    let products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
-    let product = products.find(p => p.idQuotationItem == quoteItemId);
+    const products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
+    const product = products.find(p => p.idQuotationItem == quoteItemId);
 
     if(product) {
       product.quantity = quantity;
 
-      let body = {
+      const body = {
         idQuotation: this.cart?.quotationDetails.idQuotation,
         refresh: false,
         listQuotationItem: products
@@ -102,6 +102,7 @@ export class CartService {
       try {
         await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/RefreshShoppingCart', body));
       } catch ( error ) {
+        console.error(error);
       }
       this.load();
     }
@@ -116,8 +117,8 @@ export class CartService {
     if(!addressId) return;
     this.store.dispatch(updateCartIsLoading({ isLoading: true }));
 
-    let products: QuoteProduct[] = JSON.parse(JSON.stringify(cartItems));
-    let product = products.find(p => p.idQuotationItem == quoteItemId);
+    const products: QuoteProduct[] = JSON.parse(JSON.stringify(cartItems));
+    const product = products.find(p => p.idQuotationItem == quoteItemId);
 
     if (product) {
       const targetBrand = product.brandName;
@@ -128,7 +129,7 @@ export class CartService {
         }
       });
 
-      let body = {
+      const body = {
         idQuotation: this.cart?.quotationDetails.idQuotation,
         addressId: addressId,
         refresh: true,
@@ -171,7 +172,7 @@ export class CartService {
     if (!addressId) return;
     this.store.dispatch(updateCartIsLoading({ isLoading: true }));
 
-    let body = {
+    const body = {
       idQuotation: this.cart?.quotationDetails.idQuotation,
       addressId: addressId,
       refresh: true,

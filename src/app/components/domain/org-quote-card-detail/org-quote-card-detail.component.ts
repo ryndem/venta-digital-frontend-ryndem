@@ -5,7 +5,7 @@ import { ImageService } from 'app/services/image.service';
 @Component({
   selector: 'org-quote-card-detail',
   templateUrl: './org-quote-card-detail.component.html',
-  styleUrl: './org-quote-card-detail.component.scss'
+  styleUrls: ['./org-quote-card-detail.component.scss']
 })
 export class OrgQuoteCardDetailComponent implements OnInit {
 

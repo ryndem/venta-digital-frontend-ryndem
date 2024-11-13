@@ -1,17 +1,17 @@
 <div class="quote-card">
   <div class="folio">
-    <label class="text-small-regular text-gray-green-500">Folio:</label>
+    <span class="text-small-regular text-gray-green-500">Folio:</span>
     <div class="text-body folio-value">{{quote.folio}}</div>
   </div>
 
   <div class="dates">
     <div class="creation-date">
-      <label class="text-small-regular text-gray-green-500">Creación:</label>
+      <span class="text-small-regular text-gray-green-500">Creación:</span>
       <div class="text-small-regular">{{quote.registrationDate | date:'dd/MM/YYYY'}}</div>
     </div>
 
     <div class="expiration-date">
-      <label class="text-small-regular text-gray-green-500" *ngIf="quote.expirationDate">Expiración:</label>
+      <span class="text-small-regular text-gray-green-500" *ngIf="quote.expirationDate">Expiración:</span>
       <div class="text-small-regular">{{quote.expirationDate | date:'dd/MM/YYYY'}}</div>
     </div>
   </div>
@@ -25,7 +25,7 @@
   </div>
 
   <div class="total">
-    <label class="text-small-regular m-0">Monto Total</label>
+    <span class="text-small-regular m-0">Monto Total</span>
     <p class="text-title-5 text-primary-500">{{quote.total | usdCurrency}}</p>
   </div>
 </div>

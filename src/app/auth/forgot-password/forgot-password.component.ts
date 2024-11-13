@@ -6,12 +6,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.scss',
+  styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent {
   constructor(public authService: AuthService) { }
 
-  isPasswordResetted: boolean = false;
+  isPasswordResetted = false;
 
   async onSubmit(form: NgForm) {
     if (!form.valid) {

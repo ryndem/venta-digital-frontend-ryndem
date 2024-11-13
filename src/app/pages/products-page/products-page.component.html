@@ -26,7 +26,7 @@
         [disabled]="isLoading"
       >
         <span>Ordenar:</span>
-        <span class="text-bold" *ngIf="sortDirection == 'ASC'"
+        <span class="text-bold" *ngIf="sortDirection === 'ASC'"
           >A-Z
           <ng-icon
             class="icon"
@@ -35,7 +35,7 @@
             strokeWidth="2"
           ></ng-icon
         ></span>
-        <span class="text-bold" *ngIf="sortDirection == 'DESC'"
+        <span class="text-bold" *ngIf="sortDirection === 'DESC'"
           >Z-A
           <ng-icon
             class="icon"
@@ -49,7 +49,7 @@
 
     <div
       class="empty-state"
-      *ngIf="!isLoading && productPage && productPage.totalResults == 0"
+      *ngIf="!isLoading && productPage && productPage.totalResults === 0"
     >
       <img src="assets/icons/search-loop.svg" alt="search loop">
       <h3 class="text-big text-uppercase m-0">Búsqueda sin resultados</h3>

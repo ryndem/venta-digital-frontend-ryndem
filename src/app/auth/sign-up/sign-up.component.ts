@@ -6,20 +6,20 @@ import { AuthService } from 'app/auth/auth.service';
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss',
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   constructor(public authService: AuthService) { }
 
-  isPasswordVisible: boolean = false;
+  isPasswordVisible = false;
 
-  isServerError: boolean = false;
+  isServerError = false;
 
-  isSingupRequested: boolean = false;
+  isSingupRequested = false;
 
-  isReviewPending: boolean = false;
+  isReviewPending = false;
 
-  errorMessage: string = '';
+  errorMessage = '';
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;

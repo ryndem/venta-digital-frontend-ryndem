@@ -1,19 +1,19 @@
 <div class="quote-info text-small-regular">
   <div class="quote-info__column__one">
     <div class="folio">
-      <label>Folio</label>
+      <span>Folio</span>
       <span class="text-body-medium underline text-blue-600">
         {{quote.quotationDetails.folio}}
       </span>
     </div>
 
     <div>
-      <label class="payment-terms-label">C.Pago: </label>
+      <span class="payment-terms-label">C.Pago: </span>
       <span class="text-red-500">{{quote.quotationDetails.paymentTerms}}</span>
     </div>
 
     <div>
-      <label class="currency-label">Moneda: </label>
+      <span class="currency-label">Moneda: </span>
       <span>{{quote.quotationDetails.currency}}</span>
     </div>
   </div>
@@ -24,12 +24,12 @@
     </div>
 
     <div>
-      <label class="date-label">Creación: </label>
+      <span class="date-label">Creación: </span>
       <span>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</span>
     </div>
 
     <div>
-      <label class="date-label">Expiración: </label>
+      <span class="date-label">Expiración: </span>
       <span>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</span>
     </div>
   </div>

@@ -66,7 +66,7 @@ export class ProductsService {
       });
     }
 
-    let apiPath: string = this.getApiPath();
+    const apiPath: string = this.getApiPath();
 
     try {
       return await firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
@@ -80,8 +80,8 @@ export class ProductsService {
 
   private getApiPath(): string {
     if (this.authService.isAuthenticated()) {
-      let customerId = this.authService.customerId();
-      let addressId = this.authService.addressId();
+      const customerId = this.authService.customerId();
+      const addressId = this.authService.addressId();
       return `${environment.apiUrl}/ProductCustomer/${customerId}/${addressId}`;
     }
 
@@ -89,7 +89,7 @@ export class ProductsService {
   }
 
   async list(props: SearchProductProps): Promise<ProductResponse> {
-    let apiPath: string = this.getApiPath();
+    const apiPath: string = this.getApiPath();
     return firstValueFrom(
       this.httpClient.post<ProductResponse>(apiPath, props),
     );
@@ -112,7 +112,7 @@ export class ProductsService {
         },
       ],
     };
-    let apiPath: string = this.getApiPath();
+    const apiPath: string = this.getApiPath();
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
@@ -130,7 +130,7 @@ export class ProductsService {
       ],
     };
 
-    let apiPath: string = this.getApiPath();
+    const apiPath: string = this.getApiPath();
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
@@ -145,16 +145,16 @@ export class ProductsService {
         },
       ],
     };
-    let apiPath: string = this.getApiPath();
+    const apiPath: string = this.getApiPath();
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
   async getProduct(productId: string): Promise<Product> {
-    let apiPath: string = `${environment.apiUrl}/ProductWeb/${productId}`;
+    let apiPath = `${environment.apiUrl}/ProductWeb/${productId}`;
 
     if (this.authService.isAuthenticated()) {
-      let customerId = this.authService.customerId();
-      let addressId = this.authService.addressId();
+      const customerId = this.authService.customerId();
+      const addressId = this.authService.addressId();
       apiPath = `${environment.apiUrl}/ProductCustomer/${productId}/${customerId}/${addressId}`;
     }
 
@@ -171,8 +171,8 @@ export class ProductsService {
   }
 
   async getProductOfferVD(productId: string): Promise<PriceOffert> {
-    let apiPath: string = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
-    let body: any = {
+    let apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
+    const body: any = {
       IdProduct: productId,
       Pieces: 1,
     };
@@ -186,8 +186,8 @@ export class ProductsService {
   }
 
   async getProductOfferWeb(productId: string): Promise<PriceOffert> {
-    let apiPath: string = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
-    let body: any = {
+    const apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
+    const body: any = {
       IdProduct: productId,
       Pieces: 1,
     };

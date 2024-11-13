@@ -10,14 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'org-pager',
   templateUrl: './org-pager.component.html',
-  styleUrl: './org-pager.component.scss',
+  styleUrls: ['./org-pager.component.scss'],
 })
 export class OrgPagerComponent implements OnInit, OnChanges {
   @Input()
-  totalResults: number = 0;
+  totalResults = 0;
 
   totalPages = 0;
-  currentPage: number = 1;
+  currentPage = 1;
   pageNumbers: number[] = [];
   visiblePages = 3;
 
@@ -48,25 +48,21 @@ export class OrgPagerComponent implements OnInit, OnChanges {
     let start = Math.max(1, this.currentPage - half);
     let end = Math.min(this.totalPages, this.currentPage + half);
 
-    // Adjust if near the start or end
     if (this.currentPage <= half) {
       end = Math.min(this.totalPages, this.visiblePages);
     } else if (this.currentPage + half >= this.totalPages) {
       start = Math.max(1, this.totalPages - this.visiblePages + 1);
     }
 
-    // Always add the first page if not in the visible range
     if (start > 1) {
       this.pageNumbers.push(1);
       if (start > 2) this.pageNumbers.push(-1);
     }
 
-    // Add the current visible page range
     for (let i = start; i <= end; i++) {
       this.pageNumbers.push(i);
     }
 
-    // Add ellipsis and the last page if not in the visible range
     if (end < this.totalPages) {
       if (end < this.totalPages - 1) this.pageNumbers.push(-1);
       this.pageNumbers.push(this.totalPages);

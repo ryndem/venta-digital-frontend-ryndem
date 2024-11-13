@@ -6,11 +6,11 @@ import { Category } from 'app/model/category';
 @Component({
   selector: 'org-categories-bar',
   templateUrl: './org-categories-bar.component.html',
-  styleUrl: './org-categories-bar.component.scss',
+  styleUrls: ['./org-categories-bar.component.scss'],
 })
 export class OrgCategoriesBarComponent implements OnInit {
   categories: Category[] = [];
-  activeCategory: string = '';
+  activeCategory = '';
 
   constructor(
     private router: Router,

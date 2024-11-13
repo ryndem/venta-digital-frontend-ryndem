@@ -6,13 +6,13 @@ import { CartService } from 'app/services/cart.service';
 @Component({
   selector: 'org-login-modal',
   templateUrl: './org-login-modal.component.html',
-  styleUrl: './org-login-modal.component.scss',
+  styleUrls: ['./org-login-modal.component.scss'],
 })
 export class LoginModalComponent {
   credentialsError = false;
   loading = false;
   twoFAError = false;
-  isPasswordVisible: boolean = false;
+  isPasswordVisible = false;
 
   constructor(
     public authService: AuthService,

@@ -9,16 +9,16 @@ import { ProductsService } from 'app/services/products.service';
 @Component({
   selector: 'products-page',
   templateUrl: './products-page.component.html',
-  styleUrl: './products-page.component.scss',
+  styleUrls: ['./products-page.component.scss'],
 })
 export class ProductsPageComponent implements OnInit {
   productPage: ProductResponse | null = null;
 
-  totalResults: number = 0;
-  sortDirection: string = 'ASC';
+  totalResults = 0;
+  sortDirection = 'ASC';
   productss: Product[] = [];
-  isLoading: boolean = false;
-  isLogged: boolean = false;
+  isLoading = false;
+  isLogged = false;
   categories: Category[] = [];
 
   constructor(

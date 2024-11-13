@@ -6,14 +6,14 @@ import { NotificationService } from 'app/services/notification.service';
 @Component({
   selector: 'atm-file-downloader',
   templateUrl: './atm-file-downloader.component.html',
-  styleUrl: './atm-file-downloader.component.scss'
+  styleUrls: ['./atm-file-downloader.component.scss']
 })
 export class AtmFileDownloaderComponent {
   @Input()
-  fileName: string = '';
+  fileName = '';
 
   @Input()
-  fileId: string = '';
+  fileId = '';
 
   private apiPath: string = environment.apiUrl;
 

@@ -5,10 +5,10 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'account-activated',
   templateUrl: './account-activated.component.html',
-  styleUrl: './account-activated.component.scss',
+  styleUrls: ['./account-activated.component.scss'],
 })
 export class AccountActivatedComponent {
-  state: string = 'loading';
+  state = 'loading';
 
   constructor(
     public authService: AuthService,

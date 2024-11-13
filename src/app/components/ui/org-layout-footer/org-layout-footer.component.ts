@@ -9,12 +9,12 @@ import { updateCategories } from 'app/store/products/product.actions';
 @Component({
   selector: 'org-layout-footer',
   templateUrl: './org-layout-footer.component.html',
-  styleUrl: './org-layout-footer.component.scss',
+  styleUrls: ['./org-layout-footer.component.scss'],
 })
 export class LayoutFooterComponent implements OnInit {
 
   categories: Category[] = [];
-  isAuthenticated: boolean = false;
+  isAuthenticated = false;
 
   constructor(
       private categoriesService: CategoriesService,
@@ -33,7 +33,7 @@ export class LayoutFooterComponent implements OnInit {
   }
 
   async loadCategories() {
-    let categories = await this.categoriesService.list();
+    const categories = await this.categoriesService.list();
     categories.forEach( category => {
       this.categoriesService.setProperties(category)
     });

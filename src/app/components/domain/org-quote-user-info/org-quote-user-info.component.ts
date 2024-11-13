@@ -5,7 +5,7 @@ import { User } from 'app/model/user';
 @Component({
   selector: 'org-quote-user-info',
   templateUrl: './org-quote-user-info.component.html',
-  styleUrl: './org-quote-user-info.component.scss'
+  styleUrls: ['./org-quote-user-info.component.scss']
 })
 export class OrgQuoteUserInfoComponent {
 

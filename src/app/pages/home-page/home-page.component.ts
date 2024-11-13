@@ -7,7 +7,7 @@ import { addOutstandingProduct } from 'app/store/products/product.actions';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss',
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
   constructor(private productsService: ProductsService, private store: Store<any>,) {
@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit {
 
   private async addProduct(productId: string) {
     try {
-      let product = await this.productsService.getProduct(productId);
+      const product = await this.productsService.getProduct(productId);
       if (product) {
         this.store.dispatch(addOutstandingProduct({ outstandingProduct: product}));
       }

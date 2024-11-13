@@ -27,7 +27,7 @@ export const productReducer = createReducer(
     })
   ),
   on(ProductActions.addOutstandingProduct, (state, { outstandingProduct }) => {
-    let products = (state.outstandingProducts || []).slice();
+    const products = (state.outstandingProducts || []).slice();
     products.push(outstandingProduct);
     return {
       ...state,

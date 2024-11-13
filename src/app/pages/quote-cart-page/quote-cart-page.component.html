@@ -19,7 +19,7 @@
         <h1 class="text-big text-primary-500 text-uppercase">Carrito</h1>
 
         <div class="quote-items">
-          <org-quote-product-card *ngFor="let item of shoppingCart.listQuotationItem" [product]="item" (onRelatedProductSelectedEmitter)="loadRelated($event)"></org-quote-product-card>
+          <org-quote-product-card *ngFor="let item of shoppingCart.listQuotationItem" [product]="item" (relatedProductSelectedEmitter)="loadRelated($event)"></org-quote-product-card>
         </div>
       </div>
 
@@ -43,8 +43,8 @@
     </div>
   </div>
 
-  <div class="quote-cart-page__empty" *ngIf="!isLoading && (!shoppingCart || shoppingCart.listQuotationItem.length == 0)">
-    <div class="image-container"><img src="assets/icons/box.svg"></div>
+  <div class="quote-cart-page__empty" *ngIf="!isLoading && (!shoppingCart || shoppingCart.listQuotationItem.length === 0)">
+    <div class="image-container"><img src="assets/icons/box.svg" alt="empty box"></div>
     <h3 class="text-title-3">Tu carrito se encuentra vacío</h3>
     <span class="text-paragraph">Descubre nuestra amplia selección y encuentra justo lo que buscas.</span>
 

@@ -7,7 +7,7 @@ import { ImageService } from 'app/services/image.service';
 @Component({
   selector: 'org-quote-product-card',
   templateUrl: './org-quote-product-card.component.html',
-  styleUrl: './org-quote-product-card.component.scss',
+  styleUrls: ['./org-quote-product-card.component.scss'],
 })
 export class OrgQuoteProductCardComponent implements OnInit {
 
@@ -15,26 +15,26 @@ export class OrgQuoteProductCardComponent implements OnInit {
   product!: QuoteProduct;
 
   @Input()
-  cartMode: boolean = true;
+  cartMode = true;
 
   @Input()
-  showExpressFreightInput: boolean = false;
+  showExpressFreightInput = false;
 
   @Input()
-  disabledExpressFreightCheckbox: boolean = false;
+  disabledExpressFreightCheckbox = false;
 
   @Input()
-  checkboxMarked: boolean = false;
+  checkboxMarked = false;
 
   @Output()
-  onRelatedProductSelectedEmitter = new EventEmitter<string>();
+  relatedProductSelectedEmitter = new EventEmitter<string>();
 
   @Output()
   expressFreightChange = new EventEmitter<{ checked: boolean, product: QuoteProduct }>();
 
-  isAddingToCar: boolean = false;
-  quantity: number = 0;
-  isRemoved: boolean = false;
+  isAddingToCar = false;
+  quantity = 0;
+  isRemoved = false;
   brandImage: string | null = null;
   presentationImage: string | null = null;
 
@@ -56,7 +56,7 @@ export class OrgQuoteProductCardComponent implements OnInit {
 
   loadRelated() {
     if(this.product.idProduct) {
-      this.onRelatedProductSelectedEmitter.emit(this.product.idProduct);
+      this.relatedProductSelectedEmitter.emit(this.product.idProduct);
     }
   }
 

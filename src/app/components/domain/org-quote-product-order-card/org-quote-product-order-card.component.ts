@@ -5,7 +5,7 @@ import { ImageService } from 'app/services/image.service';
 @Component({
   selector: 'org-quote-product-order-card',
   templateUrl: './org-quote-product-order-card.component.html',
-  styleUrl: './org-quote-product-order-card.component.scss',
+  styleUrls: ['./org-quote-product-order-card.component.scss'],
 })
 export class OrgQuoteProductOrderCardComponent implements OnInit {
 
@@ -13,16 +13,16 @@ export class OrgQuoteProductOrderCardComponent implements OnInit {
   product!: QuoteProduct;
   
   @Input()
-  quoteFolio: string = '';
+  quoteFolio = '';
 
   @Input()
-  mode: string = 'add';
+  mode = 'add';
 
   @Output()
-  onAddToOrderEmitter = new EventEmitter<string>();
+  addedToOrderEmitter = new EventEmitter<string>();
 
   @Output()
-  onRemoveToOrderEmitter = new EventEmitter<string>();
+  removedFromOrderEmitter = new EventEmitter<string>();
 
   brandImage: string | null = null;
   presentationImage: string | null = null;
@@ -39,13 +39,13 @@ export class OrgQuoteProductOrderCardComponent implements OnInit {
 
   addToOrder() {
     if(this.product.idQuotationItem) {
-      this.onAddToOrderEmitter.emit(this.product.idQuotationItem);
+      this.addedToOrderEmitter.emit(this.product.idQuotationItem);
     }
   }
 
   removeFromOrder() {
     if(this.product.idQuotationItem) {
-      this.onRemoveToOrderEmitter.emit(this.product.idQuotationItem);
+      this.removedFromOrderEmitter.emit(this.product.idQuotationItem);
     }
   }
 

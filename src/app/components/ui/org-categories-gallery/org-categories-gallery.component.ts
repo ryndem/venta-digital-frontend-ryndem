@@ -5,7 +5,7 @@ import { Category } from 'app/model/category';
 @Component({
   selector: 'org-categories-gallery',
   templateUrl: './org-categories-gallery.component.html',
-  styleUrl: './org-categories-gallery.component.scss',
+  styleUrls: ['./org-categories-gallery.component.scss'],
 })
 export class OrgCategoriesGalleryComponent {
   
@@ -18,7 +18,7 @@ export class OrgCategoriesGalleryComponent {
   categories: Category[] = [];
 
   @Input()
-  isOnlyCategories: boolean = false;
+  isOnlyCategories = false;
 
 
 }

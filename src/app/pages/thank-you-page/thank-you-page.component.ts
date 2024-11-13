@@ -9,14 +9,14 @@ import { QuotesService } from 'app/services/quotes.service';
 @Component({
   selector: 'thank-you-page',
   templateUrl: './thank-you-page.component.html',
-  styleUrl: './thank-you-page.component.scss',
+  styleUrls: ['./thank-you-page.component.scss'],
 })
 export class ThankYouPageComponent implements OnInit {
-  isLoading: boolean = true;
+  isLoading = true;
   quote: ShoppingCart | null = null;
   shoppingCart : ShoppingCart | null = null;
   quoteId: string | null = null;
-  showDisclaimer: boolean = false;
+  showDisclaimer = false;
   user: User | null = null;
 
   constructor( 

@@ -11,16 +11,16 @@ import { CartService } from 'app/services/cart.service';
 @Component({
   selector: 'org-layout-header',
   templateUrl: './org-layout-header.component.html',
-  styleUrl: './org-layout-header.component.scss',
+  styleUrls: ['./org-layout-header.component.scss'],
 })
 export class LayoutHeaderComponent {
   
   categories: Category[] = [];
 
   productsGroups: OptionsGroup[] = [];
-  isMobileMenuOpen: boolean = false;
-  isUserMenuOpen: boolean = false;
-  isAuthenticated: boolean = false;
+  isMobileMenuOpen = false;
+  isUserMenuOpen = false;
+  isAuthenticated = false;
   user: User | null = null;
   shoppingCart: ShoppingCart | null = null;
 
@@ -44,8 +44,8 @@ export class LayoutHeaderComponent {
   }
 
   async onSearchTermChange(value: string): Promise<void> {
-    let result = await this.productsService.searchProducts(value);
-    let items = result.map((r) => {
+    const result = await this.productsService.searchProducts(value);
+    const items = result.map((r) => {
       return { label: r.description, value: r.idProducto };
     });
     this.productsGroups = [];

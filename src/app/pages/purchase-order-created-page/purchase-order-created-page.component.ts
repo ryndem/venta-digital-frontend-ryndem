@@ -8,10 +8,10 @@ import { OrderService } from 'app/services/order.service';
 @Component({
   selector: 'purchase-order-created-page',
   templateUrl: './purchase-order-created-page.component.html',
-  styleUrl: './purchase-order-created-page.component.scss',
+  styleUrls: ['./purchase-order-created-page.component.scss'],
 })
 export class PurchaseOrderCreatedPageComponent implements OnInit {
-  isLoading: boolean = true;
+  isLoading = true;
   user: User | null = null;
   
   purchaseOrderId: string | null = null;

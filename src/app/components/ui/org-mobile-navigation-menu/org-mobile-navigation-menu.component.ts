@@ -6,7 +6,7 @@ import { Category } from 'app/model/category';
 @Component({
   selector: 'org-mobile-navigation-menu',
   templateUrl: './org-mobile-navigation-menu.component.html',
-  styleUrl: './org-mobile-navigation-menu.component.scss',
+  styleUrls: ['./org-mobile-navigation-menu.component.scss'],
 })
 export class OrgMobileNavigationMenuComponent {
   @Input()
@@ -15,7 +15,7 @@ export class OrgMobileNavigationMenuComponent {
   @Output()
   closeMenu = new EventEmitter<void>();
 
-  isLogged: boolean = false;
+  isLogged = false;
 
   constructor(
     private authService: AuthService,
