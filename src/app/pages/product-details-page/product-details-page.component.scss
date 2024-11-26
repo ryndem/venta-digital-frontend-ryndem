@@ -22,8 +22,8 @@
 
 @media (min-width: 1024px) {
   .product-details-page {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 68% 32%;
     margin-top: 32px;
     margin-bottom: 32px;
     button.btn {

@@ -1,0 +1,54 @@
+.skeleton-card {
+  background: white;
+  border-radius: 4px;
+  padding: 14px 8px;
+  width: 100%;
+  border: 1px solid var(--neutral-200);
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 54px;
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .skeleton {
+    background: #e0e0e0;
+    animation: pulse 1.5s infinite ease-in-out;
+
+    &--text {
+      height: 12px;
+      width: 100%;
+
+      &.short {
+        width: 72px;
+      }
+      &.right {
+        align-self: end;
+      }
+      &.large {
+        height: 14px;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #f4f4f4;
+  }
+
+  50% {
+    background-color: #e0e0e0;
+  }
+
+  100% {
+    background-color: #f4f4f4;
+  }
+}

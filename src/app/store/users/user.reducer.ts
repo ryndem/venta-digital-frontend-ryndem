@@ -8,6 +8,8 @@ export interface State {
   user: User | null;
   name: string | null;
   addresses: Address[] | null;
+  hasOrderItemsSelected: boolean;
+  loading: boolean;
 }
 
 export const initialState: State = {
@@ -15,20 +17,31 @@ export const initialState: State = {
   user: null,
   name: null,
   addresses: null,
+  hasOrderItemsSelected: false,
+  loading: true
 };
 
 export const userReducer = createReducer(
   initialState,
   on(UserActions.updateIsLogged, (state, { isLogged }) => ({
     ...state,
-    isLogged: isLogged,
+    isLogged
   })),
   on(UserActions.updateUser, (state, { user }) => ({
     ...state,
-    user: user,
+    user
   })),
   on(UserActions.updateAddresses, (state, { addresses }) => ({
     ...state,
-    addresses: addresses
+    addresses
+  })),
+  on(UserActions.updateSelectedOrderItems, (state, { hasOrderItemsSelected }) => ({
+    ...state,
+    hasOrderItemsSelected
+  })),
+  on(UserActions.updateLoading, (state, { loading }) => ({
+    ...state,
+    loading
   }))
 );
+

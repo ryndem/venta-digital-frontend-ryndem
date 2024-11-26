@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Address } from 'app/model/address';
@@ -23,13 +23,22 @@ export class QuoteSubmissionPageComponent implements OnInit {
     private cartService : CartService,
     private notificationService : NotificationService,
     private store: Store<any>,
-    private router: Router) {
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
 
     this.store.subscribe( event => {
       this.shoppingCart = event.cart.shoppingCart;
+      this.changeDetectorRef.markForCheck();
       this.isLoading = event.cart.isLoading;
     });
 
+  }
+
+  hasProductWithExpressFreight() {
+    return this.shoppingCart && this.shoppingCart.listQuotationItem.some(
+      it => it.expressFreightAvailable
+    )
   }
 
   async ngOnInit(): Promise<void> {

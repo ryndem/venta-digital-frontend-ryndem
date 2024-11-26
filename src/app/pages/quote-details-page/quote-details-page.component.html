@@ -10,9 +10,9 @@
     <section class="quote-details-page__content__products" *ngIf="quote">
       <h1>DETALLES DE COTIZACIÓN</h1>
       <h4 class="text-title-4 m-0">Partidas</h4>
-      <org-quote-card-detail
+      <org-quote-item-card
         *ngFor="let item of quote.listQuotationItem"
-        [quoteProduct]="item"
+        [quoteItem]="item"
       />
     </section>
     <section class="quote-details-page__content__summary">

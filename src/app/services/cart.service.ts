@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
 import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
+import { Address } from 'app/model/address';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,17 @@ export class CartService {
   private apiPath: string = environment.apiUrl + '/Quotation';
   cart: ShoppingCart | null = null;
   products: CartProduct[] = [];
+  addresses: Address[] | null = null;
 
   constructor(
     private notificationService: NotificationService,
     private store: Store<any>,
     private httpClient: HttpClient
-  ) {}
+  ) {
+    this.store.subscribe(state => {
+      this.addresses = state.user.addresses;
+    })
+  }
 
   async getShoppingCart() {
     return firstValueFrom(this.httpClient.post<ShoppingCart>(this.apiPath+ '/GetShoppingCart', {}));
@@ -36,6 +42,7 @@ export class CartService {
       this.cart = cart;
       this.store.dispatch(updateCart({ shoppingCart: cart}));
     } catch( error ) {
+      this.cart = null;
       this.store.dispatch(updateCart({ shoppingCart: null}));
     }
   }
@@ -49,7 +56,7 @@ export class CartService {
       const quoteProduct = products.find(p => p.idProduct == product.idProduct);
       if(quoteProduct) {
         await this.updateQuantity(quoteProduct.idQuotationItem, quoteProduct.quantity+quantity);
-        this.notificationService.showSuccess('Producto agregado');
+        this.notificationService.showSuccess('Producto agregado a tu carrito.');
         return;
       }
     }
@@ -60,11 +67,32 @@ export class CartService {
       quantity: quantity,
       hasStock: product.hasStock,
       priceWeb: product.offert?.unitPrice,
-      expressFreightAvailable: product.hasExpressFreight
+      expressFreightAvailable: product.hasExpressFreight,
+      IdDeliveryAddress: this.addresses ? this.addresses[0].idAddress : null,
     }
     try {
       await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/PutShoppingCart', body));
-      this.notificationService.showSuccess('Producto agregado');
+      this.notificationService.showSuccess('Producto agregado a tu carrito.');
+    } catch(error: any) {
+      this.notificationService.showError(error.error.detail);
+    }
+    this.load();
+  }
+
+  async reAddProduct(quoteProduct: QuoteProduct) {
+    this.store.dispatch(updateCartIsLoading({ isLoading: true}))
+
+    const body = {
+      productId: quoteProduct.idProduct,
+      quantity: 1,
+      hasStock: true,
+      priceWeb: quoteProduct.unitPrice,
+      expressFreightAvailable: quoteProduct.expressFreightAvailable,
+      IdDeliveryAddress: this.addresses ? this.addresses[0].idAddress : null,
+    }
+    try {
+      await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/PutShoppingCart', body));
+      this.notificationService.showSuccess('Producto agregado a tu carrito.');
     } catch(error: any) {
       this.notificationService.showError(error.error.detail);
     }

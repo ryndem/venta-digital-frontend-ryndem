@@ -1,0 +1,31 @@
+<div class="order-quote-card">
+
+  <div class="order-quote-card__header" [ngClass]="{opened: isOpen}" (click)="toggleOpen()">
+    <div>
+      <span class="text-small-regular text-neutral-500">Cotización</span>
+      <span class="folio-green">{{ quote.folio }}</span>
+    </div>
+    <div>
+      <span class="text-small-regular text-neutral-500">Partidas</span>
+      <span class="text-title-5">{{ quote.items }}</span>
+    </div>
+    <div class="icon">
+      <ng-icon name="heroFolder" size="24" *ngIf="!isOpen"/>
+      <ng-icon name="heroFolderOpen" size="24" *ngIf="isOpen"/>
+    </div>
+  </div>
+
+
+  <div class="order-quote-card__content" *ngIf="isOpen">
+
+    <div class="loader" *ngIf="!orderItems">
+      <atm-loader-points />
+    </div>
+
+    <div class="content" *ngIf="orderItems">
+      Content
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="order-list-page">
+  <header class="order-list-page__header">
+    <h1 class="text-title-3">Pedidos</h1>
+
+    <div class="order-list-page__header__opts">
+      <div class="order-list-page__header__tabs">
+        <button
+          class="btn tab text-subtle"
+          *ngFor="let t of tabs"
+          [ngClass]="{ selected: currentTab.key === t.key }"
+          (click)="updateTab(t.key)"
+        >
+          {{t.title}}
+        </button>
+      </div>
+
+      <div class="order-list-page__header__search">
+        <input class="text-body" type="text" placeholder="Filtrar por folio" [(ngModel)]="q" (keydown.enter)="updateSearch()"/>
+      </div>
+    </div>
+  </header>
+
+  <div class="order-list-page__content">
+    <div class="order-list-page__content__section">
+      <div class="list">
+        <div class="order-list-page__content__section__header">
+          <h3 class="text-title-4">{{currentTab.title}}</h3>
+          <div class="actions">
+            <div *ngIf="currentTab.key === 'quotes'">
+              <button routerLink="/purchase-orders/creation" type="button" class="create-order-btn btn text-paragraph">Tramitar Pedido</button>
+            </div>
+            <div class="filter-tabs" *ngIf="currentTab.key === 'confirmed'">
+              <button
+                type="button"
+                class="btn text-body"
+                [ngClass]="{'selected': !isClosedFilter }"
+                (click)="updateCloseFilter(false)"
+                [disabled]="isLoadingOrders"
+              >
+                Abiertos
+              </button>
+              <button
+                type="button"
+                class="btn text-body"
+                [ngClass]="{'selected': isClosedFilter}"
+                (click)="updateCloseFilter(true)"
+                [disabled]="isLoadingOrders"
+              >
+                Cerrados
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-list-pages">
+          <!-- Orders List -->
+          <org-quote-order-list [quotes]="orders" *ngIf="orders && orders.length > 0"/>
+
+          <!-- Skeleton Loader for Infinite Scroll -->
+          <div class="order-list-page__skeleton-grid" *ngIf="isLoadingOrders">
+            <atm-skeleton-order-card *ngFor="let items of skeletonList"></atm-skeleton-order-card>
+          </div>
+
+          <!-- Empty State -->
+          <div class="order-list-page__content__empty-state" *ngIf="!isLoadingOrders && orders && orders.length === 0">
+            <div class="img-halo">
+              <img src="assets/icons/empty-page.svg" alt="Empty State">
+            </div>
+            <span class="text-large text-neutral-400">
+              {{ currentTab.emptyMessage }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="description">
+        <org-quotes-description [descriptionType]="currentTab.key"></org-quotes-description>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -14,12 +14,16 @@ import { ProductsService } from 'app/services/products.service';
 export class ProductsPageComponent implements OnInit {
   productPage: ProductResponse | null = null;
 
+  pageSize = 12;
+  currentPage = 1;
   totalResults = 0;
+  results = 0;
   sortDirection = 'ASC';
   productss: Product[] = [];
   isLoading = false;
   isLogged = false;
   categories: Category[] = [];
+  skeletonList = Array(12).fill(0)
 
   constructor(
     private productsService: ProductsService,
@@ -35,14 +39,22 @@ export class ProductsPageComponent implements OnInit {
     });
   }
 
+  get showCurrentPaginationDetails(): string {
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalResults);
+    return `Mostrando del ${start} al ${end} de ${this.totalResults}`;
+  }
+
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe(async (params) => {
       const searchParams = {
+        pageSize: this.pageSize,
         page: params['page'] || 1,
         sortDirection: params['sortDirection'] || 'ASC',
         category: params['category'] || null,
         q: params['searchTerm'] || null,
       };
+      this.currentPage = searchParams.page;
       this.sortDirection = searchParams.sortDirection;
       this.loadPage(searchParams);
     });
@@ -51,7 +63,10 @@ export class ProductsPageComponent implements OnInit {
   async loadPage(searchParams: any) {
     this.isLoading = true;
     try {
-      this.productPage = await this.productsService.listProductsByCategory(searchParams);
+      const productsPage = await this.productsService.listProductsByCategory(searchParams);
+      this.productPage = productsPage;
+      this.totalResults = productsPage.totalResults;
+      this.results = productsPage.results.length;
     } catch (error) {
       console.error(error);
     } finally {

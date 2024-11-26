@@ -1,6 +1,7 @@
 import { Component, Input as RouterInput } from '@angular/core';
-import { Order } from 'app/model/order';
-import { OrderService } from 'app/services/order.service';
+import { PurchaseOrder } from 'app/model/purchase-order';
+import { OrderItemPage } from 'app/model/order-item-page';
+import { PurchaseOrderService } from 'app/services/purchase-order.service';
 
 @Component({
   selector: 'purchase-order-details-page',
@@ -10,7 +11,8 @@ import { OrderService } from 'app/services/order.service';
 export class PurchaseOrderDetailsPageComponent {
 
   purchaseOrderId!: string;
-  purchaseOrder: Order | null = null;
+  purchaseOrder: PurchaseOrder | null = null;
+  products: OrderItemPage | null = null;
 
   @RouterInput('purchaseOrderId')
   set setInputId(purchaseOrderId: string) {
@@ -18,10 +20,11 @@ export class PurchaseOrderDetailsPageComponent {
     this.loadPurchaseOrder();
   }
 
-  constructor(private orderService: OrderService) {}
+  constructor(private purchaseOrderService: PurchaseOrderService) {}
 
   async loadPurchaseOrder() {
-    this.purchaseOrder = await this.orderService.getById(this.purchaseOrderId);
+    this.purchaseOrder = await this.purchaseOrderService.getById(this.purchaseOrderId);
+    this.products = await this.purchaseOrderService.getProductsByPurchaseOrderId(this.purchaseOrderId);
   }
 
 }

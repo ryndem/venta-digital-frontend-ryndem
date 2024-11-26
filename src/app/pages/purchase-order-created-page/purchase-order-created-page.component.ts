@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Order } from 'app/model/order';
+import { PurchaseOrder } from 'app/model/purchase-order';
 import { User } from 'app/model/user';
-import { OrderService } from 'app/services/order.service';
+import { PurchaseOrderService } from 'app/services/purchase-order.service';
 
 @Component({
   selector: 'purchase-order-created-page',
@@ -15,11 +15,11 @@ export class PurchaseOrderCreatedPageComponent implements OnInit {
   user: User | null = null;
   
   purchaseOrderId: string | null = null;
-  order: Order | null = null;
+  order: PurchaseOrder | null = null;
   
 
   constructor( 
-      private orderService : OrderService, 
+      private purchaseOrderService : PurchaseOrderService, 
       private currentRoute: ActivatedRoute, 
       private store: Store<any>) {
     this.store.subscribe( event => {
@@ -36,7 +36,7 @@ export class PurchaseOrderCreatedPageComponent implements OnInit {
 
   async loadPurchaseOrder() {
     if( this.purchaseOrderId ) {
-      this.order = await this.orderService.getById(this.purchaseOrderId);
+      this.order = await this.purchaseOrderService.getById(this.purchaseOrderId);
       this.isLoading = false;
     }
   }

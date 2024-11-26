@@ -1,0 +1,14 @@
+.active-order-not-saved-banner {
+  border: 1px solid var(--orange-500);
+  background-color: var(--orange-50);
+  &__content {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 0.5rem;
+
+    margin: 0 auto;
+    padding: 12px 40px;
+    width: 100%;
+    max-width: 1280px;
+  }
+}

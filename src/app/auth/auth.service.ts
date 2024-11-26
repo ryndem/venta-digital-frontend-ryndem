@@ -5,7 +5,7 @@ import { AuthToken } from 'app/model/auth-token';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateAddresses, updateIsLogged, updateUser } from 'app/store/users/user.actions';
+import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/users/user.actions';
 import { AddressResponse } from 'app/model/address';
 
 @Injectable({
@@ -18,7 +18,8 @@ export class AuthService {
   ) { }
   private TOKEN_KEY = 'authtoken';
   private SESSION_KEY = 'sessionid';
-  private REFRESH_TOKEN_KEY = "refresh_token";
+  private REFRESH_TOKEN_KEY = 'refresh_token';
+  private ORDER_FORM = 'purchase-order-form';
 
   isOpenLoginModal = signal<boolean>(false);
   isAuthenticated = signal<boolean>(false);
@@ -54,6 +55,8 @@ export class AuthService {
     );
 
     this.authToken.set(token.access_token);
+    localStorage.removeItem(this.ORDER_FORM);
+    this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: false}));
     localStorage.setItem(this.TOKEN_KEY, token.access_token);
     localStorage.setItem(this.SESSION_KEY, token.idSession);
     localStorage.setItem(this.REFRESH_TOKEN_KEY, token.refresh_token);
@@ -111,7 +114,7 @@ export class AuthService {
 
   async loadSession(): Promise<User | null> {
     const token = localStorage.getItem(this.TOKEN_KEY);
-
+    this.store.dispatch(updateLoading({ loading: true }));
     if (token) {
       try {
         this.authToken.set(token);
@@ -122,12 +125,17 @@ export class AuthService {
         const user = await this.loadUserInfo();
         this.updateUser(user);
 
+        this.updateUserSelections();
+
         return user;
       } catch (error) {
         this.authToken.set(null);
         this.updateUser(null);
+      } finally {
+        this.store.dispatch(updateLoading({ loading: false }))
       }
     }
+    this.store.dispatch(updateLoading({ loading: false }));
     return null;
   }
 
@@ -189,6 +197,12 @@ export class AuthService {
       this.customerId.set(null);
       this.store.dispatch(updateUser({ user: null }));
       this.store.dispatch(updateIsLogged({ isLogged: false }));
+    }
+  }
+
+  private updateUserSelections() {
+    if( localStorage.getItem(this.ORDER_FORM)) {
+      this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: true}));
     }
   }
 
@@ -278,5 +292,5 @@ export class AuthService {
       )
     )
   }
-  
+
 }

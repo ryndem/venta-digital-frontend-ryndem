@@ -1,0 +1,134 @@
+<div class="login-card">
+  <div class="login-card__background" role="button" tabindex="0" 
+    (click)="close()" 
+    (keydown.enter)="close()" 
+    (keydown.space)="close()"></div>
+
+  <div class="login-card__container">
+    <button class="login-card__close" (click)="close()">
+      <ng-icon name="heroXMark" size="24"></ng-icon>
+    </button>
+    <div class="login-card__form">
+      <div
+        class="login-card__form__error text-red-700"
+        *ngIf="credentialsError"
+      >
+        <div class="text-body error-alert">
+          <p class="text-title-5">Hubo un problema al iniciar sesión</p>
+          Por favor, verifica tus datos e inténtalo nuevamente. Si el problema
+          persiste, ponte en contacto con nosotros.
+        </div>
+      </div>
+      <img
+        class="login-card__form__hero"
+        src="assets/icons/proquifa-logo-full-color.svg"
+        alt="proquifa logo"
+      />
+
+      <div class="login-card__form__body">
+        <div class="login-card__form__body__header">
+          <h2 class="text-title-2 text-gray-green-800">Iniciar Sesión</h2>
+          <p class="text-body text-gray-green-800">
+            Para agregar productos a una cotización es necesario que inicies
+            sesión.
+          </p>
+        </div>
+
+        <form
+          class="form-group mb-32"
+          (ngSubmit)="login(loginForm)"
+          #loginForm="ngForm"
+        >
+          <div class="form-control">
+            <label
+              for="email"
+              class="form-control__label text-body-medium text-gray-green-900"
+              >Correo electrónico</label
+            >
+            <input
+              id="email"
+              class="form-control__input text-paragraph text-gray-green-900"
+              name="email"
+              placeholder="Correo electrónico"
+              type="email"
+              required
+              email
+              ngModel
+              #emailInput="ngModel"
+            />
+
+            <div
+              class="text-small text-red-700"
+              *ngIf="
+                (loginForm.submitted || emailInput.dirty) && emailInput.invalid
+              "
+            >
+              <small *ngIf="emailInput.errors?.['email']"
+                >El formato de correo electrónico es incorrecto
+              </small>
+              <small *ngIf="emailInput.errors?.['required']"
+                >El correo electrónico es requerido</small
+              >
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label
+              for="password"
+              class="form-control__label text-body-medium text-gray-green-900"
+              >Contraseña</label
+            >
+            <div class="form-control__input text-paragraph text-gray-green-900">
+              <input
+                id="password"
+                name="password"
+                class="text-paragraph"
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                placeholder="Contraseña"
+                autocomplete="false"
+                required
+                ngModel
+                #passwordInput="ngModel"
+              />
+              <button (click)="togglePasswordVisibility()" type="button">
+                <ng-icon name="heroEye" size="16" *ngIf="isPasswordVisible"></ng-icon>
+                <ng-icon name="heroEyeSlash" size="16"  *ngIf="!isPasswordVisible"></ng-icon>
+              </button>
+            </div>
+            <div
+              class="text-small text-red-700"
+              *ngIf="
+                (loginForm.submitted || passwordInput.dirty) &&
+                passwordInput.invalid
+              "
+            >
+              <small *ngIf="passwordInput.errors?.['required']"
+                >La contraseña es requerida</small
+              >
+            </div>
+          </div>
+
+          <button [disabled]="loading">Iniciar Sesión</button>
+        </form>
+      </div>
+
+      <div class="login-card__form__footer">
+        <a
+          routerLink="auth/forgot-password"
+          class="text-body text-blue-600"
+          (click)="close()"
+        >
+          Recupera el acceso a tu cuenta
+        </a>
+
+        <p class="text-body">
+          ¿Aún no tienes acceso?
+          <a class="text-blue-600" routerLink="auth/sign-up" (click)="close()">
+            Regístrate ahora
+          </a>
+          para activar tu cuenta y disfrutar de todos los beneficios.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

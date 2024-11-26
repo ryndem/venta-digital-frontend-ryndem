@@ -69,6 +69,33 @@
         display: block;
         margin: 0 auto;
       }
+      .actions {
+        text-align: center;
+        margin: 1rem auto;
+        display: grid;
+        grid-template-areas:  "button"
+                              "link";
+        justify-content: center;
+        justify-items: center;
+
+        row-gap: 0.5rem;
+        column-gap: 0.5rem;
+        button {
+          border: 0;
+          min-width: 175px;
+          min-height: 40px;
+        }
+        .quotes-link {
+          grid-area: link;
+          color: var(--primary-500);
+        }
+        .primary-link {
+          grid-area: button;
+          color: white;
+          background-color: var(--primary-500);
+          
+        }
+      }
     }
   }
 
@@ -109,6 +136,15 @@
             letter-spacing: 0.5px;
             line-height: 20px;
             margin: 0px 0px 16px 0px;
+          }
+        }
+      }
+
+      &__next__step {
+        .actions {
+          grid-template-areas: "link button";
+          button {
+            min-width: unset;
           }
         }
       }

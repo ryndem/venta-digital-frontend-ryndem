@@ -1,0 +1,98 @@
+<div class="purchase-order-item-form-card" [ngClass]="{'used': product.inPurchaseOrder}">
+
+  <div class="quote text-subtle">Cotización: <span class="text-body-medium underline text-blue-600">{{quoteFolio}}</span></div>
+
+
+  <div class="purchase-order-item-form-card__header" >
+    <div class="presentation">
+      <img [src]="presentationImage" alt="product presentation" *ngIf="presentationImage">
+    </div>
+
+    <div class="cas-cat">
+      <div class="cas" *ngIf="product.cas">
+        <span class="text-small-regular">CAS</span>
+        <p class="text-small-regular">{{product.cas}}</p>
+      </div>
+
+      <div class="cat" *ngIf="product.catalog">
+        <span class="text-small-regular">CAT</span>
+        <p class="text-small-regular">{{product.catalog}}</p>
+      </div>
+    </div>
+
+    <div class="brand" *ngIf="brandImage">
+      <img [src]="brandImage" alt="product brand">
+    </div>
+  </div>
+
+  <div class="purchase-order-item-form-card__info">
+    <div class="type">
+      <div class="text-small text-bold">{{product.type}}</div>
+    </div>
+
+    <div class="description">
+      <div class="text-subtle">{{product.description}}</div>
+    </div>
+  </div>
+
+  <div class="purchase-order-item-form-card__totals">
+
+    <div class="quantities">
+      <div class="text-small text-gray-green-500">Cant.</div>
+      <span *ngIf="!product.inPurchaseOrder && mode==='remove' then selector; else info"></span>
+      <ng-template #info> <span class="text-title-5">{{product.quantity}}</span> </ng-template>
+      <ng-template #selector> 
+        <atm-quantity-selector
+          [quantity]="quantity"
+          (quantityChange)="updateProductUnits($event)"
+          [cartMode]="false"
+        />
+     </ng-template>
+    </div>
+
+    <div class="measures">
+      <div class="text-small text-gray-green-500">U. Medida</div>
+      <div class="text-body-medium">{{ product.unitMeasure }}</div>
+    </div>
+
+    <div class="prices">
+      <div class="text-small text-gray-green-500">Precio U.</div>
+      <div class="prices-wrapper">
+        <p class="not-price text-small-regular">{{ product.webPrice | usdCurrency }}</p>
+        <p class="price">{{ product.unitPrice | usdCurrency }}</p>
+      </div>
+    </div>
+
+    <div class="total">
+      <span class="text-small text-gray-green-500">Importe</span>
+      <p class="text-primary-500">{{ product.totalPrice | usdCurrency }}</p>
+    </div>
+
+    <div class="delivery text-subtle" *ngIf="product.tee">
+      Envío en {{product.tee}} días hábiles
+    </div>
+    
+    <div class="express">
+      
+      <div class="express-tag" *ngIf="!product.inPurchaseOrder && mode==='remove' && product.appliesExpressFreight">
+        <button class="check-button"
+          (click)="setExpressFreight(!expressFleight)"
+        >
+          <img src="assets/icons/check.svg" alt="check icon" *ngIf="expressFleight">
+        </button>
+        <div class="express-tag-label">
+          <span>Flete express</span>
+          <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="purchase-order-item-form-card__action">
+    <button type="button" class="add-product btn text-body-medium" (click)="addToOrder()" *ngIf="!product.inPurchaseOrder && mode==='add'">Agregar a Orden de Compra</button>
+    <button type="button" class="remove-product btn text-body-medium" (click)="removeFromOrder()" *ngIf="!product.inPurchaseOrder && mode==='remove'">Remover de orden de compra</button>
+    <div class="in-order-disclaimer text-body-medium" *ngIf="product.inPurchaseOrder">Asignada a Orden de Compra</div>
+  </div>
+
+</div>

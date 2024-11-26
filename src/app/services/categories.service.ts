@@ -31,13 +31,13 @@ export class CategoriesService {
       default: '-',
     };
     const icons: any = {
-      standards: 'assets/icons/category-standards.svg',
-      reagents: 'assets/icons/category-reactive.svg',
-      controlled: 'assets/icons/category-lock.svg',
-      microbiology: 'assets/icons/category-microscope.svg',
-      publications: 'assets/icons/category-book.svg',
-      training: 'assets/icons/category-trainings.svg',
-      labware: 'assets/icons/category-filtros-y-columnas.svg',
+      standards: 'assets/imgs/categories/standards.svg',
+      reagents: 'assets/imgs/categories/reactive.svg',
+      controlled: 'assets/imgs/categories/lock.svg',
+      microbiology: 'assets/imgs/categories/microscope.svg',
+      publications: 'assets/imgs/categories/book.svg',
+      training: 'assets/imgs/categories/trainings.svg',
+      labware: 'assets/imgs/categories/filtros-y-columnas.svg',
       default: 'assets/icons/no-image.svg',
     };
 

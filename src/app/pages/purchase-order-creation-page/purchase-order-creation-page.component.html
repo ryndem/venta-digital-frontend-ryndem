@@ -1,0 +1,171 @@
+<mol-active-order-not-saved-banner />
+<div class="purchase-order-creation-page">
+
+    <div class="purchase-order-creation-page__header">
+        <div class="breadcrumbs">
+            <a routerLink="/quotes">
+                <ng-icon name="heroArrowLeft" size="16" color="#0E2F2F"></ng-icon>
+                Volver al administrador
+            </a>
+        </div>
+        <h1 class="text-title-1 text-primary-500">Tramitar Pedido</h1>
+    </div>
+
+
+    <div class="purchase-order-creation-page__content">
+
+        <div class="purchase-order-creation-page__content__address">
+            <h5 class="text-title-5">Dirección de Entrega</h5>
+            <span class="text-body">Elige una dirección de entrega para visualizar las cotizaciones disponibles para esa dirección.</span>
+            <div class="selector">
+                <mol-address-selector
+                        [otherAddressDisabled]="true"
+                        [needsConfirmation]="selectedProducts.length > 0"
+                        [selectedAddressId]="selectedAddressId"
+                        (addressSelectedEmitter)="onAddressSelected($event)" 
+                        />
+            </div>
+        </div>
+
+
+        <div class="purchase-order-creation-page__content__quotes" *ngIf="selectedAddressId || isQuotesLoading">
+            <h5 class="text-title-5">Cotizaciones Vigentes</h5>
+            <div class="quotes" *ngIf="!isQuotesLoading && quotes.length > 0">
+                <button type="button"
+                    class="btn text-body-medium quote"
+                    [ngClass]="{'selected': selectedQuote?.quotationDetails?.idQuotation === quote.idQuotation}"
+                    *ngFor="let quote of quotes"
+                    (click)="selectQuote(quote)">{{quote.folio}}</button>
+            </div>
+            <div class="loader" *ngIf="isQuotesLoading">
+                <atm-loader-points/>
+            </div>
+
+            <div class="empty-alert text-body-medium text-amber-500" *ngIf="!isQuotesLoading && quotes.length === 0">
+                    <img src="assets/icons/error-document.svg" alt="cotizaciones no encontradas" />
+                    No se encontraron cotizaciones relacionadas a esta dirección. Por favor, seleccione otra opción.
+            </div>
+        </div>
+
+
+        <div class="purchase-order-creation-page__content__filters">
+            <h5 class="text-title-5">Filtrar Partidas</h5>
+            <div class="filters">
+                <div class="tabs">
+                    <button type="button" class="btn text-body-medium"
+                            [ngClass]="{'selected':tabFilter==='available'}"
+                            (click)="updateTab('available')">Disponibles</button>
+                    <button type="button" class="btn text-body-medium"
+                            [ngClass]="{'selected':tabFilter==='in-order'}"
+                            (click)="updateTab('in-order')">Agregadas a Órdenes</button>
+                    <button type="button" class="btn text-body-medium"
+                            [ngClass]="{'selected':tabFilter==='all'}"
+                            (click)="updateTab('all')">Todas</button>
+                </div>
+                <div class="text-filter">
+                    <input type="text" class="text-body"
+                            [(ngModel)]="textFilter"
+                            (input)="updateProducts()"
+                            placeholder="No. catálogo, concepto, marca, CAS"
+                            >
+                </div>
+            </div>
+        </div>
+
+        <div class="purchase-order-creation-page__content__quote-products">
+            <h4 class="text-title-4">Partidas de la Cotización</h4>
+            <div class="content">
+
+                <div *ngIf="!isQuotesLoading">
+                    <div class="products" *ngIf="availableProducts.length > 0">
+                        <org-purchase-order-item-form-card
+                            *ngFor="let product of availableProducts"
+                            [quoteFolio]="selectedQuote?.quotationDetails?.folio||''"
+                            [product]="product"
+                            (addedToOrderEmitter)="onAddedToOrderEmitter($event)"/>
+                    </div>
+
+                    <div class="empty-state" *ngIf="!isItemsLoading && availableProducts.length === 0">
+                        <div class="circle-icon"><img src="assets/icons/truck.svg" alt="truck icon"/></div>
+                        <span class="text-neutral-400 text-subtle">Elige una dirección de entrega para visualizar tus cotizaciones disponibles.</span>
+                    </div>
+                </div>
+
+                <div class="loader" *ngIf="isQuotesLoading || isItemsLoading">
+                    <atm-skeleton-product-card />
+                    <atm-skeleton-product-card />
+                </div>
+            </div>
+        </div>
+
+        <div class="purchase-order-creation-page__content__order-products">
+            <h4 class="text-title-4">Partidas en el Pedido</h4>
+            <div class="content">
+                <div class="products" *ngIf="selectedProducts && selectedProducts.length > 0">
+                    <org-purchase-order-item-form-card
+                        *ngFor="let product of selectedProducts"
+                        [quoteFolio]="product.quoteFolio || ''"
+                        [product]="product.item"
+                        [quantity]="product.quantity"
+                        [expressFleight]="product.applyFleteExpress"
+                        (removedFromOrderEmitter)="onRemovedFromOrderEmitter($event)"
+                        (updateQuantityEmitter)="onUpdateQuantityEmitter($event)"
+                        (updateExpressFreightEmitter)="onUpdateExpressFreightEmitter($event)"
+                        mode="remove"/>
+                </div>
+
+                <div class="empty-state" *ngIf="selectedProducts && selectedProducts.length === 0">
+                    <div class="circle-icon"><img src="assets/icons/empty-page.svg" alt="page icon"/></div>
+                    <span class="text-neutral-400 text-subtle">Prueba agregando algunas de la columna de cotizaciones vigentes.</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="purchase-order-creation-page__content__summary">
+
+            <div class="content">
+                <div class="text-subtle">
+                    Por favor, carga el archivo de la orden de compra de tu compañía
+                    y luego ingresa manualmente el número de orden de compra correspondiente,
+                    junto con el subtotal.
+                </div>
+
+                <mol-file-uploader
+                  (fileUploadedEmitter)="onFileUploaded($event)"
+                  (fileRemovedEmitter)="onFileRemoved()"
+                />
+
+                <div class="text-body-medium">
+                    <span>Núm. de Referencia Orden de Compra</span>
+                    <input type="text" [(ngModel)]="purchaseOrderNumber" (input)="onOrderNumberChange()">
+                </div>
+
+                <div class="totals">
+                    <div class="double-field text-body">
+                        <div>Sub-Total</div>
+                        <div>{{ totals.subtotal | usdCurrency }}</div>
+                    </div>
+                    <div class="double-field text-body">
+                        <div>I.V.A.</div>
+                        <div>{{ totals.saleTax | usdCurrency }}</div>
+                    </div>
+                    <div class="double-field">
+                        <div class="text-paragraph">Total</div>
+                        <div class="text-title-3 text-primary-500">{{ totals.total  | usdCurrency }}</div>
+                    </div>
+                </div>
+
+                <button type="btn"
+                        class="btn button text-body-medium"
+                        [disabled]="isUpdatingTotals || isCreatingOrder || !fileId || selectedProducts.length === 0 || !purchaseOrderNumber.trim() || totals.total === 0"
+                        (click)="createOrder()">
+                    <ng-icon name="heroShoppingCart" size="24" *ngIf="!isUpdatingTotals"/>
+                    <atm-loader-circle *ngIf="isUpdatingTotals" />
+                    Crear Pedido
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
