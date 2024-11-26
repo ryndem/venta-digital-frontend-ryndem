@@ -1,0 +1,52 @@
+<div class="purchase-order-item-card">
+  <div class="purchase-order-item-card__header">
+    <img [src]="presentationImage" alt="product img" *ngIf="presentationImage" width="50" height="50">
+
+    <div class="column-two">
+      <div class="column-two__cas__cat">
+        <div class="column-two__item" *ngIf="quoteItem.cas">
+          <span>CAS</span>
+          <strong>{{quoteItem.cas}}</strong>
+        </div>
+        <div class="column-two__item" *ngIf="quoteItem.catalog">
+          <span>CAT</span>
+          <strong>{{quoteItem.catalog}}</strong>
+        </div>
+      </div>
+
+      <img *ngIf="brandImage" [src]="brandImage" alt="product brand" width="32" height="32"/>
+    </div>
+  </div>
+
+  <div class="purchase-order-item-card__description">
+    <span>{{quoteItem.type}}</span>
+    <p>{{quoteItem.description}}</p>
+  </div>
+
+  <div class="purchase-order-item-card__price">
+    <div class="measure-item">
+      <span>U. Medida</span>
+      <strong>{{quoteItem.unitMeasure}}</strong>
+    </div>
+    <div class="unit-price-item">
+      <span>Precio U.</span>
+      <strong>{{quoteItem.unitPrice | usdCurrency}} </strong>
+    </div>
+    <div class="quantity-item">
+      <span>Cant.</span>
+      <strong>{{quoteItem.quantity}}</strong>
+    </div>
+    <div class="amount-item">
+      <span>Importe</span>
+      <h3>{{quoteItem.totalPrice | usdCurrency }}</h3>
+    </div>
+  </div>
+
+  <div class="purchase-order-item-card__footer">
+    <span id="shipping" *ngIf="quoteItem.tee">Envío en {{quoteItem.tee}} días hábiles</span>
+    <div class="express-tag" *ngIf="quoteItem.appliesExpressFreight">
+      <span> Flete express</span>
+      <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+    </div>
+  </div>
+</div>

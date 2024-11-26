@@ -1,0 +1,185 @@
+.purchase-order-item-form-card {
+  border: solid 1px var(--neutral-400);
+  border-radius: 2px;
+  padding: 0.5rem;
+  background-color: white;
+
+  display: grid;
+  row-gap: 0.8rem;
+
+  &.used {
+    .purchase-order-item-form-card {
+      &__header, &__totals, &__info {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+    .quote {
+      grid-column-end: span 3;
+    }
+    .cas-cat {
+      display: grid;
+      column-gap: 0.5rem;
+    }
+
+    .cas,
+    .cat {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      p {
+        font-weight: 650;
+      }
+    }
+
+    .presentation {
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .brand {
+      padding: 0.5rem;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+
+
+  &__info {
+    display: grid;
+    row-gap: 8px;
+  }
+
+  &__totals {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-areas:  "measures prices"
+                          "quantities total"
+                          "delivery delivery"
+                          "express express";
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+
+    .quantities {
+      grid-area: quantities;
+    }
+
+    .measures {
+      grid-area: measures;
+    }
+
+    .prices {
+      text-align: right;
+      grid-area: prices;
+      .prices-wrapper {
+        display: flex;
+        gap: 4px;
+        justify-content: end;
+      }
+      .not-price {
+        color: var(--gray-green-500);
+        text-decoration: line-through;
+        font-weight: 450;
+      }
+      .price {
+        font-family: "Stellar";
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .total {
+      grid-area: total;
+      text-align: right;
+      p {
+        font-family: 'Stellar';
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+      }
+    }
+    .delivery {
+      grid-area: delivery;
+      font-style: italic;
+    }
+
+    .express {
+      grid-area: express;
+    }
+    .express-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      .express-tag-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        span {
+          font-family: "Work Sans";
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: 600;
+        }
+      }
+
+      .check-button {
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        border: 1px solid gray;
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+        background-color: transparent;
+        align-items: center;
+        cursor: pointer;
+        &:disabled {
+          cursor: default;
+        }
+        
+      }
+    }
+  }
+
+  &__action {
+    button {
+      width: 100%;
+      border-radius: 2px;
+    }
+    .add-product {
+      border: 0;
+      color: white;
+      background-color: var(--primary-500);
+    }
+    .remove-product {
+      border: 1px solid var(--neutral-400);
+      background-color: white;
+    }
+    .in-order-disclaimer {
+      text-align: center;
+      background-color: var(--orange-100);
+      color: var(--orange-700);
+      border-radius: 2px;
+      padding: 0.5rem;
+    }
+  }
+
+}

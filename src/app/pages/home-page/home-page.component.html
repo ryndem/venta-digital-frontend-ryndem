@@ -3,7 +3,16 @@
 <div class="home-container">
   <div *ngIf="productResponse" class="home-container__oustanding">
     <h1 class="text-neutral-800 mb-16">Productos Destacados</h1>
-    <org-products-grid [products]="productResponse"/>
+
+    <div class="home-container__skeleton-grid" *ngIf="isLoadingProducts">
+      <atm-skeleton-product-card *ngFor="let item of skeletonList" />
+    </div>
+
+    <org-products-grid
+      [products]="productResponse"
+      *ngIf="!isLoadingProducts"
+    />
+
   </div>
   <org-categories-gallery
     id="categories"

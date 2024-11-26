@@ -18,6 +18,7 @@ export type QuoteProduct = {
   webPrice: number;
   tee: number;
   controlled: boolean;
+  
   //TODO: Remove one of these once the API is fixed
   appliesExpressFreight: boolean;
   appliesFreightExpress: boolean;

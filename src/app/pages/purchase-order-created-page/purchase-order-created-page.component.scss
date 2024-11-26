@@ -49,6 +49,17 @@
       row-gap: 1rem;
       padding: 1rem;
       background-color: var(--neutral-100);
+
+      .creation-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        span {
+          display: block;
+        }
+        .products {
+          text-align: right;
+        }
+      }
     }
 
     &__next__step {

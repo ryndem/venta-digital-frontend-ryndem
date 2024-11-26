@@ -1,0 +1,28 @@
+.file-uploader {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 10px;
+  align-items: center;
+
+  width: 100%;
+  background-color: white;
+  padding: 8px;
+  border: 1px solid var(--neutral-400);
+  border-radius: 2px;
+  cursor: pointer;
+
+  .disclaimer {
+    text-align: left;
+    span {
+      display: block;
+    }
+  }
+
+  button.remove-file {
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    font-size: 0%;
+    cursor: pointer;
+  }
+}

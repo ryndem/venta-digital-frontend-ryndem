@@ -1,0 +1,9 @@
+<div class="quote-order-list">
+
+  <org-order-element-card 
+        class="quote-order" 
+        *ngFor="let quote of quotes" 
+        (click)="goToDetails(quote)"
+        [quote]="quote" />
+
+</div>

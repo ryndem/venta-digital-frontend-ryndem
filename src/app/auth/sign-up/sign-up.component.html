@@ -326,9 +326,7 @@
     <div class="sign-up__terms-and-conditions">
       <p class="text-small text-gray-green-900">
         Al hacer clic en "Registrarme", usted acepta los
-        <a class="text-blue-600" routerLink="/terms-and-conditions"
-          >Términos y Condiciones</a
-        >
+        <a class="text-blue-600" routerLink="/terms-and-conditions" target="_blank">Términos y Condiciones</a>
         de uso de nuestro servicio. <br />
         Por favor, lea detenidamente nuestra política de privacidad y términos
         de servicio antes de proceder con el registro.
@@ -360,12 +358,10 @@
       </div>
     </div>
 
-    <org-info-card
-      title="Error al enviar el formulario"
-      [description]="errorMessage"
-      *ngIf="isServerError"
-    >
-    </org-info-card>
+    <div class="error-alert text-body" *ngIf="isServerError">
+      <p class="text-title-5">Error al enviar el formulario</p>
+      {{errorMessage}}
+    </div>
 
     <button>Registrarme</button>
   </form>
@@ -401,7 +397,7 @@
   <a routerLink="/" class="form-button">Regresar al inicio</a>
 </div>
 
-<div class="justify-centered" *ngIf="isSingupRequested && isReviewPending">
+<div class="sign-up__in-review justify-centered " *ngIf="isSingupRequested && isReviewPending">
   <p class="text-title-2 mb-16">TU REGISTRO ESTÁ EN REVISIÓN</p>
 
   <p class="text-paragraph mb-16">
@@ -415,13 +411,13 @@
   </p>
 
   <ul>
-    <li class="text-paragraph mb-16">
+    <li class="text-paragraph">
       Verificar los datos de tu empresa/negocio.
     </li>
-    <li class="text-paragraph mb-16">
+    <li class="text-paragraph">
       Brindarte asesoría sobre nuestros productos y servicios.
     </li>
-    <li class="text-paragraph mb-16">
+    <li class="text-paragraph">
       Finalizar tu registro y activar tu acceso a la plataforma.
     </li>
   </ul>
@@ -432,17 +428,13 @@
   </p>
 
   <ul>
-    <li class="text-paragraph mb-16">
-      <a class="text-blue-600 text-600" href="tel:+525513151498"
-        >(55) 1315 1498</a
-      >
-      CDMX
+    <li class="text-paragraph text-bold">
+      <a class="text-blue-600 text-600" href="tel:+525513151498">(55) 1315 1498</a>
+      <span> CDMX</span>
     </li>
-    <li class="text-paragraph mb-16">
-      <a class="text-blue-600 text-600" href="tel:+523347701170"
-        >(33) 4770 1170</a
-      >
-      GDL
+    <li class="text-paragraph text-bold">
+      <a class="text-blue-600 text-600" href="tel:+523347701170">(33) 4770 1170</a>
+      <span> GDL</span>
     </li>
   </ul>
 

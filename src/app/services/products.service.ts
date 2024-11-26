@@ -42,12 +42,11 @@ export class ProductsService {
     private router: Router
   ) {}
 
-  private PAGE_SIZE = 30;
   private SERVER_ERROR_PAGE_PATH = '/server-error';
 
   async listProductsByCategory(searchParams: any): Promise<ProductResponse> {
     const body: SearchProductProps = {
-      pageSize: this.PAGE_SIZE,
+      pageSize: searchParams.pageSize,
       desiredPage: searchParams.page,
       sortField: 'description',
       sortDirection: searchParams.sortDirection,
@@ -182,7 +181,7 @@ export class ProductsService {
       apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferVD`;
     }
 
-    return firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
+    return await firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
   }
 
   async getProductOfferWeb(productId: string): Promise<PriceOffert> {
@@ -192,7 +191,7 @@ export class ProductsService {
       Pieces: 1,
     };
 
-    return firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
+    return await firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
   }
 
   async searchProducts(search: string): Promise<SearchedProduct[]> {

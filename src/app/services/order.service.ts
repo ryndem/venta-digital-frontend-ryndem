@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Order } from 'app/model/order';
+import { ConfirmedOrder } from 'app/model/confirmed-order';
 import { QuotePage } from 'app/model/quote-page';
-import { ShoppingCart } from 'app/model/shopping-cart';
+import { OrderItemPage } from 'app/model/order-item-page';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,29 +11,51 @@ import { firstValueFrom } from 'rxjs';
 })
 export class OrderService {
   private apiPath: string = environment.apiUrl;
-
   constructor(private httpClient: HttpClient) {}
 
-  async create(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: string[] ) {
 
-   return await firstValueFrom(this.httpClient.post<Order>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}`, items ));
-  }
-
-
-  async getOrders(folio: string|null) {
+  async getOrders(folio: string|null, clientId: string, isClosed: boolean) {
     const body:any = {
       pageSize: 100,
       desiredPage: 1
     };
+    const filters = [];
+
+    filters.push({
+      'FilterName': 'isClosed',
+      'FilterValue': isClosed
+    });
 
     if(folio && folio.length > 0) {
-      body.Folio = folio;
+      filters.push({
+        'FilterName': 'Folio',
+        'FilterValue': folio
+      });
     }
+    body. filters = filters;
 
-    return await firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/PurchaseOrder/ListPurchaseOrder', body));
+    return await firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/Order/ListOrder', body));
   }
 
-  getById(purchaseOrderId: string) {
-    return firstValueFrom(this.httpClient.get<Order>(`${this.apiPath}/PurchaseOrder/PurchaseOrderDetails?IdPurchaseOrder=${purchaseOrderId}`));
+  async getItemsByOrderId(orderId: string, quoteId: string) {
+    const body:any = {
+      pageSize: 100,
+      desiredPage: 1,
+      filters: [
+        {
+            FilterName: 'IdtpPedido',
+            FilterValue: orderId
+        },{
+            FilterName: 'IdcotCotizacion',
+            FilterValue: quoteId
+        }],
+    };
+
+    return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/Order/ListOrderItemsDetails', body));
+  }
+
+
+  getById(orderId: string) {
+    return firstValueFrom(this.httpClient.get<ConfirmedOrder>(`${this.apiPath}/Order/OrderDetails?IdOrder=${orderId}`));
   }
 }

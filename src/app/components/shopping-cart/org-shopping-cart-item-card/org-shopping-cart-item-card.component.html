@@ -1,0 +1,116 @@
+<div class="shopping-cart-item-card">
+  <div class="shopping-cart-item-card__header">
+
+    <div class="presentation">
+      <img [src]="presentationImage" alt="product presentation" *ngIf="presentationImage">
+    </div>
+
+    <div class="cas-cat">
+      <div class="cas" *ngIf="product.cas">
+        <span class="text-subtle">CAS</span>
+        <p class="text-paragraph">{{product.cas}}</p>
+      </div>
+
+      <div class="cat" *ngIf="product.catalog">
+        <span class="text-subtle">CAT</span>
+        <p class="text-paragraph">{{product.catalog}}</p>
+      </div>
+    </div>
+
+    <div class="brand" *ngIf="brandImage">
+      <img [src]="brandImage" alt="product brand">
+    </div>
+
+  </div>
+
+  <div class="shopping-cart-item-card__action">
+    <button
+      type="button" class="btn text-gray-green-800"
+      (click)="loadRelated()"
+      [disabled]="!product.idProduct"
+      *ngIf="cartMode"
+    >
+      <ng-icon name="heroSquaresPlus" size="16"></ng-icon>
+      <span class="text-large">Alternativos y complementarios</span>
+    </button>
+  </div>
+
+  <div class="shopping-cart-item-card__info">
+    <div class="controlled text-orange-700 " *ngIf="product.controlled">
+      <ng-icon class="icon" size="16" name="heroLockClosed"></ng-icon>
+      <span class="text-x-small text-600">Controlado</span>
+    </div>
+
+    <div class="type" *ngIf="!product.controlled">
+      <div class="text-body text-bold">{{product.type}}</div>
+    </div>
+
+    <div class="description">
+      <div class="text-paragraph">{{product.description}}</div>
+    </div>
+  </div>
+
+  <div class="shopping-cart-item-card__totals">
+
+    <div class="quantities column">
+      <p class="text-small-regular text-gray-green-500">Cant.</p>
+      <atm-quantity-selector
+        *ngIf="cartMode; else readonly"
+        [quantity]="quantity"
+        [disabled]="isAddingToCar"
+        (quantityChange)="onCartCounterChange($event)"
+        (removeItem)="onRemoveItem()"
+      />
+      <ng-template #readonly>
+        <span class="text-title-5">{{quantity}}</span>
+      </ng-template>
+    </div>
+
+    <div class="measures column">
+      <p class="text-small-regular text-gray-green-500">U. Medida</p>
+      <div class="text-title-5">{{ product.unitMeasure }}</div>
+    </div>
+
+    <div class="prices column">
+      <p class="text-small-regular text-gray-green-500">Precio U.</p>
+      <div class="prices__items">
+        <span class="not-price text-small-regular text-gray-green-500">{{ product.webPrice | usdCurrency }}</span>
+        <span class="price text-title-5">{{ product.unitPrice | usdCurrency }}</span>
+      </div>
+    </div>
+
+    <div class="total column">
+      <p class="text-small-regular text-gray-green-500">Importe</p>
+      <div class="text-title-3 text-primary-500 total-price">
+        {{ product.totalPrice | usdCurrency }}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="shopping-cart-item-card__shipping">
+    <div>
+      <p *ngIf="product.tee" id="shipping">
+        Envío en {{product.tee}} días hábiles
+      </p>
+    </div>
+
+    <div
+      class="express-tag"
+      [ngClass]="{'disabled': disabledExpressFreightCheckbox}"
+      *ngIf="product.expressFreightAvailable && showExpressFreightInput"
+    >
+      <button
+        class="check-button"
+        (click)="onExpressFreightToggle(product)"
+        [disabled]="disabledExpressFreightCheckbox"
+      >
+        <img src="assets/icons/check.svg" alt="check icon" *ngIf="checkboxMarked">
+      </button>
+      <div class="express-tag-label">
+        <span>Flete express</span>
+        <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+.order-details-page {
+  max-width: 1200px;
+  padding: 16px;
+  margin: 0 auto;
+
+  &__content {
+    display: grid;
+    gap: 16px;
+    h1 {
+      margin: 0;
+    }
+    &__products {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      h1 {
+        font-family: "Stellar";
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: 0.5px;
+        color: var(--primary-500);
+        margin: 16px 0 0 0;
+      }
+
+      &__filters {
+        .filters {
+          &__quotes {
+            button {
+              display: inline-block;
+              margin-right: 4px;
+              &.selected {
+                background-color: var(--gray-green-900);
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(min-width: 1024px) {
+  .order-details-page {
+    padding: 0px;
+    margin: 32px auto;
+    a {
+      padding: 0px 16px;
+    }
+    &__content {
+      grid-template-columns: [col1] 67.5fr [col2] 32.5fr;
+      gap: 0px;
+      &__products {
+        padding: 16px;
+        gap: 16px;
+        h1 {
+          font-size: 36px;
+          line-height: 46px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

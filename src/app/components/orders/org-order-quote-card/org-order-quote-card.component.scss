@@ -1,0 +1,36 @@
+.order-quote-card {
+
+  &__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--neutral-100);
+    border-radius: 2px;
+    cursor: pointer;
+
+    span {
+      display: block;
+    }
+
+    .icon {
+      text-align: right;
+    }
+
+    &.opened { 
+      background-color: var(--primary-100);
+      .icon {
+        color: var(--primary-500);
+      }
+    }
+  }
+
+  &__content {
+    padding: 1rem;
+    background-color: var(--neutral-100);
+    .loader {
+      text-align: center;
+    }
+  }
+
+}

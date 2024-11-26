@@ -16,7 +16,8 @@
   line-height: 28px;
   padding: 10px 45px;
   text-decoration: none;
-  width: fit-content;
+  width: 100%;
+  text-align: center;
 
   &:disabled {
     cursor: not-allowed;
@@ -24,6 +25,9 @@
   }
   &:active {
     opacity: 0.8;
+  }
+  @media (min-width: 1024px) {
+    width: fit-content;
   }
 }
 

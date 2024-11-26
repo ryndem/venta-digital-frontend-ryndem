@@ -18,6 +18,8 @@ export class ProductDetailsPageComponent {
 
   isRelatedProductsVisible = false;
   isLogged = false;
+  isLoadingProducts = true;
+  isUserLoading = true;
 
   constructor(
     private productsService: ProductsService,
@@ -26,11 +28,16 @@ export class ProductDetailsPageComponent {
     private router: Router,
   ) {
     this.store.subscribe((state) => {
-      if (this.isLogged != state.user.isLogged) {
+      if (this.isUserLoading != state.user.loading) {
+        this.isUserLoading = state.user.loading;
         this.isLogged = state.user.isLogged;
         this.loadProduct();
       }
     });
+  }
+
+  get showProduct() {
+    return !this.isUserLoading && this.product;
   }
 
   @RouterInput('productId')
@@ -40,6 +47,7 @@ export class ProductDetailsPageComponent {
   }
 
   async loadProduct() {
+    this.isLoadingProducts = true;
     if (this.productId) {
       try {
         const product = await this.productsService.getProduct(this.productId)
@@ -48,6 +56,8 @@ export class ProductDetailsPageComponent {
         if (error instanceof HttpErrorResponse && error.status === 400) {
           this.router.navigate(['404']);
         }
+      } finally {
+        this.isLoadingProducts = false;
       }
     }
   }

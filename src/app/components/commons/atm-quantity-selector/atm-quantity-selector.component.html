@@ -1,0 +1,31 @@
+<div class="quantity-selector">
+  <button
+    type="button"
+    class="btn"
+    (click)="minus()"
+    [disabled]="disabled || (!cartMode && quantity <= 1) || !quantity || isTextFocused"
+  >
+    <ng-icon name="heroTrash" size="24" *ngIf="quantity <= 1 && cartMode"/>
+    <ng-icon name="heroMinus" size="24" *ngIf="quantity > 1 && cartMode" />
+    <ng-icon name="heroMinus" size="24" *ngIf="!cartMode" />
+  </button>
+  <input
+    type="number"
+    min="1"
+    step="1"
+    class="text-paragraph"
+    (focus)="onFocus(true)" 
+    (blur)="onFocus(false)" 
+    [(ngModel)]="quantity"
+    [disabled]="disabled"
+    (input)="onInputChange($event)"
+  />
+  <button
+    type="button"
+    class="btn"
+    (click)="plus()"
+    [disabled]="disabled || isTextFocused"
+  >
+    <ng-icon name="heroPlus" size="24" />
+  </button>
+</div>

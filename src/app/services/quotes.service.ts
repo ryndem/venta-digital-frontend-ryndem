@@ -18,7 +18,11 @@ export class QuotesService {
   }
 
 
-  async getQuotes(folio: string|null): Promise<QuotePage> {
+  async getQuotes(
+    folio: string | null,
+    pageSize: number = 10,
+    desiredPage: number = 1,
+  ): Promise<QuotePage> {
     const filters = [];
 
     if(folio && folio.length > 0) {
@@ -27,29 +31,44 @@ export class QuotesService {
         'FilterValue': folio
       });
     }
-    return this.getQuotesByFilters(filters);
+    return this.getQuotesByFilters(filters, pageSize, desiredPage);
   }
-
 
   async getQuotesByAddressId(addressId: string): Promise<QuotePage> {
     const filters = [{
-        'FilterName': 'IdAddress',
-        'FilterValue': addressId
+      'FilterName': 'IdAddress',
+      'FilterValue': addressId
     }];
-    
+
     return this.getQuotesByFilters(filters);
   }
 
 
-  private getQuotesByFilters(filters: any[]) {
+  private getQuotesByFilters(
+    filters: any[],
+    pageSize: number = 10,
+    desiredPage: number = 1,
+  ) {
     const body:any = {
-      pageSize: 10,
-      desiredPage: 1
+      pageSize,
+      desiredPage,
+      SortField: 'Folio',
+      SortDirection: 'asc'
     };
+    filters.push({
+      'FilterName': 'IsCart',
+      'FilterValue': false
+    });
+    filters.push({
+      'FilterName': 'IsPurchaseOrder',
+      'FilterValue': false
+    });
+    filters.push({
+      'FilterName': 'Active',
+      'FilterValue': true
+    });
 
-    if(filters && filters.length > 0) {
-      body.filters = filters;
-    }
+    body.filters = filters;
     return firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/ListQuotation', body));
   }
 

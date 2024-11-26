@@ -1,0 +1,20 @@
+<div class="category-card" [routerLink]="['/products']" [queryParams]="{ category: category?.key }">
+  <div class="category-card__img">
+    <img [src]="category?.iconPath || 'assets/icons/reactive.svg'" alt="" />
+  </div>
+  <div class="category-card__content">
+    <div class="category-card__content__details">
+      <p class="text-title-3 text-neutral-900 text-capitalize">
+        {{ category?.label }}
+      </p>
+      <p class="text-body text-neutral-900">
+        {{ category?.description }}
+      </p>
+    </div>
+    <a
+      class="text-body text-primary-500 no-decoration category-card__content__link"
+    >
+      Ver Catálogo
+    </a>
+  </div>
+</div>
