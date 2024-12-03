@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,22 +15,20 @@ import { User } from 'app/model/user';
   templateUrl: './order-list-page.component.html',
   styleUrls: ['./order-list-page.component.scss'],
 })
-export class OrderListPageComponent implements OnInit {
+export class OrderListPageComponent implements OnInit, OnDestroy {
 
   private PAGE_SIZE = 12;
-
   tabs: any[] = [];
   currentTab: any = {};
   isClosedFilter = false;
   orders: Quote[] | null = null;
   q = '';
-
   isAuthenticated$: Observable<boolean>;
   idCustomer: string | null = null;
   isLoadingOrders = false;
   skeletonList = Array(4).fill(0);
-  currentPage: number = 1;
-  allLoaded: boolean = false;
+  currentPage = 1;
+  allLoaded = false;
 
   constructor(
     private quoteService: QuotesService,
@@ -65,11 +63,6 @@ export class OrderListPageComponent implements OnInit {
     this.currentTab = this.tabs[0];
   }
 
-  getTotalPages(totalResults: number) {
-    const totalPages = Math.ceil(totalResults / this.PAGE_SIZE)
-    return totalPages;
-  }
-
   async ngOnInit() {
     await this.authService.loadSession();
     this.isAuthenticated$.subscribe((isAuthenticated) => {
@@ -86,6 +79,12 @@ export class OrderListPageComponent implements OnInit {
     window.removeEventListener('scroll', this.onScroll.bind(this));
   }
 
+
+  getTotalPages(totalResults: number) {
+    const totalPages = Math.ceil(totalResults / this.PAGE_SIZE)
+    return totalPages;
+  }
+
   updateTab(tabKey: string) {
     if (this.currentTab.key === tabKey) return;
     this.currentTab = this.tabs.find(t => t.key == tabKey);
@@ -97,7 +96,7 @@ export class OrderListPageComponent implements OnInit {
     await this.loadOrders(true);
   }
 
-  async loadOrders(tabChanged: boolean = false) {
+  async loadOrders(tabChanged = false) {
     if (this.allLoaded || this.isLoadingOrders) return;
 
     this.isLoadingOrders = true;
@@ -138,7 +137,7 @@ export class OrderListPageComponent implements OnInit {
       }
 
       if (this.currentTab.key === 'confirmed') {
-        const page = await this.orderService.getOrders(this.q, this.idCustomer || '', this.isClosedFilter);
+        const page = await this.orderService.getOrders(this.q, this.isClosedFilter);
         this.orders = page.results;
       }
     } catch (e) {

@@ -22,29 +22,58 @@
                         [otherAddressDisabled]="true"
                         [needsConfirmation]="selectedProducts.length > 0"
                         [selectedAddressId]="selectedAddressId"
-                        (addressSelectedEmitter)="onAddressSelected($event)" 
+                        (addressSelectedEmitter)="onAddressSelected($event)"
                         />
             </div>
         </div>
 
 
-        <div class="purchase-order-creation-page__content__quotes" *ngIf="selectedAddressId || isQuotesLoading">
-            <h5 class="text-title-5">Cotizaciones Vigentes</h5>
-            <div class="quotes" *ngIf="!isQuotesLoading && quotes.length > 0">
-                <button type="button"
-                    class="btn text-body-medium quote"
-                    [ngClass]="{'selected': selectedQuote?.quotationDetails?.idQuotation === quote.idQuotation}"
-                    *ngFor="let quote of quotes"
-                    (click)="selectQuote(quote)">{{quote.folio}}</button>
+        <div
+          class="purchase-order-creation-page__content__quotes"
+          *ngIf="selectedAddressId || isQuotesLoading"
+        >
+          <h5 class="text-title-5">Cotizaciones Vigentes</h5>
+          <div class="quotes-list-wrapper">
+            <div>
+              <div class="quotes" *ngIf="!isQuotesLoading && quotes.length > 0">
+                <button
+                  type="button"
+                  class="quote"
+                  [ngClass]="{'selected': selectedQuote?.quotationDetails?.idQuotation === quote.idQuotation}"
+                  *ngFor="let quote of quotes"
+                  (click)="selectQuote(quote)"
+                >
+                  {{quote.folio}}
+                </button>
+              </div>
+              <div class="loader" *ngIf="isQuotesLoading">
+                  <atm-loader-points/>
+              </div>
             </div>
-            <div class="loader" *ngIf="isQuotesLoading">
-                <atm-loader-points/>
+            <div class="paginator" *ngIf="quotes.length > 0">
+              <button
+                (click)="quotesPageChange(currentPage - 1)"
+                [disabled]="currentPage === 1"
+              >
+                <ng-icon name="heroChevronLeft" size="24" color="#627470"/>
+              </button>
+              <span class="text-small-regular text-gray-green-800">Página {{currentPage}} de {{ totalPages}} </span>
+              <button
+                (click)="quotesPageChange(currentPage + 1)"
+                [disabled]="currentPage === this.totalPages"
+              >
+                <ng-icon name="heroChevronRight" size="24" color="##627470"/>
+              </button>
             </div>
+          </div>
 
-            <div class="empty-alert text-body-medium text-amber-500" *ngIf="!isQuotesLoading && quotes.length === 0">
-                    <img src="assets/icons/error-document.svg" alt="cotizaciones no encontradas" />
-                    No se encontraron cotizaciones relacionadas a esta dirección. Por favor, seleccione otra opción.
-            </div>
+          <div
+            class="empty-alert text-body-medium text-amber-500"
+            *ngIf="!isQuotesLoading && quotes.length === 0"
+          >
+            <img src="assets/icons/error-document.svg" alt="cotizaciones no encontradas" />
+            No se encontraron cotizaciones relacionadas a esta dirección. Por favor, seleccione otra opción.
+          </div>
         </div>
 
 

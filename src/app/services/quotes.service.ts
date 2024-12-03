@@ -20,8 +20,8 @@ export class QuotesService {
 
   async getQuotes(
     folio: string | null,
-    pageSize: number = 10,
-    desiredPage: number = 1,
+    pageSize = 10,
+    desiredPage = 1,
   ): Promise<QuotePage> {
     const filters = [];
 
@@ -34,20 +34,25 @@ export class QuotesService {
     return this.getQuotesByFilters(filters, pageSize, desiredPage);
   }
 
-  async getQuotesByAddressId(addressId: string): Promise<QuotePage> {
+  async getQuotesByAddressId(
+    addressId: string,
+    pageSize = 10,
+    desiredPage = 1,
+  ): Promise<QuotePage> {
+
     const filters = [{
       'FilterName': 'IdAddress',
       'FilterValue': addressId
     }];
 
-    return this.getQuotesByFilters(filters);
+    return this.getQuotesByFilters(filters, pageSize, desiredPage);
   }
 
 
   private getQuotesByFilters(
     filters: any[],
-    pageSize: number = 10,
-    desiredPage: number = 1,
+    pageSize = 10,
+    desiredPage = 1,
   ) {
     const body:any = {
       pageSize,

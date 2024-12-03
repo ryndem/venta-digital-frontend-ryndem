@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PriceOffert } from 'app/model/price-offert';
 import { Product } from 'app/model/product';
 import { ImageService } from 'app/services/image.service';
 import { ProductsService } from 'app/services/products.service';

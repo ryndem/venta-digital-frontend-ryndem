@@ -6,10 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NotificationService {
 
-  TOASTR_CONF: any = {
-    positionClass: 'toast-top-center'
-  };
-
   constructor(private toastr: ToastrService) {}
 
   showSuccess(message: string) {

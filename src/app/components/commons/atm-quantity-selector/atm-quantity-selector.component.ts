@@ -9,9 +9,9 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./atm-quantity-selector.component.scss']
 })
 export class AtmQuantitySelectorComponent {
-  @Input() quantity: number = 1;
-  @Input() disabled: boolean = false;
-  @Input() cartMode: boolean = true;
+  @Input() quantity = 1;
+  @Input() disabled = false;
+  @Input() cartMode = true;
 
   @Output() quantityChange = new EventEmitter<number>();
   @Output() removeItem = new EventEmitter<void>();

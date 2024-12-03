@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CarouselItem } from 'app/model/carousel-image';
 import { Router } from '@angular/router';
 
@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
   templateUrl: './org-carousel.component.html',
   styleUrls: ['./org-carousel.component.scss'],
 })
-export class OrgCarouselComponent {
-
-  constructor(private router: Router) {}
+export class OrgCarouselComponent implements OnInit, OnDestroy {
 
   secondsInterval = 8;
+  currentImage = 0;
+  intervalId: any;
 
   banners: CarouselItem[] = [
     {
@@ -40,8 +40,7 @@ export class OrgCarouselComponent {
     },
   ];
 
-  currentImage = 0;
-  intervalId: any;
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.startImageAutoChange();
@@ -52,6 +51,7 @@ export class OrgCarouselComponent {
       clearInterval(this.intervalId);
     }
   }
+  
 
   startImageAutoChange(): void {
     this.intervalId = setInterval(() => {

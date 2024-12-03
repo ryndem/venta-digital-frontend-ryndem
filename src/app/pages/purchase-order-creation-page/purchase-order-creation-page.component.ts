@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { QuotesService } from 'app/services/quotes.service';
@@ -18,6 +18,8 @@ import { PurchaseOrderForm } from 'app/model/purchase-order-form';
   styleUrls: ['./purchase-order-creation-page.component.scss'],
 })
 export class PurchaseOrderCreationPageComponent {
+
+  private PAGE_SIZE = 6;
 
   quotes: Quote[] = [];
   availableProducts: QuoteProduct[] = [];
@@ -48,6 +50,9 @@ export class PurchaseOrderCreationPageComponent {
   fileId = '';
   purchaseOrderNumber = '';
 
+  currentPage = 1;
+  totalPages = 0;
+
 
   constructor(
     private quoteService: QuotesService,
@@ -64,7 +69,7 @@ export class PurchaseOrderCreationPageComponent {
         if(state.user.hasOrderItemsSelected && this.selectedProducts.length === 0) {
           this.initSavedState();
         }
-        
+
       }
     });
   }
@@ -81,10 +86,9 @@ export class PurchaseOrderCreationPageComponent {
   }
 
   async onAddressSelected(address: Address | null) {
-    if(!address) 
-      return;
+    if(!address) return;
     this.selectedProducts = [];
-    this.setAddressSelected(address.idAddress);
+    await this.setAddressSelected(address.idAddress);
   }
 
   async setAddressSelected(addressId: string) {
@@ -93,8 +97,10 @@ export class PurchaseOrderCreationPageComponent {
 
     this.selectedQuote = null;
     this.availableProducts = [];
-    
-    const quotePage = await this.quoteService.getQuotesByAddressId(addressId);
+
+    const quotePage = await this.quoteService.getQuotesByAddressId(addressId, this.PAGE_SIZE);
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(quotePage.totalResults / this.PAGE_SIZE);
     this.quotes = quotePage.results;
 
     this.isQuotesLoading = false;
@@ -104,6 +110,21 @@ export class PurchaseOrderCreationPageComponent {
     } else {
       this.updateProducts();
     }
+  }
+
+  async quotesPageChange(newPage: number) {
+    if(!this.selectedAddressId) return;
+
+    this.isQuotesLoading = true;
+    const quotePage = await this.quoteService.getQuotesByAddressId(
+      this.selectedAddressId,
+      this.PAGE_SIZE,
+      newPage,
+    );
+    this.currentPage = newPage;
+    this.totalPages = Math.ceil(quotePage.totalResults / this.PAGE_SIZE);
+    this.quotes = quotePage.results;
+    this.isQuotesLoading = false;
   }
 
   async selectQuote(quote: Quote) {
@@ -138,7 +159,7 @@ export class PurchaseOrderCreationPageComponent {
   async updateTotals() {
     if(this.customerId && this.contactId && !this.isUpdatingTotals) {
       this.isUpdatingTotals = true;
-      
+
       try {
         const summary: PurchaseOrder = await this.purchaseOrderService.calculateTotals(
           this.customerId,
@@ -167,14 +188,12 @@ export class PurchaseOrderCreationPageComponent {
   updateAvailableProducts(products: QuoteProduct[]) : QuoteProduct[] {
     let result = products;
 
-    // tab filters
     if ( this.tabFilter === 'available' ) {
       result = result.filter(item => !item.inPurchaseOrder);
     } else if ( this.tabFilter === 'in-order' ) {
       result = result.filter(item => item.inPurchaseOrder);
     }
 
-    // text filter
     if( this.textFilter.length > 0 ) {
       result = result.filter( item => {
         const result = item.cas.toLowerCase().includes(this.textFilter.toLowerCase()) ||
@@ -248,7 +267,7 @@ export class PurchaseOrderCreationPageComponent {
           this.customerId &&
           this.contactId &&
           this.fileId &&
-          this.selectedProducts.length > 0 
+          this.selectedProducts.length > 0
         ) {
 
       this.isCreatingOrder = true;

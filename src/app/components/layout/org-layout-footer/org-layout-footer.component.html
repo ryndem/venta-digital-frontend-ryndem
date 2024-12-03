@@ -35,7 +35,7 @@
               <a
                 class="text-body text-neutral-200 no-decoration"
                 *ngFor="let item of categories"
-                [routerLink]="['products']"
+                [routerLink]="['/products']"
                 [queryParams]="{category: item.key}"
               >
                 {{ item.label }}
