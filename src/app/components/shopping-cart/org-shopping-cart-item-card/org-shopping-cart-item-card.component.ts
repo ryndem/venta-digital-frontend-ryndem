@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { QuoteProduct } from 'app/model/quote-product';
 import { CartService } from 'app/services/cart.service';
@@ -9,7 +9,7 @@ import { ImageService } from 'app/services/image.service';
   templateUrl: './org-shopping-cart-item-card.component.html',
   styleUrls: ['./org-shopping-cart-item-card.component.scss'],
 })
-export class OrgShoppingCartItemCardComponent implements OnInit {
+export class OrgShoppingCartItemCardComponent implements OnInit, OnChanges {
 
   @Input()
   product!: QuoteProduct;
@@ -63,6 +63,7 @@ export class OrgShoppingCartItemCardComponent implements OnInit {
       this.isChecked = changes['checkboxMarked'].currentValue;
     }
   }
+
 
   loadRelated() {
     if(this.product.idProduct) {

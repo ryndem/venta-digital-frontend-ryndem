@@ -14,7 +14,7 @@ export class OrderService {
   constructor(private httpClient: HttpClient) {}
 
 
-  async getOrders(folio: string|null, clientId: string, isClosed: boolean) {
+  async getOrders(folio: string|null, isClosed: boolean) {
     const body:any = {
       pageSize: 100,
       desiredPage: 1

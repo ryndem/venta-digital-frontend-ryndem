@@ -71,7 +71,7 @@ export class QuoteSubmissionPageComponent implements OnInit {
     await this.cartService.updateShippingAddress(event.idAddress);
   }
 
-  async onOtherSelected(event:any) {
+  async onOtherSelected() {
     this.addressId = 'other';
     await this.cartService.load();
   }

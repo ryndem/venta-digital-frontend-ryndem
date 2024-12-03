@@ -20,7 +20,7 @@ export class OrgOrderQuoteCardComponent implements OnChanges {
   @Input()
   selectedQuoteId: string | null = null;
 
-  isOpen: boolean = false;
+  isOpen = false;
   orderItems: OrderItem[] | null = null;
 
 
@@ -46,7 +46,7 @@ export class OrgOrderQuoteCardComponent implements OnChanges {
     
     if (!this.orderItems) {
       console.log('LoadItems');
-      let page = await this.orderService.getItemsByOrderId(this.order.idOrder, this.quote.idQuotation);
+      const page = await this.orderService.getItemsByOrderId(this.order.idOrder, this.quote.idQuotation);
       this.orderItems = page.results;
     }
   }

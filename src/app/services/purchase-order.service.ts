@@ -16,19 +16,18 @@ export class PurchaseOrderService {
   private apiPath: string = environment.apiUrl;
   private ORDER_FORM = 'purchase-order-form';
 
-  constructor(private httpClient: HttpClient,
+  constructor(
+    private httpClient: HttpClient,
     private store: Store<any>,
   ) {}
 
   async create(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
-
    return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=false`, items ));
   }
 
   async calculateTotals(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
-
     return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=true`, items ));
-    }
+  }
 
   async updateSelection(purchaseOrderForm: PurchaseOrderForm | null) {
     if (purchaseOrderForm && purchaseOrderForm.orderItems.length > 0) {
@@ -38,7 +37,6 @@ export class PurchaseOrderService {
       this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: false}));
       localStorage.removeItem(this.ORDER_FORM);
     }
-
   }
 
   getOrderForm() {
@@ -73,7 +71,8 @@ export class PurchaseOrderService {
   async getProductsByPurchaseOrderId(purchaseOrderId: string) {
     const body:any = {
       pageSize: 100,
-      desiredPage: 1
+      desiredPage: 1,
+      orderId: purchaseOrderId // FIXME 
     };
 
     return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/PurchaseOrder/ListPurchaseOrderItemsDetails', body));

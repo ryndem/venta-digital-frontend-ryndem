@@ -19,10 +19,6 @@ export class OrgRelatedProductsComponent implements OnChanges {
   isEmptyResult = false;
   skeletonList = Array(4).fill(0);
 
-  set setProductId(productId: string) {
-    this.updateProducts(true);
-  }
-
   constructor(private productsService: ProductsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {

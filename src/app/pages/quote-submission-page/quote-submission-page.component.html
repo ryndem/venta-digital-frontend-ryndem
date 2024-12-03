@@ -45,7 +45,7 @@
             <h3 class="text-title-4">Dirección de Entrega</h3>
             <mol-address-selector
               (addressSelectedEmitter)="onAddressSelected($event)"
-              (selectedOtherEmitter)="onOtherSelected($event)">
+              (selectedOtherEmitter)="onOtherSelected()">
             </mol-address-selector>
             <div class="other-selection" *ngIf="addressId === 'other'">
               <span class="text-body-medium text-amber-500">

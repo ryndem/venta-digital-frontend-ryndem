@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OptionsGroup } from './org-layout-search';
 import { AtmClosableComponent } from 'app/components/commons/atm-closable/atm-closable.component';

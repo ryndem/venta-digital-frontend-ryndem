@@ -35,6 +35,7 @@ export class MolFileDownloaderComponent {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     }, (error) => {
+      console.error(error);
       this.notificationService.showError("Error trying to download file.")
     });
   }

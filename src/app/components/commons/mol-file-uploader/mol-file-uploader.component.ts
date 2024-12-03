@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FileService } from 'app/services/file.service';
 import { OrderFile } from 'app/model/order-file';
 

@@ -31,7 +31,6 @@ export class ProductDetailsPageComponent {
       if (this.isUserLoading != state.user.loading) {
         this.isUserLoading = state.user.loading;
         this.isLogged = state.user.isLogged;
-        this.loadProduct();
       }
     });
   }

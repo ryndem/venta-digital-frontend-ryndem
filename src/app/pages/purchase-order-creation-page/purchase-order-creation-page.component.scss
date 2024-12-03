@@ -32,27 +32,59 @@
 
         &__quotes {
             grid-area: quotes;
-
-            .quotes {
-                overflow-x: scroll;
-                text-wrap: nowrap;
-                .quote {
-                    display: inline-block;
-                    margin-right: 4px;
-                    border: 0;
-
-                    &.selected {
-                        color: white;
-                        background-color: black;
-                        border-radius: 4px;
-                    }
+            .quotes-list-wrapper {
+              display: grid;
+              grid-template-columns: 1fr auto;
+              .paginator {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 4px;
+                width: 100%;
+                button {
+                  width: 40px;
+                  height: 40px;
+                  background-color: white;
+                  padding: 8px;
+                  border: 1px solid #627470;
+                  border-radius: 2px;
+                  cursor: pointer;
+                  &:disabled {
+                    opacity: 0.2;
+                    cursor: default;
+                  }
                 }
+              }
+            }
+            .quotes {
+              display: flex;
+              flex-wrap: wrap;
+              .quote {
+                  display: inline-block;
+                  border: 0;
+                  padding: 8px;
+                  background-color: white;
+                  font-size: 14px;
+                  line-height: 20px;
+                  font-family: "Work Sans";
+                  padding: 6px 8px;
+                  &.selected {
+                      color: white;
+                      background-color: black;
+                      border-radius: 4px;
+                  }
+              }
             }
             .loader {
                 padding-top: 0.5rem;
             }
             .quotes, .loader, .empty-alert {
-                min-height: 2.5rem;
+              min-height: 2.5rem;
+              display: flex;
+              align-items: center;
+            }
+            .empty-alert {
+              gap: 8px;
             }
         }
 
@@ -167,7 +199,17 @@
             }
 
             &__quotes {
-                max-width: calc(100vw - 2rem);
+              max-width: calc(100vw - 2rem);
+              .quotes-list-wrapper {
+                grid-template-columns: none;
+                gap: 4px;
+              }
+              .quotes {
+                .quote {
+                  font-size: 12px;
+                  line-height: 16px;
+                }
+              }
             }
             &__filters {
                 .filters {

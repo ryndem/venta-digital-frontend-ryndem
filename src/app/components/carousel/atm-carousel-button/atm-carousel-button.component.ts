@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'atm-carousel-button',
@@ -7,7 +6,6 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./atm-carousel-button.component.scss'],
 })
 export class AtmCarouselButtonComponent {
-  constructor(private store: Store<any>) {}
 
   @Input()
   index = 0;
