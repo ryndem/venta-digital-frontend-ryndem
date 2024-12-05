@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Address } from 'app/model/address';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { CartService } from 'app/services/cart.service';
@@ -16,7 +15,6 @@ export class QuoteSubmissionPageComponent implements OnInit {
 
   isLoading = true;
   shoppingCart : ShoppingCart | null = null;
-  selectedAddress: Address | null = null;
   addressId = '';
 
   constructor(

@@ -1,3 +1,5 @@
+import { ListQuotationRefreshResponse } from "./list-quotation-refresh-response";
+
 export type RefreshShoppingCartResponse = {
   idQuotation: string;
   saleTax: number;
@@ -12,11 +14,4 @@ export type RefreshShoppingCartResponse = {
     amount: number;
     itemCount: number;
   }
-}
-
-export type ListQuotationRefreshResponse = {
-  idQuotationItem: string;
-  quantity: number;
-  totalPrice: number;
-  tee: number;
 }

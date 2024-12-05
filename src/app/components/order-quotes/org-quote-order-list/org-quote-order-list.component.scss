@@ -1,10 +1,10 @@
 .quote-order-list {
-  border: 1px solid var(--gray-green-100);
   border-radius: 4px;
+  border: 1px solid var(--gray-green-100);
   display: grid;
-  row-gap: 0.5rem;
   padding: 0.5rem;
-  
+  row-gap: 0.5rem;
+
   .quote-order {
     cursor: pointer;
   }

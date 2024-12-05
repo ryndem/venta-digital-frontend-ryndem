@@ -2,9 +2,9 @@
   align-items: center;
   border-bottom: 1px solid var(--neutral-400);
   display: flex;
-  padding: 4px;
-  justify-content: start;
   flex-wrap: wrap;
+  justify-content: start;
+  padding: 4px;
   width: 100%;
 
   @media (min-width: 1024px) {
@@ -14,8 +14,8 @@
 
   &__item {
     background-color: transparent;
-    border: none;
     border-radius: 4px;
+    border: none;
     cursor: pointer;
     padding: 6px 12px;
 

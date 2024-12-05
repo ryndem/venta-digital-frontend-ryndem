@@ -1,21 +1,17 @@
 .quote-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
+  &__item {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+  }
 
-    &__item {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &__total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 2px;
-
-    }
+  &__total {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+  }
 }
-
-

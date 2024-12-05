@@ -1,17 +1,17 @@
 .home-container {
+  display: block;
+  margin: 0 auto;
   max-width: 1200px;
   padding: 32px 16px 16px 16px;
   width: 100%;
-  display: block;
-  margin: 0 auto;
   &__skeleton-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
   }
   &__categories {
-    margin-top: 56px;
     display: block;
+    margin-top: 56px;
   }
   &__oustanding {
     h1 {
@@ -26,8 +26,8 @@
   @media (min-width: 1024px) {
     padding: 32px 0px 32px 0px;
     &__skeleton-grid {
-      grid-template-columns: repeat(4, 1fr);
       column-gap: 24px;
+      grid-template-columns: repeat(4, 1fr);
       row-gap: 16px;
     }
     &__oustanding {

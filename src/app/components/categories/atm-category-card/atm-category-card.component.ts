@@ -1,11 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-export type CategoryCardProps = {
-  key?: string;
-  iconPath: string;
-  label: string;
-  description: string;
-};
+import { CategoryCardProps } from 'app/model-props/category-card-props';
 
 @Component({
   selector: 'atm-category-card',

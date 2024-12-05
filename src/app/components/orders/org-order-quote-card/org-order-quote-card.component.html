@@ -23,7 +23,7 @@
     </div>
 
     <div class="content" *ngIf="orderItems">
-      Content
+      <org-order-item-card *ngFor="let item of orderItems" [orderItem]="item"/>
     </div>
 
   </div>

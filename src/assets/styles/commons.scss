@@ -7,15 +7,15 @@ html {
 }
 
 .quote-status {
+  border-radius: 4px;
+  display: inline-block;
   font-family: "Work Sans";
   font-size: 8px;
   font-weight: 800;
-  line-height: 12px;
-  text-transform: uppercase;
   letter-spacing: 1px;
-  display: inline-block;
+  line-height: 12px;
   padding: 1px 4px;
-  border-radius: 4px;
+  text-transform: uppercase;
 
   &.valid {
     color: var(--green-900);
@@ -24,17 +24,17 @@ html {
 }
 
 .blurred-text {
-  position: relative;
   color: transparent;
-  letter-spacing: 2px;
   filter: blur(2px);
-  text-shadow: 0 0 5px #CCEBE2;
+  letter-spacing: 2px;
   opacity: 0.4;
+  position: relative;
+  text-shadow: 0 0 5px #CCEBE2;
 }
 
 .no-select {
-  -webkit-user-select: none;
   -ms-user-select: none;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -47,30 +47,30 @@ html {
 }
 
 .circle-icon {
+  align-items: center;
   background-color: var(--neutral-50);
   border-radius: 50px;
-  width: 100px;
-  height: 100px;
   display: inline-flex;
+  height: 100px;
   justify-content: center;
-  align-items: center;
+  width: 100px;
   img {
-    max-width: 70px;
     max-height: 70px;
+    max-width: 70px;
   }
 
   &.small {
-    width: 70px;
     height: 70px;
+    width: 70px;
     img {
-      max-width: 50px;
       max-height: 50px;
+      max-width: 50px;
     }
   }
 
   &.xs-small {
-    width: 50px;
     height: 50px;
+    width: 50px;
   }
 
   &.dark {
@@ -82,17 +82,16 @@ html {
   font-family: "Work Sans";
   font-size: 14px;
   font-weight: 400;
-  padding: 4px 0;
   margin-bottom: 0.5rem;
+  padding: 4px 0;
 
   a {
+    color: var(--primary-900);
+    column-gap: 0.5rem;
     display: inline-grid;
     grid-template-columns: auto 1fr;
-    column-gap: 0.5rem;
-
     line-height: 16px;
     text-decoration: none;
-    color: var(--primary-900);
   }
 }
 
@@ -104,17 +103,17 @@ html {
 }
 
 .folio-blue, .folio-green {
-  text-decoration: underline;
   font-family: "Work Sans";
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
   line-height: 20px;
+  text-decoration: underline;
 }
 
 .error-alert {
-  padding: 1rem;
-  color: var(--error-white);
-  border: 1px solid var(--error-dark);
   background-color: var(--error);
   border-radius: 6px;
+  border: 1px solid var(--error-dark);
+  color: var(--error-white);
+  padding: 1rem;
 }

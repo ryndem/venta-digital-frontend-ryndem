@@ -1,8 +1,8 @@
 .order-element-card {
-  border: solid 1px var(--neutral-400);
   border-radius: 2px;
-  padding: 0.5rem;
+  border: solid 1px var(--neutral-400);
   display: grid;
+  padding: 0.5rem;
   grid-template-areas: "folio status"
                         "folio products"
                         "dates total"
@@ -24,10 +24,10 @@
     grid-area: creation;
   }
   .dates {
-    grid-area: dates;
+    align-self: end;
     display: flex;
     gap: 16px;
-    align-self: end;
+    grid-area: dates;
     .creation-date,
     .expiration-date {
       display: flex;

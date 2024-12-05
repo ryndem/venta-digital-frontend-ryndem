@@ -1,35 +1,37 @@
 .user-menu {
-    position: relative;
+  position: relative;
 
-    &__name {
-        color: white;
-        border: 0;
+  &__name {
+    border: 0;
+    color: white;
+  }
+
+  &__opts {
+    background-color: white;
+    border-radius: 6px;
+    border: 0;
+    box-shadow: var(--menu-box-shadow);
+    overflow: hidden;
+    padding: 8px;
+    position: absolute;
+    top: 45px;
+    width: 200px;
+    z-index: 10;
+
+    .btn {
+      border: 0;
+      display: block;
+      padding: 6px 4px;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: var(--neutral-200);
+      }
     }
-    &__opts {
-        background-color: white;
-        position: absolute;
-        z-index: 10;
-        border: 0;
-        border-radius: 6px;
-        box-shadow: var(--menu-box-shadow);
-        overflow: hidden;
-        width: 200px;
-        padding: 8px;
-        top: 45px;
 
-        .btn {
-            width: 100%;
-            border: 0;
-            display: block;
-            text-align: left;
-            padding: 6px 4px;
-
-            &:hover {
-                background-color: var(--neutral-200);
-            }
-        }
-        .logout-btn {
-            color: var(--red-500);
-        }
+    .logout-btn {
+      color: var(--red-500);
     }
+  }
 }

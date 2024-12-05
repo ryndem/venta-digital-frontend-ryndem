@@ -1,28 +1,28 @@
 .product {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
   align-items: start;
+  border-radius: 2px;
+  border: 1px solid var(--gray-400);
+  display: grid;
+  font-family: "Work Sans";
+  grid-template-rows: auto auto 1fr;
   height: 100%;
   width: 100%;
-  font-family: "Work Sans";
-  border: 1px solid var(--gray-400);
-  border-radius: 2px;
 
   &__header {
-    padding: 2px 8px;
-    min-height: 44px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 44px;
+    padding: 2px 8px;
     &__no__heading {
+      align-items: center;
       display: flex;
       justify-content: center;
-      align-items: center;
     }
     &__section__brand {
+      align-items: center;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       .cat__cas {
         display: flex;
         flex-direction: column;

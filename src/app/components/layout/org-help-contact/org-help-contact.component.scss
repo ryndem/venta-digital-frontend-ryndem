@@ -1,36 +1,36 @@
 .help-contact {
-  padding: 32px 16px;
+  align-items: center;
+  background-color: var(--neutral-100);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  padding: 32px 16px;
   row-gap: 24px;
-  width: 100%;
-  background-color: var(--neutral-100);
   text-align: center;
+  width: 100%;
 
   &__title {
     font-family: "Stellar";
-    font-weight: 700;
     font-size: 24px;
+    font-weight: 700;
     line-height: 32px;
   }
 
   &__description {
+    color: var(--gray-green-700);
     font-family: "Work Sans";
-    font-weight: 400;
     font-size: 16px;
+    font-weight: 400;
     line-height: 24px;
     max-width: 782px;
-    color: var(--gray-green-700);
   }
 
   &__numbers {
     &__one,
     &__two {
       font-family: "Stellar";
-      font-weight: 700;
       font-size: 24px;
+      font-weight: 700;
       line-height: 32px;
     }
 
@@ -44,20 +44,20 @@
 
   &__sell {
     a {
-      font-family: "Stellar";
       color: var(--primary-500);
+      font-family: "Stellar";
       font-size: 24px;
-      line-height: 32px;
       font-weight: 700;
+      line-height: 32px;
       text-decoration: none;
       text-transform: uppercase;
     }
   }
 
   &__certifications {
+    column-gap: 48px;
     display: flex;
     flex-direction: row;
-    column-gap: 48px;
   }
 }
 
@@ -66,8 +66,8 @@
     padding: 64px 16px;
     &__title {
       font-family: "Stellar";
-      font-weight: 700;
       font-size: 48px;
+      font-weight: 700;
       line-height: 56px;
     }
 
@@ -77,19 +77,18 @@
     }
 
     &__numbers {
+      align-items: center;
+      column-gap: 16px;
       display: flex;
       flex-direction: row;
       justify-content: center;
-      align-items: center;
-      column-gap: 16px;
-
       &__one,
       &__two,
       &__divider {
         display: unset;
         font-family: "Stellar";
-        font-weight: 700;
         font-size: 48px;
+        font-weight: 700;
         line-height: 56px;
       }
     }

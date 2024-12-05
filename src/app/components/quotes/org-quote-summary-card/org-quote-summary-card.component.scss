@@ -1,14 +1,13 @@
 .quote-summary-card {
-  font-family: "Work Sans";
   background-color: var(--neutral-100);
-  padding: 16px;
   display: flex;
   flex-direction: column;
+  font-family: "Work Sans";
   gap: 24px;
-
+  padding: 16px;
   &__customer__toggle {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
     span {
@@ -17,12 +16,12 @@
       line-height: 20px;
     }
     button {
-      border: 0;
       background-color: transparent;
-      padding: 0;
-      height: 16px;
-      width: 16px;
+      border: 0;
       cursor: pointer;
+      height: 16px;
+      padding: 0;
+      width: 16px;
     }
   }
 

@@ -1,15 +1,14 @@
 .file-uploader {
+  align-items: center;
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid var(--neutral-400);
+  column-gap: 10px;
+  cursor: pointer;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  column-gap: 10px;
-  align-items: center;
-
-  width: 100%;
-  background-color: white;
   padding: 8px;
-  border: 1px solid var(--neutral-400);
-  border-radius: 2px;
-  cursor: pointer;
+  width: 100%;
 
   .disclaimer {
     text-align: left;
@@ -19,10 +18,10 @@
   }
 
   button.remove-file {
-    padding: 0px;
-    border: none;
     background-color: transparent;
-    font-size: 0%;
+    border: none;
     cursor: pointer;
+    font-size: 0%;
+    padding: 0px;
   }
 }

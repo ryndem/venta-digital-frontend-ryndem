@@ -1,7 +1,7 @@
 <div class="order-element-card">
   <div class="folio">
     <span class="text-small-regular text-gray-green-500">Folio:</span>
-    <div class="text-body folio-blue">{{quote.folio}}</div>
+    <div class="text-body folio-blue">{{folio}}</div>
   </div>
 
   <div class="dates">
@@ -21,11 +21,11 @@
   </div>
 
   <div class="products">
-    <div class="text-small text-600">{{quote.items}} partidas</div>
+    <div class="text-small text-600">{{items}} partidas</div>
   </div>
 
   <div class="total">
     <span class="text-small-regular text-gray-green-500 m-0">Monto Total</span>
-    <p class="text-title-5 text-primary-500">{{quote.total | usdCurrency}}</p>
+    <p class="text-title-5 text-primary-500">{{total | usdCurrency}}</p>
   </div>
 </div>

@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
 import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/users/user.actions';
-import { AddressResponse } from 'app/model/address';
+import { AddressResponse } from 'app/model/address-response';
 
 @Injectable({
   providedIn: 'root',

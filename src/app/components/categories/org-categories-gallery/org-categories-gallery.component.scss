@@ -1,18 +1,18 @@
 .categories-gallery {
-  max-width: 860px;
-  margin: 0 auto;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
+  margin: 0 auto;
+  max-width: 860px;
   row-gap: 24px;
+  text-align: center;
 }
 
 .categories-list {
+  column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 8px;
   row-gap: 8px;
 }
 
@@ -45,11 +45,11 @@ p {
     }
   }
   .categories-list {
+    column-gap: 16px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    column-gap: 16px;
     row-gap: 32px;
 
     &__element {
@@ -62,7 +62,7 @@ p {
   .categories-list> :nth-child(odd):last-child {
     grid-column: 1 / -1;
     justify-self: center;
-    max-width: 174.5px;
     margin: 0 auto;
+    max-width: 174.5px;
   }
 }
