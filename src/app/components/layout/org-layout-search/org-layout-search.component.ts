@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OptionsGroup } from './org-layout-search';
 import { AtmClosableComponent } from 'app/components/commons/atm-closable/atm-closable.component';
+import { OptionsGroup } from 'app/model-props/options-group';
 import { ProductsService } from 'app/services/products.service';
 
 @Component({
@@ -18,10 +18,10 @@ export class LayoutSearchComponent extends AtmClosableComponent {
   isSearching = false;
   isResultsVisible = false;
   private MIN_SEARCH_LENGHT = 3;
-  
+
   constructor(
       private productService: ProductsService,
-      private router: Router, 
+      private router: Router,
       private currentRoute: ActivatedRoute) {
     super();
 
@@ -104,9 +104,9 @@ export class LayoutSearchComponent extends AtmClosableComponent {
           queryParamsHandling: 'merge',
         });
       }
-      
+
     }
-    
+
 
   }
 

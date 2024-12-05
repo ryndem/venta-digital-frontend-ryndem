@@ -1,8 +1,8 @@
 .search {
   align-items: center;
   background-color: var(--white);
-  border: solid 1px var(--gray-green-900);
   border-radius: 2px;
+  border: solid 1px var(--gray-green-900);
   column-gap: 4px;
   cursor: pointer;
   display: flex;
@@ -40,15 +40,15 @@
   }
 
   &__results {
-    display: unset;
-    z-index: 1;
     background-color: white;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    display: unset;
     left: 0;
     padding: 16px 12px 4px 12px;
     position: absolute;
     top: calc(100% + 2px);
     width: 100%;
+    z-index: 1;
 
     &__group {
       &__items {

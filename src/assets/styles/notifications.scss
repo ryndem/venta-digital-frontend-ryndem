@@ -1,20 +1,19 @@
 .toast-container {
   .ngx-toastr {
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    font-size: 16px;
     top: 10px;
     width: 90vw !important;
-    border-radius: 6px !important;
-    font-size: 16px;
-    box-shadow: none !important;
-
     &.toast-success {
-      color: var(--success-white) !important;
       background-color: var(--success);
       border: 1px solid var(--success-dark);
+      color: var(--success-white) !important;
     }
     &.toast-error {
-      color: var(--error-white) !important;
       background-color: var(--error);
       border: 1px solid var(--error-dark);
+      color: var(--error-white) !important;
     }
   }
 }

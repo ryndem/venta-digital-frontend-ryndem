@@ -3,8 +3,3 @@ export type Address = {
   address?: string;
   acceptPartials?: boolean;
 };
-
-export type AddressResponse = {
-  totalResults: number;
-  results: Address[];
-};

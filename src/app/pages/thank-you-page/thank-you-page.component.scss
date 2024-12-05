@@ -1,8 +1,7 @@
 .thank-you-page {
   display: grid;
-  row-gap: 1rem;
   max-width: 1200px;
-
+  row-gap: 1rem;
   &__content {
     display: grid;
     gap: 26px;
@@ -11,89 +10,83 @@
                          "quoteitems"
                          "nextstep"
     ;
-
     &__header {
       grid-area: header;
       h1,
       p {
-        max-width: 420px;
         display: block;
         margin: 0 auto;
+        max-width: 420px;
       }
       h1 {
-        margin-bottom: 8px;
-        text-transform: uppercase;
-        text-align: center;
         font-family: "Stellar";
         font-size: 24px;
-        line-height: 32px;
         font-weight: 700;
         letter-spacing: 1px;
+        line-height: 32px;
+        margin-bottom: 8px;
+        text-align: center;
+        text-transform: uppercase;
       }
       p {
         text-align: center;
       }
       .disclaimer {
-        margin-top: 8px;
-        padding: 0.5rem;
         background-color: var(--orange-50);
-        max-width: unset;
+        column-gap: 0.5rem;
         display: grid;
         grid-template-columns: 1fr auto;
-        column-gap: 0.5rem;
+        margin-top: 8px;
+        max-width: unset;
+        padding: 0.5rem;
       }
     }
-
     &__quote__items {
-      grid-area: quoteitems;
       display: grid;
+      grid-area: quoteitems;
       row-gap: 1rem;
       h5 {
         margin: 0;
       }
     }
-
     &__summary {
-      grid-area: summary;
-      display: grid;
-      row-gap: 1rem;
-      padding: 1rem;
       background-color: var(--neutral-100);
+      display: grid;
+      grid-area: summary;
+      padding: 1rem;
+      row-gap: 1rem;
     }
-
     &__next__step {
       grid-area: nextstep;
       h3,
       span {
-        text-align: center;
         display: block;
         margin: 0 auto;
+        text-align: center;
       }
       .actions {
-        text-align: center;
-        margin: 1rem auto;
+        column-gap: 0.5rem;
         display: grid;
         grid-template-areas:  "button"
                               "link";
         justify-content: center;
         justify-items: center;
-
+        margin: 1rem auto;
         row-gap: 0.5rem;
-        column-gap: 0.5rem;
+        text-align: center;
         button {
           border: 0;
-          min-width: 175px;
           min-height: 40px;
+          min-width: 175px;
         }
         .quotes-link {
-          grid-area: link;
           color: var(--primary-500);
+          grid-area: link;
         }
         .primary-link {
-          grid-area: button;
-          color: white;
           background-color: var(--primary-500);
-          
+          color: white;
+          grid-area: button;
         }
       }
     }
@@ -101,16 +94,15 @@
 
   @media (min-width: 1024px) {
     &__content {
-      row-gap: 16px;
+      align-items: start;
       column-gap: 0px;
-      grid-template-columns: 68% 32%;
-      grid-template-rows: auto auto 1fr;
       grid-template-areas:
         "header summary"
         "quoteitems summary"
         "quoteitems nextstep";
-
-      align-items: start;
+      grid-template-columns: 68% 32%;
+      grid-template-rows: auto auto 1fr;
+      row-gap: 16px;
       &__header {
         padding: 16px 16px 0px 16px;
         h1 {
@@ -139,7 +131,6 @@
           }
         }
       }
-
       &__next__step {
         .actions {
           grid-template-areas: "link button";

@@ -15,9 +15,9 @@
   font-size: 18px;
   line-height: 28px;
   padding: 10px 45px;
+  text-align: center;
   text-decoration: none;
   width: 100%;
-  text-align: center;
 
   &:disabled {
     cursor: not-allowed;
@@ -40,8 +40,8 @@
     display: block;
   }
   &__input {
-    border: 1px solid var(--gray-green-900);
     border-radius: 2px;
+    border: 1px solid var(--gray-green-900);
     display: flex;
     flex-direction: row;
     padding: 8px;
@@ -72,9 +72,9 @@
       border: 0;
       text-align: left;
       label {
-        vertical-align: top;
         margin-left: 0.5rem;
         margin-right: 1rem;
+        vertical-align: top;
       }
     }
   }

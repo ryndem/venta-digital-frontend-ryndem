@@ -1,14 +1,14 @@
 .order-summary-card {
-  font-family: "Work Sans";
   background-color: var(--neutral-100);
-  padding: 16px;
   display: flex;
   flex-direction: column;
+  font-family: "Work Sans";
   gap: 24px;
+  padding: 16px;
 
   &__customer__toggle {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
 
@@ -19,12 +19,12 @@
     }
 
     button {
-      border: 0;
       background-color: transparent;
-      padding: 0;
-      height: 16px;
-      width: 16px;
+      border: 0;
       cursor: pointer;
+      height: 16px;
+      padding: 0;
+      width: 16px;
     }
   }
 
@@ -35,9 +35,9 @@
   }
 
   hr {
-    width: 100%;
     border: 1px solid #A3A3A3;
     margin: 0px;
+    width: 100%;
   }
 
   &__download-file {
@@ -54,24 +54,24 @@
       font-family: "Stellar";
       font-size: 20px;
       font-weight: 700;
-      line-height: 28px;
       letter-spacing: 0.01em;
+      line-height: 28px;
       margin: 0px 0px 8px 0px;
     }
     .invoice-item {
       span {
+        color: var(--gray-green-900);
         font-family: "Work Sans";
         font-size: 12px;
         font-weight: 400;
         line-height: 16px;
-        color: var(--gray-green-900);
       }
       p {
+        color: var(--gray-green-900);
         font-family: "Work Sans";
         font-size: 14px;
         font-weight: 500;
         line-height: 21px;
-        color: var(--gray-green-900);
       }
     }
   }

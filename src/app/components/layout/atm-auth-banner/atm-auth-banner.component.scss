@@ -1,22 +1,22 @@
 .auth-banner {
-  width: 100%;
+  align-items: center;
   background-color: var(--yellow-50);
-  padding: 6px 12px 6px 16px;
   border: 1px solid var(--yellow-500);
   display: flex;
-  align-items: center;
   gap: 8px;
+  padding: 6px 12px 6px 16px;
+  width: 100%;
 
   p {
+    color: var(--gray-green-900);
     font-family: 'Work Sans';
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
     text-align: left;
-    color: var(--gray-green-900);
     span {
-      cursor: pointer;
       color: var(--yellow-900);
+      cursor: pointer;
       text-decoration: underline;
     }
     a {

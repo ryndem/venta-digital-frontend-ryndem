@@ -1,19 +1,19 @@
 .product-details-page {
-  max-width: 1200px;
   margin: 0px auto;
+  max-width: 1200px;
   position: relative;
   button.btn {
     width: 100%;
   }
   &__related-products {
-    position: fixed;
-    z-index: 9;
-    top: 0;
+    background-color: rgba($color: #000000, $alpha: 0.5);
     height: 0%;
     left: 0;
-    right: 0;
     overflow: auto;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9;
     &.--visible {
       height: 100%;
     }
@@ -24,20 +24,20 @@
   .product-details-page {
     display: grid;
     grid-template-columns: 68% 32%;
-    margin-top: 32px;
     margin-bottom: 32px;
+    margin-top: 32px;
     button.btn {
       display: none;
     }
     &__related-products {
-      position: unset;
-      z-index: unset;
-      top: unset;
+      background-color: unset;
       height: unset;
       left: unset;
-      right: unset;
       overflow: unset;
-      background-color: unset;
+      position: unset;
+      right: unset;
+      top: unset;
+      z-index: unset;
     }
   }
 }

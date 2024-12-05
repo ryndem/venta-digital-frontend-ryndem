@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CarouselItem } from 'app/model/carousel-image';
+import { CarouselItem } from 'app/model/carousel-item';
 import { Router } from '@angular/router';
 
 @Component({

@@ -15,7 +15,6 @@ export class OrgQuoteOrderListComponent {
   constructor(private router: Router) {}
 
   goToDetails(quote:any) {
-
     if (quote.idQuotation) {
       this.router.navigate(['quotes', quote.idQuotation]);
 

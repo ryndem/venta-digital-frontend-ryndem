@@ -1,8 +1,7 @@
 .order-details-page {
+  margin: 0 auto;
   max-width: 1200px;
   padding: 16px;
-  margin: 0 auto;
-
   &__content {
     display: grid;
     gap: 16px;
@@ -14,16 +13,16 @@
       flex-direction: column;
       gap: 8px;
       h1 {
+        color: var(--primary-500);
         font-family: "Stellar";
         font-size: 30px;
         font-weight: 700;
-        line-height: 40px;
         letter-spacing: 0.5px;
-        color: var(--primary-500);
+        line-height: 40px;
         margin: 16px 0 0 0;
       }
-
       &__filters {
+        display: none;
         .filters {
           &__quotes {
             button {
@@ -37,23 +36,28 @@
           }
         }
       }
+
+      &__items {
+        display: grid;
+        row-gap: 1rem;
+      }
     }
   }
 }
 
 @media(min-width: 1024px) {
   .order-details-page {
-    padding: 0px;
     margin: 32px auto;
+    padding: 0px;
     a {
       padding: 0px 16px;
     }
     &__content {
-      grid-template-columns: [col1] 67.5fr [col2] 32.5fr;
       gap: 0px;
+      grid-template-columns: [col1] 67.5fr [col2] 32.5fr;
       &__products {
-        padding: 16px;
         gap: 16px;
+        padding: 16px;
         h1 {
           font-size: 36px;
           line-height: 46px;

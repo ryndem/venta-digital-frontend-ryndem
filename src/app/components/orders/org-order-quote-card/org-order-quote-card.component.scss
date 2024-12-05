@@ -1,13 +1,13 @@
 .order-quote-card {
 
   &__header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
     align-items: center;
-    padding: 1rem;
     background-color: var(--neutral-100);
     border-radius: 2px;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    padding: 1rem;
 
     span {
       display: block;
@@ -17,7 +17,7 @@
       text-align: right;
     }
 
-    &.opened { 
+    &.opened {
       background-color: var(--primary-100);
       .icon {
         color: var(--primary-500);
@@ -26,8 +26,14 @@
   }
 
   &__content {
-    padding: 1rem;
     background-color: var(--neutral-100);
+    padding: 0.5rem;
+    
+    .content {
+      display: grid;
+      row-gap: 0.5rem;
+    }
+    
     .loader {
       text-align: center;
     }

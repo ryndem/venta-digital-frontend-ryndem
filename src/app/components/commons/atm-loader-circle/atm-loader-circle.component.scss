@@ -1,24 +1,24 @@
 .message {
-  font-family: "Work Sans";
   display: inline-block;
+  font-family: "Work Sans";
   margin-left: 4px;
 }
 .loader {
-  width: 14px;
-  height: 14px;
+  animation: rotate 1s linear infinite;
   border-radius: 50%;
   display:inline-block;
+  height: 14px;
   position: relative;
-  animation: rotate 1s linear infinite
+  width: 14px;
 }
 .loader::before {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0px;
+  animation: prixClipFix 2s linear infinite;
   border-radius: 50%;
   border: 2px solid #FFF;
-  animation: prixClipFix 2s linear infinite ;
+  box-sizing: border-box;
+  content: "";
+  inset: 0px;
+  position: absolute;
 }
 
 @keyframes rotate {

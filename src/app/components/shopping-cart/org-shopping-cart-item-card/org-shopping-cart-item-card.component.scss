@@ -1,35 +1,31 @@
 .shopping-cart-item-card {
-  border: solid 1px var(--neutral-400);
   border-radius: 2px;
-  padding: 0.5rem;
-
-  display: grid;
-  row-gap: 0.8rem;
+  border: solid 1px var(--neutral-400);
   column-gap: 4px;
-  grid-template-columns: 1fr auto;
+  display: grid;
   grid-template-areas: "header action"
-                       "info   info"
-                       "totals totals";
-
-
-
+                        "info   info"
+                        "totals totals";
+  grid-template-columns: 1fr auto;
+  padding: 0.5rem;
+  row-gap: 0.8rem;
   &__header {
-    grid-area: header;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    column-gap: 0.5rem;
     align-items: center;
+    column-gap: 0.5rem;
+    display: grid;
+    grid-area: header;
+    grid-template-columns: auto 1fr auto;
 
     .cas-cat {
-      display: grid;
       column-gap: 0.5rem;
+      display: grid;
     }
 
     .cas,
     .cat {
+      align-items: center;
       display: flex;
       gap: 4px;
-      align-items: center;
       p {
         font-weight: 650;
       }
@@ -37,15 +33,15 @@
 
     .presentation {
       img {
-        width: 50px;
         height: 50px;
+        width: 50px;
       }
     }
     .brand {
       padding: 0.5rem;
       img {
-        width: 32px;
         height: 32px;
+        width: 32px;
       }
     }
   }
@@ -63,23 +59,20 @@
   &__info {
     grid-area: info;
     .controlled {
+      align-items: center;
       display: flex;
       gap: 4px;
-      align-items: center;
     }
   }
-
   &__totals {
-    grid-area: totals;
-    display: grid;
-    grid-template-columns: 18% 17.5% 17.5% calc(47% - 48px);
-    gap: 16px;
-    grid-template-areas:  "quantities measures prices total";
     align-items: baseline;
-
+    display: grid;
+    gap: 16px;
+    grid-area: totals;
+    grid-template-areas:  "quantities measures prices total";
+    grid-template-columns: 18% 17.5% 17.5% calc(47% - 48px);
     .quantities {
       grid-area: quantities;
-
       .delivery {
         font-style: italic;
       }
@@ -116,77 +109,74 @@
   }
 
   &__shipping {
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     p#shipping {
+      color: var(--gray-green-900);
       font-family: 'Work Sans';
       font-size: 14px;
-      line-height: 20px;
       font-style: italic;
-      color: var(--gray-green-900);
+      line-height: 20px;
     }
     .check-button {
-      width: 20px;
-      height: 20px;
+      align-items: center;
+      background-color: transparent;
       border-radius: 2px;
       border: 1px solid gray;
+      cursor: pointer;
       display: flex;
+      height: 20px;
       justify-content: center;
       padding: 0px;
-      background-color: transparent;
-      align-items: center;
-      cursor: pointer;
+      width: 20px;
       &:disabled {
         cursor: default;
       }
     }
     .express-tag {
-      display: flex;
       align-items: center;
+      display: flex;
       gap: 8px;
-
       &.disabled {
         opacity: 0.5;
       }
-
       .express-tag-label {
-        display: flex;
         align-items: center;
+        display: flex;
         gap: 4px;
         span {
           font-family: "Work Sans";
           font-size: 14px;
-          line-height: 20px;
           font-weight: 600;
+          line-height: 20px;
         }
       }
     }
   }
 
-  /* Mobile */
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
     grid-template-areas: "header"
                          "info"
                          "totals"
                          "shipping"
                          "action";
+    grid-template-columns: 1fr;
     &__totals {
-      grid-area: totals;
       display: grid;
-      grid-template-columns: 0.5fr 1fr;
+      grid-area: totals;
       grid-template-areas:  "measures prices"
                             "quantities total"
       ;
+      grid-template-columns: 0.5fr 1fr;
       gap: 4px;
       .prices {
         text-align: right;
         &__items {
+          align-items: center;
           flex-direction: row;
           gap: 4px;
-          align-items: center;
           justify-content: end;
         }
         .not-price {
@@ -194,8 +184,8 @@
         }
         .price {
           font-size: 14px;
-          line-height: 20px;
           letter-spacing: 0.5px;
+          line-height: 20px;
         }
       }
       .total-price {
@@ -209,9 +199,9 @@
     }
 
     &__shipping {
-      grid-area: shipping;
-      flex-direction: column;
       align-items: start;
+      flex-direction: column;
+      grid-area: shipping;
     }
 
     &__action {

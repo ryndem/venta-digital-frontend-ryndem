@@ -9,11 +9,6 @@ import {
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
 
-export type GridSectionClass =
-  | 'products-result'
-  | 'alternative-complementary'
-  | string;
-
 @Component({
   selector: 'org-products-grid',
   templateUrl: './org-products-grid.component.html',
@@ -25,7 +20,7 @@ export class OrgProductsGridComponent implements OnInit, OnChanges {
   @Input()
   productList: Product[] = [];
   @Input()
-  gridSectionClass: GridSectionClass = '';
+  gridSectionClass: 'products-result' | 'alternative-complementary' | string = '';
 
   ngOnInit(): void {
     this.productList = this.products ? this.products.results : [];

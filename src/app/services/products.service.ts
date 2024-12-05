@@ -7,30 +7,9 @@ import { AuthService } from 'app/auth/auth.service';
 import { PriceOffert } from 'app/model/price-offert';
 import { ProductResponse } from 'app/model/product-response';
 import { Router } from '@angular/router';
+import { SearchProductProps } from 'app/model-props/search-product-props';
+import { SearchedProduct } from 'app/model-props/searched-product';
 
-export type SearchProductProps = {
-  pageSize: number;
-  desiredPage: number;
-  sortField?: string;
-  sortDirection?: string;
-  filters?: [
-    {
-      filterName?: string;
-      filterValue?: string;
-    },
-  ];
-  suggestions?: [
-    {
-      fieldName?: string;
-      suggestionValue?: string;
-    },
-  ];
-};
-
-export type SearchedProduct = {
-  idProducto: string;
-  description: string;
-};
 
 @Injectable({
   providedIn: 'root',

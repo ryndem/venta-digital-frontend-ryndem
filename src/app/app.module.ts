@@ -124,6 +124,7 @@ import { MolActiveOrderNotSavedBannerComponent } from './components/purchase-ord
 import { AtmClosableModalComponent } from './components/modals/atm-closable-modal/atm-closable-modal.component';
 import { AtmSkeletonProductDetailCardComponent } from './components/commons/skeleton/atm-skeleton-product-detail-card/atm-skeleton-product-detail-card.component';
 import { AtmSkeletonProductDetailCardSummaryComponent } from './components/commons/skeleton/atm-skeleton-product-detail-summary-card/atm-skeleton-product-detail-summary-card.component';
+import { OrgOrderItemCardComponent } from './components/orders/org-order-item-card/org-order-item-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -205,6 +206,7 @@ import { AtmSkeletonProductDetailCardSummaryComponent } from './components/commo
     AtmSkeletonOrderCardComponent,
     AtmQuantitySelectorComponent,
     OrgOrderQuoteCardComponent,
+    OrgOrderItemCardComponent,
     MolQuoteChangeBannerComponent,
     AtmClosableModalComponent,
     AtmSkeletonProductDetailCardComponent,
