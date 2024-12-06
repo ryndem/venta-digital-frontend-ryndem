@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL del Webhook de Google Chat
-WEBHOOK_URL="https://chat.googleapis.com/v1/spaces/AAAAGrq2jws/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=11umavjFmytwSzhz5e0SV_Ws6mCgd-bWLEdXdjg-U-U"
+WEBHOOK_URL="https://chat.googleapis.com/v1/spaces/AAAAEWSG_ps/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=K4PsgVhTLeGm7XGUvc4CqmWPMUqM7CY5KAjHZg6jbVs"
 
 # Función para enviar mensaje
 send_message() {
