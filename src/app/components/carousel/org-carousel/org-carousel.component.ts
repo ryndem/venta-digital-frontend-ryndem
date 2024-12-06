@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CarouselItem } from 'app/model/carousel-item';
+import { CarouselItem } from 'app/model-props/carousel-item';
 import { Router } from '@angular/router';
 
 @Component({
@@ -51,7 +51,7 @@ export class OrgCarouselComponent implements OnInit, OnDestroy {
       clearInterval(this.intervalId);
     }
   }
-  
+
 
   startImageAutoChange(): void {
     this.intervalId = setInterval(() => {

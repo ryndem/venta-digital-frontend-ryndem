@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CarouselItem } from 'app/model/carousel-item';
+import { CarouselItem } from 'app/model-props/carousel-item';
 
 @Component({
   selector: 'mol-carousel-item',
