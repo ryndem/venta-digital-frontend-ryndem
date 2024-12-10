@@ -11,6 +11,7 @@ import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
 import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
 import { Address } from 'app/model/address';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class CartService {
 
   constructor(
     private notificationService: NotificationService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
     private httpClient: HttpClient
   ) {
     this.store.subscribe(state => {
@@ -61,7 +62,6 @@ export class CartService {
       }
     }
 
-
     const body = {
       productId: product.idProduct,
       quantity: quantity,
@@ -70,11 +70,20 @@ export class CartService {
       expressFreightAvailable: product.hasExpressFreight,
       IdDeliveryAddress: this.addresses ? this.addresses[0].idAddress : null,
     }
+
     try {
       await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/PutShoppingCart', body));
       this.notificationService.showSuccess('Producto agregado a tu carrito.');
-    } catch(error: any) {
-      this.notificationService.showError(error.error.detail);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error && error.error.detail) {
+          this.notificationService.showError(error.error.detail);
+        } else {
+          this.notificationService.showError(
+            'Ocurrió un error al agregar el producto al carrito, si el problema persiste contacta a soporte'
+          )
+        }
+      }
     }
     this.load();
   }
@@ -93,8 +102,16 @@ export class CartService {
     try {
       await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/PutShoppingCart', body));
       this.notificationService.showSuccess('Producto agregado a tu carrito.');
-    } catch(error: any) {
-      this.notificationService.showError(error.error.detail);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error && error.error.detail) {
+          this.notificationService.showError(error.error.detail);
+        } else {
+          this.notificationService.showError(
+            'Ocurrió un error al agregar el producto al carrito, si el problema persiste contacta a soporte'
+          )
+        }
+      }
     }
     this.load();
   }

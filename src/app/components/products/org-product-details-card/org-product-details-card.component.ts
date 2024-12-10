@@ -11,6 +11,8 @@ import { ImageService } from 'app/services/image.service';
 import { ProductsService } from 'app/services/products.service';
 import { CartService } from 'app/services/cart.service';
 import { AuthService } from 'app/auth/auth.service';
+import { UserState } from 'app/store/users/user.reducer';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
 
 @Component({
   selector: 'org-product-details-card',
@@ -41,7 +43,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
     public authService: AuthService,
     private productsService: ProductsService,
     private imageService: ImageService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState, cart: ShoppingCartState }>,
   ) {
     this.store.subscribe((state) => {
       this.isAddingToCar = state.cart.isLoading;
@@ -92,7 +94,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
       }
 
       await this.cartService.addProduct(this.product!, this.productUnits);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
     }
   }

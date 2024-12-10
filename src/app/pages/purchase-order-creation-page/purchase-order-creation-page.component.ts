@@ -10,7 +10,8 @@ import { PurchaseOrderService } from 'app/services/purchase-order.service';
 import { OrderFile } from 'app/model/order-file';
 import { NotificationService } from 'app/services/notification.service';
 import { PurchaseOrder } from 'app/model/purchase-order';
-import { PurchaseOrderForm } from 'app/model/purchase-order-form';
+import { OrderItem, PurchaseOrderForm } from 'app/model/purchase-order-form';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'purchase-order-creation-page',
@@ -26,7 +27,7 @@ export class PurchaseOrderCreationPageComponent {
 
   selectedAddressId: string | null = null;
   selectedQuote: ShoppingCart | null = null;
-  selectedProducts: any[] = [];
+  selectedProducts: OrderItem[] = [];
 
   purchaseOrderForm: PurchaseOrderForm = {
     addressId: '',
@@ -45,7 +46,11 @@ export class PurchaseOrderCreationPageComponent {
 
   tabFilter = 'available';
   textFilter = '';
-  totals: any = {};
+  totals: { subtotal: number; saleTax: number; total: number } = {
+    subtotal: 0,
+    saleTax: 0,
+    total: 0
+  };
 
   fileId = '';
   purchaseOrderNumber = '';
@@ -58,7 +63,7 @@ export class PurchaseOrderCreationPageComponent {
     private quoteService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
     private notificationService: NotificationService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
     private router: Router
   ) {
     this.store.subscribe((state) => {
@@ -172,7 +177,8 @@ export class PurchaseOrderCreationPageComponent {
               quantity: p.quantity,
               applyFleteExpress: p.applyFleteExpress
             };
-          }));
+          })
+        );
         this.totals = {
           subtotal: summary.subtotal,
           saleTax: summary.saleTax,
@@ -209,38 +215,40 @@ export class PurchaseOrderCreationPageComponent {
 
 
   onAddedToOrderEmitter(quoteItemId: string) {
-    if (this.selectedAddressId && !this.selectedProducts.find(p => p.idQuotationItem == quoteItemId)) {
-      const item = this.selectedQuote?.listQuotationItem.find(i => i.idQuotationItem == quoteItemId);
+    if (this.selectedAddressId && !this.selectedProducts.find(p => p.item.idQuotationItem === quoteItemId)) {
+      const item = this.selectedQuote?.listQuotationItem.find(i => i.idQuotationItem === quoteItemId);
 
-      this.selectedProducts.push({
-        quoteFolio: this.selectedQuote?.quotationDetails.folio,
-        item: item,
-        quantity: item?.quantity,
-        applyFleteExpress: item?.appliesExpressFreight
-      });
-      this.updateProducts();
+      if (item && this.selectedQuote) {
+        this.selectedProducts.push({
+          quoteFolio: this.selectedQuote?.quotationDetails.folio,
+          item: item,
+          quantity: item?.quantity,
+          applyFleteExpress: item?.appliesExpressFreight
+        });
+        this.updateProducts();
+      }
     }
   }
 
   onRemovedFromOrderEmitter(quoteItemId: string) {
-    if (this.selectedAddressId && this.selectedProducts.find(p => p.item.idQuotationItem == quoteItemId)) {
+    if (this.selectedAddressId && this.selectedProducts.find(p => p.item.idQuotationItem === quoteItemId)) {
       this.selectedProducts = this.selectedProducts.filter( p => p.item.idQuotationItem !== quoteItemId);
       this.updateProducts();
     }
   }
 
-  onUpdateQuantityEmitter({quoteItemId, quantity }: any) {
-    const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == quoteItemId);
+  onUpdateQuantityEmitter(event: { quoteItemId: string, quantity: number }) {
+    const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == event.quoteItemId);
     if (this.selectedAddressId && productToEdit) {
-      productToEdit.quantity = quantity;
+      productToEdit.quantity = event.quantity;
       this.updateProducts();
     }
   }
 
-  onUpdateExpressFreightEmitter({quoteItemId, expressFreight }: any) {
-    const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == quoteItemId);
+  onUpdateExpressFreightEmitter(event: { quoteItemId: string, expressFreight: boolean }) {
+    const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == event.quoteItemId);
     if (this.selectedAddressId && productToEdit) {
-      productToEdit.applyFleteExpress = expressFreight;
+      productToEdit.applyFleteExpress = event.expressFreight;
       this.updateProducts();
     }
   }

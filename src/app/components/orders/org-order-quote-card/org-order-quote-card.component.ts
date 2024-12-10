@@ -10,7 +10,7 @@ import { OrderService } from 'app/services/order.service';
   styleUrls: ['./org-order-quote-card.component.scss']
 })
 export class OrgOrderQuoteCardComponent implements OnChanges {
-  
+
   @Input()
   order!: ConfirmedOrder;
 
@@ -28,9 +28,8 @@ export class OrgOrderQuoteCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const selectedQuoteId: SimpleChange = changes['selectedQuoteId'];
-    
+
     if (selectedQuoteId.currentValue) {
-      console.log('selectedQuoteId', selectedQuoteId);
       this.isOpen = true;
     } else {
       this.isOpen = false;
@@ -43,13 +42,12 @@ export class OrgOrderQuoteCardComponent implements OnChanges {
   }
 
   async loadItems() {
-    
+
     if (!this.orderItems) {
-      console.log('LoadItems');
       const page = await this.orderService.getItemsByOrderId(this.order.idOrder, this.quote.idQuotation);
       this.orderItems = page.results;
     }
   }
-  
+
 
 }

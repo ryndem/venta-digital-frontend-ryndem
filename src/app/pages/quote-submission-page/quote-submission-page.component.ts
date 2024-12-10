@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Address } from 'app/model/address';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { CartService } from 'app/services/cart.service';
 import { NotificationService } from 'app/services/notification.service';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
 
 @Component({
   selector: 'quote-submission-page',
@@ -20,7 +22,7 @@ export class QuoteSubmissionPageComponent implements OnInit {
   constructor(
     private cartService : CartService,
     private notificationService : NotificationService,
-    private store: Store<any>,
+    private store: Store<{ cart: ShoppingCartState}>,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -63,7 +65,7 @@ export class QuoteSubmissionPageComponent implements OnInit {
     }
   }
 
-  async onAddressSelected(event:any) {
+  async onAddressSelected(event: Address) {
     this.addressId = event.idAddress;
     await this.cartService.load();
     await this.cartService.updateShippingAddress(event.idAddress);

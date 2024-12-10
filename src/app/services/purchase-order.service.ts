@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PurchaseOrder } from 'app/model/purchase-order';
-import { QuotePage } from 'app/model/quote-page';
 import { OrderItemPage } from 'app/model/order-item-page';
 import { updateSelectedOrderItems } from 'app/store/users/user.actions';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { PurchaseOrderForm } from 'app/model/purchase-order-form';
+import { UserState } from 'app/store/users/user.reducer';
+import { PurchaseOrderRequest } from 'app/model/purchase-order-body-request';
+import { PurchaseOrderPage } from 'app/model/purchase-order-page';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +20,27 @@ export class PurchaseOrderService {
 
   constructor(
     private httpClient: HttpClient,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
   ) {}
 
-  async create(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
+  async create(
+    customerId: string,
+    contactCustomerId: string,
+    purchaseOrderNumber: string,
+    idFile: string,
+    items: { IdQuotationItem: string; quantity: number; applyFleteExpress: boolean }[]
+  ) {
+    console.log("Items:", items);
    return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=false`, items ));
   }
 
-  async calculateTotals(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
+  async calculateTotals(
+    customerId: string,
+    contactCustomerId: string,
+    purchaseOrderNumber: string,
+    idFile: string,
+    items: { IdQuotationItem: string; quantity: number; applyFleteExpress: boolean }[]
+  ) {
     return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=true`, items ));
   }
 
@@ -52,7 +67,7 @@ export class PurchaseOrderService {
     pageSize: number,
     desiredPage: number
   ) {
-    const body:any = {
+    const body: PurchaseOrderRequest = {
       pageSize,
       desiredPage
     };
@@ -62,17 +77,17 @@ export class PurchaseOrderService {
     }
 
     return await firstValueFrom(
-      this.httpClient.post<QuotePage>(
+      this.httpClient.post<PurchaseOrderPage>(
         this.apiPath + '/PurchaseOrder/ListPurchaseOrder', body
       )
     );
   }
 
   async getProductsByPurchaseOrderId(purchaseOrderId: string) {
-    const body:any = {
+    const body: PurchaseOrderRequest = {
       pageSize: 100,
       desiredPage: 1,
-      orderId: purchaseOrderId // FIXME 
+      orderId: purchaseOrderId // FIXME
     };
 
     return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/PurchaseOrder/ListPurchaseOrderItemsDetails', body));

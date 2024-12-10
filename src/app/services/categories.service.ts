@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Category } from 'app/model/category';
+import { CategoryInfo } from 'app/model/category-info';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -18,7 +19,7 @@ export class CategoriesService {
   }
 
   setProperties(category: Category) {
-    const descriptions: any = {
+    const descriptions: CategoryInfo = {
       standards:
         'Referencias analíticas para resultados confiables y precisos.',
       reagents: 'Pureza garantizada para resultados exactos.',
@@ -30,7 +31,7 @@ export class CategoriesService {
       labware: 'Maneja muestras y datos asociados de manera eficiente.',
       default: '-',
     };
-    const icons: any = {
+    const icons: CategoryInfo = {
       standards: 'assets/imgs/categories/standards.svg',
       reagents: 'assets/imgs/categories/reactive.svg',
       controlled: 'assets/imgs/categories/lock.svg',

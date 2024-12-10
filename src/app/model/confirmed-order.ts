@@ -39,3 +39,27 @@ export type ConfirmedOrder = {
     itemCount: number;
   }
 }
+
+/**
+ * Represents an item in a confirmed order, including metadata and financial details.
+ *
+ * @interface ConfirmedOrderItem
+ *
+ * @property {string} idOrder - The unique identifier for the order.
+ * @property {string} internalOrderNumber - The internal reference number for the order (folio number).
+ * @property {string} idFilePDF - The unique identifier for the PDF file associated with the order.
+ * @property {string} registrationDate - The date when the order was registered, in ISO format.
+ * @property {number} totalItems - The total number of items included in the order.
+ * @property {number} totalVAT - The total value-added tax (IVA) applied to the order.
+ * @property {number} totalAmount - The total amount of the order, including IVA.
+*/
+
+export type ConfirmedOrderItem = {
+  idOrder: string,
+  internalOrderNumber: string,
+  idFilePDF: string,
+  registrationDate: string,
+  totalItems: number,
+  totalVAT: number,
+  totalAmount: number;
+}

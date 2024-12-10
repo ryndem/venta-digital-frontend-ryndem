@@ -3,12 +3,12 @@ import * as ProductActions from './product.actions';
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 
-export interface State {
+export interface ProductState {
   categories: Category[];
   outstandingProducts: Product[] | null;
 }
 
-export const initialState: State = {
+export const initialState: ProductState = {
   categories: [],
   outstandingProducts: null,
 };

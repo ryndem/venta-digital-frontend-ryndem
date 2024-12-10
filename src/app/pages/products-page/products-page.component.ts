@@ -4,7 +4,10 @@ import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
+import { SearchParams } from 'app/model/search-params';
 import { ProductsService } from 'app/services/products.service';
+import { ProductState } from 'app/store/products/product.reducer';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'products-page',
@@ -29,7 +32,7 @@ export class ProductsPageComponent implements OnInit {
     private productsService: ProductsService,
     private router: Router,
     private currentRoute: ActivatedRoute,
-    private store: Store<any>,
+    private store: Store<{ user: UserState, product: ProductState }>,
   ) {
     this.store.subscribe((state) => {
       this.isLogged = state.user.isLogged;
@@ -47,12 +50,12 @@ export class ProductsPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe(async (params) => {
-      const searchParams = {
+      const searchParams: SearchParams = {
         pageSize: this.pageSize,
         page: params['page'] || 1,
         sortDirection: params['sortDirection'] || 'ASC',
-        category: params['category'] || null,
-        q: params['searchTerm'] || null,
+        category: params['category'],
+        q: params['searchTerm'],
       };
       this.currentPage = searchParams.page;
       this.sortDirection = searchParams.sortDirection;
@@ -60,7 +63,7 @@ export class ProductsPageComponent implements OnInit {
     });
   }
 
-  async loadPage(searchParams: any) {
+  async loadPage(searchParams: SearchParams) {
     this.isLoading = true;
     try {
       const productsPage = await this.productsService.listProductsByCategory(searchParams);

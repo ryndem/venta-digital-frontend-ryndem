@@ -11,7 +11,7 @@ export class OrgPurchaseOrderItemFormCardComponent implements OnInit {
 
   @Input()
   product!: QuoteProduct;
-  
+
   @Input()
   quoteFolio = '';
 
@@ -31,10 +31,16 @@ export class OrgPurchaseOrderItemFormCardComponent implements OnInit {
   removedFromOrderEmitter = new EventEmitter<string>();
 
   @Output()
-  updateQuantityEmitter = new  EventEmitter<any>();
+  updateQuantityEmitter = new EventEmitter<{
+    quoteItemId: string,
+    quantity: number
+  }>();
 
   @Output()
-  updateExpressFreightEmitter = new  EventEmitter<any>();
+  updateExpressFreightEmitter = new EventEmitter<{
+    quoteItemId: string,
+    expressFreight: boolean
+  }>();
 
   brandImage: string | null = null;
   presentationImage: string | null = null;

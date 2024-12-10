@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { Product } from 'app/model/product';
 import { CartService } from 'app/services/cart.service';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'atm-shopping-button',
@@ -19,7 +21,7 @@ export class ShoppingButtonComponent {
   constructor(
     private cartService: CartService,
     public authService: AuthService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState, cart: ShoppingCartState }>,
   ) {
     this.store.subscribe((state) => {
       this.isLogged = state.user.isLogged;
@@ -38,7 +40,7 @@ export class ShoppingButtonComponent {
       }
 
       await this.cartService.addProduct(this.product, 1);
-    } catch (error:any) {
+    } catch (error) {
       console.error(error);
     }
     this.isAddingToCar = false;

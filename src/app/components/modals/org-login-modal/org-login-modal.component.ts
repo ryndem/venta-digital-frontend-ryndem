@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'app/auth/auth.service';
@@ -35,19 +36,26 @@ export class LoginModalComponent {
       this.loading = false;
       this.close();
       this.cartService.load();
-    } catch (error: any) {
-      switch (error?.error?.error) {
-        case 'multiple_session':
-          this.closeMultipleSessions(error?.error, form);
-          break;
-        default:
-          this.credentialsError = true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error && error.error.error) {
+          switch (error?.error?.error) {
+            case 'multiple_session':
+              this.closeMultipleSessions(error?.error, form);
+              break;
+            default:
+              this.credentialsError = true;
+          }
+        }
       }
       this.loading = false;
     }
   }
 
-  private async closeMultipleSessions(error: any, form: NgForm) {
+  private async closeMultipleSessions(
+    error: { idSessionTemp: string },
+    form: NgForm
+  ) {
     await this.authService.closeMultipleSessions(error.idSessionTemp);
     await this.login(form);
   }

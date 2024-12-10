@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { Category } from 'app/model/category';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'org-mobile-navigation-menu',
@@ -20,7 +21,7 @@ export class OrgMobileNavigationMenuComponent {
 
   constructor(
     private authService: AuthService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
     private router: Router
   ) {
     this.store.subscribe((state) => {

@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { QuoteProduct } from 'app/model/quote-product';
 import { CartService } from 'app/services/cart.service';
 import { ImageService } from 'app/services/image.service';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
 
 @Component({
   selector: 'org-shopping-cart-item-card',
@@ -44,7 +45,7 @@ export class OrgShoppingCartItemCardComponent implements OnInit, OnChanges {
   constructor(
       private imageService: ImageService,
       private cartService: CartService,
-      private store: Store<any>
+      private store: Store<{ cart: ShoppingCartState }>
   ) {
     this.store.subscribe((state) => {
       this.isAddingToCar = state.cart.isLoading;

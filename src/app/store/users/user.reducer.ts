@@ -3,7 +3,7 @@ import * as UserActions from './user.actions';
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
 
-export interface State {
+export interface UserState {
   isLogged: boolean;
   user: User | null;
   name: string | null;
@@ -12,7 +12,7 @@ export interface State {
   loading: boolean;
 }
 
-export const initialState: State = {
+export const initialState: UserState = {
   isLogged: false,
   user: null,
   name: null,

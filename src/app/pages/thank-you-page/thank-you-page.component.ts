@@ -5,6 +5,8 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 import { User } from 'app/model/user';
 import { CartService } from 'app/services/cart.service';
 import { QuotesService } from 'app/services/quotes.service';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'thank-you-page',
@@ -19,11 +21,12 @@ export class ThankYouPageComponent implements OnInit {
   showDisclaimer = false;
   user: User | null = null;
 
-  constructor( 
-      private cartService : CartService, 
-      private quotesService : QuotesService, 
-      private currentRoute: ActivatedRoute, 
-      private store: Store<any>) {
+  constructor(
+    private cartService : CartService,
+    private quotesService : QuotesService,
+    private currentRoute: ActivatedRoute,
+    private store: Store<{ user: UserState, cart: ShoppingCartState }>
+  ) {
     this.store.subscribe( event => {
       this.shoppingCart = event.cart.shoppingCart;
       this.user = event.user.user;
@@ -43,7 +46,7 @@ export class ThankYouPageComponent implements OnInit {
   async loadQuote() {
     if( this.quoteId ) {
       this.quote = await this.quotesService.getById(this.quoteId);
-      
+
       if (this.quote.quotationDetails.address.trim() == '') {
         this.showDisclaimer = true;
       }
@@ -51,7 +54,7 @@ export class ThankYouPageComponent implements OnInit {
       if (this.quote.listQuotationItem.filter(p => p.controlled).length > 0) {
         this.showDisclaimer = true;
       }
-        
+
     }
   }
 }

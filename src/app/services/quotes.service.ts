@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QuotePage } from 'app/model/quote-page';
+import { QuoteFilter, QuotesBodyRequest } from 'app/model/quotes-body-request';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -50,15 +51,16 @@ export class QuotesService {
 
 
   private getQuotesByFilters(
-    filters: any[],
+    filters: QuoteFilter[],
     pageSize = 10,
     desiredPage = 1,
   ) {
-    const body:any = {
+    const body:QuotesBodyRequest = {
       pageSize,
       desiredPage,
       SortField: 'Folio',
-      SortDirection: 'asc'
+      SortDirection: 'asc',
+      filters: []
     };
     filters.push({
       'FilterName': 'IsCart',

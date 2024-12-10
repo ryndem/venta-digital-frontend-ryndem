@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
+import { ProductState } from 'app/store/products/product.reducer';
 
 @Component({
   selector: 'org-categories-bar',
@@ -14,8 +15,8 @@ export class OrgCategoriesBarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private currentRoute: ActivatedRoute, 
-    private store: Store<any>,
+    private currentRoute: ActivatedRoute,
+    private store: Store<{ product: ProductState }>,
   ) {
     this.store.subscribe((state) => {
       this.categories = state.product.categories;
