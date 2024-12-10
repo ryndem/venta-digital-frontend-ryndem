@@ -5,6 +5,8 @@ import { Category } from 'app/model/category';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { CartService } from 'app/services/cart.service';
+import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { ProductState } from 'app/store/products/product.reducer';
 
 @Component({
   selector: 'shopping-cart-page',
@@ -12,17 +14,18 @@ import { CartService } from 'app/services/cart.service';
   styleUrls: ['./shopping-cart-page.component.scss'],
 })
 export class ShoppingCartPageComponent implements OnInit {
-  
+
   isLoading = true;
   shoppingCart : ShoppingCart | null = null;
   relatedProductsId: string | null = null;
   categories: Category[] = [];
   deletedProducts: QuoteProduct[] = [];
 
-  constructor( 
-      private cartService : CartService, 
-      private store: Store<any>, 
-      private router: Router) {
+  constructor(
+    private cartService : CartService,
+    private store: Store<{ cart: ShoppingCartState, product: ProductState }>,
+    private router: Router
+  ) {
 
     this.store.subscribe( event => {
       this.shoppingCart = event.cart.shoppingCart;

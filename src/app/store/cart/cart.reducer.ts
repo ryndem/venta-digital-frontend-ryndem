@@ -2,12 +2,12 @@ import { createReducer, on } from '@ngrx/store';
 import * as CartActions from './cart.actions';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
-export interface State {
+export interface ShoppingCartState {
   shoppingCart: ShoppingCart | null;
   isLoading: boolean;
 }
 
-export const initialState: State = {
+export const initialState: ShoppingCartState = {
   shoppingCart: null,
   isLoading: true
 };

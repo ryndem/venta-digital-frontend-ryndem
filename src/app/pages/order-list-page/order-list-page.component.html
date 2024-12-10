@@ -54,7 +54,11 @@
 
         <div class="order-list-pages">
           <!-- Orders List -->
-          <org-quote-order-list [quotes]="orders" *ngIf="orders && orders.length > 0"/>
+          <org-quote-order-list
+            [quotes]="orders"
+            *ngIf="orders && orders.length > 0"
+            [currentTab]="currentTab.key"
+          />
 
           <!-- Skeleton Loader for Infinite Scroll -->
           <div class="order-list-page__skeleton-grid" *ngIf="isLoadingOrders">

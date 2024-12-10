@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { PurchaseOrder } from 'app/model/purchase-order';
 import { User } from 'app/model/user';
 import { PurchaseOrderService } from 'app/services/purchase-order.service';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'purchase-order-created-page',
@@ -13,15 +14,15 @@ import { PurchaseOrderService } from 'app/services/purchase-order.service';
 export class PurchaseOrderCreatedPageComponent implements OnInit {
   isLoading = true;
   user: User | null = null;
-  
+
   purchaseOrderId: string | null = null;
   order: PurchaseOrder | null = null;
-  
 
-  constructor( 
-      private purchaseOrderService : PurchaseOrderService, 
-      private currentRoute: ActivatedRoute, 
-      private store: Store<any>) {
+  constructor(
+    private purchaseOrderService : PurchaseOrderService,
+    private currentRoute: ActivatedRoute,
+    private store: Store<{ user: UserState }>
+  ) {
     this.store.subscribe( event => {
       this.user = event.user.user;
     });

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { Product } from 'app/model/product';
 import { ProductsService } from 'app/services/products.service';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'app-product-details-page',
@@ -24,7 +25,7 @@ export class ProductDetailsPageComponent {
   constructor(
     private productsService: ProductsService,
     public authService: AuthService,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
     private router: Router,
   ) {
     this.store.subscribe((state) => {

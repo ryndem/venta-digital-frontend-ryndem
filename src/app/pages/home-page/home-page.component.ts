@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { ProductResponse } from 'app/model/product-response';
 import { ProductsService } from 'app/services/products.service';
 import { addOutstandingProduct } from 'app/store/products/product.actions';
+import { ProductState } from 'app/store/products/product.reducer';
 
 @Component({
   selector: 'app-home-page',
@@ -10,7 +11,10 @@ import { addOutstandingProduct } from 'app/store/products/product.actions';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-  constructor(private productsService: ProductsService, private store: Store<any>,) {
+  constructor(
+    private productsService: ProductsService,
+    private store: Store<{ product: ProductState} >
+  ) {
 
     this.store.subscribe((state) => {
       if(state.product.outstandingProducts) {

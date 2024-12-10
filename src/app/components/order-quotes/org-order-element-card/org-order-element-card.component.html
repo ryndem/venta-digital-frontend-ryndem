@@ -1,17 +1,24 @@
 <div class="order-element-card">
   <div class="folio">
     <span class="text-small-regular text-gray-green-500">Folio:</span>
-    <div class="text-body folio-blue">{{folio}}</div>
+    <div class="text-body folio-blue">{{quote.folio}}</div>
   </div>
 
   <div class="dates">
     <div class="creation-date">
       <span class="text-small-regular text-gray-green-500">Creación:</span>
-      <div class="text-small-regular">{{quote.registrationDate | date:'dd/MM/YYYY'}}</div>
+      <div class="text-small-regular">
+        {{quote.registrationDate | date:'dd/MM/YYYY'}}
+      </div>
     </div>
 
     <div class="expiration-date">
-      <span class="text-small-regular text-gray-green-500" *ngIf="quote.expirationDate">Expiración:</span>
+      <span
+        class="text-small-regular text-gray-green-500"
+        *ngIf="quote.expirationDate"
+      >
+        Expiración:
+      </span>
       <div class="text-small-regular">{{quote.expirationDate | date:'dd/MM/YYYY'}}</div>
     </div>
   </div>
@@ -21,11 +28,11 @@
   </div>
 
   <div class="products">
-    <div class="text-small text-600">{{items}} partidas</div>
+    <div class="text-small text-600">{{quote.items}} partidas</div>
   </div>
 
   <div class="total">
     <span class="text-small-regular text-gray-green-500 m-0">Monto Total</span>
-    <p class="text-title-5 text-primary-500">{{total | usdCurrency}}</p>
+    <p class="text-title-5 text-primary-500">{{quote.total | usdCurrency}}</p>
   </div>
 </div>

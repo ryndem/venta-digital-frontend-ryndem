@@ -11,7 +11,7 @@ export class OrgCarouselComponent implements OnInit, OnDestroy {
 
   secondsInterval = 8;
   currentImage = 0;
-  intervalId: any;
+  intervalId: number | null = null;
 
   banners: CarouselItem[] = [
     {
@@ -54,7 +54,7 @@ export class OrgCarouselComponent implements OnInit, OnDestroy {
 
 
   startImageAutoChange(): void {
-    this.intervalId = setInterval(() => {
+    this.intervalId = window.setInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.banners.length;
     }, this.secondsInterval * 1000);
   }
@@ -63,7 +63,9 @@ export class OrgCarouselComponent implements OnInit, OnDestroy {
     if (index >= 0 && index < this.banners.length) {
       this.currentImage = index;
 
-      clearInterval(this.intervalId);
+      if (this.intervalId !== null) {
+        clearInterval(this.intervalId);
+      }
       this.startImageAutoChange();
     }
   }

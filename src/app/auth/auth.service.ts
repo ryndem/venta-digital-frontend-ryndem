@@ -7,6 +7,7 @@ import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
 import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/users/user.actions';
 import { AddressResponse } from 'app/model/address-response';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ import { AddressResponse } from 'app/model/address-response';
 export class AuthService {
   constructor(
     private httpClient: HttpClient,
-    private store: Store<any>,
+    private store: Store<{ user: UserState }>,
   ) { }
   private TOKEN_KEY = 'authtoken';
   private SESSION_KEY = 'sessionid';
@@ -140,8 +141,8 @@ export class AuthService {
   }
 
   async loadUserInfo(): Promise<User> {
-    const result: any = await firstValueFrom(
-      this.httpClient.post<any>(`${environment.apiUrl}/WhoAmI`, ''),
+    const result = await firstValueFrom(
+      this.httpClient.post<User>(`${environment.apiUrl}/WhoAmI`, ''),
     );
 
     return result;
@@ -160,7 +161,7 @@ export class AuthService {
         },
       ],
     };
-    const result: any = await firstValueFrom(
+    const result = await firstValueFrom(
       this.httpClient.post<AddressResponse>(
         `${environment.apiUrl}/Address/ListAddress`,
         filters,

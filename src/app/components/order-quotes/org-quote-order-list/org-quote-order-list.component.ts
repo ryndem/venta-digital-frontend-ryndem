@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Quote } from 'app/model/quote';
+import { QuoteItem } from 'app/model/quote';
 
 @Component({
   selector: 'org-quote-order-list',
@@ -10,18 +10,19 @@ import { Quote } from 'app/model/quote';
 export class OrgQuoteOrderListComponent {
 
   @Input()
-  quotes!: Quote[];
+  quotes!: QuoteItem[];
+  @Input()
+  currentTab!: string;
 
   constructor(private router: Router) {}
 
-  goToDetails(quote:any) {
-    if (quote.idQuotation) {
-      this.router.navigate(['quotes', quote.idQuotation]);
-
-    } else if (quote.idPurchaseOrder) {
-      this.router.navigate(['purchase-orders', quote.idPurchaseOrder]);
-    } else if (quote.idOrder) {
-      this.router.navigate(['orders', quote.idOrder]);
+  goToDetails(id: string) {
+    if (this.currentTab === 'quotes') {
+      this.router.navigate(['quotes', id]);
+    } else if (this.currentTab === 'in-progress') {
+      this.router.navigate(['purchase-orders', id]);
+    } else if (this.currentTab === 'confirmed') {
+      this.router.navigate(['orders', id]);
     }
   }
 }

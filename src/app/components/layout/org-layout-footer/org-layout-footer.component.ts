@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { CartService } from 'app/services/cart.service';
 import { updateCategories } from 'app/store/products/product.actions';
+import { UserState } from 'app/store/users/user.reducer';
+import { ProductState } from 'app/store/products/product.reducer';
 
 @Component({
   selector: 'org-layout-footer',
@@ -17,16 +19,17 @@ export class LayoutFooterComponent implements OnInit {
   isAuthenticated = false;
 
   constructor(
-      private categoriesService: CategoriesService,
-      private cartService: CartService,
-      public authService: AuthService, 
-      private store: Store<any> ) {
+    private categoriesService: CategoriesService,
+    private cartService: CartService,
+    public authService: AuthService,
+    private store: Store<{ user: UserState, product: ProductState }>
+  ) {
     this.store.subscribe(state => {
       this.isAuthenticated = state.user.isLogged;
       this.categories = state.product.categories;
     });
   }
-  
+
   async ngOnInit() {
     await this.loadSession();
     this.loadCategories();

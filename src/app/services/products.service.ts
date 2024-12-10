@@ -9,6 +9,9 @@ import { ProductResponse } from 'app/model/product-response';
 import { Router } from '@angular/router';
 import { SearchProductProps } from 'app/model-props/search-product-props';
 import { SearchedProduct } from 'app/model-props/searched-product';
+import { SearchParams } from 'app/model/search-params';
+import { ProductOffertBodyRequest } from 'app/model/product-offert-body-request';
+import { SearchProductRequest } from 'app/model/search-product';
 
 
 @Injectable({
@@ -23,7 +26,7 @@ export class ProductsService {
 
   private SERVER_ERROR_PAGE_PATH = '/server-error';
 
-  async listProductsByCategory(searchParams: any): Promise<ProductResponse> {
+  async listProductsByCategory(searchParams: SearchParams): Promise<ProductResponse> {
     const body: SearchProductProps = {
       pageSize: searchParams.pageSize,
       desiredPage: searchParams.page,
@@ -150,7 +153,7 @@ export class ProductsService {
 
   async getProductOfferVD(productId: string): Promise<PriceOffert> {
     let apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
-    const body: any = {
+    const body: ProductOffertBodyRequest = {
       IdProduct: productId,
       Pieces: 1,
     };
@@ -165,7 +168,7 @@ export class ProductsService {
 
   async getProductOfferWeb(productId: string): Promise<PriceOffert> {
     const apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
-    const body: any = {
+    const body: ProductOffertBodyRequest = {
       IdProduct: productId,
       Pieces: 1,
     };
@@ -174,7 +177,7 @@ export class ProductsService {
   }
 
   async searchProducts(search: string): Promise<SearchedProduct[]> {
-    const body: any = {
+    const body: SearchProductRequest = {
       search,
       pageSize: 10,
       desiredPage: 1,

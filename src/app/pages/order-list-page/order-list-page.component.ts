@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Quote } from 'app/model/quote';
+import { QuoteItem } from 'app/model/quote';
 import { QuotesService } from 'app/services/quotes.service';
 import { AuthService } from 'app/auth/auth.service';
 import { PurchaseOrderService } from 'app/services/purchase-order.service';
 import { OrderService } from 'app/services/order.service';
 import { User } from 'app/model/user';
+import { OrderTab } from 'app/model/order-tabs';
 
 @Component({
   selector: 'order-list-page',
@@ -18,10 +19,10 @@ import { User } from 'app/model/user';
 export class OrderListPageComponent implements OnInit, OnDestroy {
 
   private PAGE_SIZE = 12;
-  tabs: any[] = [];
-  currentTab: any = {};
+  tabs: OrderTab[] = [];
+  currentTab: OrderTab = this.tabs[0];
   isClosedFilter = false;
-  orders: Quote[] | null = null;
+  orders: QuoteItem[] | null = null;
   q = '';
   isAuthenticated$: Observable<boolean>;
   idCustomer: string | null = null;
@@ -87,8 +88,11 @@ export class OrderListPageComponent implements OnInit, OnDestroy {
 
   updateTab(tabKey: string) {
     if (this.currentTab.key === tabKey) return;
-    this.currentTab = this.tabs.find(t => t.key == tabKey);
-    this.resetListOrders();
+    const currentTab = this.tabs.find(t => t.key == tabKey);
+    if (currentTab) {
+      this.currentTab = currentTab;
+      this.resetListOrders();
+    }
   }
 
   async updateCloseFilter(isClosedFilter: boolean) {
@@ -115,7 +119,18 @@ export class OrderListPageComponent implements OnInit, OnDestroy {
         if (this.currentPage > this.getTotalPages(page.totalResults)) {
           this.allLoaded = true;
         } else {
-          this.orders = this.orders ? [...this.orders, ...page.results] : page.results;
+          const quotes: QuoteItem[] = page.results.map(quote => {
+            return {
+              id: quote.idQuotation,
+              folio: quote.folio,
+              registrationDate: quote.registrationDate,
+              items: quote.items,
+              total: quote.total,
+              expirationDate: quote.expirationDate,
+              isValid: quote.isValid
+            }
+          })
+          this.orders = this.orders ? [...this.orders, ...quotes] : quotes;
           this.currentPage++;
           this.allLoaded = this.currentPage > this.getTotalPages(page.totalResults);
         }
@@ -130,7 +145,16 @@ export class OrderListPageComponent implements OnInit, OnDestroy {
         if (this.currentPage > this.getTotalPages(page.totalResults)) {
           this.allLoaded = true;
         } else {
-          this.orders = this.orders ? [...this.orders, ...page.results] : page.results;
+          const purchaseOrders: QuoteItem[] = page.results.map(purchaseOrder => {
+            return {
+              id: purchaseOrder.idPurchaseOrder,
+              folio: purchaseOrder.folio,
+              registrationDate: purchaseOrder.registrationDate,
+              items: purchaseOrder.items,
+              total: purchaseOrder.total,
+            }
+          })
+          this.orders = this.orders ? [...this.orders, ...purchaseOrders] : purchaseOrders;
           this.currentPage++;
           this.allLoaded = this.currentPage > this.getTotalPages(page.totalResults);
         }
@@ -138,7 +162,16 @@ export class OrderListPageComponent implements OnInit, OnDestroy {
 
       if (this.currentTab.key === 'confirmed') {
         const page = await this.orderService.getOrders(this.q, this.isClosedFilter);
-        this.orders = page.results;
+        const confirmedOrders: QuoteItem[] = page.results.map(confirmedOrder => {
+          return {
+            id: confirmedOrder.idOrder,
+            folio: confirmedOrder.internalOrderNumber,
+            registrationDate: confirmedOrder.registrationDate,
+            items: confirmedOrder.totalItems,
+            total: confirmedOrder.totalAmount,
+          }
+        })
+        this.orders = confirmedOrders;
       }
     } catch (e) {
       console.error(e);

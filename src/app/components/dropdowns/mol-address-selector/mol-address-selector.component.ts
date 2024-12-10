@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/components/commons/atm-closable/atm-closable.component';
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'mol-address-selector',
@@ -21,7 +22,7 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
   selectedAddressId : string | null = null;
 
   @Output()
-  addressSelectedEmitter = new EventEmitter<Address|null>();
+  addressSelectedEmitter = new EventEmitter<Address>();
 
   @Output()
   selectedOtherEmitter = new EventEmitter();
@@ -35,7 +36,7 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
   selectionLabel = 'Elige una dirección de entrega';
   user: User | null = null;
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<{ user: UserState }>) {
     super();
     this.store.subscribe( state => {
       this.user = state.user.user;
@@ -74,8 +75,8 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     }
 
     this.confirmSelection();
-  } 
-  
+  }
+
   confirmSelection() {
     if(this.preSelectedAddress) {
       this.selectOption(this.preSelectedAddress);

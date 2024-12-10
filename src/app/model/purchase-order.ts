@@ -35,3 +35,25 @@ export type PurchaseOrder = {
     itemCount: number;
   }
 }
+
+/**
+ * Represents an item in a purchase order, including metadata and financial details.
+ *
+ * @interface PurchaseOrderItem
+ *
+ * @property {string} idPurchaseOrder - The unique identifier for the purchase order.
+ * @property {string} folio - The folio number associated with the purchase order.
+ * @property {string} idfilePdf - The unique identifier for the PDF file linked to the purchase order.
+ * @property {number} items - The total number of items included in the purchase order.
+ * @property {number} total - The total cost of the purchase order, including all items and taxes.
+ * @property {string} registrationDate - The date the purchase order was registered, in ISO format.
+*/
+
+export type PurchaseOrderItem = {
+  idPurchaseOrder: string;
+  folio: string;
+  idfilePdf: string;
+  items: number;
+  total: number;
+  registrationDate: string;
+}

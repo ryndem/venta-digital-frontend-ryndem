@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
+import { UserState } from 'app/store/users/user.reducer';
 
 @Component({
   selector: 'atm-auth-banner',
@@ -13,9 +14,9 @@ export class AtmAuthBannerComponent {
 
   constructor(
     public authService: AuthService,
-    private store: Store<{ user: { loading: boolean; isLogged: boolean } }>,
+    private store: Store<{ user: UserState }>
   ) {
-    this.store.subscribe((state) => {
+      this.store.subscribe((state) => {
       this.isLogged = state.user.isLogged;
       this.isLoadingUser = state.user.loading;
     });
