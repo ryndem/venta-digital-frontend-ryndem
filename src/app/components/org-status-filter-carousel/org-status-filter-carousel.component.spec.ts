@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusFilterCarouselComponent } from './status-filter-carousel.component';
+import { OrgStatusFilterCarouselComponent } from './org-status-filter-carousel.component';
 
 describe('StatusFilterCarouselComponent', () => {
-  let component: StatusFilterCarouselComponent;
-  let fixture: ComponentFixture<StatusFilterCarouselComponent>;
+  let component: OrgStatusFilterCarouselComponent;
+  let fixture: ComponentFixture<OrgStatusFilterCarouselComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StatusFilterCarouselComponent]
+      declarations: [OrgStatusFilterCarouselComponent],
     });
-    fixture = TestBed.createComponent(StatusFilterCarouselComponent);
+    fixture = TestBed.createComponent(OrgStatusFilterCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

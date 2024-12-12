@@ -1,7 +1,10 @@
 <div class="login-card">
-  <div class="login-card__background" role="button" tabindex="0" 
-    (click)="close()" 
-    (keydown.enter)="close()" 
+  <div
+    class="login-card__background"
+    role="button"
+    tabindex="0"
+    (click)="close()"
+    (keydown.enter)="close()"
     (keydown.space)="close()"></div>
 
   <div class="login-card__container">
@@ -11,8 +14,7 @@
     <div class="login-card__form">
       <div
         class="login-card__form__error text-red-700"
-        *ngIf="credentialsError"
-      >
+        *ngIf="credentialsError">
         <div class="text-body error-alert">
           <p class="text-title-5">Hubo un problema al iniciar sesión</p>
           Por favor, verifica tus datos e inténtalo nuevamente. Si el problema
@@ -22,8 +24,7 @@
       <img
         class="login-card__form__hero"
         src="assets/icons/proquifa-logo-full-color.svg"
-        alt="proquifa logo"
-      />
+        alt="proquifa logo" />
 
       <div class="login-card__form__body">
         <div class="login-card__form__body__header">
@@ -37,8 +38,7 @@
         <form
           class="form-group mb-32"
           (ngSubmit)="login(loginForm)"
-          #loginForm="ngForm"
-        >
+          #loginForm="ngForm">
           <div class="form-control">
             <label
               for="email"
@@ -54,15 +54,13 @@
               required
               email
               ngModel
-              #emailInput="ngModel"
-            />
+              #emailInput="ngModel" />
 
             <div
               class="text-small text-red-700"
               *ngIf="
                 (loginForm.submitted || emailInput.dirty) && emailInput.invalid
-              "
-            >
+              ">
               <small *ngIf="emailInput.errors?.['email']"
                 >El formato de correo electrónico es incorrecto
               </small>
@@ -88,11 +86,16 @@
                 autocomplete="false"
                 required
                 ngModel
-                #passwordInput="ngModel"
-              />
+                #passwordInput="ngModel" />
               <button (click)="togglePasswordVisibility()" type="button">
-                <ng-icon name="heroEye" size="16" *ngIf="isPasswordVisible"></ng-icon>
-                <ng-icon name="heroEyeSlash" size="16"  *ngIf="!isPasswordVisible"></ng-icon>
+                <ng-icon
+                  name="heroEye"
+                  size="16"
+                  *ngIf="isPasswordVisible"></ng-icon>
+                <ng-icon
+                  name="heroEyeSlash"
+                  size="16"
+                  *ngIf="!isPasswordVisible"></ng-icon>
               </button>
             </div>
             <div
@@ -100,8 +103,7 @@
               *ngIf="
                 (loginForm.submitted || passwordInput.dirty) &&
                 passwordInput.invalid
-              "
-            >
+              ">
               <small *ngIf="passwordInput.errors?.['required']"
                 >La contraseña es requerida</small
               >
@@ -116,8 +118,7 @@
         <a
           routerLink="auth/forgot-password"
           class="text-body text-blue-600"
-          (click)="close()"
-        >
+          (click)="close()">
           Recupera el acceso a tu cuenta
         </a>
 

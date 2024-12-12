@@ -1,0 +1,31 @@
+:host {
+  align-items: center;
+  display: flex;
+}
+
+#mol-carousel-control {
+  box-shadow: -2px 0px 8px 0px #00000012;
+  pointer-events: auto;
+
+  &.enabled {
+    /*    position: absolute;*/
+    z-index: 1;
+  }
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+
+  & > button {
+    background-color: var(--white);
+    border: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
