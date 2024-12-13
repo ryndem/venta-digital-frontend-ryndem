@@ -15,7 +15,7 @@
   <div class="order-summary-card__download-file">
     <span class="text-small-regular text-gray-green-900">Orden de Compra</span>
     <mol-file-downloader
-      [fileName]="'oc_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy') "
+      [fileName]="'oc_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')"
       [fileId]="purchaseOrder.idPurchaseOrderFile"
     />
   </div>
@@ -37,9 +37,11 @@
   </div>
 
   <div class="order-summary-card__download-file">
-    <span class="text-small-regular text-gray-green-900">Comprobante de venta digital</span>
+    <span class="text-small-regular text-gray-green-900">Comprobante de Venta Digital</span>
+
+ <!-- // TODO: REVISAR SI ES CORRECTO QUE USE LOS MISMOS VALORES QUE LA ORDEN DE COMPRA-->
     <mol-file-downloader
-      [fileName]="'vd_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy') "
+      [fileName]="'vd_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')"
       [fileId]="'12345678'"
     />
   </div>
