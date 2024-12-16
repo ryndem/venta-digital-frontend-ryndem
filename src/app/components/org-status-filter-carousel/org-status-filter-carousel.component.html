@@ -1,65 +1,18 @@
 <div id="status-filter-carousel">
   <mol-carousel-control
-    [enabled]="false"
     [iconName]="'heroChevronLeft'"
     [position]="eControlPosition.left"
     (click)="move(false)"></mol-carousel-control>
   <div #options class="options">
-    <div #item class="item">
-      <mol-carousel-button [text]="'Todos'" [isSelected]="true">
-      </mol-carousel-button>
-    </div>
-    <div #item class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Pedido por Confirmar'" [isSelected]="false">
-      </mol-carousel-button>
-    </div>
-    <div class="item">
-      <mol-carousel-button [text]="'Producto Embarcado'" [isSelected]="false">
+    <div #item class="item" *ngFor="let item of items; let i = index">
+      <mol-carousel-button
+        [text]="item.text"
+        [isSelected]="item.isSelected"
+        (clickEmitter)="onSelect(item, i)">
       </mol-carousel-button>
     </div>
   </div>
   <mol-carousel-control
-    [enabled]="true"
     [iconName]="'heroChevronRight'"
     [position]="eControlPosition.right"
     (click)="move(true)"></mol-carousel-control>

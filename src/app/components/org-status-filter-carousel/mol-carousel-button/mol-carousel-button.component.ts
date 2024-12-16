@@ -11,7 +11,6 @@ export class MolCarouselButtonComponent {
   @Output() clickEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   onClick(): void {
-    console.warn('Click');
     this.clickEmitter.emit();
   }
 }

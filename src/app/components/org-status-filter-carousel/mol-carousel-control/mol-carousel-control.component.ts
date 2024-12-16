@@ -9,5 +9,4 @@ import { ControlPosition } from '../../../model/status-filter-carousel';
 export class MolCarouselControlComponent {
   @Input() position!: ControlPosition;
   @Input() iconName!: string;
-  @Input() enabled!: boolean;
 }

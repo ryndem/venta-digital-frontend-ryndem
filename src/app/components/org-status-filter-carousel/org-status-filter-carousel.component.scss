@@ -16,6 +16,10 @@
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
 
+    & > .item {
+      flex: 0 0 auto;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }

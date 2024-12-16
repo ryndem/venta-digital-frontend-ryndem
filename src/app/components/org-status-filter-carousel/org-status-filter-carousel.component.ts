@@ -2,21 +2,31 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  Input,
   OnInit,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { EControlPosition } from '../../model/status-filter-carousel';
+import {
+  EControlPosition,
+  StatusFilterItem,
+} from '../../model/status-filter-carousel';
 
 @Component({
-  selector: 'status-filter-carousel',
+  selector: 'org-status-filter-carousel',
   templateUrl: './org-status-filter-carousel.component.html',
   styleUrls: ['./org-status-filter-carousel.component.scss'],
 })
 export class OrgStatusFilterCarouselComponent implements OnInit {
   @ViewChild('options') options!: ElementRef;
-  @ViewChildren('item') items!: QueryList<ElementRef>;
+  @ViewChildren('item') elements!: QueryList<ElementRef>;
+
+  @Input() items!: StatusFilterItem[];
+  @Output() selectEmitter: EventEmitter<StatusFilterItem> =
+    new EventEmitter<StatusFilterItem>();
 
   readonly eControlPosition = EControlPosition;
 
@@ -27,18 +37,20 @@ export class OrgStatusFilterCarouselComponent implements OnInit {
   }
 
   move(isNext: boolean): void {
-    const item: number = this.items.first?.nativeElement?.clientWidth;
-
-    console.warn('this.items.length', this.items.length);
-
-    this.items.forEach(item => console.warn(item));
+    const item: number = this.elements.first?.nativeElement?.clientWidth;
 
     const carousel = this.options.nativeElement;
 
     carousel.scrollLeft = isNext
       ? carousel.scrollLeft + item + 150
       : carousel.scrollLeft - item - 150;
+  }
 
-    console.warn('carousel.scrollLeft', carousel.scrollLeft);
+  onSelect(item: StatusFilterItem, selectedIndex: number): void {
+    this.items.forEach((item, index) => {
+      item.isSelected = index === selectedIndex;
+    });
+
+    this.selectEmitter.emit(item);
   }
 }

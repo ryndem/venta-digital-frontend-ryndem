@@ -7,11 +7,6 @@
   box-shadow: -2px 0px 8px 0px #00000012;
   pointer-events: auto;
 
-  &.enabled {
-    /*    position: absolute;*/
-    z-index: 1;
-  }
-
   &.left {
     left: 0;
   }
