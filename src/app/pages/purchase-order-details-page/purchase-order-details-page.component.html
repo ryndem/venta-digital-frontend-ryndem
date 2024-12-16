@@ -12,9 +12,11 @@
       *ngIf="purchaseOrder">
       <h1>PARTIDAS DEL PEDIDO {{ purchaseOrder.folio }}</h1>
       <h4 class="text-title-4 m-0">Partidas</h4>
-      <org-status-filter-carousel
-        [items]="stateFiltersCarousel"
-        (selectEmitter)="carouselItem($event)"></org-status-filter-carousel>
+      <div class="carousel">
+        <org-status-filter-carousel
+          [items]="stateFiltersCarousel"
+          (selectEmitter)="carouselItem($event)"></org-status-filter-carousel>
+      </div>
     </section>
     <section class="purchase-order-details-page__content__summary">
       <org-order-summary-card [purchaseOrder]="purchaseOrder" />
