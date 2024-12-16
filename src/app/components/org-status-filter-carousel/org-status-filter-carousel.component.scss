@@ -1,0 +1,27 @@
+#status-filter-carousel {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  & > .options {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    overflow-x: auto;
+    position: relative;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    & > .item {
+      flex: 0 0 auto;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

@@ -2,14 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgIconsModule } from '@ng-icons/core';
 import {
+  heroArrowLeft,
+  heroArrowUpTray,
   heroBars3,
   heroCheckCircle,
-  heroChevronUp,
   heroChevronDown,
+  heroChevronLeft,
+  heroChevronRight,
+  heroChevronUp,
+  heroEllipsisHorizontal,
   heroExclamationCircle,
-  heroArrowLeft,
   heroEye,
   heroEyeSlash,
+  heroFolder,
+  heroFolderOpen,
+  heroInformationCircle,
   heroLockClosed,
   heroMagnifyingGlass,
   heroMinus,
@@ -20,15 +27,11 @@ import {
   heroTrash,
   heroUser,
   heroXMark,
-  heroArrowUpTray,
-  heroChevronLeft,
-  heroChevronRight,
-  heroEllipsisHorizontal,
-  heroInformationCircle,
-  heroFolder,
-  heroFolderOpen
 } from '@ng-icons/heroicons/outline';
-import { heroBoltSolid, heroInformationCircleSolid } from "@ng-icons/heroicons/solid"
+import {
+  heroBoltSolid,
+  heroInformationCircleSolid,
+} from '@ng-icons/heroicons/solid';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -125,6 +128,8 @@ import { AtmClosableModalComponent } from './components/modals/atm-closable-moda
 import { AtmSkeletonProductDetailCardComponent } from './components/commons/skeleton/atm-skeleton-product-detail-card/atm-skeleton-product-detail-card.component';
 import { AtmSkeletonProductDetailCardSummaryComponent } from './components/commons/skeleton/atm-skeleton-product-detail-summary-card/atm-skeleton-product-detail-summary-card.component';
 import { OrgOrderItemCardComponent } from './components/orders/org-order-item-card/org-order-item-card.component';
+import { OrgStatusFilterCarouselModule } from './components/org-status-filter-carousel/org-status-filter-carousel.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -210,7 +215,7 @@ import { OrgOrderItemCardComponent } from './components/orders/org-order-item-ca
     MolQuoteChangeBannerComponent,
     AtmClosableModalComponent,
     AtmSkeletonProductDetailCardComponent,
-    AtmSkeletonProductDetailCardSummaryComponent
+    AtmSkeletonProductDetailCardSummaryComponent,
   ],
   imports: [
     BrowserModule,
@@ -218,6 +223,7 @@ import { OrgOrderItemCardComponent } from './components/orders/org-order-item-ca
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    OrgStatusFilterCarouselModule,
     NgIconsModule.withIcons({
       heroTag,
       heroCheckCircle,
@@ -245,13 +251,13 @@ import { OrgOrderItemCardComponent } from './components/orders/org-order-item-ca
       heroInformationCircle,
       heroInformationCircleSolid,
       heroFolder,
-      heroFolderOpen
+      heroFolderOpen,
     }),
     StoreModule.forRoot({}, {}),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
-      messageClass: 'text-paragraph'
-    })
+      messageClass: 'text-paragraph',
+    }),
   ],
   providers: [
     AuthService,

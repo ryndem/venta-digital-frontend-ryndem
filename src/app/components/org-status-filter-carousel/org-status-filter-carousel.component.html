@@ -1,0 +1,19 @@
+<div id="status-filter-carousel">
+  <mol-carousel-control
+    [iconName]="'heroChevronLeft'"
+    [position]="eControlPosition.left"
+    (click)="move(false)"></mol-carousel-control>
+  <div #options class="options">
+    <div #item class="item" *ngFor="let item of items; let i = index">
+      <mol-carousel-button
+        [text]="item.text"
+        [isSelected]="item.isSelected"
+        (clickEmitter)="onSelect(item, i)">
+      </mol-carousel-button>
+    </div>
+  </div>
+  <mol-carousel-control
+    [iconName]="'heroChevronRight'"
+    [position]="eControlPosition.right"
+    (click)="move(true)"></mol-carousel-control>
+</div>

@@ -1,0 +1,19 @@
+#mol-carousel-button {
+  display: flex;
+  flex-direction: row;
+  padding: 4px 4px 4px 2px;
+
+  & > button {
+    border-radius: 4px;
+    cursor: pointer;
+
+    &.selected {
+      background-color: var(--neutral-900);
+      color: var(--gray-green-50);
+    }
+
+    &.unselected {
+      border: none;
+    }
+  }
+}

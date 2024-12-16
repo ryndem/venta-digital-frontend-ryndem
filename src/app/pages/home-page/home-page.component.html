@@ -10,14 +10,11 @@
 
     <org-products-grid
       [products]="productResponse"
-      *ngIf="!isLoadingProducts"
-    />
-
+      *ngIf="!isLoadingProducts" />
   </div>
   <org-categories-gallery
     id="categories"
-    class="home-container__categories"
-  ></org-categories-gallery>
+    class="home-container__categories"></org-categories-gallery>
 </div>
 
 <org-help-contact></org-help-contact>
