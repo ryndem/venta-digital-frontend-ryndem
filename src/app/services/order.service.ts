@@ -13,49 +13,60 @@ export class OrderService {
   private apiPath: string = environment.apiUrl;
   constructor(private httpClient: HttpClient) {}
 
-
-  async getOrders(folio: string|null, isClosed: boolean) {
-    const body:any = {
+  async getOrders(folio: string | null, isClosed: boolean) {
+    const body: any = {
       pageSize: 100,
-      desiredPage: 1
+      desiredPage: 1,
     };
     const filters = [];
 
     filters.push({
-      'FilterName': 'isClosed',
-      'FilterValue': isClosed
+      FilterName: 'isClosed',
+      FilterValue: isClosed,
     });
 
-    if(folio && folio.length > 0) {
+    if (folio && folio.length > 0) {
       filters.push({
-        'FilterName': 'Folio',
-        'FilterValue': folio
+        FilterName: 'Folio',
+        FilterValue: folio,
       });
     }
-    body. filters = filters;
+    body.filters = filters;
 
-    return await firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/Order/ListOrder', body));
+    return await firstValueFrom(
+      this.httpClient.post<QuotePage>(this.apiPath + '/Order/ListOrder', body)
+    );
   }
 
   async getItemsByOrderId(orderId: string, quoteId: string) {
-    const body:any = {
+    const body: any = {
       pageSize: 100,
       desiredPage: 1,
       filters: [
         {
-            FilterName: 'IdtpPedido',
-            FilterValue: orderId
-        },{
-            FilterName: 'IdcotCotizacion',
-            FilterValue: quoteId
-        }],
+          FilterName: 'IdtpPedido',
+          FilterValue: orderId,
+        },
+        {
+          FilterName: 'IdcotCotizacion',
+          FilterValue: quoteId,
+        },
+      ],
     };
 
-    return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/Order/ListOrderItemsDetails', body));
+    return await firstValueFrom(
+      this.httpClient.post<OrderItemPage>(
+        this.apiPath + '/Order/ListOrderItemsDetails',
+        body
+      )
+    );
   }
 
-
   getById(orderId: string) {
-    return firstValueFrom(this.httpClient.get<ConfirmedOrder>(`${this.apiPath}/Order/OrderDetails?IdOrder=${orderId}`));
+    return firstValueFrom(
+      this.httpClient.get<ConfirmedOrder>(
+        `${this.apiPath}/Order/OrderDetails?IdOrder=${orderId}`
+      )
+    );
   }
 }

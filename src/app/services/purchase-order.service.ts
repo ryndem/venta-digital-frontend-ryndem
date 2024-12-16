@@ -18,31 +18,58 @@ export class PurchaseOrderService {
 
   constructor(
     private httpClient: HttpClient,
-    private store: Store<any>,
+    private store: Store<any>
   ) {}
 
-  async create(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
-   return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=false`, items ));
+  async create(
+    customerId: string,
+    contactCustomerId: string,
+    purchaseOrderNumber: string,
+    idFile: string,
+    items: any[]
+  ) {
+    return await firstValueFrom(
+      this.httpClient.post<PurchaseOrder>(
+        this.apiPath +
+          `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=false`,
+        items
+      )
+    );
   }
 
-  async calculateTotals(customerId: string, contactCustomerId: string, purchaseOrderNumber: string, idFile: string, items: any[] ) {
-    return await firstValueFrom(this.httpClient.post<PurchaseOrder>( this.apiPath + `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=true`, items ));
+  async calculateTotals(
+    customerId: string,
+    contactCustomerId: string,
+    purchaseOrderNumber: string,
+    idFile: string,
+    items: any[]
+  ) {
+    return await firstValueFrom(
+      this.httpClient.post<PurchaseOrder>(
+        this.apiPath +
+          `/PurchaseOrder/PutPurchaseOrder?idCustomer=${customerId}&idContactCustomer=${contactCustomerId}&purchaseOrderNumber=${purchaseOrderNumber}&idFile=${idFile}&refresh=true`,
+        items
+      )
+    );
   }
 
   async updateSelection(purchaseOrderForm: PurchaseOrderForm | null) {
     if (purchaseOrderForm && purchaseOrderForm.orderItems.length > 0) {
-      this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: true}));
+      this.store.dispatch(
+        updateSelectedOrderItems({ hasOrderItemsSelected: true })
+      );
       localStorage.setItem(this.ORDER_FORM, JSON.stringify(purchaseOrderForm));
     } else {
-      this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: false}));
+      this.store.dispatch(
+        updateSelectedOrderItems({ hasOrderItemsSelected: false })
+      );
       localStorage.removeItem(this.ORDER_FORM);
     }
   }
 
   getOrderForm() {
     const selection = localStorage.getItem(this.ORDER_FORM);
-    if( selection )
-      return JSON.parse( selection );
+    if (selection) return JSON.parse(selection);
 
     return null;
   }
@@ -52,33 +79,43 @@ export class PurchaseOrderService {
     pageSize: number,
     desiredPage: number
   ) {
-    const body:any = {
+    const body: any = {
       pageSize,
-      desiredPage
+      desiredPage,
     };
 
-    if(folio && folio.length > 0) {
+    if (folio && folio.length > 0) {
       body.Folio = folio;
     }
 
     return await firstValueFrom(
       this.httpClient.post<QuotePage>(
-        this.apiPath + '/PurchaseOrder/ListPurchaseOrder', body
+        this.apiPath + '/PurchaseOrder/ListPurchaseOrder',
+        body
       )
     );
   }
 
   async getProductsByPurchaseOrderId(purchaseOrderId: string) {
-    const body:any = {
+    const body: any = {
       pageSize: 100,
       desiredPage: 1,
-      orderId: purchaseOrderId // FIXME 
+      orderId: purchaseOrderId, // FIXME
     };
 
-    return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/PurchaseOrder/ListPurchaseOrderItemsDetails', body));
+    return await firstValueFrom(
+      this.httpClient.post<OrderItemPage>(
+        this.apiPath + '/PurchaseOrder/ListPurchaseOrderItemsDetails',
+        body
+      )
+    );
   }
 
   getById(purchaseOrderId: string) {
-    return firstValueFrom(this.httpClient.get<PurchaseOrder>(`${this.apiPath}/PurchaseOrder/PurchaseOrderDetails?IdPurchaseOrder=${purchaseOrderId}`));
+    return firstValueFrom(
+      this.httpClient.get<PurchaseOrder>(
+        `${this.apiPath}/PurchaseOrder/GetPurchaseOrderPendingConfirmationDetails?IdPurchaseOrder=${purchaseOrderId}`
+      )
+    );
   }
 }

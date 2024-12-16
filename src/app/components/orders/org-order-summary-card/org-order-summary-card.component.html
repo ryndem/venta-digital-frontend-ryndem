@@ -55,7 +55,7 @@
         '_' +
         (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')
       "
-      [fileId]="'12345678'" />
+      [fileId]="purchaseOrder?.idOCFilePDF || ''" />
   </div>
 
   <hr />

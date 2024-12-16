@@ -1,4 +1,4 @@
-import { Quote } from "./quote";
+import { Quote } from './quote';
 
 /**
  * Represents a confirmed order with details about items, quotations, freight, and totals.
@@ -17,25 +17,32 @@ import { Quote } from "./quote";
  * @property {Quote[]} listQuotation - A list of quotations associated with the order.
  * @property {{ amount: number; itemCount: number; }} freightExpressDetails - Details about express freight charges and item counts.
  * @property {{ amount: number; itemCount: number; }} freightOutsiderDetails - Details about outside freight charges and item counts.
-*/
+ */
 
 export type ConfirmedOrder = {
   idOrder: string;
   folio: string;
   address: string;
-  idPurchaseOrderFile: string;
+  idFilePDF: string;
+  idOCFilePDF: string;
   itemCount: number;
   subtotal: number;
   saleTax: number;
   total: number;
   registrationDate: string;
+  totalAmount: number;
+  totalVAT: number;
+  expressFreightItems: number;
+  expressFreightTotal: number;
+  lastMileFreightItems: number;
+  lastMileFreightTotal: number;
   listQuotation: Quote[];
   freightExpressDetails: {
     amount: number;
     itemCount: number;
-  },
+  };
   freightOutsiderDetails: {
     amount: number;
     itemCount: number;
-  }
-}
+  };
+};

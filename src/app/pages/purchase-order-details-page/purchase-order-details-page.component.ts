@@ -1,7 +1,7 @@
 import { Component, Input as RouterInput } from '@angular/core';
-import { PurchaseOrder } from 'app/model/purchase-order';
 import { OrderItemPage } from 'app/model/order-item-page';
 import { PurchaseOrderService } from 'app/services/purchase-order.service';
+import { PurchaseOrder } from '../../model/purchase-order';
 
 @Component({
   selector: 'purchase-order-details-page',

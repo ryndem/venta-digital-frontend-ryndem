@@ -21,6 +21,7 @@ export type PurchaseOrder = {
   folio: string;
   address: string;
   idPurchaseOrderFile: string;
+  idOCFilePDF?: string;
   itemCount: number;
   subtotal: number;
   saleTax: number;
@@ -29,9 +30,9 @@ export type PurchaseOrder = {
   freightExpressDetails: {
     amount: number;
     itemCount: number;
-  },
+  };
   freightOutsiderDetails: {
     amount: number;
     itemCount: number;
-  }
-}
+  };
+};
