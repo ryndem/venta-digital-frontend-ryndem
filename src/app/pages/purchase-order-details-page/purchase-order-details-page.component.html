@@ -7,12 +7,14 @@
   </div>
 
   <main class="purchase-order-details-page__content" *ngIf="purchaseOrder">
-    <section class="purchase-order-details-page__content__products" *ngIf="purchaseOrder">
-      <h1>PARTIDAS DEL PEDIDO {{purchaseOrder.folio}}</h1>
+    <section
+      class="purchase-order-details-page__content__products"
+      *ngIf="purchaseOrder">
+      <h1>PARTIDAS DEL PEDIDO {{ purchaseOrder.folio }}</h1>
       <h4 class="text-title-4 m-0">Partidas</h4>
     </section>
     <section class="purchase-order-details-page__content__summary">
-      <org-order-summary-card [purchaseOrder]="purchaseOrder"/>
+      <org-order-summary-card [purchaseOrder]="purchaseOrder" />
     </section>
   </main>
 </div>

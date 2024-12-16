@@ -9,7 +9,6 @@ import { PurchaseOrderService } from 'app/services/purchase-order.service';
   styleUrls: ['./purchase-order-details-page.component.scss'],
 })
 export class PurchaseOrderDetailsPageComponent {
-
   purchaseOrderId!: string;
   purchaseOrder: PurchaseOrder | null = null;
   products: OrderItemPage | null = null;
@@ -23,8 +22,12 @@ export class PurchaseOrderDetailsPageComponent {
   constructor(private purchaseOrderService: PurchaseOrderService) {}
 
   async loadPurchaseOrder() {
-    this.purchaseOrder = await this.purchaseOrderService.getById(this.purchaseOrderId);
-    this.products = await this.purchaseOrderService.getProductsByPurchaseOrderId(this.purchaseOrderId);
+    this.purchaseOrder = await this.purchaseOrderService.getById(
+      this.purchaseOrderId
+    );
+    this.products =
+      await this.purchaseOrderService.getProductsByPurchaseOrderId(
+        this.purchaseOrderId
+      );
   }
-
 }

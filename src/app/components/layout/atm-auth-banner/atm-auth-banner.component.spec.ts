@@ -8,10 +8,9 @@ describe('AtmAuthBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AtmAuthBannerComponent]
-    })
-    .compileComponents();
-    
+      declarations: [AtmAuthBannerComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AtmAuthBannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

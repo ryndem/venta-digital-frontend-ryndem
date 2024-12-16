@@ -7,7 +7,9 @@
       </button>
     </div>
 
-    <div class="order-summary-card__customer__info" *ngIf="isShowingCustomerInfo">
+    <div
+      class="order-summary-card__customer__info"
+      *ngIf="isShowingCustomerInfo">
       <org-quote-user-info [address]="purchaseOrder.address" />
     </div>
   </div>
@@ -15,35 +17,45 @@
   <div class="order-summary-card__download-file">
     <span class="text-small-regular text-gray-green-900">Orden de Compra</span>
     <mol-file-downloader
-      [fileName]="'oc_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')"
-      [fileId]="purchaseOrder.idPurchaseOrderFile"
-    />
+      [fileName]="
+        'oc_' +
+        purchaseOrder.folio +
+        '_' +
+        (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')
+      "
+      [fileId]="purchaseOrder.idPurchaseOrderFile" />
   </div>
 
   <div class="order-summary-card__invoice">
     <h4>Facturación</h4>
     <div class="invoice-item">
       <span>RFC</span>
-      <p>{{user?.taxId || '-'}}</p>
+      <p>{{ user?.taxId || '-' }}</p>
     </div>
     <div class="invoice-item">
       <span>Razón Social</span>
-      <p>{{user?.nameQustomer || '-'}}</p>
+      <p>{{ user?.nameQustomer || '-' }}</p>
     </div>
     <div class="invoice-item">
       <span>Dirección Fiscal</span>
-      <p>{{purchaseOrder.address || '-'}}</p>
+      <p>{{ purchaseOrder.address || '-' }}</p>
     </div>
   </div>
 
   <div class="order-summary-card__download-file">
-    <span class="text-small-regular text-gray-green-900">Comprobante de Venta Digital</span>
+    <span class="text-small-regular text-gray-green-900"
+      >Comprobante de Venta Digital</span
+    >
 
- <!-- // TODO: REVISAR SI ES CORRECTO QUE USE LOS MISMOS VALORES QUE LA ORDEN DE COMPRA-->
+    <!-- // TODO: REVISAR SI ES CORRECTO QUE USE LOS MISMOS VALORES QUE LA ORDEN DE COMPRA-->
     <mol-file-downloader
-      [fileName]="'vd_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')"
-      [fileId]="'12345678'"
-    />
+      [fileName]="
+        'vd_' +
+        purchaseOrder.folio +
+        '_' +
+        (purchaseOrder.registrationDate | date: 'dd-MM-yyyy')
+      "
+      [fileId]="'12345678'" />
   </div>
 
   <hr />

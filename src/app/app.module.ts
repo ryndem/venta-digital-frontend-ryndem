@@ -26,9 +26,12 @@ import {
   heroEllipsisHorizontal,
   heroInformationCircle,
   heroFolder,
-  heroFolderOpen
+  heroFolderOpen,
 } from '@ng-icons/heroicons/outline';
-import { heroBoltSolid, heroInformationCircleSolid } from "@ng-icons/heroicons/solid"
+import {
+  heroBoltSolid,
+  heroInformationCircleSolid,
+} from '@ng-icons/heroicons/solid';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -210,7 +213,7 @@ import { OrgOrderItemCardComponent } from './components/orders/org-order-item-ca
     MolQuoteChangeBannerComponent,
     AtmClosableModalComponent,
     AtmSkeletonProductDetailCardComponent,
-    AtmSkeletonProductDetailCardSummaryComponent
+    AtmSkeletonProductDetailCardSummaryComponent,
   ],
   imports: [
     BrowserModule,
@@ -245,13 +248,13 @@ import { OrgOrderItemCardComponent } from './components/orders/org-order-item-ca
       heroInformationCircle,
       heroInformationCircleSolid,
       heroFolder,
-      heroFolderOpen
+      heroFolderOpen,
     }),
     StoreModule.forRoot({}, {}),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
-      messageClass: 'text-paragraph'
-    })
+      messageClass: 'text-paragraph',
+    }),
   ],
   providers: [
     AuthService,

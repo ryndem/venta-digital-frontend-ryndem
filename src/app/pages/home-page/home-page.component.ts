@@ -10,17 +10,18 @@ import { addOutstandingProduct } from 'app/store/products/product.actions';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-  constructor(private productsService: ProductsService, private store: Store<any>,) {
-
-    this.store.subscribe((state) => {
-      if(state.product.outstandingProducts) {
+  constructor(
+    private productsService: ProductsService,
+    private store: Store<any>
+  ) {
+    this.store.subscribe(state => {
+      if (state.product.outstandingProducts) {
         this.productResponse = {
           totalResults: state.product.outstandingProducts.length,
           results: state.product.outstandingProducts,
         };
       }
     });
-
   }
 
   productResponse: ProductResponse | null = null;
@@ -39,7 +40,7 @@ export class HomePageComponent implements OnInit {
   }
 
   async loadOutstandingProducts() {
-    if(this.productResponse) {
+    if (this.productResponse) {
       return;
     }
 
@@ -51,16 +52,17 @@ export class HomePageComponent implements OnInit {
     this.addProduct('39c33489-ef29-4bfe-bdba-2636be3d3688');
     this.addProduct('37a416f7-65c4-4e7d-adb9-4da281744f0b');
     this.addProduct('c9c8601e-18bf-4f26-b476-3894dbb41868');
-
   }
 
   private async addProduct(productId: string) {
     try {
       const product = await this.productsService.getProduct(productId);
       if (product) {
-        this.store.dispatch(addOutstandingProduct({ outstandingProduct: product}));
+        this.store.dispatch(
+          addOutstandingProduct({ outstandingProduct: product })
+        );
       }
-    } catch( error ) {
+    } catch (error) {
       console.error(error);
     }
   }
