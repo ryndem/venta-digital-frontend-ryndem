@@ -8,7 +8,7 @@ describe('MolCarouselButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MolCarouselButtonComponent]
+      declarations: [MolCarouselButtonComponent],
     });
     fixture = TestBed.createComponent(MolCarouselButtonComponent);
     component = fixture.componentInstance;
