@@ -1,0 +1,80 @@
+<div class="order-item-card ">
+
+  <div class="order-item-card__details text-paragraph">
+
+    <div class="order-item-card__details__header">
+      <div class="product-image">
+        <img [src]="presentationImage" alt="product img" *ngIf="presentationImage" width="50" height="50">
+      </div>
+      <div class="cas-cat text-paragraph">
+        <div *ngIf="orderItem.cas">CAS <span class="text-700">{{orderItem.cas}}</span></div>
+        <div *ngIf="orderItem.catalog">CAT <span class="text-700">{{orderItem.catalog}}</span></div>
+      </div>
+      <div class="product-brand">
+        <img *ngIf="brandImage" [src]="brandImage" alt="product brand" width="32" height="32"/>
+      </div>
+    </div>
+
+    <div class="order-item-card__details__type text-small text-bold">{{orderItem.type}}</div>
+    <div class="order-item-card__details__description text-subtle">{{orderItem.description}}</div>
+
+    <div class="order-item-card__details__units">
+      <div class="text-paragraph text-700">
+        <span class="text-small-regular text-neutral-500">Cant.</span>
+        {{orderItem.numberOfPieces}}
+      </div>
+      <div class="text-paragraph text-700">
+        <span class="text-small-regular text-neutral-500">U.Medida</span>
+        {{orderItem.unit}}
+      </div>
+      <div class="text-paragraph text-700">
+        <span class="text-small-regular text-neutral-500">Precio U.</span>
+        {{orderItem.unitPrice | usdCurrency}}
+      </div>
+      <div class="total">
+        <span class="text-small-regular text-neutral-500">Importe</span>
+        <h3 class="text-primary-500  text-title-3">{{orderItem.totalPrice | usdCurrency }}</h3>
+      </div>
+    </div>
+    <div class="order-item-card__details__shipping">
+      <div>
+        <span class="delivery-time text-subtle" *ngIf="orderItem.tee">Envío en {{orderItem.tee}} días hábiles</span>
+      </div>
+      <div>
+        <div class="express-tag" *ngIf="orderItem.appliesExpressFreight">
+          <span class="text-paragraph text-700">Flete express</span>
+          <ng-icon name="heroBoltSolid" size="16" color="#F97316" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-item-card__status">
+    <div>
+      <span class="item-status" [class]="statusClass">
+        {{statusLabel}}
+      </span>
+    </div>
+    <div class="toggler text-title-5" (click)="toggleOpen()">
+      Seguimiento del pedido
+      <ng-icon name="heroChevronUp" size="20" color="#2B7777" class="icon" *ngIf="isOpen"/>
+      <ng-icon name="heroChevronDown" size="20" color="#2B7777" class="icon" *ngIf="!isOpen"/>
+    </div>
+  </div>
+
+  <div class="order-item-card__tracking text-paragraph" *ngIf="isOpen">
+    <div class="last-update-date text-gray-green-500">
+      {{ orderItem.lastUpdateDate  | date:"EEEE" | titlecase}}
+      {{ orderItem.lastUpdateDate  | date:"d 'de' MMMM, 'a las' 'h:mm a"}}
+    </div>
+    <div class="tracking">
+      <div class="status-update" *ngFor="let tracking of orderItem.itemTracking">
+        <div class="track-date text-gray-green-500">
+          {{ tracking.dateTracking  | date:"EEEE d 'de' MMMM" | titlecase}}</div>
+        <div class="track-time">{{ tracking.dateTracking  | date:'h:mm a'}}</div>
+        <div class="track-status">{{ tracking.statusTracking}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -6,7 +6,7 @@ import { Product } from 'app/model/product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { updateCart, updateCartIsLoading } from 'app/store/cart/cart.actions';
 import { environment } from 'environments/environment';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
 import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
@@ -21,15 +21,17 @@ export class CartService {
   private apiPath: string = environment.apiUrl + '/Quotation';
   cart: ShoppingCart | null = null;
   products: CartProduct[] = [];
-  addresses: Address[] | null = null;
+  firstAddressId: string | null = null;
 
+  addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
+  
   constructor(
     private notificationService: NotificationService,
     private store: Store<{ user: UserState }>,
     private httpClient: HttpClient
   ) {
-    this.store.subscribe(state => {
-      this.addresses = state.user.addresses;
+    this.addresses$.subscribe(value => {
+      this.firstAddressId = value ? value[0].idAddress : null;
     })
   }
 
@@ -68,7 +70,7 @@ export class CartService {
       hasStock: product.hasStock,
       priceWeb: product.offert?.unitPrice,
       expressFreightAvailable: product.hasExpressFreight,
-      IdDeliveryAddress: this.addresses ? this.addresses[0].idAddress : null,
+      IdDeliveryAddress: this.firstAddressId,
     }
 
     try {
@@ -97,7 +99,7 @@ export class CartService {
       hasStock: true,
       priceWeb: quoteProduct.unitPrice,
       expressFreightAvailable: quoteProduct.expressFreightAvailable,
-      IdDeliveryAddress: this.addresses ? this.addresses[0].idAddress : null,
+      IdDeliveryAddress: this.firstAddressId
     }
     try {
       await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/PutShoppingCart', body));

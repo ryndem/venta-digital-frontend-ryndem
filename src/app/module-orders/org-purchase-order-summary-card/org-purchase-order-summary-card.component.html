@@ -1,0 +1,50 @@
+<aside class="purchase-order-summary-card">
+  <div class="purchase-order-summary-card__customer">
+    <div class="purchase-order-summary-card__customer__toggle">
+      <span>Detalles de cliente y notas.</span>
+      <button class="only-mobile" (click)="showHideCustomerInfo()">
+        <ng-icon name="heroChevronDown" size="16" color="#2B7777" />
+      </button>
+    </div>
+
+    <div class="purchase-order-summary-card__customer__info" *ngIf="isShowingCustomerInfo">
+      <org-quote-user-info [address]="purchaseOrder.address" />
+    </div>
+  </div>
+
+  <div class="purchase-order-summary-card__download-file">
+    <span class="text-small-regular text-gray-green-900">Orden de Compra</span>
+    <mol-file-downloader
+      [fileName]="'oc_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy') "
+      [fileId]="purchaseOrder.idPurchaseOrderFile"
+    />
+  </div>
+
+  <div class="purchase-order-summary-card__invoice">
+    <h4>Facturación</h4>
+    <div class="invoice-item">
+      <span>RFC</span>
+      <p>{{(user$ | async)?.taxId || '-'}}</p>
+    </div>
+    <div class="invoice-item">
+      <span>Razón Social</span>
+      <p>{{(user$ | async)?.nameQustomer || '-'}}</p>
+    </div>
+    <div class="invoice-item">
+      <span>Dirección Fiscal</span>
+      <p>{{purchaseOrder.address || '-'}}</p>
+    </div>
+  </div>
+
+  <div class="purchase-order-summary-card__download-file">
+    <span class="text-small-regular text-gray-green-900">Comprobante de venta digital</span>
+    <mol-file-downloader
+      [fileName]="'vd_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy') "
+      [fileId]="'12345678'"
+    />
+  </div>
+
+  <hr />
+
+  <org-purchase-order-totals [purchaseOrder]="purchaseOrder" />
+</aside>

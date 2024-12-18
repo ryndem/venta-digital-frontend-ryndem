@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { OrderItem } from 'app/model/order-item';
 import { Product } from 'app/model/product';
 import { QuoteProduct } from 'app/model/quote-product';
 
@@ -7,7 +8,7 @@ import { QuoteProduct } from 'app/model/quote-product';
 })
 export class ImageService {
 
-  getPresentationImage(product: Product | QuoteProduct | null): string {
+  getPresentationImage(product: Product | QuoteProduct | OrderItem | null): string {
     if (!product) return 'assets/imgs/presentations/undefined.svg';
 
     const key =  product.presentationTypeKey || product.typeKey;
@@ -31,7 +32,7 @@ export class ImageService {
     }
   }
 
-  getBrandImage(product: Product | QuoteProduct | null) : string | null {
+  getBrandImage(product: Product | QuoteProduct | OrderItem | null) : string | null {
     switch (product?.brandName) {
       case 'BP': return 'assets/imgs/brands/british_pharmacopoeia.png';
       case 'EP': return 'assets/imgs/brands/edqm.svg';

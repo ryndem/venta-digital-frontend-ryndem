@@ -1,78 +1,68 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
-import { AccountActivatedComponent } from './auth/account-activated/account-activated.component';
-import { ProductDetailsPageComponent } from './pages/product-details-page/product-details-page.component';
-import { TempMainLayoutComponent } from './components/layout/temp-main-layout/temp-main-layout.component';
-import { TempAuthLayoutComponent } from './components/layout/temp-auth-layout/temp-auth-layout.component';
-import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
-import { TermsAndConditionsPageComponent } from './pages/terms-and-conditions-page/terms-and-conditions-page.component';
-import { PrivacyPolicyPageComponent } from './pages/privacy-policy-page/privacy-policy-page.component';
-import { ProductsPageComponent } from './pages/products-page/products-page.component';
-import { OrderListPageComponent } from './pages/order-list-page/order-list-page.component';
-import { TempQuoterLayoutComponent } from './components/layout/temp-quoter-layout/temp-quoter-layout.component';
-import { ShoppingCartPageComponent } from './pages/shopping-cart-page/shopping-cart-page.component';
-import { QuoteDetailsPageComponent } from './pages/quote-details-page/quote-details-page.component';
-import { ThankYouPageComponent } from './pages/thank-you-page/thank-you-page.component';
-import { QuoteSubmissionPageComponent } from './pages/quote-submission-page/quote-submission-page.component';
-import { ServerErrorComponent } from './pages/server-error/server-error.component';
-import { PurchaseOrderCreationPageComponent } from './pages/purchase-order-creation-page/purchase-order-creation-page.component';
-import { PurchaseOrderDetailsPageComponent } from './pages/purchase-order-details-page/purchase-order-details-page.component';
-import { PurchaseOrderCreatedPageComponent } from './pages/purchase-order-created-page/purchase-order-created-page.component';
-import { OrderDetailsPageComponent } from './pages/order-details-page/order-details-page.component';
+
+import { TempMainLayoutComponent } from './components/temp-main-layout/temp-main-layout.component';
+import { TempAuthLayoutComponent } from './components/temp-auth-layout/temp-auth-layout.component';
+import { TempQuoterLayoutComponent } from './components/temp-quoter-layout/temp-quoter-layout.component';
+import { PgHomeComponent } from './module-catalog/pg-home/pg-home.component';
+import { PgProductDetailsComponent } from './module-catalog/pg-product-details/pg-product-details.component';
+import { PgNotFoundComponent } from './module-catalog/pg-not-found/pg-not-found.component';
+import { PgTermsAndConditionsComponent } from './module-catalog/pg-terms-and-conditions/pg-terms-and-conditions.component';
+import { PgPrivacyPolicyComponent } from './module-catalog/pg-privacy-policy/pg-privacy-policy.component';
+import { PgProductsComponent } from './module-catalog/pg-products/pg-products.component';
+import { PgServerErrorComponent } from './module-catalog/pg-server-error/pg-server-error.component';
+import { PgResetPasswordComponent } from './module-auth/pg-reset-password/pg-reset-password.component';
+import { PgForgotPasswordComponent } from './module-auth/pg-forgot-password/pg-forgot-password.component';
+import { PgSignUpComponent } from './module-auth/pg-sign-up/pg-sign-up.component';
+import { PgAccountActivatedComponent } from './module-auth/pg-account-activated/pg-account-activated.component';
+
 
 const routes: Routes = [
+  
+  {
+    path: 'cart',
+    component: TempQuoterLayoutComponent,
+    loadChildren: () => import('./module-cart/cart.module').then(m => m.CartModule)
+  },
+  {
+    path: 'orders',
+    component: TempQuoterLayoutComponent,
+    loadChildren: () => import('./module-orders/orders.module').then(m => m.OrdersModule)
+  },
+
   {
     path: '',
     component: TempMainLayoutComponent,
     children: [
-      { path: '', component: HomePageComponent },
-      { path: 'products', component: ProductsPageComponent },
-      { path: 'products/:productId', component: ProductDetailsPageComponent },
-      { path: 'quotes', component: OrderListPageComponent },
-      { path: 'quotes/:quoteId', component: QuoteDetailsPageComponent },
-      { path: 'terms-and-conditions', component: TermsAndConditionsPageComponent },
-      { path: 'privacy-policy', component: PrivacyPolicyPageComponent },
-    ],
-  },
-  {
-    path: '',
-    component: TempQuoterLayoutComponent,
-    children: [
-      { path: 'purchase-orders/creation', component: PurchaseOrderCreationPageComponent },
-      { path: 'purchase-orders/created', component: PurchaseOrderCreatedPageComponent },
-      { path: 'purchase-orders/:purchaseOrderId', component: PurchaseOrderDetailsPageComponent },
-
-      { path: 'orders/:orderId', component: OrderDetailsPageComponent },
-      
-      { path: 'shopping-cart', component: ShoppingCartPageComponent },
-      { path: 'quote-submission', component: QuoteSubmissionPageComponent },
-      { path: 'thank-you', component: ThankYouPageComponent },
+      { path: '', component: PgHomeComponent },
+      { path: 'products', component: PgProductsComponent },
+      { path: 'products/:productId', component: PgProductDetailsComponent },
+      { path: 'terms-and-conditions', component: PgTermsAndConditionsComponent },
+      { path: 'privacy-policy', component: PgPrivacyPolicyComponent },
     ],
   },
   {
     path: '',
     component: TempAuthLayoutComponent,
     children: [
-      { path: 'reset-password', component: ResetPasswordComponent },
-      { path: 'auth/forgot-password', component: ForgotPasswordComponent },
-      { path: 'auth/sign-up', component: SignUpComponent },
-      { path: 'verify', component: AccountActivatedComponent },
+      { path: 'reset-password', component: PgResetPasswordComponent },
+      { path: 'auth/forgot-password', component: PgForgotPasswordComponent },
+      { path: 'auth/sign-up', component: PgSignUpComponent },
+      { path: 'verify', component: PgAccountActivatedComponent },
     ],
   },
   {
     path: '404',
     component: TempMainLayoutComponent,
-    children: [{ path: '', component: NotFoundPageComponent }],
+    children: [{ path: '', component: PgNotFoundComponent }],
   },
   {
     path: 'server-error',
     component: TempMainLayoutComponent,
-    children: [{ path: '', component: ServerErrorComponent }],
+    children: [{ path: '', component: PgServerErrorComponent }],
   },
+  { path: 'feature', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) },
+  
   {
     path: '**',
     redirectTo: '404',

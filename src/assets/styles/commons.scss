@@ -9,7 +9,7 @@ html {
 .quote-status {
   border-radius: 4px;
   display: inline-block;
-  font-family: "Work Sans";
+  font-family: var(--font-secondary);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -79,7 +79,7 @@ html {
 }
 
 .breadcrumbs {
-  font-family: "Work Sans";
+  font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 0.5rem;
@@ -103,7 +103,7 @@ html {
 }
 
 .folio-blue, .folio-green {
-  font-family: "Work Sans";
+  font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
