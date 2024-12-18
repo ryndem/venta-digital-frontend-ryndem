@@ -1,0 +1,32 @@
+<div class="product-details-page">
+  <section class="product-details-page__main-product">
+    <org-product-details-card
+      *ngIf="product && (isUserLoading$ |async) !== true; else skeletonDetail"
+      [product]="product"
+    >
+      <button class="btn" (click)="toggleRelatedProducts(true)">
+        <ng-icon name="heroSquaresPlus" size="24"></ng-icon>
+        <span class="text-large">Alternativos y complementarios</span>
+      </button>
+    </org-product-details-card>
+
+    <ng-template #skeletonDetail>
+      <atm-skeleton-product-detail-card/>
+    </ng-template>
+
+    <org-product-details
+      [product]="product"
+      *ngIf="product && (isUserLoading$ |async) !== true; else skeletonDetailSummary"
+    />
+
+    <ng-template #skeletonDetailSummary>
+      <atm-skeleton-product-detail-summary-card />
+    </ng-template>
+  </section>
+
+  <aside class="product-details-page__related-products" [ngClass]="{ '--visible': isRelatedProductsVisible }">
+    <org-related-products [productId]="productId"></org-related-products>
+  </aside>
+</div>
+
+<org-help-contact></org-help-contact>

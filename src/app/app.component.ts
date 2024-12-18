@@ -11,11 +11,13 @@ export class AppComponent {
   title = 'proquifa';
 
   constructor(private router: Router, private viewportScroller: ViewportScroller) {
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.viewportScroller.scrollToPosition([0, 0]);
       }
     });
+
   }
   
 }

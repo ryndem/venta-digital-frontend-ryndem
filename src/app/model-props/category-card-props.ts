@@ -1,4 +1,5 @@
 /**
+ * NOTE
  * Represents the properties for a category card component.
  *
  * @interface CategoryCardProps
