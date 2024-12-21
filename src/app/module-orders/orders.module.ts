@@ -6,9 +6,13 @@ import { heroBoltSolid } from '@ng-icons/heroicons/solid';
 import { 
   heroArrowLeft, 
   heroChevronDown, 
+  heroChevronLeft, 
+  heroChevronRight, 
   heroChevronUp, 
   heroFolder, 
-  heroFolderOpen
+  heroFolderOpen,
+  heroShoppingCart,
+  heroXMark
 } from '@ng-icons/heroicons/outline';
 import { AppCommonsModule } from 'app/module-app-commons/app-commons.module';
 import { PgOrderDetailsComponent } from './pg-order-details/pg-order-details.component';
@@ -65,10 +69,14 @@ import { OrdersRoutingModule } from './orders-routing.module';
     NgIconsModule.withIcons({
       heroArrowLeft,
       heroBoltSolid,
-      heroChevronDown,
       heroChevronUp,
+      heroChevronDown,
+      heroChevronLeft,
+      heroChevronRight,
       heroFolder,
       heroFolderOpen,
+      heroShoppingCart,
+      heroXMark,
     }),
   ]
 })

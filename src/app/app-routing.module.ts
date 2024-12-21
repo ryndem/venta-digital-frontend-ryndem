@@ -60,9 +60,7 @@ const routes: Routes = [
     path: 'server-error',
     component: TempMainLayoutComponent,
     children: [{ path: '', component: PgServerErrorComponent }],
-  },
-  { path: 'feature', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) },
-  
+  },  
   {
     path: '**',
     redirectTo: '404',

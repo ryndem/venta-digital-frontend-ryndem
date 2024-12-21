@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
+import { MetaService } from 'app/services/meta.service';
 import { ProductsService } from 'app/services/products.service';
-import { addOutstandingProduct } from 'app/store/products/product.actions';
-import { ProductState } from 'app/store/products/product.reducer';
+import { addOutstandingProduct } from 'app/store/actions/product.actions';
+import { ProductState } from 'app/store/reducers/product.reducer';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,14 +20,16 @@ export class PgHomeComponent implements OnInit {
   skeletonList = Array(4).fill(0);
   productResponse: ProductResponse | null = null;
 
+  /**
+  * Store references
+  */
   outstandingProducts$: Observable<Product[] | null> = this.store.select(state => state.product.outstandingProducts);
 
-
   constructor(
+    private metaService: MetaService,
     private productsService: ProductsService,
     private store: Store<{ product: ProductState} >
   ) {
-
     this.outstandingProducts$.subscribe(value => {
       if(value) {
         this.productResponse = {
@@ -34,9 +38,8 @@ export class PgHomeComponent implements OnInit {
         };
       }
     })
+    this.setMetaTags();
   }
-
-  
 
   async ngOnInit(): Promise<void> {
     this.isLoadingProducts = true;
@@ -74,5 +77,21 @@ export class PgHomeComponent implements OnInit {
     } catch( error ) {
       console.error(error);
     }
+  }
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Dynamic Page - Proquifa',
+      [
+        {
+          property: 'og:url',
+          content: environment.baseUrl,
+        },
+        {
+          property: 'twitter:url',
+          content: environment.baseUrl,
+        },
+      ]
+    );
   }
 }

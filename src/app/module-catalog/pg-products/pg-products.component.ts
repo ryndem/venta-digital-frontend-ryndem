@@ -5,9 +5,11 @@ import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
 import { SearchParams } from 'app/model/search-params';
+import { MetaService } from 'app/services/meta.service';
 import { ProductsService } from 'app/services/products.service';
-import { ProductState } from 'app/store/products/product.reducer';
-import { UserState } from 'app/store/users/user.reducer';
+import { ProductState } from 'app/store/reducers/product.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,6 +29,9 @@ export class PgProductsComponent implements OnInit {
   isLoading = false;
   skeletonList = Array(12).fill(0);
 
+  /**
+  * Store references
+  */
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
   categories$: Observable<Category[]> = this.store.select(state=> state.product.categories);
 
@@ -34,9 +39,13 @@ export class PgProductsComponent implements OnInit {
     private productsService: ProductsService,
     private router: Router,
     private currentRoute: ActivatedRoute,
-    private store: Store<{ user: UserState, product: ProductState }> ) { }
+    private store: Store<{ user: UserState, product: ProductState }>,
+    private metaService: MetaService
+  ) {
+    this.setMetaTags();
+  }
 
-  
+
   get showCurrentPaginationDetails(): string {
     const start = (this.currentPage - 1) * this.pageSize + 1;
     const end = Math.min(this.currentPage * this.pageSize, this.totalResults);
@@ -83,5 +92,44 @@ export class PgProductsComponent implements OnInit {
       queryParamsHandling: 'merge',
     });
   }
-  
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Productos - Proquifa',
+      [
+        {
+          name: 'description',
+          content: 'Explora nuestro listado completo de productos. Filtra por categorías y encuentra lo que necesitas en Proquifa.',
+        },
+        {
+          name: 'keywords',
+          content: 'productos, categorías, catálogo, Proquifa, productos, publicaciones, marcas, reactivo, controlado, capacitaciones, labware, publicaciones, microbiología',
+        },
+        {
+          property: 'og:title',
+          content: 'Productos - Proquifa',
+        },
+        {
+          property: 'og:description',
+          content: 'Descubre nuestro listado de productos. Filtra por categorías y encuentra lo que buscas.',
+        },
+        {
+          property: 'og:url',
+          content: `${environment.baseUrl}/products`,
+        },
+        {
+          name: 'twitter:title',
+          content: 'Productos - Proquifa',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Explora nuestro catálogo completo de productos. Filtra y encuentra lo que necesitas.',
+        },
+        {
+          property: 'twitter:url',
+          content: `${environment.baseUrl}/products`,
+        },
+      ]
+    );
+  }
 }

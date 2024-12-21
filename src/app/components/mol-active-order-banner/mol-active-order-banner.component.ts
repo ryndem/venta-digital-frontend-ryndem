@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 })
 export class MolActiveOrderBannerComponent {
 
+  /**
+  * Store references
+  */
   hasOrderItemsSelected$: Observable<boolean> = this.store.select(state => state.user.hasOrderItemsSelected);
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
 

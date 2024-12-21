@@ -6,7 +6,7 @@ import {
   heroLockClosed, 
   heroSquaresPlus 
 } from '@ng-icons/heroicons/outline';
-import { heroBoltSolid } from '@ng-icons/heroicons/solid';
+import { heroBoltSolid, heroInformationCircleSolid } from '@ng-icons/heroicons/solid';
 
 import { AppCommonsModule } from 'app/module-app-commons/app-commons.module';
 import { CatalogModule } from 'app/module-catalog/catalog.module';
@@ -36,8 +36,9 @@ import { CartRoutingModule } from './cart-routing.module';
     NgIconsModule.withIcons({
       heroArrowLeft,
       heroBoltSolid,
+      heroInformationCircleSolid,
       heroLockClosed,
-      heroSquaresPlus,
+      heroSquaresPlus
     }),
   ]
 })

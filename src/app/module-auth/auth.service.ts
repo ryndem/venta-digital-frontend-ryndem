@@ -5,9 +5,9 @@ import { AuthToken } from 'app/model/auth-token';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/users/user.actions';
+import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/actions/user.actions';
 import { AddressResponse } from 'app/model/address-response';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root',

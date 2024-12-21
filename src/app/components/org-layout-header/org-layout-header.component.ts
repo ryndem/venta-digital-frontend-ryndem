@@ -5,9 +5,9 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 import { Category } from 'app/model/category';
 import { User } from 'app/model/user';
 import { Router } from '@angular/router';
-import { UserState } from 'app/store/users/user.reducer';
-import { ProductState } from 'app/store/products/product.reducer';
-import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
+import { ProductState } from 'app/store/reducers/product.reducer';
+import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,6 +21,9 @@ export class OrgLayoutHeaderComponent {
   isUserMenuOpen = false;
   isLogged = false;
   
+  /**
+  * Store references
+  */
   categories$: Observable<Category[]> = this.store.select(state => state.product.categories);
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   isLoadingUser$: Observable<boolean> = this.store.select(state => state.user.loading);

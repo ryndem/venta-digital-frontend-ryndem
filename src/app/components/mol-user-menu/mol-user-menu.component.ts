@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { User } from 'app/model/user';
 import { CartService } from 'app/services/cart.service';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 import { AuthService } from 'app/module-auth/auth.service';
 
@@ -17,6 +17,9 @@ export class MolUserMenuComponent extends AtmClosableComponent {
 
   isMenuOpened = false;
 
+  /**
+  * Store references
+  */
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   
   constructor(private authService: AuthService,

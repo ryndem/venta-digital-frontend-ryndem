@@ -1,34 +1,18 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgIconsModule } from '@ng-icons/core';
 import {
   heroBars3,
-  heroCheckCircle,
-  heroChevronUp,
   heroChevronDown,
   heroExclamationCircle,
-  heroArrowLeft,
-  heroEye,
-  heroEyeSlash,
-  heroLockClosed,
   heroMagnifyingGlass,
-  heroMinus,
-  heroPlus,
   heroShoppingCart,
-  heroSquaresPlus,
   heroTag,
-  heroTrash,
   heroUser,
   heroXMark,
-  heroArrowUpTray,
-  heroChevronLeft,
-  heroChevronRight,
-  heroEllipsisHorizontal,
-  heroInformationCircle,
-  heroFolder,
-  heroFolderOpen
+  heroArrowUpTray
 } from '@ng-icons/heroicons/outline';
-import { heroBoltSolid, heroInformationCircleSolid } from "@ng-icons/heroicons/solid"
 import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -40,7 +24,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptorService } from './module-auth/auth-interceptor';
 import { AuthService } from './module-auth/auth.service';
 import { OrgFooterComponent } from './components/org-footer/org-footer.component';
-import { MolNavButtonComponent } from './components/mol-nav-button/mol-button.component';
+import { MolNavButtonComponent } from './components/mol-nav-button/mol-nav-button.component';
 import { OrgInfoCardComponent } from './components/org-info-card/org-info-card.component';
 import { OrgLayoutFooterComponent } from './components/org-layout-footer/org-layout-footer.component';
 import { OrgLayoutHeaderComponent } from './components/org-layout-header/org-layout-header.component';
@@ -51,9 +35,9 @@ import { TempMainLayoutComponent } from './components/temp-main-layout/temp-main
 import { TempAuthLayoutComponent } from './components/temp-auth-layout/temp-auth-layout.component';
 import { OrgMobileNavigationMenuComponent } from './components/org-mobile-navigation-menu/org-mobile-navigation-menu.component';
 import { provideState, provideStore, StoreModule } from '@ngrx/store';
-import { userReducer } from './store/users/user.reducer';
-import { productReducer } from './store/products/product.reducer';
-import { cartReducer } from './store/cart/cart.reducer';
+import { userReducer } from './store/reducers/user.reducer';
+import { productReducer } from './store/reducers/product.reducer';
+import { cartReducer } from './store/reducers/cart.reducer';
 import { TempQuoterLayoutComponent } from './components/temp-quoter-layout/temp-quoter-layout.component';
 import { OrgLayoutQuoterHeaderComponent } from './components/org-layout-quoter-header/org-layout-quoter-header.component';
 
@@ -69,6 +53,8 @@ import { PgAccountActivatedComponent } from './module-auth/pg-account-activated/
 import { PgForgotPasswordComponent } from './module-auth/pg-forgot-password/pg-forgot-password.component';
 import { PgResetPasswordComponent } from './module-auth/pg-reset-password/pg-reset-password.component';
 import { PgSignUpComponent } from './module-auth/pg-sign-up/pg-sign-up.component';
+import { EffectsModule } from '@ngrx/effects';
+import { ProductEffects } from './store/effects/product.effects';
 
 registerLocaleData(localeEs);
 
@@ -86,11 +72,11 @@ registerLocaleData(localeEs);
     MolUserMenuComponent,
     MolCategoryMenuComponent,
     MolNavButtonComponent,
-    
+
     TempMainLayoutComponent,
     TempAuthLayoutComponent,
     TempQuoterLayoutComponent,
-    
+
     OrgMobileNavigationMenuComponent,
     OrgFooterComponent,
     OrgSplitScreenComponent,
@@ -106,41 +92,26 @@ registerLocaleData(localeEs);
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
 
     AppCommonsModule,
     CartModule,
     CatalogModule,
     OrdersModule,
-    
+
+    EffectsModule.forRoot([ProductEffects]),
+
     NgIconsModule.withIcons({
-      heroTag,
-      heroCheckCircle,
-      heroChevronUp,
-      heroChevronDown,
-      heroMagnifyingGlass,
-      heroUser,
-      heroShoppingCart,
-      heroXMark,
-      heroArrowLeft,
-      heroEye,
-      heroEyeSlash,
-      heroExclamationCircle,
-      heroBars3,
-      heroTrash,
-      heroPlus,
-      heroLockClosed,
-      heroMinus,
-      heroSquaresPlus,
       heroArrowUpTray,
-      heroChevronLeft,
-      heroChevronRight,
-      heroEllipsisHorizontal,
-      heroBoltSolid,
-      heroInformationCircle,
-      heroInformationCircleSolid,
-      heroFolder,
-      heroFolderOpen
+      heroBars3,
+      heroChevronDown,
+      heroExclamationCircle,
+      heroMagnifyingGlass,
+      heroShoppingCart,
+      heroTag,
+      heroUser,
+      heroXMark
     }),
     StoreModule.forRoot({}, {}),
     ToastrModule.forRoot({
@@ -162,7 +133,7 @@ registerLocaleData(localeEs);
     { provide: LOCALE_ID,  useValue: 'es'}
   ],
   bootstrap: [AppComponent],
-   
+
 })
 
 export class AppModule {}

@@ -10,6 +10,7 @@
  * @property {number} itemCount - The total number of items in the purchase order.
  * @property {number} subtotal - The subtotal amount for the purchase order, before taxes and freight.
  * @property {number} saleTax - The sales tax amount applied to the purchase order.
+ * @property {string} idFilePDF - File Id to download PDF file
  * @property {number} total - The total amount of the purchase order, including taxes and freight.
  * @property {string} registrationDate - The date the purchase order was registered, in ISO format.
  * @property {{ amount: number; itemCount: number; }} freightExpressDetails - Details about express freight charges and the number of items included.
@@ -26,6 +27,7 @@ export type PurchaseOrder = {
   saleTax: number;
   total: number;
   registrationDate: string;
+  idFilePDF: string;
   freightExpressDetails: {
     amount: number;
     itemCount: number;

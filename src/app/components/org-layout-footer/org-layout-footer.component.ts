@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriesService } from 'app/services/categories.service';
 import { Category } from 'app/model/category';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/module-auth/auth.service';
 import { CartService } from 'app/services/cart.service';
-import { updateCategories } from 'app/store/products/product.actions';
-import { UserState } from 'app/store/users/user.reducer';
-import { ProductState } from 'app/store/products/product.reducer';
+import { loadCategories } from 'app/store/actions/product.actions';
+import { UserState } from 'app/store/reducers/user.reducer';
+import { ProductState } from 'app/store/reducers/product.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,11 +17,13 @@ export class OrgLayoutFooterComponent implements OnInit {
 
   isLogged = false;
 
+  /**
+  * Store references
+  */
   categories$: Observable<Category[]> = this.store.select(state => state.product.categories);
   isAuthenticated$: Observable<boolean> = this.store.select(state => state.user.isLogged);
 
   constructor(
-    private categoriesService: CategoriesService,
     private cartService: CartService,
     public authService: AuthService,
     private store: Store<{ user: UserState, product: ProductState }>
@@ -34,16 +35,10 @@ export class OrgLayoutFooterComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadSession();
-    this.loadCategories();
+    this.initCategories();
   }
-
-  async loadCategories() {
-    const categories = await this.categoriesService.list();
-    categories.forEach( category => {
-      this.categoriesService.setProperties(category)
-    });
-
-    this.store.dispatch(updateCategories({categories: categories}));
+  async initCategories() {
+    this.store.dispatch(loadCategories());
   }
 
   private async loadSession() {

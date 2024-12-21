@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ConfirmedOrder } from 'app/model/confirmed-order';
 import { User } from 'app/model/user';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -17,10 +17,12 @@ export class OrgOrderSummaryCardComponent {
 
   isShowingCustomerInfo = true;
 
+  /**
+  * Store references
+  */
   user$: Observable<User | null> = this.store.select(state => state.user.user);
 
-  constructor(private store: Store<{ user: UserState }>) { 
-  }
+  constructor(private store: Store<{ user: UserState }>) {}
   
   showHideCustomerInfo() {
     this.isShowingCustomerInfo = !this.isShowingCustomerInfo

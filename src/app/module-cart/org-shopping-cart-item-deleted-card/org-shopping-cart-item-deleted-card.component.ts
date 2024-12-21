@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { QuoteProduct } from 'app/model/quote-product';
 import { CartService } from 'app/services/cart.service';
-import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -20,6 +20,9 @@ export class OrgShoppingCartItemDeletedCardComponent {
 
   isCartLoading = false;
 
+  /**
+  * Store references
+  */
   isAddingToCar$: Observable<boolean> = this.store.select(state => state.cart.isLoading);
 
   
