@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./org-split-screen.component.scss'],
 })
 export class OrgSplitScreenComponent {
+
+  
   showHeroImage = true;
 
   constructor(private router: Router) {

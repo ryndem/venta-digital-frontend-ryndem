@@ -9,6 +9,8 @@ import { PurchaseOrderService } from 'app/services/purchase-order.service';
 import { OrderService } from 'app/services/order.service';
 import { User } from 'app/model/user';
 import { OrderTab } from 'app/model/order-tabs';
+import { environment } from 'environments/environment';
+import { MetaService } from 'app/services/meta.service';
 
 @Component({
   selector: 'pg-order-list',
@@ -28,6 +30,9 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
   currentPage = 1;
   allLoaded = false;
 
+  /**
+  * Store references
+  */
   isAuthenticated$: Observable<boolean> = this.store.select(state => state.user.isLogged);
 
   constructor(
@@ -36,7 +41,8 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     public authService: AuthService,
     private store: Store<{ user: { isLogged: boolean, user: User } }>,
-    private router: Router
+    private router: Router,
+    private metaService: MetaService
   ) {
 
     this.tabs = [
@@ -61,7 +67,7 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.authService.loadSession();
-    
+
     this.isAuthenticated$.subscribe((isAuthenticated) => {
       if (isAuthenticated) {
         this.loadOrders();
@@ -197,5 +203,45 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     if (position + threshold >= height && this.currentTab.key !== 'confirmed') {
       this.loadOrders();
     }
+  }
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Órdenes - Proquifa',
+      [
+        {
+          name: 'description',
+          content: 'Consulta tus cotizaciones, pedidos en proceso y pedidos confirmados en un solo lugar. Administra tus pedidos y tramita nuevos pedidos fácilmente en Proquifa.',
+        },
+        {
+          name: 'keywords',
+          content: 'cotizaciones, pedidos en proceso, pedidos confirmados, tramitar pedido, administración de pedidos, Proquifa',
+        },
+        {
+          property: 'og:title',
+          content: 'Cotizaciones - Proquifa',
+        },
+        {
+          property: 'og:description',
+          content: 'Gestiona tus cotizaciones, pedidos en proceso y pedidos confirmados. Tramita un nuevo pedido desde Proquifa.',
+        },
+        {
+          property: 'og:url',
+          content: `${environment.baseUrl}/orders`,
+        },
+        {
+          name: 'twitter:title',
+          content: 'Cotizaciones - Proquifa',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Consulta tus cotizaciones y pedidos, administra tu historial y tramita nuevos pedidos de manera sencilla en Proquifa.',
+        },
+        {
+          property: 'twitter:url',
+          content: `${environment.baseUrl}/orders`,
+        },
+      ]
+    );
   }
 }

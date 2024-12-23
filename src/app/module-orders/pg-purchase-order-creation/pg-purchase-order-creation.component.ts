@@ -11,9 +11,11 @@ import { OrderFile } from 'app/model/order-file';
 import { NotificationService } from 'app/services/notification.service';
 import { PurchaseOrder } from 'app/model/purchase-order';
 import { OrderItem, PurchaseOrderForm } from 'app/model/purchase-order-form';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 import { User } from 'app/model/user';
+import { environment } from 'environments/environment';
+import { MetaService } from 'app/services/meta.service';
 
 @Component({
   selector: 'pg-purchase-order-creation',
@@ -60,6 +62,10 @@ export class PgPurchaseOrderCreationComponent {
 
   customerId: string | null = null;
   contactId: string | null = null;
+
+  /**
+  * Store references
+  */
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   hasOrderItemsSelected$: Observable<boolean> = this.store.select(state => state.user.hasOrderItemsSelected);
 
@@ -68,7 +74,8 @@ export class PgPurchaseOrderCreationComponent {
     private purchaseOrderService: PurchaseOrderService,
     private notificationService: NotificationService,
     private store: Store<{ user: UserState }>,
-    private router: Router
+    private router: Router,
+    private metaService: MetaService
   ) {
 
     this.user$.subscribe(value => {
@@ -83,7 +90,8 @@ export class PgPurchaseOrderCreationComponent {
         this.initSavedState();
       }
     })
-    
+
+    this.setMetaTags();
   }
 
   async initSavedState() {
@@ -169,7 +177,7 @@ export class PgPurchaseOrderCreationComponent {
       } else {
         this.purchaseOrderService.updateSelection(this.purchaseOrderForm);
       }
-      
+
 
       this.updateTotals();
     }
@@ -322,4 +330,45 @@ export class PgPurchaseOrderCreationComponent {
     }
 
   }
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Creación de Pedido - Proquifa',
+      [
+        {
+          name: 'description',
+          content: 'Crea un nuevo pedido seleccionando la dirección de entrega y las partidas de cotizaciones que deseas incluir. Gestiona tus pedidos de manera eficiente en Proquifa.',
+        },
+        {
+          name: 'keywords',
+          content: 'creación de pedido, agregar cotizaciones, nuevo pedido, orders, tramitar pedido, Proquifa',
+        },
+        {
+          property: 'og:title',
+          content: 'Creación de Pedido - Proquifa',
+        },
+        {
+          property: 'og:description',
+          content: 'Crea un nuevo pedido seleccionando tu dirección de entrega y agregando las cotizaciones necesarias. Simplifica la gestión de pedidos con Proquifa.',
+        },
+        {
+          property: 'og:url',
+          content: `${environment.baseUrl}/purchase-orders/creation`,
+        },
+        {
+          name: 'twitter:title',
+          content: 'Creación de Pedido - Proquifa',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Selecciona tu dirección y cotizaciones para crear un pedido de manera rápida y eficiente en Proquifa.',
+        },
+        {
+          property: 'twitter:url',
+          content: `${environment.baseUrl}/purchase-orders/creation`,
+        },
+      ]
+    );
+  }
+
 }

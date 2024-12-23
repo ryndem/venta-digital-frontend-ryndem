@@ -1,8 +1,10 @@
 import { AuthService } from 'app/module-auth/auth.service';
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'environments/environment';
+import { MetaService } from 'app/services/meta.service';
 
 @Component({
   selector: 'pg-reset-password',
@@ -10,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./pg-reset-password.component.scss'],
 })
 export class PgResetPasswordComponent {
+  resetPasswordForm!: FormGroup;
   isTokenValid = false;
 
   isPasswordVisible = false;
@@ -23,9 +26,16 @@ export class PgResetPasswordComponent {
   token = '';
 
   constructor(
+    private fb: FormBuilder,
     public authService: AuthService,
     private currentRoute: ActivatedRoute,
+    private metaService: MetaService
   ) {
+    this.setMetaTags();
+  }
+
+  ngOnInit(): void {
+    this.initializeForm();
     this.currentRoute.queryParams.subscribe((params) => {
       if (params['token']) {
         const token = params['token'].replace(/ /g, '+');
@@ -35,6 +45,20 @@ export class PgResetPasswordComponent {
       } else {
         this.restError = true;
       }
+    });
+  }
+
+  initializeForm(): void {
+    this.resetPasswordForm = this.fb.group({
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-_=+{};:,<.>])[A-Za-z\\d!@#$%^&*()\\-_=+{};:,<.>]{8,}$'
+          ),
+        ],
+      ],
     });
   }
 
@@ -57,18 +81,64 @@ export class PgResetPasswordComponent {
     }
   }
 
-  async onSubmit(form: NgForm) {
-    if (!form.valid) {
+  async onSubmit(): Promise<void> {
+    if (this.resetPasswordForm.invalid) {
+      this.resetPasswordForm.markAllAsTouched();
       return;
     }
 
-    const data = form.value;
+    const { password } = this.resetPasswordForm.value;
+
     try {
-      await this.authService.resetPassword(this.token, data.password);
+      await this.authService.resetPassword(this.token, password);
       if (this.restError) this.restError = false;
       this.isPasswordChangeSuccess = true;
     } catch (error) {
       this.restError = true;
     }
+  }
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Reiniciar Contraseña - Proquifa',
+      [
+        {
+          name: 'description',
+          content: 'Recupera el acceso a tu cuenta. Restablece tu contraseña de forma segura y rápida.',
+        },
+        {
+          name: 'keywords',
+          content: 'reiniciar contraseña, recuperar acceso, restablecer contraseña, Proquifa',
+        },
+        {
+          property: 'og:title',
+          content: 'Reiniciar Contraseña - Proquifa',
+        },
+        {
+          property: 'og:description',
+          content: '¿Olvidaste tu contraseña? Restablécela y recupera tu acceso de manera segura.',
+        },
+        {
+          property: 'og:url',
+          content: `${environment.baseUrl}/reset-password`,
+        },
+        {
+          name: 'twitter:title',
+          content: 'Reiniciar Contraseña - Proquifa',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Recupera tu acceso restableciendo tu contraseña de manera fácil y segura.',
+        },
+        {
+          property: 'twitter:url',
+          content: `${environment.baseUrl}/reset-password`,
+        },
+        {
+          name: 'twitter:site',
+          content: '@PROQUIFA',
+        },
+      ]
+    );
   }
 }

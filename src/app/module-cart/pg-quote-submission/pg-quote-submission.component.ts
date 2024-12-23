@@ -5,8 +5,10 @@ import { Address } from 'app/model/address';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { CartService } from 'app/services/cart.service';
+import { MetaService } from 'app/services/meta.service';
 import { NotificationService } from 'app/services/notification.service';
-import { ShoppingCartState } from 'app/store/cart/cart.reducer';
+import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -19,6 +21,9 @@ export class PgQuoteSubmissionComponent implements OnInit {
   addressId = '';
   shoppingCart : ShoppingCart | null = null;
 
+  /**
+  * Store references
+  */
   shoppingCart$: Observable<ShoppingCart | null> = this.store.select(state => state.cart.shoppingCart);
   isLoading$: Observable<boolean> = this.store.select(state => state.cart.isLoading);
 
@@ -27,14 +32,14 @@ export class PgQuoteSubmissionComponent implements OnInit {
     private notificationService : NotificationService,
     private store: Store<{ cart: ShoppingCartState}>,
     private router: Router,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private metaService: MetaService
   ) {
-
+    this.setMetaTags();
     this.shoppingCart$.subscribe(value => {
       this.shoppingCart = value;
       this.changeDetectorRef.markForCheck();
     })
-
   }
 
   hasProductWithExpressFreight() {
@@ -86,4 +91,45 @@ export class PgQuoteSubmissionComponent implements OnInit {
       this.shoppingCart!.listQuotationItem
     );
   }
+
+  setMetaTags() {
+    this.metaService.updateMetaTagsAndTitle(
+      'Enviar Cotización - Proquifa',
+      [
+        {
+          name: 'description',
+          content: 'Revisa los productos de tu carrito, selecciona tu dirección de entrega y elige la opción de flete express si aplica. Envía tu cotización fácilmente en Proquifa.',
+        },
+        {
+          name: 'keywords',
+          content: 'enviar cotización, productos del carrito, dirección de entrega, flete express, Proquifa, cotización fácil',
+        },
+        {
+          property: 'og:title',
+          content: 'Enviar Cotización - Proquifa',
+        },
+        {
+          property: 'og:description',
+          content: 'Gestiona los productos de tu carrito, selecciona dirección de entrega y envía tu cotización con Proquifa.',
+        },
+        {
+          property: 'og:url',
+          content: `${environment.baseUrl}/cart/quote-submission`,
+        },
+        {
+          name: 'twitter:title',
+          content: 'Enviar Cotización - Proquifa',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Revisa tus productos, selecciona tu dirección y envía tu cotización de manera rápida y sencilla en Proquifa.',
+        },
+        {
+          property: 'twitter:url',
+          content: `${environment.baseUrl}/cart/quote-submission`,
+        },
+      ]
+    );
+  }
+
 }

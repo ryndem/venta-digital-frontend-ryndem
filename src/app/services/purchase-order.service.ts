@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PurchaseOrder } from 'app/model/purchase-order';
 import { OrderItemPage } from 'app/model/order-item-page';
-import { updateSelectedOrderItems } from 'app/store/users/user.actions';
+import { updateSelectedOrderItems } from 'app/store/actions/user.actions';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { PurchaseOrderForm } from 'app/model/purchase-order-form';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { PurchaseOrderRequest } from 'app/model/purchase-order-body-request';
 import { PurchaseOrderPage } from 'app/model/purchase-order-page';
 

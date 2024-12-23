@@ -4,27 +4,51 @@ import { Store } from '@ngrx/store';
 import { CartProduct } from 'app/model/cart-product';
 import { Product } from 'app/model/product';
 import { ShoppingCart } from 'app/model/shopping-cart';
-import { updateCart, updateCartIsLoading } from 'app/store/cart/cart.actions';
+import { updateCart, updateCartIsLoading } from 'app/store/actions/cart.actions';
 import { environment } from 'environments/environment';
 import { firstValueFrom, Observable } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
 import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
 import { Address } from 'app/model/address';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
 
+  /** 
+  * @internal 
+  * @property {string} apiPath - Base API path for the service requests 
+  */
   private apiPath: string = environment.apiUrl + '/Quotation';
+
+  /** 
+  * @internal 
+  * @property {ShoppingCart | null} cart - Logged user shopping cart loaded 
+  */
   cart: ShoppingCart | null = null;
+
+  /** 
+  * @internal 
+  * @property {CartProduct[]} products - Products included on the logged user shopping cart 
+  */
   products: CartProduct[] = [];
+
+  /** 
+   * Id of the logged user first address 
+   * @property {string | null} firstAddressId
+   */
   firstAddressId: string | null = null;
 
+  /**
+  * Store references
+  */
   addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
   
+
+
   constructor(
     private notificationService: NotificationService,
     private store: Store<{ user: UserState }>,

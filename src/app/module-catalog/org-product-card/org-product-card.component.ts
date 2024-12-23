@@ -27,6 +27,9 @@ export class OrgProductCardComponent implements OnInit {
   isHovered = false;
   isLogged = false;
   
+  /**
+  * Store references
+  */
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
   isUserLoading$: Observable<boolean> = this.store.select(state => state.user.loading);
 

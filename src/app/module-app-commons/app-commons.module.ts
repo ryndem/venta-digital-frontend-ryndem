@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroChevronUp } from '@ng-icons/heroicons/outline';
 import { UsdCurrencyPipe } from './pipes/usd-currency.pipe';
@@ -50,15 +51,16 @@ import { OrgQuoteUserInfoComponent } from './org-quote-user-info/org-quote-user-
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     NgIconsModule.withIcons({
       heroChevronUp
     }),
   ],
-  
+
   exports: [
     MolAddressSelectorComponent,
     MolFileDownloaderComponent,
-    
+
     AtmCategoryCardComponent,
     AtmLoaderCircleComponent,
     AtmLoaderPointsComponent,

@@ -6,16 +6,13 @@ import { NgIconsModule } from '@ng-icons/core';
 import { 
   heroCheckCircle, 
   heroChevronDown, 
+  heroChevronLeft, 
   heroChevronRight, 
-  heroChevronUp, 
+  heroEllipsisHorizontal, 
   heroEye, 
   heroLockClosed, 
-  heroMinus, 
-  heroPlus, 
   heroShoppingCart, 
   heroSquaresPlus, 
-  heroTrash, 
-  heroXMark 
 } from '@ng-icons/heroicons/outline';
 import { AppCommonsModule } from 'app/module-app-commons/app-commons.module';
 import { PgHomeComponent } from './pg-home/pg-home.component';
@@ -74,17 +71,14 @@ import { OrgRelatedProductsComponent } from './org-related-products/org-related-
     AppCommonsModule,
     NgIconsModule.withIcons({
       heroCheckCircle,
-      heroChevronDown,
+      heroChevronLeft,
       heroChevronRight,
-      heroChevronUp,
+      heroChevronDown,
+      heroEllipsisHorizontal,
       heroEye,
-      heroMinus,
       heroLockClosed,
-      heroPlus,
-      heroShoppingCart,
       heroSquaresPlus,
-      heroTrash,
-      heroXMark,
+      heroShoppingCart
     })
   ],
   exports: [ 

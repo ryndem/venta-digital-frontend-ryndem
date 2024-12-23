@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/module-auth/auth.service';
 import { Product } from 'app/model/product';
 import { CartService } from 'app/services/cart.service';
-import { ShoppingCartState } from 'app/store/cart/cart.reducer';
-import { UserState } from 'app/store/users/user.reducer';
+import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -17,6 +17,10 @@ export class AtmShoppingButtonComponent {
   product!: Product;
 
   isAuthenticated = false;
+
+  /**
+  * Store references
+  */
   isAddingToCar$: Observable<boolean> = this.store.select(state => state.cart.isLoading);
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged)
 

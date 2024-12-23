@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -34,6 +34,9 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
   preSelectedAddress: Address | null = null;
   selectionLabel = 'Elige una dirección de entrega';
 
+  /**
+  * Store references
+  */
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
 

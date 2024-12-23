@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="order-summary-card__download-file">
+  <div class="order-summary-card__download-file" *ngIf="order.idFilePDF">
     <span class="text-small-regular text-gray-green-900">Comprobante de venta digital</span>
     <mol-file-downloader
       [fileName]="'vd_' + order.internalOrderNumber + '_' + (order.registrationDate | date: 'dd-MM-yyyy') "

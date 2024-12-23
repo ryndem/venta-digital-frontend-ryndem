@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'app/module-auth/auth.service';
 import { CartService } from 'app/services/cart.service';
 
@@ -9,28 +9,43 @@ import { CartService } from 'app/services/cart.service';
   templateUrl: './org-login-modal.component.html',
   styleUrls: ['./org-login-modal.component.scss'],
 })
-export class OrgLoginModalComponent {
+export class OrgLoginModalComponent implements OnInit {
+  loginForm!: FormGroup;
   credentialsError = false;
   loading = false;
   twoFAError = false;
   isPasswordVisible = false;
 
   constructor(
+    private fb: FormBuilder,
     public authService: AuthService,
-    private cartService: CartService,
-  ) {}
+    private cartService: CartService
+  ) { }
 
-  async login(form: NgForm) {
-    if (!form.valid) {
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  async login(): Promise<void> {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
-    const data = form.value;
+    const { email, password } = this.loginForm.value;
+
     try {
       this.loading = true;
       this.credentialsError = false;
 
-      await this.authService.login(data.email, data.password);
+      await this.authService.login(email, password);
       await this.authService.loadSession();
 
       this.loading = false;
@@ -38,10 +53,10 @@ export class OrgLoginModalComponent {
       this.cartService.load();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        if (error.error && error.error.error) {
-          switch (error?.error?.error) {
+        if (error.error?.error) {
+          switch (error.error.error) {
             case 'multiple_session':
-              this.closeMultipleSessions(error?.error, form);
+              this.closeMultipleSessions(error.error);
               break;
             default:
               this.credentialsError = true;
@@ -52,12 +67,9 @@ export class OrgLoginModalComponent {
     }
   }
 
-  private async closeMultipleSessions(
-    error: { idSessionTemp: string },
-    form: NgForm
-  ) {
+  private async closeMultipleSessions(error: { idSessionTemp: string }): Promise<void> {
     await this.authService.closeMultipleSessions(error.idSessionTemp);
-    await this.login(form);
+    await this.login();
   }
 
   close() {

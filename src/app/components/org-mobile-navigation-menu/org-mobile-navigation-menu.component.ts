@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/module-auth/auth.service';
 import { Category } from 'app/model/category';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 
 @Component({
   selector: 'org-mobile-navigation-menu',
@@ -17,6 +17,9 @@ export class OrgMobileNavigationMenuComponent {
   @Output()
   closeMenu = new EventEmitter<void>();
 
+  /**
+  * Store references
+  */
   isLogged$ = this.store.select(state => state.user.isLogged);
 
   constructor(

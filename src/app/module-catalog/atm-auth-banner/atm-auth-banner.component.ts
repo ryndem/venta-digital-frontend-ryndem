@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/module-auth/auth.service';
-import { UserState } from 'app/store/users/user.reducer';
+import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -11,6 +11,9 @@ import { Observable } from 'rxjs';
 })
 export class AtmAuthBannerComponent {
 
+  /**
+  * Store references
+  */
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
   isLoadingUser$: Observable<boolean> = this.store.select(state => state.user.loading);
 

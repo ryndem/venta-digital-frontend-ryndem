@@ -13,12 +13,10 @@ export class FileService {
   private fileBucket: string = environment.fileBucket;
 
   constructor(
-
     private httpClient: HttpClient
   ) {}
 
   async uploadFile (formData: FormData) {
-
     return firstValueFrom(this.httpClient.post<OrderFile>(this.apiPath+ '/FileUpload/' + this.fileBucket, formData));
   }
 

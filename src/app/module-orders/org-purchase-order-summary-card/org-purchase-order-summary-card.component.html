@@ -36,11 +36,11 @@
     </div>
   </div>
 
-  <div class="purchase-order-summary-card__download-file">
+  <div class="purchase-order-summary-card__download-file" *ngIf="purchaseOrder.idFilePDF">
     <span class="text-small-regular text-gray-green-900">Comprobante de venta digital</span>
     <mol-file-downloader
       [fileName]="'vd_' + purchaseOrder.folio + '_' + (purchaseOrder.registrationDate | date: 'dd-MM-yyyy') "
-      [fileId]="'12345678'"
+      [fileId]="purchaseOrder.idFilePDF"
     />
   </div>
 

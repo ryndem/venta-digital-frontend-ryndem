@@ -7,39 +7,36 @@
 
   <form
     class="form-group mb-32"
-    #signUpForm="ngForm"
-    (ngSubmit)="onSubmit(signUpForm)"
+    [formGroup]="signUpForm"
+    (ngSubmit)="onSubmit()"
   >
     <div class="form-control">
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="email"
-        >Email</label
       >
+        Email
+      </label>
 
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="email"
-          name="email"
+          formControlName="email"
           type="text"
           placeholder="Email"
-          email
-          required
-          ngModel
-          #emailInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="(signUpForm.submitted || emailInput.dirty) && emailInput.invalid"
+        *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched"
       >
-        <small class="text-small" *ngIf="emailInput.errors?.['email']"
-          >El formato de correo electrónico es incorrecto</small
-        >
-        <small class="text-small" *ngIf="emailInput.errors?.['required']"
-          >El correo electrónico es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('email')?.errors?.['email']">
+          El formato de correo electrónico es incorrecto
+        </small>
+        <small class="text-small" *ngIf="signUpForm.get('email')?.errors?.['required']">
+          El correo electrónico es requerido
+        </small>
       </div>
     </div>
 
@@ -47,30 +44,26 @@
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="company"
-        >Empresa</label
       >
+        Empresa
+      </label>
 
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="company"
-          name="company"
+          formControlName="company"
           type="text"
           placeholder="Nombre de tu empresa"
-          required
-          ngModel
-          #companyInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || companyInput.dirty) && companyInput.invalid
-        "
+        *ngIf="signUpForm.get('company')?.invalid && signUpForm.get('company')?.touched"
       >
-        <small class="text-small" *ngIf="companyInput.errors?.['required']"
-          >El nombre de tu empresa es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('company')?.errors?.['required']">
+          El nombre de tu empresa es requerido
+        </small>
       </div>
     </div>
 
@@ -78,8 +71,9 @@
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="registryType"
-        >Tipo de registro</label
       >
+        Tipo de registro
+      </label>
 
       <div
         class="text-body-medium text-gray-green-900 form-control__input radio"
@@ -87,26 +81,20 @@
         <div>
           <input
             id="isFinalUser"
-            name="registryType"
+            formControlName="registryType"
             type="radio"
             placeholder="Usuario final"
             value="isFinalUser"
-            ngModel
-            #isFinalUserInput="ngModel"
-            required
           />
           <label for="isFinalUser">Usuario final</label>
         </div>
         <div>
           <input
             id="isReseller"
-            name="registryType"
+            formControlName="registryType"
             type="radio"
             placeholder="Reseller"
             value="isReseller"
-            ngModel
-            #isResellerInput="ngModel"
-            required
           />
           <label for="isReseller">Reseller</label>
         </div>
@@ -114,19 +102,11 @@
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          signUpForm.submitted &&
-          (isFinalUserInput.invalid || isResellerInput.invalid)
-        "
+        *ngIf="signUpForm.get('registryType')?.invalid && signUpForm.get('registryType')?.touched"
       >
-        <small
-          class="text-small"
-          *ngIf="
-            isFinalUserInput.errors?.['required'] ||
-            isResellerInput.errors?.['required']
-          "
-          >Tipo de registro es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('registryType')?.errors?.['required']">
+          Tipo de registro es requerido
+        </small>
       </div>
     </div>
 
@@ -140,22 +120,19 @@
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="rfc"
-          name="rfc"
+          formControlName="rfc"
           type="text"
           placeholder="RFC"
-          required
-          ngModel
-          #rfcInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="(signUpForm.submitted || rfcInput.dirty) && rfcInput.invalid"
+        *ngIf="signUpForm.get('rfc')?.invalid && signUpForm.get('rfc')?.touched"
       >
-        <small class="text-small" *ngIf="rfcInput.errors?.['required']"
-          >Tu RFC es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('rfc')?.errors?.['required']">
+          Tu RFC es requerido
+        </small>
       </div>
     </div>
 
@@ -169,22 +146,19 @@
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="name"
-          name="name"
+          formControlName="name"
           type="text"
           placeholder="Tu nombre"
-          required
-          ngModel
-          #nameInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="(signUpForm.submitted || nameInput.dirty) && nameInput.invalid"
+        *ngIf="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched"
       >
-        <small class="text-small" *ngIf="nameInput.errors?.['required']"
-          >Tu nombre es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('name')?.errors?.['required']">
+          Tu nombre es requerido
+        </small>
       </div>
     </div>
 
@@ -192,30 +166,26 @@
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="lastName"
-        >Apellido</label
       >
+        Apellido
+      </label>
 
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="lastName"
-          name="lastName"
+          formControlName="lastName"
           type="text"
           placeholder="Tus apellidos"
-          required
-          ngModel
-          #lastNameInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || lastNameInput.dirty) && lastNameInput.invalid
-        "
+        *ngIf="signUpForm.get('lastName')?.invalid && signUpForm.get('lastName')?.touched"
       >
-        <small class="text-small" *ngIf="lastNameInput.errors?.['required']"
-          >Tus apellidos son requeridos</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('lastName')?.errors?.['required']">
+          Tus apellidos son requeridos
+        </small>
       </div>
       <small class="text-small">Ingresa tu apellido paterno y materno</small>
     </div>
@@ -224,31 +194,26 @@
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="phoneNumber"
-        >Teléfono</label
       >
+        Teléfono
+      </label>
 
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="phoneNumber"
-          name="phoneNumber"
+          formControlName="phoneNumber"
           type="text"
           placeholder="(00) 0000 0000"
-          required
-          ngModel
-          #phoneNumberInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || phoneNumberInput.dirty) &&
-          phoneNumberInput.invalid
-        "
+        *ngIf="signUpForm.get('phoneNumber')?.invalid && signUpForm.get('phoneNumber')?.touched"
       >
-        <small class="text-small" *ngIf="phoneNumberInput.errors?.['required']"
-          >Tu teléfono es requerido</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('phoneNumber')?.errors?.['required']">
+          Tu teléfono es requerido
+        </small>
       </div>
       <small class="text-small">10 dígitos, incluyendo LADA</small>
     </div>
@@ -257,28 +222,24 @@
       <label
         class="form-control__label text-body-medium text-gray-green-900"
         for="jobTitle"
-        >Puesto</label
       >
+        Puesto
+      </label>
 
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="jobTitle"
-          name="jobTitle"
+          formControlName="jobTitle"
           type="text"
           placeholder="Tu puesto"
-          required
-          ngModel
-          #jobTitleInput="ngModel"
         />
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || jobTitleInput.dirty) && jobTitleInput.invalid
-        "
+        *ngIf="signUpForm.get('jobTitle')?.invalid && signUpForm.get('jobTitle')?.touched"
       >
-        <small class="text-small" *ngIf="jobTitleInput.errors?.['required']"
+        <small class="text-small" *ngIf="signUpForm.get('jobTitle')?.errors?.['required']"
           >Tu puesto es requerido</small
         >
       </div>
@@ -293,13 +254,10 @@
       <div class="text-body-medium text-gray-green-900 form-control__input">
         <input
           id="password"
-          name="password"
+          formControlName="password"
           [type]="isPasswordVisible ? 'text' : 'password'"
           placeholder="********"
           autocomplete="false"
-          required
-          ngModel
-          #passwordInput="ngModel"
         />
         <button (click)="togglePasswordVisibility()" type="button">
             <ng-icon *ngIf="isPasswordVisible" name="heroEye" size="16"></ng-icon>
@@ -313,13 +271,14 @@
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || passwordInput.dirty) && passwordInput.invalid
-        "
+        *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched"
       >
-        <small class="text-small" *ngIf="passwordInput.errors?.['required']"
-          >La contraseña es requerida</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('password')?.errors?.['required']">
+          La contraseña es requerida
+        </small>
+        <small class="text-small" *ngIf="signUpForm.get('password')?.errors?.['minlength']">
+          La contraseña debe tener al menos 8 caracteres
+        </small>
       </div>
     </div>
 
@@ -335,26 +294,21 @@
       <div class="sign-up__terms-and-conditions__accept">
         <input
           type="checkbox"
-          name="accept"
+          formControlName="accept"
           id="accept"
-          required
-          ngModel
-          #acceptInput="ngModel"
         />
-        <label class="text-body text-gray-green-900" for="accept"
-          >Acepto los Términos y Condiciones</label
-        >
+        <label class="text-body text-gray-green-900" for="accept">
+          Acepto los Términos y Condiciones
+        </label>
       </div>
 
       <div
         class="text-small text-red-700"
-        *ngIf="
-          (signUpForm.submitted || acceptInput.dirty) && acceptInput.invalid
-        "
+        *ngIf="signUpForm.get('accept')?.invalid && signUpForm.get('accept')?.touched"
       >
-        <small class="text-small" *ngIf="acceptInput.errors?.['required']"
-          >Debes aceptar los Términos y Condiciones</small
-        >
+        <small class="text-small" *ngIf="signUpForm.get('accept')?.errors?.['required']">
+          Debes aceptar los Términos y Condiciones
+        </small>
       </div>
     </div>
 
@@ -363,7 +317,7 @@
       {{errorMessage}}
     </div>
 
-    <button>Registrarme</button>
+    <button [disabled]="signUpForm.invalid">Registrarme</button>
   </form>
 
   <a class="text-blue-600 text-body" routerLink>Cancelar y Regresar</a>

@@ -16,3 +16,13 @@ export const addOutstandingProduct = createAction(
   '[Product]addOutstandingProduct',
   props<{ outstandingProduct: Product }>()
 );
+
+export const loadCategories = createAction(
+  '[Product]loadCategories'
+);
+
+export const loadCategoriesFailure = createAction(
+  '[Product]loadCategoriesFailure',
+  props<{ error: any }>()
+);
+

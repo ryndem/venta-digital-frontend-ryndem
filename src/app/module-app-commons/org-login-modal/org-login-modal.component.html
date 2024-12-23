@@ -1,13 +1,18 @@
 <div class="login-card">
-  <div class="login-card__background" role="button" tabindex="0" 
-    (click)="close()" 
-    (keydown.enter)="close()" 
-    (keydown.space)="close()"></div>
+  <div
+    class="login-card__background"
+    role="button"
+    tabindex="0"
+    (click)="close()"
+    (keydown.enter)="close()"
+    (keydown.space)="close()"
+  ></div>
 
   <div class="login-card__container">
     <button class="login-card__close" (click)="close()">
       <ng-icon name="heroXMark" size="24"></ng-icon>
     </button>
+
     <div class="login-card__form">
       <div
         class="login-card__form__error text-red-700"
@@ -19,6 +24,7 @@
           persiste, ponte en contacto con nosotros.
         </div>
       </div>
+
       <img
         class="login-card__form__hero"
         src="assets/icons/proquifa-logo-full-color.svg"
@@ -35,40 +41,24 @@
         </div>
 
         <form
+          [formGroup]="loginForm"
+          (ngSubmit)="login()"
           class="form-group mb-32"
-          (ngSubmit)="login(loginForm)"
-          #loginForm="ngForm"
         >
           <div class="form-control">
-            <label
-              for="email"
-              class="form-control__label text-body-medium text-gray-green-900"
-              >Correo electrónico</label
-            >
+            <label for="email" class="form-control__label text-body-medium text-gray-green-900">
+              Correo electrónico
+            </label>
             <input
               id="email"
               class="form-control__input text-paragraph text-gray-green-900"
-              name="email"
+              formControlName="email"
               placeholder="Correo electrónico"
               type="email"
-              required
-              email
-              ngModel
-              #emailInput="ngModel"
             />
-
-            <div
-              class="text-small text-red-700"
-              *ngIf="
-                (loginForm.submitted || emailInput.dirty) && emailInput.invalid
-              "
-            >
-              <small *ngIf="emailInput.errors?.['email']"
-                >El formato de correo electrónico es incorrecto
-              </small>
-              <small *ngIf="emailInput.errors?.['required']"
-                >El correo electrónico es requerido</small
-              >
+            <div class="text-small text-red-700" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              <small *ngIf="loginForm.get('email')?.errors?.['email']">El formato de correo electrónico es incorrecto</small>
+              <small *ngIf="loginForm.get('email')?.errors?.['required']">El correo electrónico es requerido</small>
             </div>
           </div>
 
@@ -76,39 +66,32 @@
             <label
               for="password"
               class="form-control__label text-body-medium text-gray-green-900"
-              >Contraseña</label
             >
+              Contraseña
+            </label>
             <div class="form-control__input text-paragraph text-gray-green-900">
               <input
                 id="password"
-                name="password"
+                formControlName="password"
                 class="text-paragraph"
                 [type]="isPasswordVisible ? 'text' : 'password'"
                 placeholder="Contraseña"
                 autocomplete="false"
-                required
-                ngModel
-                #passwordInput="ngModel"
               />
-              <button (click)="togglePasswordVisibility()" type="button">
+              <button type="button" (click)="togglePasswordVisibility()">
                 <ng-icon name="heroEye" size="16" *ngIf="isPasswordVisible"></ng-icon>
-                <ng-icon name="heroEyeSlash" size="16"  *ngIf="!isPasswordVisible"></ng-icon>
+                <ng-icon name="heroEyeSlash" size="16" *ngIf="!isPasswordVisible"></ng-icon>
               </button>
             </div>
             <div
               class="text-small text-red-700"
-              *ngIf="
-                (loginForm.submitted || passwordInput.dirty) &&
-                passwordInput.invalid
-              "
+              *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
             >
-              <small *ngIf="passwordInput.errors?.['required']"
-                >La contraseña es requerida</small
-              >
+              <small *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
             </div>
           </div>
 
-          <button [disabled]="loading">Iniciar Sesión</button>
+          <button [disabled]="loading || loginForm.invalid">Iniciar Sesión</button>
         </form>
       </div>
 

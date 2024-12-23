@@ -1,7 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ProductActions from './product.actions';
+import * as ProductActions from '../actions/product.actions';
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
+
+/**
+ * Represents the values stored on the Products Store
+ *
+ * @interface ProductState
+ *
+ * @property {Category[]} categories - List of the product categories loaded.
+ * @property {Product[] | null} outstandingProducts - List of the outstanding products.
+ */
 
 export interface ProductState {
   categories: Category[];
