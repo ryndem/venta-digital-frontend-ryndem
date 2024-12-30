@@ -3,14 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { User } from 'app/model/user';
-import { CartService } from 'app/services/cart.service';
 import { MetaService } from 'app/services/meta.service';
 import { QuotesService } from 'app/services/quotes.service';
+import { loadCart } from 'app/store/actions/cart.actions';
 import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { UserState } from 'app/store/reducers/user.reducer';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+/**
+ * Page component to display quote creation confirmation
+ * @export
+ * @class PgThankYouComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'pg-thank-you',
   templateUrl: './pg-thank-you.component.html',
@@ -18,8 +24,21 @@ import { Observable } from 'rxjs';
 })
 export class PgThankYouComponent implements OnInit {
 
+  /**
+   * Created quote loaded
+   * @type {(ShoppingCart | null)}
+   */
   quote: ShoppingCart | null = null;
+
+  /**
+   * Quote id of the created quote
+   * @type {(string | null)}
+   */
   quoteId: string | null = null;
+
+  /**
+   * Boolean to show traditional method quote diclaimer
+   */
   showDisclaimer = false;
 
   /**
@@ -27,8 +46,17 @@ export class PgThankYouComponent implements OnInit {
   */
   user$: Observable<User | null> = this.store.select(state => state.user.user);
 
+
+
+  /**
+   * Creates an instance of PgThankYouComponent.
+   * @param {CartService} cartService
+   * @param {QuotesService} quotesService
+   * @param {ActivatedRoute} currentRoute
+   * @param {Store<{ user: UserState, cart: ShoppingCartState }>} store
+   * @param {MetaService} metaService
+   */
   constructor(
-    private cartService : CartService,
     private quotesService : QuotesService,
     private currentRoute: ActivatedRoute,
     private store: Store<{ user: UserState, cart: ShoppingCartState }>,
@@ -37,15 +65,23 @@ export class PgThankYouComponent implements OnInit {
     this.setMetaTags();
   }
 
+  
+  /**
+   * Initializing method
+   */
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe((params) => {
       this.quoteId = params['quoteId'];
       this.loadQuote();
     });
 
-    await this.cartService.load();
+    this.store.dispatch(loadCart());
   }
 
+  
+  /**
+   * Method to load created quote information
+   */
   async loadQuote() {
     if( this.quoteId ) {
       this.quote = await this.quotesService.getById(this.quoteId);
@@ -61,6 +97,9 @@ export class PgThankYouComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Gracias por su Cotización - Proquifa',

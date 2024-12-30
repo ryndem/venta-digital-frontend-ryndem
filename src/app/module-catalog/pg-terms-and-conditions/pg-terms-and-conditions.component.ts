@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { MetaService } from 'app/services/meta.service';
 import { environment } from 'environments/environment';
 
+/**
+ * Page component to display terms and conditions
+ * @export
+ * @class PgTermsAndConditionsComponent
+ */
 @Component({
   selector: 'pg-terms-and-conditions',
   templateUrl: './pg-terms-and-conditions.component.html',
@@ -9,12 +14,20 @@ import { environment } from 'environments/environment';
 })
 export class PgTermsAndConditionsComponent {
 
+
+  /**
+   * Creates an instance of PgTermsAndConditionsComponent.
+   * @param {MetaService} metaService
+   */
   constructor(
     private metaService: MetaService
   ) {
     this.setMetaTags();
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Términos y Condiciones - Proquifa',

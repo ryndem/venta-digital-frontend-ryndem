@@ -7,21 +7,35 @@ import { Product } from 'app/model/product';
  * Represents the values stored on the Products Store
  *
  * @interface ProductState
- *
- * @property {Category[]} categories - List of the product categories loaded.
- * @property {Product[] | null} outstandingProducts - List of the outstanding products.
  */
 
 export interface ProductState {
+
+  /**
+   * List of the product categories loaded.
+   * @type {Category[]}
+   */
   categories: Category[];
+
+  /**
+   * List of the outstanding products.
+   * @type {(Product[] | null)}
+   */
   outstandingProducts: Product[] | null;
 }
 
+/**
+ * Specify initial state for ProductState
+ */
 export const initialState: ProductState = {
   categories: [],
   outstandingProducts: null,
 };
 
+
+/**
+ * Reducer for ProductState actions
+ */
 export const productReducer = createReducer(
   initialState,
   on(ProductActions.updateCategories, (state, { categories }) => ({

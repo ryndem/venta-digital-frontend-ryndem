@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
+/**
+ * Component to show quote totals
+ * @export
+ * @class OrgQuoteTotalsComponent
+ */
 @Component({
   selector: 'org-quote-totals',
   templateUrl: './org-quote-totals.component.html',
@@ -8,7 +13,10 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 })
 export class OrgQuoteTotalsComponent {
 
-  @Input()
-  quote!: ShoppingCart;
+  /**
+   * Quote totals to show
+   * @type {ShoppingCart}
+   */
+  @Input() quote!: ShoppingCart;
   
 }

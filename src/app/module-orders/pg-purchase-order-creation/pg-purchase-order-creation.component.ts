@@ -17,6 +17,11 @@ import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
 import { MetaService } from 'app/services/meta.service';
 
+/**
+ * Page component to create purchase order
+ * @export
+ * @class PgPurchaseOrderCreationComponent
+ */
 @Component({
   selector: 'pg-purchase-order-creation',
   templateUrl: './pg-purchase-order-creation.component.html',
@@ -69,6 +74,15 @@ export class PgPurchaseOrderCreationComponent {
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   hasOrderItemsSelected$: Observable<boolean> = this.store.select(state => state.user.hasOrderItemsSelected);
 
+  /**
+   * Creates an instance of PgPurchaseOrderCreationComponent.
+   * @param {QuotesService} quoteService
+   * @param {PurchaseOrderService} purchaseOrderService
+   * @param {NotificationService} notificationService
+   * @param {Store<{ user: UserState }>} store
+   * @param {Router} router
+   * @param {MetaService} metaService
+   */
   constructor(
     private quoteService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
@@ -94,6 +108,9 @@ export class PgPurchaseOrderCreationComponent {
     this.setMetaTags();
   }
 
+  /**
+   * Loads purchase order in progress
+   */
   async initSavedState() {
     const orderForm = this.purchaseOrderService.getOrderForm();
 
@@ -106,12 +123,21 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Lintens when the addres is updates
+   * @param {(Address | null)} address
+   * @return {*} 
+   */
   async onAddressSelected(address: Address | null) {
     if(!address) return;
     this.selectedProducts = [];
     await this.setAddressSelected(address.idAddress);
   }
 
+  /**
+   * Method to update addres selected
+   * @param {string} addressId
+   */
   async setAddressSelected(addressId: string) {
     this.isQuotesLoading = true;
     this.selectedAddressId = addressId;
@@ -133,6 +159,11 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to handle quote page change
+   * @param {number} newPage
+   * @return {*} 
+   */
   async quotesPageChange(newPage: number) {
     if(!this.selectedAddressId) return;
 
@@ -148,6 +179,10 @@ export class PgPurchaseOrderCreationComponent {
     this.isQuotesLoading = false;
   }
 
+  /**
+   * Method to handle select quote action
+   * @param {Quote} quote
+   */
   async selectQuote(quote: Quote) {
     this.isItemsLoading = true;
     this.availableProducts = [];
@@ -157,11 +192,18 @@ export class PgPurchaseOrderCreationComponent {
   }
 
 
+  /**
+   * Update tab to filter quote products
+   * @param {string} tab
+   */
   updateTab(tab:string) {
     this.tabFilter = tab;
     this.updateProducts();
   }
 
+   /**
+    * Method to update products loaded
+    */
    updateProducts() {
     if(this.selectedAddressId) {
       this.availableProducts =  this.selectedQuote? this.updateAvailableProducts(this.selectedQuote?.listQuotationItem) : [];
@@ -183,6 +225,9 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to update order totals 
+   */
   async updateTotals() {
     if(this.customerId && this.contactId && !this.isUpdatingTotals) {
       this.isUpdatingTotals = true;
@@ -213,6 +258,11 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to update product list to show on available products section
+   * @param {QuoteProduct[]} products
+   * @return {*}  {QuoteProduct[]}
+   */
   updateAvailableProducts(products: QuoteProduct[]) : QuoteProduct[] {
     let result = products;
 
@@ -236,6 +286,10 @@ export class PgPurchaseOrderCreationComponent {
   }
 
 
+  /**
+   * Method to handle add product to order action
+   * @param {string} quoteItemId
+   */
   onAddedToOrderEmitter(quoteItemId: string) {
     if (this.selectedAddressId && !this.selectedProducts.find(p => p.item.idQuotationItem === quoteItemId)) {
       const item = this.selectedQuote?.listQuotationItem.find(i => i.idQuotationItem === quoteItemId);
@@ -252,6 +306,10 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to handle product remove action
+   * @param {string} quoteItemId
+   */
   onRemovedFromOrderEmitter(quoteItemId: string) {
     if (this.selectedAddressId && this.selectedProducts.find(p => p.item.idQuotationItem === quoteItemId)) {
       this.selectedProducts = this.selectedProducts.filter( p => p.item.idQuotationItem !== quoteItemId);
@@ -259,6 +317,10 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to handle product quantity update action
+   * @param {{ quoteItemId: string, quantity: number }} event
+   */
   onUpdateQuantityEmitter(event: { quoteItemId: string, quantity: number }) {
     const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == event.quoteItemId);
     if (this.selectedAddressId && productToEdit) {
@@ -267,6 +329,10 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Method to handle express freight update action
+   * @param {{ quoteItemId: string, expressFreight: boolean }} event
+   */
   onUpdateExpressFreightEmitter(event: { quoteItemId: string, expressFreight: boolean }) {
     const productToEdit = this.selectedProducts.find(p => p.item.idQuotationItem == event.quoteItemId);
     if (this.selectedAddressId && productToEdit) {
@@ -275,15 +341,26 @@ export class PgPurchaseOrderCreationComponent {
     }
   }
 
+  /**
+   * Listener of the order file uploaded
+   * @param {OrderFile} orderFile
+   */
   onFileUploaded(orderFile: OrderFile) {
     this.fileId = orderFile.idFile;
     this.updateTotals();
   }
 
+
+  /**
+   * Listener for the attached file removal
+   */
   onFileRemoved() {
     this.fileId = '';
   }
 
+  /**
+   * Listener of the order number input change
+   */
   onOrderNumberChange() {
     if(this.totals.total === 0) {
       this.updateTotals();
@@ -291,6 +368,9 @@ export class PgPurchaseOrderCreationComponent {
   }
 
 
+  /**
+   * Method to handle order creation action
+   */
   async createOrder() {
 
     if( !this.isCreatingOrder &&
@@ -331,6 +411,9 @@ export class PgPurchaseOrderCreationComponent {
 
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Creación de Pedido - Proquifa',

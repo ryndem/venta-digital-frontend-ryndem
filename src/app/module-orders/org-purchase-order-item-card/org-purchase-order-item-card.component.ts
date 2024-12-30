@@ -2,6 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ImageService } from 'app/services/image.service';
 
+/**
+ * Component to show purchase order item cart
+ * @export
+ * @class OrgPurchaseOrderItemCardComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'org-purchase-order-item-card',
   templateUrl: './org-purchase-order-item-card.component.html',
@@ -9,14 +15,33 @@ import { ImageService } from 'app/services/image.service';
 })
 export class OrgPurchaseOrderItemCardComponent implements OnInit {
 
-  @Input()
-  quoteItem!: QuoteProduct;
+  /**
+   * Cart purchase item
+   * @type {QuoteProduct}
+   */
+  @Input() quoteItem!: QuoteProduct;
 
+  /**
+   * Brand image path
+   * @type {(string | null)}
+   */
   brandImage: string | null = null;
+
+  /**
+   * Product presentation item
+   * @type {(string | null)}
+   */
   presentationImage: string | null = null;
 
+  /**
+   * Creates an instance of OrgPurchaseOrderItemCardComponent.
+   * @param {ImageService} imageService
+   */
   constructor (private imageService: ImageService) {}
 
+  /**
+   * Initializing method
+   */
   ngOnInit(): void {
     this.brandImage = this.imageService.getBrandImage(this.quoteItem);
     this.presentationImage = this.imageService.getPresentationImage(this.quoteItem);

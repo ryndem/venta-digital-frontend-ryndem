@@ -5,12 +5,36 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { MetaService } from 'app/services/meta.service';
 
+/**
+ * Page component to create a reset user password request
+ * @export
+ * @class PgForgotPasswordComponent
+ */
 @Component({
   selector: 'pg-forgot-password',
   templateUrl: './pg-forgot-password.component.html',
   styleUrls: ['./pg-forgot-password.component.scss'],
 })
 export class PgForgotPasswordComponent {
+
+  /**
+   * Forgot password form
+   * @type {FormGroup}
+   */
+  forgotPasswordForm!: FormGroup;
+
+  /**
+   * Boolean to track if the password is resetted
+   * @memberof PgForgotPasswordComponent
+   */
+  isPasswordResetted = false;
+
+  /**
+   * Creates an instance of PgForgotPasswordComponent.
+   * @param {FormBuilder} fb
+   * @param {AuthService} authService
+   * @param {MetaService} metaService
+   */
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
@@ -19,19 +43,27 @@ export class PgForgotPasswordComponent {
     this.setMetaTags();
    }
 
-  forgotPasswordForm!: FormGroup;
-  isPasswordResetted = false;
 
+  /**
+   * Initializing method
+   */
   ngOnInit(): void {
     this.initializeForm();
   }
 
+  /**
+   * Method to initialize forgor password form
+   */
   initializeForm(): void {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
   }
 
+  /**
+   * Method to handle form submit
+   * @return {*} 
+   */
   async onSubmit() {
 
     if (this.forgotPasswordForm.invalid) {
@@ -55,6 +87,9 @@ export class PgForgotPasswordComponent {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Olvidé mi Contraseña - Proquifa',

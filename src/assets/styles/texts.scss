@@ -1,5 +1,5 @@
 :root {
-  --font-primary: "Stellar";
+  --font-primary: "Akshar", serif;
   --font-secondary: "Work Sans";
 }
 
@@ -38,6 +38,14 @@
   font-family: var(--font-secondary);
   font-size: 16px;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 20px;
+}
+
+.text-regular-title {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 700;
   letter-spacing: 0.5px;
   line-height: 20px;
 }

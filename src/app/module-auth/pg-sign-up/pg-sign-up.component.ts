@@ -5,13 +5,54 @@ import { AuthService } from 'app/module-auth/auth.service';
 import { MetaService } from 'app/services/meta.service';
 import { environment } from 'environments/environment';
 
+/**
+ * Page component to create a user sign up request
+ * @export
+ * @class PgSignUpComponent
+ */
 @Component({
   selector: 'pg-sign-up',
   templateUrl: './pg-sign-up.component.html',
   styleUrls: ['./pg-sign-up.component.scss']
 })
 export class PgSignUpComponent {
+  /**
+   * Sign up form
+   * @type {FormGroup}
+   */
   signUpForm!: FormGroup;
+
+  /**
+   * Boolean to track if the password is visible
+   */
+  isPasswordVisible = false;
+
+  /**
+   * Boolean to track if the request failed/rejected by the API
+   */
+  isServerError = false;
+
+  /**
+   * Boolean to track if the sign up is already sent
+   */
+  isSingupRequested = false;
+
+  /**
+   * Boolean to track if the user has to be reviewed
+   */
+  isReviewPending = false;
+
+  /**
+   * Sign up request error message
+   */
+  errorMessage = '';
+
+  /**
+   * Creates an instance of PgSignUpComponent.
+   * @param {FormBuilder} fb
+   * @param {AuthService} authService
+   * @param {MetaService} metaService
+   */
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
@@ -20,20 +61,16 @@ export class PgSignUpComponent {
     this.setMetaTags();
   }
 
-  isPasswordVisible = false;
-
-  isServerError = false;
-
-  isSingupRequested = false;
-
-  isReviewPending = false;
-
-  errorMessage = '';
-
+  /**
+   * Initializing method
+   */
   ngOnInit(): void {
     this.initializeForm();
   }
 
+  /**
+   * Initializes sign up form
+   */
   initializeForm(): void {
     this.signUpForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -49,10 +86,17 @@ export class PgSignUpComponent {
     });
   }
 
+  /**
+   * Method to toggle password visibility
+   */
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  /**
+   * Method to handle submit action
+   * @return {Promise<void>}
+   */
   async onSubmit(): Promise<void> {
     if (this.signUpForm.invalid) {
       this.signUpForm.markAllAsTouched();
@@ -86,6 +130,9 @@ export class PgSignUpComponent {
         if (e.error?.type === 'code_not_found_customer') {
           this.isSingupRequested = true;
           this.isReviewPending = true;
+        } else if (e.error?.type === 'code_password_requirement') {
+          this.isServerError = true;
+          this.errorMessage = 'Lo sentimos, tu contraseña no cumple con los requisitos mínimos de seguridad. Intenta una nueva.';
         } else {
           this.isServerError = true;
           this.errorMessage =
@@ -95,6 +142,9 @@ export class PgSignUpComponent {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Registrar Usuario - Proquifa',

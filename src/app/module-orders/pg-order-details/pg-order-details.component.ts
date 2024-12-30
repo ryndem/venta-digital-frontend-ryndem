@@ -6,6 +6,11 @@ import { MetaService } from 'app/services/meta.service';
 import { OrderService } from 'app/services/order.service';
 import { environment } from 'environments/environment';
 
+/**
+ * Page component to display order details
+ * @export
+ * @class PgOrderDetailsComponent
+ */
 @Component({
   selector: 'pg-order-details',
   templateUrl: './pg-order-details.component.html',
@@ -13,20 +18,55 @@ import { environment } from 'environments/environment';
 })
 export class PgOrderDetailsComponent {
 
+  /**
+   * Order id to show
+   * @type {string}
+   */
   orderId!: string;
 
+  /**
+   * Order infomation
+   * @type {(ConfirmedOrder | null)}
+   */
   order: ConfirmedOrder | null = null;
+
+  /**
+   * List of all order items
+   * @type {(OrderItem[] | null)}
+   */
   orderItems: OrderItem[] | null = null;
+
+  /**
+   * Order items filtered
+   * @type {(OrderItem[] | null)}
+   */
   filteredOrderItems: OrderItem[] | null = null;
+
+  /**
+   * Selected quote id
+   * @type {(string | null)}
+   */
   selectedQuoteId: string | null = null;
+
+  /**
+   *
+   */
   isLoadingItems = false;
 
+  /**
+   * Method to set order id from url
+   */
   @RouterInput('orderId')
   set setInputId(orderId: string) {
     this.orderId = orderId;
     this.loadOrder();
   }
-
+  
+  /**
+   * Creates an instance of PgOrderDetailsComponent.
+   * @param {OrderService} orderService
+   * @param {MetaService} metaService
+   */
   constructor(
     private orderService: OrderService,
     private metaService: MetaService
@@ -34,16 +74,26 @@ export class PgOrderDetailsComponent {
     this.setMetaTags();
    }
 
+  /**
+   * Method to load order information
+   */
   async loadOrder() {
     this.order = await this.orderService.getById(this.orderId);
     this.loadItems();
   }
 
+  /**
+   * Method to handle select quote action
+   * @param {(Quote | null)} quote
+   */
   async selectQuote(quote: Quote | null) {
     this.selectedQuoteId = quote? quote.idQuotation : null;
     this.loadItems();
   }
 
+  /**
+   * Load order items
+   */
   async loadItems() {
     if (this.selectedQuoteId) {
       this.isLoadingItems = true;
@@ -54,12 +104,18 @@ export class PgOrderDetailsComponent {
     }
   }
 
+  /**
+   * Method to filter order items
+   */
   async filterItems() {
     if (this.orderItems) {
       this.filteredOrderItems = this.orderItems.filter(oi => oi);
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       `Detalles de Orden de Compra #${this.orderId} - Proquifa`,

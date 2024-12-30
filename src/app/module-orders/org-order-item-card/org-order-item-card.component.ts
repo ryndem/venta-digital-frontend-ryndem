@@ -2,6 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { OrderItem } from 'app/model/order-item';
 import { ImageService } from 'app/services/image.service';
 
+/**
+ * Order item card
+ * @export
+ * @class OrgOrderItemCardComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'org-order-item-card',
   templateUrl: './org-order-item-card.component.html',
@@ -9,34 +15,50 @@ import { ImageService } from 'app/services/image.service';
 })
 export class OrgOrderItemCardComponent implements OnInit{
   
-  @Input()
-  orderItem!: OrderItem;
+  /**
+   * Order item to show
+   * @type {OrderItem}
+   */
+  @Input() orderItem!: OrderItem;
 
+  /**
+   * Product presentation image path
+   * @type {(string | null)}
+   */
   presentationImage: string | null = null;
+
+  /**
+   * Product brand image path
+   *
+   * @type {(string | null)}
+   * @memberof OrgOrderItemCardComponent
+   */
   brandImage: string | null = null;
 
-  statusLabel = '';
-  statusClass = '';
+  /**
+   * Boolean to track if the card is open
+   */
   isOpen = false;
 
+  /**
+   * Creates an instance of OrgOrderItemCardComponent.
+   * @param {ImageService} imageService
+   */
   constructor(private imageService: ImageService) {}
 
+  /**
+   * Initializing method
+   */
   ngOnInit(): void {
     this.brandImage = this.imageService.getBrandImage(this.orderItem);
     this.presentationImage = this.imageService.getPresentationImage(this.orderItem);
-    if(this.orderItem?.itemTracking?.length > 0) {
-      this.statusLabel = this.orderItem.itemTracking[0].statusTracking;
-      this.statusClass = this.getStatusClass(this.statusLabel)
-    }
   }
 
-
+  /**
+   * Method to manage card open
+   */
   toggleOpen() {
     this.isOpen = !this.isOpen;
-  }
-
-  private getStatusClass(statusLabel: string) {
-    return statusLabel.toLowerCase().replace(' ', '-');
   }
 
 }

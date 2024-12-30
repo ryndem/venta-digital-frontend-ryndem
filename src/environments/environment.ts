@@ -1,7 +1,15 @@
+/**
+ * Object to specify variables for UAT environment
+ * @property {boolean} production Bolean to specify if the environment is production env
+ * @property {string} apiUrl API Url
+ * @property {string} authApiUrl Auth API Url
+ * @property {string} fileBucket Bucket to store uploaded files
+ * @property {string} baseUrl App base Url
+ */
 export const environment = {
   production: true,
   apiUrl: 'https://172.24.32.35:442/VentaDigital',
-  authApiUrl: 'https://172.24.32.35:9001',
+  authApiUrl: 'https://172.24.32.35:9002',
   fileBucket: 'mailbot',
   baseUrl: 'https://172.24.32.35:442/VentaDigitalFront/#'
 };

@@ -13,21 +13,15 @@ import { Observable } from 'rxjs';
 })
 export class MolAddressSelectorComponent extends AtmClosableComponent {
 
-  @Input()
-  otherAddressDisabled = false;
+  @Input() otherAddressDisabled = false;
 
-  @Input()
-  needsConfirmation = false;
+  @Input() needsConfirmation = false;
 
-  @Input()
-  selectedAddressId : string | null = null;
+  @Input() selectedAddressId : string | null = null;
 
-  @Output()
-  addressSelectedEmitter = new EventEmitter<Address>();
+  @Output() addressSelectedEmitter = new EventEmitter<Address>();
 
-  @Output()
-  selectedOtherEmitter = new EventEmitter();
-
+  @Output() selectedOtherEmitter = new EventEmitter();
 
   showAddresses = false;
   showConfirmationModal = false;
@@ -40,6 +34,10 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
   user$: Observable<User | null> = this.store.select(state => state.user.user);
   addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
 
+  /**
+   * Creates an instance of MolAddressSelectorComponent.
+   * @param {Store<{ user: UserState }>} store
+   */
   constructor(private store: Store<{ user: UserState }>) {
     super();
     this.addresses$.subscribe( value => {
@@ -47,6 +45,11 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     })
   }
 
+  /**
+   * Address selection valid getter
+   * @readonly
+   * @type {boolean}
+   */
   get isAddressSelectionValid(): boolean {
     return this.selectionLabel !== 'Elige una dirección de entrega' && this.selectionLabel !== 'Solicitar entrega en otra dirección';
   }

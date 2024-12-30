@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIconsModule } from '@ng-icons/core';
-import { heroChevronUp } from '@ng-icons/heroicons/outline';
+import { heroChevronUp, heroMinus, heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
 import { UsdCurrencyPipe } from './pipes/usd-currency.pipe';
 import { MolAddressSelectorComponent } from './mol-address-selector/mol-address-selector.component';
 import { MolFileDownloaderComponent } from './mol-file-downloader/mol-file-downloader.component';
@@ -53,7 +53,10 @@ import { OrgQuoteUserInfoComponent } from './org-quote-user-info/org-quote-user-
     FormsModule,
     ReactiveFormsModule,
     NgIconsModule.withIcons({
-      heroChevronUp
+      heroChevronUp,
+      heroMinus,
+      heroPlus,
+      heroTrash
     }),
   ],
 

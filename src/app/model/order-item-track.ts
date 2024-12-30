@@ -3,13 +3,13 @@
  *
  * @interface OrderItemStatusTrack
  *
- * @property {string} statusTracking - Status updated.
- * @property {string} dateTracking - Date of the update.
- * @property {number} sort - Sorting value of the updates.
+ * @property {string} Seguimiento - Status updated.
+ * @property {string} FechaRegistro - Date of the update.
+ * @property {number} Orden - Sorting value of the updates.
 */
 
 export type OrderItemStatusTrack = {
-  statusTracking: string;
-  dateTracking: string;
-  sort: number;
+  Seguimiento: string;
+  FechaRegistro: string;
+  Orden: number;
 };

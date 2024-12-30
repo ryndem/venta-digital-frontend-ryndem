@@ -3,25 +3,48 @@ import { Component, Input } from '@angular/core';
 import { environment } from 'environments/environment';
 import { NotificationService } from 'app/services/notification.service';
 
+/**
+ * Component to download file by id
+ * @export
+ * @class MolFileDownloaderComponent
+ */
 @Component({
   selector: 'mol-file-downloader',
   templateUrl: './mol-file-downloader.component.html',
   styleUrls: ['./mol-file-downloader.component.scss']
 })
 export class MolFileDownloaderComponent {
-  @Input()
-  fileName = '';
+  
+  /**
+   * File name of the file to download
+   */
+  @Input() fileName = '';
 
-  @Input()
-  fileId = '';
+  /**
+   * Id of the file to download
+   */
+  @Input() fileId = '';
 
+  /**
+   * API base path
+   * @private
+   * @type {string}
+   */
   private apiPath: string = environment.apiUrl;
 
+  /**
+   * Creates an instance of MolFileDownloaderComponent.
+   * @param {HttpClient} http
+   * @param {NotificationService} notificationService
+   */
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
   ) {}
 
+  /**
+   * Method to download file
+   */
   downloadFile() {
     const downloadUrl = `${this.apiPath}/FileDownload/${this.fileId}`;
 

@@ -55,6 +55,8 @@ import { PgResetPasswordComponent } from './module-auth/pg-reset-password/pg-res
 import { PgSignUpComponent } from './module-auth/pg-sign-up/pg-sign-up.component';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductEffects } from './store/effects/product.effects';
+import { CartEffects } from './store/effects/cart.effects';
+import { UserEffects } from './store/effects/user.effects';
 
 registerLocaleData(localeEs);
 
@@ -100,7 +102,7 @@ registerLocaleData(localeEs);
     CatalogModule,
     OrdersModule,
 
-    EffectsModule.forRoot([ProductEffects]),
+    EffectsModule.forRoot([ProductEffects, CartEffects, UserEffects]),
 
     NgIconsModule.withIcons({
       heroArrowUpTray,

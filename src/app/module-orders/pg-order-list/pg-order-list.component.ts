@@ -4,14 +4,21 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { QuoteItem } from 'app/model/quote';
 import { QuotesService } from 'app/services/quotes.service';
-import { AuthService } from 'app/module-auth/auth.service';
 import { PurchaseOrderService } from 'app/services/purchase-order.service';
 import { OrderService } from 'app/services/order.service';
 import { User } from 'app/model/user';
 import { OrderTab } from 'app/model/order-tabs';
 import { environment } from 'environments/environment';
 import { MetaService } from 'app/services/meta.service';
+import { loadSession } from 'app/store/actions/user.actions';
 
+/**
+ * Page component to show orders list
+ * @export
+ * @class PgOrderListComponent
+ * @implements {OnInit}
+ * @implements {OnDestroy}
+ */
 @Component({
   selector: 'pg-order-list',
   templateUrl: './pg-order-list.component.html',
@@ -19,27 +26,78 @@ import { MetaService } from 'app/services/meta.service';
 })
 export class PgOrderListComponent implements OnInit, OnDestroy {
 
+  /**
+   * Orders page size
+   * @private
+   */
   private PAGE_SIZE = 12;
+
+  /**
+   * Order type tabs
+   * @type {OrderTab[]}
+   */
   tabs: OrderTab[] = [];
+
+  /**
+   * Current selected tab
+   * @type {OrderTab}
+   */
   currentTab: OrderTab = this.tabs[0];
+
+  /**
+   * Is closed confirmed order filter selection
+   */
   isFilterClosed = false;
+
+  /**
+   * Order list
+   * @type {(QuoteItem[] | null)}
+   */
   orders: QuoteItem[] | null = null;
+
+  /**
+   * Search filter model
+   */
   searchFilter = '';
+
+  /**
+   * Boolean to track loading state
+   */
   isLoadingOrders = false;
+  
+  /**
+   * Skeleton collection
+   */
   skeletonList = Array(4).fill(0);
+
+  /**
+   * Current collection page
+   */
   currentPage = 1;
+
+  /**
+   * Boolean to track end of collection reach
+   */
   allLoaded = false;
 
   /**
-  * Store references
+  * Store reference (user.isLogged)
   */
   isAuthenticated$: Observable<boolean> = this.store.select(state => state.user.isLogged);
 
+  /**
+   * Creates an instance of PgOrderListComponent.
+   * @param {QuotesService} quoteService
+   * @param {PurchaseOrderService} purchaseOrderService
+   * @param {OrderService} orderService
+   * @param {Store<{ user: { isLogged: boolean, user: User } }>} store
+   * @param {Router} router
+   * @param {MetaService} metaService
+   */
   constructor(
     private quoteService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
     private orderService: OrderService,
-    public authService: AuthService,
     private store: Store<{ user: { isLogged: boolean, user: User } }>,
     private router: Router,
     private metaService: MetaService
@@ -65,8 +123,11 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     this.currentTab = this.tabs[0];
   }
 
+  /**
+   * Initializing method
+   */
   async ngOnInit() {
-    await this.authService.loadSession();
+    this.store.dispatch(loadSession());
 
     this.isAuthenticated$.subscribe((isAuthenticated) => {
       if (isAuthenticated) {
@@ -78,16 +139,29 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     window.addEventListener('scroll', this.onScroll.bind(this));
   }
 
+  /**
+   * Removes on scroll event listener
+   */
   ngOnDestroy() {
     window.removeEventListener('scroll', this.onScroll.bind(this));
   }
 
 
+  /**
+   * Calculates max page number
+   * @param {number} totalResults
+   * @return {number} 
+   */
   getTotalPages(totalResults: number) {
     const totalPages = Math.ceil(totalResults / this.PAGE_SIZE)
     return totalPages;
   }
 
+  /**
+   * Manage order type tab event
+   * @param {string} tabKey
+   * @return {*} 
+   */
   updateTab(tabKey: string) {
     if (this.currentTab.key === tabKey) return;
     const currentTab = this.tabs.find(t => t.key == tabKey);
@@ -97,11 +171,19 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Manage update 'Closed' filter
+   * @param {boolean} isFilterClosed
+   */
   async updateCloseFilter(isFilterClosed: boolean) {
     this.isFilterClosed = isFilterClosed;
     await this.loadOrders(true);
   }
 
+  /**
+   * Load order page
+   * @param {boolean} [tabChanged=false]
+   */
   async loadOrders(tabChanged = false) {
     if (this.allLoaded || this.isLoadingOrders) return;
 
@@ -182,6 +264,9 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Restart order list 
+   */
   private resetListOrders() {
     this.currentPage = 1;
     this.isFilterClosed = false;
@@ -189,12 +274,20 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     this.allLoaded = false;
     this.loadOrders(true);
   }
+
+  
+  /**
+   * Search on orders and reset pagination
+   */
   updateSearch() {
     this.currentPage = 1;
     this.allLoaded = false;
     this.loadOrders(true);
   }
 
+  /**
+   * Manage scroll event
+   */
   onScroll() {
     const threshold = 300;
     const position = window.innerHeight + window.scrollY;
@@ -205,6 +298,9 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Órdenes - Proquifa',

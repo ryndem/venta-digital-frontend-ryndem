@@ -13,42 +13,48 @@ import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-resp
 import { Address } from 'app/model/address';
 import { UserState } from 'app/store/reducers/user.reducer';
 
+
+/** 
+ * Service to manage the shopping cart API calls
+ * @export
+ * @class CartService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
 
-  /** 
-  * @internal 
-  * @property {string} apiPath - Base API path for the service requests 
-  */
+  /**
+   * API base path for the cart requests
+   */
   private apiPath: string = environment.apiUrl + '/Quotation';
 
   /** 
-  * @internal 
-  * @property {ShoppingCart | null} cart - Logged user shopping cart loaded 
+  * Logged user shopping cart loaded 
   */
   cart: ShoppingCart | null = null;
 
   /** 
-  * @internal 
-  * @property {CartProduct[]} products - Products included on the logged user shopping cart 
+  * Products included on the logged user shopping cart 
   */
   products: CartProduct[] = [];
 
   /** 
-   * Id of the logged user first address 
-   * @property {string | null} firstAddressId
+   * Id of the logged user's first address 
    */
   firstAddressId: string | null = null;
 
   /**
-  * Store references
+  * Store reference (user.addresses)
   */
-  addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
-  
+  addresses$: Observable<Address[] | null> = this.store.select(state => state.user?.addresses);
 
-
+  /**
+   * Creates an instance of CartService.
+   * @param {NotificationService} notificationService
+   * @param {Store<{ user: UserState }>} store
+   * @param {HttpClient} httpClient
+   */
   constructor(
     private notificationService: NotificationService,
     private store: Store<{ user: UserState }>,
@@ -59,10 +65,17 @@ export class CartService {
     })
   }
 
+  /**
+  * Method to load shopping cart from API
+  * @returns Promise of the current user shopping cart
+  */
   async getShoppingCart() {
     return firstValueFrom(this.httpClient.post<ShoppingCart>(this.apiPath+ '/GetShoppingCart', {}));
   }
 
+  /**
+  * Method to update and store the current user shopping cart
+  */
   async load() {
     try {
       const cart = await this.getShoppingCart();
@@ -74,7 +87,18 @@ export class CartService {
     }
   }
 
+  /**
+  * Method to update and store the current user shopping cart
+  */
+  async setCart(shoppingCart: ShoppingCart | null) {
+      this.cart = shoppingCart;
+  }
 
+  /**
+  * Method to add a product to the current user shopping cart
+  * @param {Product} product Product to add to the cart
+  * @param {number} quantity Quantity of the product to add to the cart
+  */
   async addProduct(product: Product, quantity: number) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
@@ -114,6 +138,10 @@ export class CartService {
     this.load();
   }
 
+  /**
+  * Method to add again a removed product to the shopping cart
+  * @param {QuoteProduct} quoteProduct Quote product to add to the cart
+  */
   async reAddProduct(quoteProduct: QuoteProduct) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
@@ -143,6 +171,12 @@ export class CartService {
   }
 
 
+  /**
+  * Method to send the current user shopping cart as quote
+  * @param {string} quoteId Quote id to submit
+  * @param {string | null} addressId Quote's address id to submit
+  * @param {QuoteProduct[]} cartItems Items to include on the submition
+  */
   async submit(quoteId: string, addressId: string | null, cartItems: QuoteProduct[] ) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
@@ -155,6 +189,11 @@ export class CartService {
    await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
   }
 
+  /**
+  * Method to update the quantity of a product in the shopping cart
+  * @param {string} quoteItemId Quote Item Id to update quantity
+  * @param {number} quantity Quote Item new quantity
+  */
   async updateQuantity(quoteItemId: string, quantity: number) {
     this.store.dispatch(updateCartIsLoading({ isLoading: true}))
 
@@ -179,6 +218,14 @@ export class CartService {
     }
   }
 
+
+  /**
+  * Method to update de freight express attribute on a shopping cart product
+  * @param {string} quoteItemId Quote Item Id to update express freight
+  * @param {boolean} appliesFreightExpress Value for express freight
+  * @param {string} addressId Quote's address id
+  * @param {QuoteProduct[]} cartItems Cart items to update express freight
+  */
   async updateFreightExpress(
     quoteItemId: string,
     appliesFreightExpress: boolean,
@@ -239,6 +286,11 @@ export class CartService {
     }
   }
 
+
+  /**
+  * Method to update the address attribute of the shopping cart 
+  * @param {string} addressId Shopping cart new address id
+  */
   async updateShippingAddress(addressId: string) {
     if (!addressId) return;
     this.store.dispatch(updateCartIsLoading({ isLoading: true }));

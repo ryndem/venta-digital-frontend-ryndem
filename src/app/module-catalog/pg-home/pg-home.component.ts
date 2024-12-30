@@ -9,6 +9,12 @@ import { ProductState } from 'app/store/reducers/product.reducer';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+/**
+ * Page component to display home
+ * @export
+ * @class PgHomeComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-home-page',
   templateUrl: './pg-home.component.html',
@@ -16,15 +22,33 @@ import { Observable } from 'rxjs';
 })
 export class PgHomeComponent implements OnInit {
 
+  /**
+   * Boolean to track loading state
+   */
   isLoadingProducts = false;
+
+  /**
+   * Skeleton collection
+   */
   skeletonList = Array(4).fill(0);
+
+  /**
+   * Product page response
+   * @type {(ProductResponse | null)}
+   */
   productResponse: ProductResponse | null = null;
 
   /**
-  * Store references
+  * Store reference (product.outstandingProducts)
   */
   outstandingProducts$: Observable<Product[] | null> = this.store.select(state => state.product.outstandingProducts);
 
+  /**
+   * Creates an instance of PgHomeComponent.
+   * @param {MetaService} metaService
+   * @param {ProductsService} productsService
+   * @param {Store<{ product: ProductState} >} store
+   */
   constructor(
     private metaService: MetaService,
     private productsService: ProductsService,
@@ -41,6 +65,9 @@ export class PgHomeComponent implements OnInit {
     this.setMetaTags();
   }
 
+  /**
+   * Initializing method
+   */
   async ngOnInit(): Promise<void> {
     this.isLoadingProducts = true;
     try {
@@ -52,6 +79,10 @@ export class PgHomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Method to load outstanding products
+   * @return {*} 
+   */
   async loadOutstandingProducts() {
     if(this.productResponse) {
       return;
@@ -68,6 +99,12 @@ export class PgHomeComponent implements OnInit {
 
   }
 
+
+  /**
+   * Method to handle add loaded product to outstanding product cart
+   * @private
+   * @param {string} productId
+   */
   private async addProduct(productId: string) {
     try {
       const product = await this.productsService.getProduct(productId);
@@ -79,6 +116,9 @@ export class PgHomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Dynamic Page - Proquifa',

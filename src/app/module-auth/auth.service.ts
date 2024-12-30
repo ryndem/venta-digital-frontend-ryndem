@@ -13,10 +13,7 @@ import { UserState } from 'app/store/reducers/user.reducer';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private httpClient: HttpClient,
-    private store: Store<{ user: UserState }>,
-  ) { }
+
   private TOKEN_KEY = 'authtoken';
   private SESSION_KEY = 'sessionid';
   private REFRESH_TOKEN_KEY = 'refresh_token';
@@ -29,14 +26,37 @@ export class AuthService {
   addressId = signal<string | null>(null);
   customerId = signal<string | null>(null);
 
+  /**
+   * Creates an instance of AuthService.
+   * @param {HttpClient} httpClient
+   * @param {Store<{ user: UserState }>} store
+   */
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store<{ user: UserState }>,
+  ) { }
+
+  /**
+   * Close login modal
+   */
   closeLoginModal() {
     this.isOpenLoginModal.set(false);
   }
 
+  /**
+   * Open login modal
+   */
   openLoginModal() {
     this.isOpenLoginModal.set(true);
   }
 
+  /**
+   * Method to handle login action
+   *
+   * @param {string} username
+   * @param {string} password
+   * @return {Promise<AuthToken>}
+   */
   async login(username: string, password: string): Promise<AuthToken> {
     const form: URLSearchParams = this.getLoginForm(username, password);
 
@@ -64,6 +84,10 @@ export class AuthService {
     return token;
   }
 
+  /**
+   * Method to refresh authentication token
+   * @return {*}  {(Promise<AuthToken | null>)}
+   */
   async refreshToken(): Promise<AuthToken | null> {
     const refresh_token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
     if (!refresh_token) return null;
@@ -100,6 +124,9 @@ export class AuthService {
     }
   }
 
+  /**
+   * Method to close session
+   */
   logout() {
     const sessionId = localStorage.getItem(this.SESSION_KEY);
     firstValueFrom(
@@ -113,6 +140,10 @@ export class AuthService {
     localStorage.clear();
   }
 
+  /**
+   * Load user session 
+   * @return {(Promise<User | null>)}
+   */
   async loadSession(): Promise<User | null> {
     const token = localStorage.getItem(this.TOKEN_KEY);
     this.store.dispatch(updateLoading({ loading: true }));
@@ -127,19 +158,22 @@ export class AuthService {
         this.updateUser(user);
 
         this.updateUserSelections();
-
+        
+        this.store.dispatch(updateLoading({ loading: false }))
         return user;
       } catch (error) {
         this.authToken.set(null);
         this.updateUser(null);
-      } finally {
-        this.store.dispatch(updateLoading({ loading: false }))
-      }
+      } 
     }
     this.store.dispatch(updateLoading({ loading: false }));
     return null;
   }
 
+  /**
+   * Load user information
+   * @return {Promise<User>}
+   */
   async loadUserInfo(): Promise<User> {
     const result = await firstValueFrom(
       this.httpClient.post<User>(`${environment.apiUrl}/WhoAmI`, ''),

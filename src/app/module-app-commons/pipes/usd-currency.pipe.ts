@@ -1,5 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Pipe to transform an amount to USD currency format
+ * @export
+ * @class UsdCurrencyPipe
+ * @implements {PipeTransform}
+ */
 @Pipe({ name: 'usdCurrency' })
 export class UsdCurrencyPipe implements PipeTransform {
   transform(value: number | undefined | null): string {

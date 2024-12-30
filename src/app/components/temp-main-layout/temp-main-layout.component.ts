@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+/**
+ * Component for quoter layout
+ * @export
+ * @class TempMainLayoutComponent
+ */
 @Component({
   selector: 'temp-main-layout',
   templateUrl: './temp-main-layout.component.html',

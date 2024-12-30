@@ -5,19 +5,41 @@ import { CategoryInfo } from 'app/model/category-info';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
+/**
+ * Service to manage categories API calls
+ * @export
+ * @class CategoriesService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesService {
-  private apiPath: string = environment.apiUrl + '/ProductCategory';
-  categories: Category[] | null = null;
 
+  
+  /**
+   * API base path for the categories requests
+   */
+  private apiPath: string = environment.apiUrl + '/ProductCategory';
+
+
+  /**
+   * Creates an instance of CategoriesService.
+   * @param {HttpClient} httpClient
+   */
   constructor(private httpClient: HttpClient) {}
 
+  /**
+   * Loads category list from API
+   * @return {Promise<Category[]>}
+   */
   async list(): Promise<Category[]> {
     return firstValueFrom(this.httpClient.get<Category[]>(this.apiPath));
   }
 
+  /**
+   * Update image properties to category object
+   * @param {Category} category Category to update description and icon
+   */
   setProperties(category: Category) {
     const descriptions: CategoryInfo = {
       standards:

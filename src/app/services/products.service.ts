@@ -14,18 +14,40 @@ import { ProductOffertBodyRequest } from 'app/model/product-offert-body-request'
 import { SearchProductRequest } from 'app/model/search-product';
 
 
+/**
+ * Service to manage products API calls
+ * @export
+ * @class ProductsService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+  
+  /**
+   * Path for server error page
+   * @private
+   */
+  private SERVER_ERROR_PAGE_PATH = '/server-error';
+
+  /**
+   * Creates an instance of ProductsService.
+   * @param {AuthService} authService
+   * @param {HttpClient} httpClient
+   * @param {Router} router
+   */
   constructor(
     private authService: AuthService,
     private httpClient: HttpClient,
     private router: Router
   ) {}
 
-  private SERVER_ERROR_PAGE_PATH = '/server-error';
 
+  /**
+   * Gets product list page filtered by category
+   * @param {SearchParams} searchParams
+   * @return {Promise<ProductResponse>}
+   */
   async listProductsByCategory(searchParams: SearchParams): Promise<ProductResponse> {
     const body: SearchProductProps = {
       pageSize: searchParams.pageSize,
@@ -59,6 +81,11 @@ export class ProductsService {
     }
   }
 
+  /**
+   * Returns api path for the current user
+   * @private
+   * @return {*}  {string} 
+   */
   private getApiPath(): string {
     if (this.authService.isAuthenticated()) {
       const customerId = this.authService.customerId();
@@ -69,6 +96,11 @@ export class ProductsService {
     return environment.apiUrl + '/ProductWeb';
   }
 
+  /**
+   * Get product page list
+   * @param {SearchProductProps} props
+   * @return {Promise<ProductResponse>}
+   */
   async list(props: SearchProductProps): Promise<ProductResponse> {
     const apiPath: string = this.getApiPath();
     return firstValueFrom(
@@ -76,6 +108,10 @@ export class ProductsService {
     );
   }
 
+  /**
+   * Returns outstanding products list
+   * @return {Promise<ProductResponse>}
+   */
   async listOutstandingProducts(): Promise<ProductResponse> {
     const body: SearchProductProps = {
       pageSize: 8,
@@ -97,6 +133,11 @@ export class ProductsService {
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
+  /**
+   *
+   * @param {string} productId
+   * @return {Promise<ProductResponse>}
+   */
   async listAlternativeProducts(productId: string): Promise<ProductResponse> {
     const body: SearchProductProps = {
       pageSize: 6,
@@ -115,6 +156,11 @@ export class ProductsService {
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
+  /**
+   * Returns complementary product list
+   * @param {string} productId
+   * @return {Promise<ProductResponse>}
+   */
   async listComplementaryProducts(productId: string): Promise<ProductResponse> {
     const body: SearchProductProps = {
       pageSize: 6,
@@ -130,6 +176,11 @@ export class ProductsService {
     return firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
   }
 
+  /**
+   * Get product by id
+   * @param {string} productId
+   * @return {Promise<Product>} 
+   */
   async getProduct(productId: string): Promise<Product> {
     let apiPath = `${environment.apiUrl}/ProductWeb/${productId}`;
 
@@ -151,6 +202,11 @@ export class ProductsService {
     }
   }
 
+  /**
+   * Get product offer for authenticated products
+   * @param {string} productId
+   * @return {Promise<PriceOffert>}
+   */
   async getProductOfferVD(productId: string): Promise<PriceOffert> {
     let apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
     const body: ProductOffertBodyRequest = {
@@ -166,6 +222,11 @@ export class ProductsService {
     return await firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
   }
 
+  /**
+   * Get product offer for non authenticated products
+   * @param {string} productId
+   * @return {Promise<PriceOffert>}
+   */
   async getProductOfferWeb(productId: string): Promise<PriceOffert> {
     const apiPath = `${environment.apiUrl}/PriceOffer/PriceOfferWeb`;
     const body: ProductOffertBodyRequest = {
@@ -176,6 +237,11 @@ export class ProductsService {
     return await firstValueFrom(this.httpClient.post<PriceOffert>(apiPath, body));
   }
 
+  /**
+   * Search product by search criteria
+   * @param {string} search
+   * @return {Promise<SearchedProduct[]>} 
+   */
   async searchProducts(search: string): Promise<SearchedProduct[]> {
     const body: SearchProductRequest = {
       search,
@@ -194,7 +260,12 @@ export class ProductsService {
     );
   }
 
+  /**
+   * Retirect user to error page
+   * @private
+   */
   private redirectToSeverErrorPage() {
     this.router.navigate([ this.SERVER_ERROR_PAGE_PATH ]);
   }
+
 }

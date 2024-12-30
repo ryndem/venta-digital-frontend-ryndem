@@ -10,8 +10,45 @@
 */
 
 export interface PurchaseOrderRequest {
+  
+  /**
+   * The number of purchase orders to display per page.
+   * @type {number}
+   */
   pageSize: number;
+
+  /**
+   * The page number to retrieve.
+   * @type {number}
+   */
   desiredPage: number;
+
+  /**
+   * (Optional) - The folio number to filter the purchase orders, if applicable.
+   * @type {(string | null)}
+   */
   Folio?: string | null;
-  orderId?: string;
+
+  /**
+   * An array of filters to apply when fetching purchase orders.
+   * @type {PurchaseOrderFilters[]}
+   */
+  filters: PurchaseOrderFilters[];
+}
+
+/**
+ * Represents a filter used for querying orders.
+ * @interface OrderFilters
+ */
+interface PurchaseOrderFilters {
+  /**
+   * The name of the filter to apply (e.g., "IdCliente").
+   * @type {string}
+   */
+  FilterName: string;
+  /**
+   * The value of the filter. Can be a string or a boolean.
+   * @type {(string | boolean)} 
+   */
+  FilterValue: string | boolean;
 }

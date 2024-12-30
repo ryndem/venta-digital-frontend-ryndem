@@ -10,25 +10,58 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { MetaService } from 'app/services/meta.service';
 
+/**
+ * Page component to display product details
+ * @export
+ * @class PgProductDetailsComponent
+ */
 @Component({
   selector: 'pg-product-details',
   templateUrl: './pg-product-details.component.html',
   styleUrls: ['./pg-product-details.component.scss'],
 })
 export class PgProductDetailsComponent {
+
+  /**
+   *Product id to show
+   * @type {string}
+   */
   productId!: string;
 
+  /**
+   * Product loaded
+   * @type {(Product | null)}
+   */
   product: Product | null = null;
 
+  /**
+   * Boolean to track related products visibility
+   */
   isRelatedProductsVisible = false;
+
+  /**
+   * Boolean to track loading state visibility
+   */
   isLoadingProducts = true;
+
+  /**
+   * Boolean to track if product is already loaded
+   */
   isProductLoaded = false;
 
   /**
-  * Store references
+  * Store reference (user.loading)
   */
   isUserLoading$: Observable<boolean> = this.store.select(state => state.user.loading);
 
+  /**
+   * Creates an instance of PgProductDetailsComponent.
+   * @param {ProductsService} productsService
+   * @param {AuthService} authService
+   * @param {Store<{ user: UserState }>} store
+   * @param {Router} router
+   * @param {MetaService} metaService
+   */
   constructor(
     private productsService: ProductsService,
     public authService: AuthService,
@@ -39,12 +72,18 @@ export class PgProductDetailsComponent {
   }
 
 
+  /**
+   * Product id setter
+   */
   @RouterInput('productId')
   set setInputId(productId: string) {
     this.productId = productId;
     this.loadProduct();
   }
 
+  /**
+   * Load product
+   */
   async loadProduct() {
     this.isLoadingProducts = true;
     if (this.productId) {
@@ -62,10 +101,17 @@ export class PgProductDetailsComponent {
     }
   }
 
+  /**
+   * Toggle related products visibility
+   * @param {boolean} value 
+   */
   toggleRelatedProducts(value: boolean) {
     this.isRelatedProductsVisible = value;
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags(product: Product) {
     this.metaService.updateMetaTagsAndTitle(
       `${product.description} - Proquifa`,

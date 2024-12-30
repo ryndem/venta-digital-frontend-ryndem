@@ -3,11 +3,23 @@ import { OrderItem } from 'app/model/order-item';
 import { Product } from 'app/model/product';
 import { QuoteProduct } from 'app/model/quote-product';
 
+
+/**
+ * Service to manage product image relations
+ * @export
+ * @class ImageService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
 
+  /**
+   * Method to parse presentation type key to image location
+   *
+   * @param {(Product | QuoteProduct | OrderItem | null)} product Product to parse presentation type key to image path
+   * @return {string} Presentation image location
+   */
   getPresentationImage(product: Product | QuoteProduct | OrderItem | null): string {
     if (!product) return 'assets/imgs/presentations/undefined.svg';
 
@@ -32,6 +44,12 @@ export class ImageService {
     }
   }
 
+  /**
+   * Method to parse brand name to image location
+   *
+   * @param {(Product | QuoteProduct | OrderItem | null)} product Product to parse brand name to image path
+   * @return {string | null} Brand image location if is identified
+   */
   getBrandImage(product: Product | QuoteProduct | OrderItem | null) : string | null {
     switch (product?.brandName) {
       case 'BP': return 'assets/imgs/brands/british_pharmacopoeia.png';

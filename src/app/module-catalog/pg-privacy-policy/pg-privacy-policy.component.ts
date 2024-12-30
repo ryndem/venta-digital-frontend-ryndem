@@ -2,16 +2,29 @@ import { Component } from '@angular/core';
 import { MetaService } from 'app/services/meta.service';
 import { environment } from 'environments/environment';
 
+/**
+ * Page component to show privacy policy
+ * @export
+ * @class PgPrivacyPolicyComponent
+ */
 @Component({
   selector: 'pg-privacy-policy',
   templateUrl: './pg-privacy-policy.component.html',
   styleUrls: ['./pg-privacy-policy.component.scss'],
 })
 export class PgPrivacyPolicyComponent {
+
+  /**
+   * Creates an instance of PgPrivacyPolicyComponent.
+   * @param {MetaService} metaService
+   */
   constructor(private metaService: MetaService) {
     this.setMetaTags();
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Aviso de Privacidad - Proquifa',

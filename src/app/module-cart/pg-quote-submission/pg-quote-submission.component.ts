@@ -7,10 +7,17 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 import { CartService } from 'app/services/cart.service';
 import { MetaService } from 'app/services/meta.service';
 import { NotificationService } from 'app/services/notification.service';
+import { loadCart } from 'app/store/actions/cart.actions';
 import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+/**
+ * Page component to confirm quote creation
+ * @export
+ * @class PgQuoteSubmissionComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'pg-quote-submission',
   templateUrl: './pg-quote-submission.component.html',
@@ -18,15 +25,36 @@ import { Observable } from 'rxjs';
 })
 export class PgQuoteSubmissionComponent implements OnInit {
 
+  /**
+   * Address id selected
+   */
   addressId = '';
+
+  /**
+   * Current user's shopping cart
+   * @type {(ShoppingCart | null)}
+   */
   shoppingCart : ShoppingCart | null = null;
 
   /**
-  * Store references
+  * Store reference (cart.shoppingCart)
   */
   shoppingCart$: Observable<ShoppingCart | null> = this.store.select(state => state.cart.shoppingCart);
+
+  /**
+  * Store reference (cart.isLoading)
+  */
   isLoading$: Observable<boolean> = this.store.select(state => state.cart.isLoading);
 
+  /**
+   * Creates an instance of PgQuoteSubmissionComponent.
+   * @param {CartService} cartService
+   * @param {NotificationService} notificationService
+   * @param {Store<{ cart: ShoppingCartState}>} store
+   * @param {Router} router
+   * @param {ChangeDetectorRef} changeDetectorRef
+   * @param {MetaService} metaService
+   */
   constructor(
     private cartService : CartService,
     private notificationService : NotificationService,
@@ -42,16 +70,28 @@ export class PgQuoteSubmissionComponent implements OnInit {
     })
   }
 
+  /**
+   * Method to check if at least one element on the shopping cart has express freight available
+   * @return {*} 
+   */
   hasProductWithExpressFreight() {
     return this.shoppingCart && this.shoppingCart.listQuotationItem.some(
       it => it.expressFreightAvailable
     )
   }
 
+  /**
+   * Initializing method
+   */
   async ngOnInit(): Promise<void> {
-    await this.cartService.load();
+    this.store.dispatch(loadCart());
   }
 
+  /**
+   * Method to handle quote submition
+   *
+   * @return {*} 
+   */
   async submitQuote() {
     if(!this.shoppingCart || !this.addressId) return;
 
@@ -72,17 +112,29 @@ export class PgQuoteSubmissionComponent implements OnInit {
     }
   }
 
+  /**
+   * Method to listen address selection
+   * @param {Address} event
+   */
   async onAddressSelected(event: Address) {
     this.addressId = event.idAddress;
-    await this.cartService.load();
+    this.store.dispatch(loadCart());
     await this.cartService.updateShippingAddress(event.idAddress);
   }
 
+
+  /**
+   * Method to handle 'Other' Address selected
+   */
   async onOtherSelected() {
     this.addressId = 'other';
-    await this.cartService.load();
+    this.store.dispatch(loadCart());
   }
 
+  /**
+   * Method to listen express freight change
+   * @param {{ product: QuoteProduct, checked: boolean }} event 
+   */
   async onExpressFreightChange(event: { product: QuoteProduct, checked: boolean }) {
     await this.cartService.updateFreightExpress(
       event.product.idQuotationItem,
@@ -92,6 +144,9 @@ export class PgQuoteSubmissionComponent implements OnInit {
     );
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Enviar Cotización - Proquifa',

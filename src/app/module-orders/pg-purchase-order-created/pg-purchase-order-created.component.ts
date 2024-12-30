@@ -5,6 +5,12 @@ import { MetaService } from 'app/services/meta.service';
 import { PurchaseOrderService } from 'app/services/purchase-order.service';
 import { environment } from 'environments/environment';
 
+/**
+ * Page component to show purchase order creation confirmation
+ * @export
+ * @class PgPurchaseOrderCreatedComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'pg-purchase-order-created',
   templateUrl: './pg-purchase-order-created.component.html',
@@ -12,10 +18,29 @@ import { environment } from 'environments/environment';
 })
 export class PgPurchaseOrderCreatedComponent implements OnInit {
 
+  /**
+   * Booleand to track loading state
+   */
   isLoading = true;
+  
+  /**
+   * Purchase order id
+   * @type {(string | null)}
+   */
   purchaseOrderId: string | null = null;
+  
+  /**
+   * Purchase order loaded
+   * @type {(PurchaseOrder | null)}
+   */
   order: PurchaseOrder | null = null;
 
+  /**
+   * Creates an instance of PgPurchaseOrderCreatedComponent.
+   * @param {PurchaseOrderService} purchaseOrderService
+   * @param {ActivatedRoute} currentRoute
+   * @param {MetaService} metaService
+   */
   constructor(
     private purchaseOrderService : PurchaseOrderService,
     private currentRoute: ActivatedRoute,
@@ -24,6 +49,9 @@ export class PgPurchaseOrderCreatedComponent implements OnInit {
     this.setMetaTags();
   }
 
+  /**
+   * Initializing method
+   */
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe((params) => {
       this.purchaseOrderId = params['purchaseOrderId'];
@@ -31,6 +59,10 @@ export class PgPurchaseOrderCreatedComponent implements OnInit {
     });
   }
 
+  /**
+   * Method to load purchase order
+   * @memberof PgPurchaseOrderCreatedComponent
+   */
   async loadPurchaseOrder() {
     if( this.purchaseOrderId ) {
       this.order = await this.purchaseOrderService.getById(this.purchaseOrderId);
@@ -38,6 +70,9 @@ export class PgPurchaseOrderCreatedComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Orden de Compra Creada - Proquifa',

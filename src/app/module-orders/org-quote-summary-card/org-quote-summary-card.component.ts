@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
+/**
+ * Component to show quote summary card
+ * @export
+ * @class OrgQuoteSummaryCardComponent
+ */
 @Component({
   selector: 'org-quote-summary-card',
   templateUrl: './org-quote-summary-card.component.html',
@@ -8,11 +13,21 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 })
 export class OrgQuoteSummaryCardComponent {
   
-  @Input()
-  quoteProduct!: ShoppingCart;
+  /**
+   * Quote item to display summary card
+   * @type {ShoppingCart}
+   */
+  @Input() quoteProduct!: ShoppingCart;
 
+  /**
+   * Boolean to show/hide customer info
+   */
   isShowingCustomerInfo = true;
 
+
+  /**
+   * Method to toggle customer info
+   */
   showHideCustomerInfo() {
     this.isShowingCustomerInfo = !this.isShowingCustomerInfo
   }

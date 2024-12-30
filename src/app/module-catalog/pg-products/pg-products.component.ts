@@ -12,6 +12,12 @@ import { UserState } from 'app/store/reducers/user.reducer';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+/**
+ * Page component to display product result list
+ * @export
+ * @class PgProductsComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'pg-products',
   templateUrl: './pg-products.component.html',
@@ -35,6 +41,15 @@ export class PgProductsComponent implements OnInit {
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
   categories$: Observable<Category[]> = this.store.select(state=> state.product.categories);
 
+  
+  /**
+   * Creates an instance of PgProductsComponent.
+   * @param {ProductsService} productsService
+   * @param {Router} router
+   * @param {ActivatedRoute} currentRoute
+   * @param {Store<{ user: UserState, product: ProductState }>} store
+   * @param {MetaService} metaService
+   */
   constructor(
     private productsService: ProductsService,
     private router: Router,
@@ -52,6 +67,9 @@ export class PgProductsComponent implements OnInit {
     return `Mostrando del ${start} al ${end} de ${this.totalResults}`;
   }
 
+  /**
+   * Initializing method
+   */
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe(async (params) => {
       const searchParams: SearchParams = {
@@ -93,6 +111,9 @@ export class PgProductsComponent implements OnInit {
     });
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Productos - Proquifa',

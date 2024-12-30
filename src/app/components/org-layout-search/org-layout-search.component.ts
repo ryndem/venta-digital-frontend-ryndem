@@ -19,6 +19,12 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
   isResultsVisible = false;
   private MIN_SEARCH_LENGHT = 3;
 
+  /**
+   * Creates an instance of OrgLayoutSearchComponent.
+   * @param {ProductsService} productService
+   * @param {Router} router
+   * @param {ActivatedRoute} currentRoute
+   */
   constructor(
       private productService: ProductsService,
       private router: Router,

@@ -7,23 +7,46 @@ import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
 
+/**
+ * Add to cart button
+ * @export
+ * @class AtmShoppingButtonComponent
+ */
 @Component({
   selector: 'atm-shopping-button',
   templateUrl: './atm-shopping-button.component.html',
   styleUrls: ['./atm-shopping-button.component.scss'],
 })
 export class AtmShoppingButtonComponent {
-  @Input()
-  product!: Product;
+  
+  
+  /**
+   * Product for add to cart button
+   * @type {Product}
+   */
+  @Input() product!: Product;
 
+  /**
+   * Flag for user authentication
+   */
   isAuthenticated = false;
 
   /**
-  * Store references
-  */
+   * Store reference (cart.isLoading)
+   */
   isAddingToCar$: Observable<boolean> = this.store.select(state => state.cart.isLoading);
+
+  /**
+   * Store reference (user.isLogged)
+   */
   isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged)
 
+  /**
+   * Creates an instance of AtmShoppingButtonComponent.
+   * @param {CartService} cartService
+   * @param {AuthService} authService
+   * @param {Store<{ user: UserState, cart: ShoppingCartState }>} store
+   */
   constructor(
     private cartService: CartService,
     public authService: AuthService,
@@ -34,6 +57,11 @@ export class AtmShoppingButtonComponent {
     })
   }
 
+  /**
+   * Method to manage add to cart action
+   * @param {Event} event
+   * @return {*} 
+   */
   async addToCart(event: Event) {
     event.preventDefault();
     event.stopPropagation();

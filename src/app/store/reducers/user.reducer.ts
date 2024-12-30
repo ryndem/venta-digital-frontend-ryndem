@@ -6,26 +6,51 @@ import { User } from 'app/model/user';
 
 /**
  * Represents the values stored on the Products Store
- *
  * @interface UserState
- *
- * @property {boolean} isLogged - Indicates if the current user is logged
- * @property {User | null} user - Contains the logged user information
- * @property {string | null} name - Contains the logged user name
- * @property {Address[] | null} addresses - List of the Addresses of the logged user
- * @property {boolean} hasOrderItemsSelected - Flag to indicate if the user has a purchase order creation in progress
- * @property {boolean} loading - Indicates if the user information is already loaded
  */
-
 export interface UserState {
+
+  /**
+   * Indicates if the current user is logged
+   * @type {boolean}
+   */
   isLogged: boolean;
+  
+  /**
+   * Contains the logged user information
+   * @type {(User | null)}
+   */
   user: User | null;
+
+  /**
+   * Contains the logged user name
+   * @type {(string | null)}
+   */
   name: string | null;
+
+  /**
+   * List of the Addresses of the logged user
+   * @type {(Address[] | null)}
+   */
   addresses: Address[] | null;
+
+  /**
+   * Flag to indicate if the user has a purchase order creation in progress
+   * @type {boolean}
+   */
   hasOrderItemsSelected: boolean;
+
+  /**
+   * Indicates if the user information is already loaded
+   * @type {boolean}
+   */
   loading: boolean;
+
 }
 
+/**
+ * Specify initial state for UserState
+ */
 export const initialState: UserState = {
   isLogged: false,
   user: null,
@@ -35,6 +60,9 @@ export const initialState: UserState = {
   loading: true
 };
 
+/**
+ * Reducer for UserState actions
+ */
 export const userReducer = createReducer(
   initialState,
   on(UserActions.updateIsLogged, (state, { isLogged }) => ({

@@ -6,25 +6,61 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { MetaService } from 'app/services/meta.service';
 
+/**
+ * Page component to reset user password
+ * @export
+ * @class PgResetPasswordComponent
+ */
 @Component({
   selector: 'pg-reset-password',
   templateUrl: './pg-reset-password.component.html',
   styleUrls: ['./pg-reset-password.component.scss'],
 })
 export class PgResetPasswordComponent {
+
+  /**
+   * Reset password form
+   * @type {FormGroup}
+   */
   resetPasswordForm!: FormGroup;
+
+  /**
+   * Flag to validate token
+   */
   isTokenValid = false;
 
+  /**
+   * Flag to show password
+   */
   isPasswordVisible = false;
 
+  /**
+   * Flag for API request error
+   */
   restError = false;
 
+  /**
+   * Flag for token expiration
+   */
   isTokenExpired = false;
 
+  /**
+   * Flag for password change success
+   */
   isPasswordChangeSuccess = false;
 
+  /**
+   * Change password token
+   */
   token = '';
 
+  /**
+   * Creates an instance of PgResetPasswordComponent.
+   * @param {FormBuilder} fb
+   * @param {AuthService} authService
+   * @param {ActivatedRoute} currentRoute
+   * @param {MetaService} metaService
+   */
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
@@ -34,6 +70,9 @@ export class PgResetPasswordComponent {
     this.setMetaTags();
   }
 
+  /**
+   * Initializing method
+   */
   ngOnInit(): void {
     this.initializeForm();
     this.currentRoute.queryParams.subscribe((params) => {
@@ -48,6 +87,9 @@ export class PgResetPasswordComponent {
     });
   }
 
+  /**
+   * Initializing method for reset password form
+   */
   initializeForm(): void {
     this.resetPasswordForm = this.fb.group({
       password: [
@@ -62,10 +104,17 @@ export class PgResetPasswordComponent {
     });
   }
 
+  /**
+   * Method to show/hide password
+   */
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  /**
+   * Method to validate activation
+   * @param {string} token
+   */
   async processActivation(token: string) {
     try {
       await this.authService.validateRequestResetPassword(token);
@@ -81,6 +130,10 @@ export class PgResetPasswordComponent {
     }
   }
 
+  /**
+   * Method to manage submit action
+   * @return {*}  {Promise<void>}
+   */
   async onSubmit(): Promise<void> {
     if (this.resetPasswordForm.invalid) {
       this.resetPasswordForm.markAllAsTouched();
@@ -98,6 +151,9 @@ export class PgResetPasswordComponent {
     }
   }
 
+  /**
+   * Updates page meta tags
+   */
   setMetaTags() {
     this.metaService.updateMetaTagsAndTitle(
       'Reiniciar Contraseña - Proquifa',

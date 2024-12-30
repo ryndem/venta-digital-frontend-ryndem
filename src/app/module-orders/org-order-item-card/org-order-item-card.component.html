@@ -51,8 +51,8 @@
 
   <div class="order-item-card__status">
     <div>
-      <span class="item-status" [class]="statusClass">
-        {{statusLabel}}
+      <span class="item-status" [class]="orderItem.key">
+        {{orderItem.tracking}}
       </span>
     </div>
     <div class="toggler text-title-5" (click)="toggleOpen()">
@@ -70,9 +70,14 @@
     <div class="tracking">
       <div class="status-update" *ngFor="let tracking of orderItem.itemTracking">
         <div class="track-date text-gray-green-500">
-          {{ tracking.dateTracking  | date:"EEEE d 'de' MMMM" | titlecase}}</div>
-        <div class="track-time">{{ tracking.dateTracking  | date:'h:mm a'}}</div>
-        <div class="track-status">{{ tracking.statusTracking}}</div>
+            {{ tracking.FechaRegistro | date:"EEEE d 'de' MMMM" | titlecase}}
+        </div>
+        <div class="track-time">
+          {{ tracking.FechaRegistro  | date:'h:mm a'}}
+          <span *ngIf="!tracking.FechaRegistro">-</span>
+        </div>
+        
+        <div class="track-status">{{ tracking.Seguimiento}}</div>
       </div>
     </div>
   </div>
