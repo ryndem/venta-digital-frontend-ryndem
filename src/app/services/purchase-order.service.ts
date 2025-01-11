@@ -7,9 +7,9 @@ import { updateSelectedOrderItems } from 'app/store/actions/user.actions';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { PurchaseOrderForm } from 'app/model/purchase-order-form';
-import { UserState } from 'app/store/reducers/user.reducer';
 import { PurchaseOrderRequest } from 'app/model/purchase-order-body-request';
 import { PurchaseOrderPage } from 'app/model/purchase-order-page';
+import { UserState } from 'app/store/states/user.state';
 
 /**
  * Service to manage purchase orders API calls

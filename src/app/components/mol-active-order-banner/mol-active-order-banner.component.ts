@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UserState } from 'app/store/reducers/user.reducer';
+import { selectUserHasOrderItemsSelected, selectUserIsLogged } from 'app/store/selectors/user.selectors';
+import { UserState } from 'app/store/states/user.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -18,17 +19,20 @@ export class MolActiveOrderBannerComponent {
   /**
   * Store reference (user.hasOrderItemsSelected)
   */
-  hasOrderItemsSelected$: Observable<boolean> = this.store.select(state => state.user.hasOrderItemsSelected);
+  hasOrderItemsSelected$: Observable<boolean>;
 
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$: Observable<boolean> = this.store.select(state => state.user.isLogged);
+  isLogged$: Observable<boolean>;
 
   /**
    * Creates an instance of MolActiveOrderBannerComponent.
    * @param {Store<{ user: UserState }>} store
    */
-  constructor(private store: Store<{ user: UserState }>) { }
+  constructor(private store: Store<{ user: UserState }>) {
+    this.isLogged$ = this.store.select(selectUserIsLogged);
+    this.hasOrderItemsSelected$ = this.store.select(selectUserHasOrderItemsSelected);
+  }
 
 }

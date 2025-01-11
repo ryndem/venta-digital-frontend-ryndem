@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { Category } from 'app/model/category';
-import { ProductState } from 'app/store/reducers/product.reducer';
 import { Observable } from 'rxjs';
+import { ProductState } from 'app/store/states/product.state';
+import { selectCategories } from 'app/store/selectors/product.selectors';
 
 /**
  * Header category menu
@@ -24,9 +25,9 @@ export class MolCategoryMenuComponent extends AtmClosableComponent {
   isMenuOpened = false;
 
   /**
-  * Store references
+  * Store reference (product.categories)
   */
-  categories$: Observable<Category[]> = this.store.select(state => state.product.categories);
+  categories$: Observable<Category[]>;
 
   /**
    * Creates an instance of MolCategoryMenuComponent.
@@ -34,6 +35,7 @@ export class MolCategoryMenuComponent extends AtmClosableComponent {
    */
   constructor(private store: Store<{ product: ProductState}>) {
     super();
+    this.categories$ = this.store.select(selectCategories);
   }
 
   /**

@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as UserActions from '../actions/user.actions';
-import { AuthService } from 'app/module-auth/auth.service';
+import { AuthService } from 'app/auth/auth.service';
 
 
 /**
@@ -30,14 +30,25 @@ export class UserEffects {
       ofType(UserActions.loadSession),
       mergeMap(() =>
         from(this.authService.loadSession()).pipe(
-          map( user => {
-            return UserActions.updateUser({user: user})
-          }),
-          catchError(() => {
-            return of(UserActions.updateUser({user: null}));
-          })
+          map( user => UserActions.updateUser({user: user})),
+          catchError(() => of(UserActions.updateUser({user: null})))
         )
       )
     )
   );
+
+  /**
+   * Effect to load product categories
+   */
+  logout$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.logout),
+        mergeMap(() =>
+          from(this.authService.logout()).pipe(
+            mergeMap(() => of({ type: '[User]logout' })),
+            catchError(() => of({ type: '[User]logoutFailure' }))
+          )
+        )
+      )
+    );
 }

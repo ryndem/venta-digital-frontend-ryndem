@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { Product } from 'app/model/product';
+import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
 
@@ -7,14 +9,6 @@ import { ShoppingCart } from 'app/model/shopping-cart';
  */
 export const loadCart = createAction(
   '[Cart]loadCart'
-);
-
-/**
- * Exports loadCartFailure action
- */
-export const loadCartFailure = createAction(
-  '[Cart]loadCartFailure',
-  props<{ error: any }>()
 );
 
 /**
@@ -32,4 +26,44 @@ export const updateCartIsLoading = createAction(
   '[Cart]updateCartIsLoading',
   props<{ isLoading: boolean }>()
 );
+
+/**
+ * Exports addProductToCart action
+ */
+export const addProductToCart = createAction(
+  '[Cart]addProductToCart',
+  props<{ product: Product, quantity: number }>()
+);
+
+/**
+ * Exports reAddProductToCart action
+ */
+export const reAddProductToCart = createAction(
+  '[Cart]reAddProductToCart',
+  props<{ product: QuoteProduct }>()
+);
+
+/** 
+ * Exports updateProductQuantity action
+*/
+export const updateProductQuantity = createAction(
+  '[Cart]updateProductQuantity',
+  props<{ quoteItemId: string, quantity: number}>()
+)
+
+/** 
+ * Exports deleteProductFromCart action
+*/
+export const removeProductFromCart = createAction(
+  '[Cart]removeProductFromCart',
+  props<{ quoteItemId: string}>()
+)
+
+/** 
+ * Exports updateCartShippingAddress action
+*/
+export const updateCartShippingAddress = createAction(
+  '[Cart]updateCartShippingAddress',
+  props<{ addressId: string}>()
+)
 

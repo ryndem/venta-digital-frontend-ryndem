@@ -11,10 +11,11 @@ import { NotificationService } from './notification.service';
 import { QuoteProduct } from 'app/model/quote-product';
 import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-response';
 import { Address } from 'app/model/address';
-import { UserState } from 'app/store/reducers/user.reducer';
+import { UserState } from 'app/store/states/user.state';
+import { selectUserAddresses } from 'app/store/selectors/user.selectors';
 
 
-/** 
+/**
  * Service to manage the shopping cart API calls
  * @export
  * @class CartService
@@ -29,25 +30,25 @@ export class CartService {
    */
   private apiPath: string = environment.apiUrl + '/Quotation';
 
-  /** 
-  * Logged user shopping cart loaded 
+  /**
+  * Logged user shopping cart loaded
   */
   cart: ShoppingCart | null = null;
 
-  /** 
-  * Products included on the logged user shopping cart 
+  /**
+  * Products included on the logged user shopping cart
   */
   products: CartProduct[] = [];
 
-  /** 
-   * Id of the logged user's first address 
+  /**
+   * Id of the logged user's first address
    */
   firstAddressId: string | null = null;
 
   /**
   * Store reference (user.addresses)
   */
-  addresses$: Observable<Address[] | null> = this.store.select(state => state.user?.addresses);
+  addresses$: Observable<Address[] | null>;
 
   /**
    * Creates an instance of CartService.
@@ -57,11 +58,12 @@ export class CartService {
    */
   constructor(
     private notificationService: NotificationService,
-    private store: Store<{ user: UserState }>,
+    private store: Store<UserState>,
     private httpClient: HttpClient
   ) {
+    this.addresses$ = this.store.select(selectUserAddresses);
     this.addresses$.subscribe(value => {
-      this.firstAddressId = value ? value[0].idAddress : null;
+      this.firstAddressId = value?.length ? value[0].idAddress : null;
     })
   }
 
@@ -216,6 +218,7 @@ export class CartService {
       }
       this.load();
     }
+    this.store.dispatch(updateCartIsLoading({ isLoading: false }));
   }
 
 
@@ -288,7 +291,7 @@ export class CartService {
 
 
   /**
-  * Method to update the address attribute of the shopping cart 
+  * Method to update the address attribute of the shopping cart
   * @param {string} addressId Shopping cart new address id
   */
   async updateShippingAddress(addressId: string) {

@@ -21,7 +21,7 @@ export class NotificationService {
    * Shows success notification
    * @param {string} message Notification message
    */
-  showSuccess(message: string) {
+  async showSuccess(message: string) {
     this.toastr.success(message);
   }
 
@@ -29,7 +29,7 @@ export class NotificationService {
    * Shows error notification
    * @param {string} message Notification message
    */
-  showError(message: string) {
+  async showError(message: string) {
     this.toastr.error(message);
   }
 }

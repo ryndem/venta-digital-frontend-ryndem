@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'app/module-auth/auth.service';
 import { Store } from '@ngrx/store';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { Category } from 'app/model/category';
 import { User } from 'app/model/user';
 import { Router } from '@angular/router';
-import { UserState } from 'app/store/reducers/user.reducer';
-import { ProductState } from 'app/store/reducers/product.reducer';
-import { ShoppingCartState } from 'app/store/reducers/cart.reducer';
 import { Observable } from 'rxjs';
+import { UserState } from 'app/store/states/user.state';
+import { ProductState } from 'app/store/states/product.state';
+import { ShoppingCartState } from 'app/store/states/cart.state';
+import { selectCategories } from 'app/store/selectors/product.selectors';
+import { selectCurrentCart } from 'app/store/selectors/cart.selectors';
+import { selectCurrentUser, selectIsLoginModalOpened, selectUserIsLoading, selectUserIsLogged } from 'app/store/selectors/user.selectors';
+import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
 
 /**
  * Component to show header layout
@@ -32,37 +35,43 @@ export class OrgLayoutHeaderComponent {
    */
   isUserMenuOpen = false;
 
-
   /**
    * Boolean to track if the user is logged
    */
   isLogged = false;
-  
+
   /**
   * Store reference (product.categories)
   */
-  categories$: Observable<Category[]> = this.store.select(state => state.product.categories);
-  
+  categories$: Observable<Category[]>;
+
   /**
   * Store reference (user.user)
-  */user$: Observable<User | null> = this.store.select(state => state.user.user);
-  
+  */
+  user$: Observable<User | null>;
+
   /**
   * Store reference (user.loading)
-  */isLoadingUser$: Observable<boolean> = this.store.select(state => state.user.loading);
-  
+  */
+  isLoadingUser$: Observable<boolean>;
+
   /**
   * Store reference (user.isLogged)
-  */isAuthenticated$: Observable<boolean> = this.store.select(state => state.user.isLogged);
-  
+  */
+  isAuthenticated$: Observable<boolean>;
+
   /**
   * Store reference (cart.shoppingCart)
-  */shoppingCart$: Observable<ShoppingCart | null> = this.store.select(state => state.cart.shoppingCart);
+  */
+  shoppingCart$: Observable<ShoppingCart | null>;
 
+  /**
+   * Boolean to track if user login modal is open
+   */
+  isLoginModalOpened$: Observable<boolean>;
 
   /**
    * Creates an instance of OrgLayoutHeaderComponent.
-   * @param {AuthService} authService
    * @param {Store<{
    *       user: UserState,
    *       product: ProductState,
@@ -71,14 +80,20 @@ export class OrgLayoutHeaderComponent {
    * @param {Router} router
    */
   constructor(
-    public authService: AuthService,
     private store: Store<{
       user: UserState,
       product: ProductState,
       cart: ShoppingCartState
     }>,
     private router: Router
-  ) { 
+  ) {
+    this.isLoadingUser$ = this.store.select(selectUserIsLoading);
+    this.user$ = this.store.select(selectCurrentUser);
+    this.isAuthenticated$ = this.store.select(selectUserIsLogged);
+    this.categories$ = this.store.select(selectCategories);
+    this.shoppingCart$ = this.store.select(selectCurrentCart);
+    this.isLoginModalOpened$ = this.store.select(selectIsLoginModalOpened);
+
     this.isAuthenticated$.subscribe( value => {
       this.isLogged = value;
     })
@@ -88,7 +103,7 @@ export class OrgLayoutHeaderComponent {
    * Open login modal
    */
   openLogin(): void {
-    this.authService.openLoginModal();
+    this.store.dispatch(updateIsLoginModalOpened({ isLoginModalOpened: true }));
   }
 
   /**
@@ -118,8 +133,9 @@ export class OrgLayoutHeaderComponent {
   goToShoppingCart() {
     if(!this.isLogged) {
       this.openLogin();
+    } else {
+      this.router.navigate(['cart/shopping-cart']);
     }
-    this.router.navigate(['cart/shopping-cart']);
   }
 
 }

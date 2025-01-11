@@ -2,10 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'app/module-auth/auth.service';
+import { AuthService } from 'app/auth/auth.service';
 import { loadCart } from 'app/store/actions/cart.actions';
-import { loadSession } from 'app/store/actions/user.actions';
-import { UserState } from 'app/store/reducers/user.reducer';
+import { loadSession, updateIsLoginModalOpened } from 'app/store/actions/user.actions';
+import { UserState } from 'app/store/states/user.state';
 
 /**
  * Login modal component
@@ -46,12 +46,11 @@ export class OrgLoginModalComponent implements OnInit {
    * Creates an instance of OrgLoginModalComponent.
    * @param {FormBuilder} fb
    * @param {AuthService} authService
-   * @param {CartService} cartService
    */
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService,
-    private store: Store<{ user: UserState}>
+    private authService: AuthService,
+    private store: Store<{ user: UserState }>
   ) { }
 
   /**
@@ -125,7 +124,7 @@ export class OrgLoginModalComponent implements OnInit {
    * Method to close login modal
    */
   close() {
-    this.authService.closeLoginModal();
+    this.store.dispatch(updateIsLoginModalOpened({ isLoginModalOpened: false }));
   }
 
   /**

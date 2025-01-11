@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'app/model/category';
 import { Store } from '@ngrx/store';
 import { loadCategories } from 'app/store/actions/product.actions';
-import { UserState } from 'app/store/reducers/user.reducer';
-import { ProductState } from 'app/store/reducers/product.reducer';
 import { Observable } from 'rxjs';
 import { loadCart } from 'app/store/actions/cart.actions';
 import { loadSession } from 'app/store/actions/user.actions';
+import { ProductState } from 'app/store/states/product.state';
+import { UserState } from 'app/store/states/user.state';
+import { selectCategories } from 'app/store/selectors/product.selectors';
+import { selectUserIsLoading } from 'app/store/selectors/user.selectors';
 
 /**
  * App footer component
@@ -29,12 +31,12 @@ export class OrgLayoutFooterComponent implements OnInit {
   /**
   * Store reference (product.categories)
   */
-  categories$: Observable<Category[]> = this.store.select(state => state.product.categories);
+  categories$: Observable<Category[]>;
 
   /**
   * Store reference (user.isLogged)
   */
-  isAuthenticated$: Observable<boolean> = this.store.select(state => state.user.isLogged);
+  isAuthenticated$: Observable<boolean>;
 
   /**
    * Creates an instance of OrgLayoutFooterComponent.
@@ -43,6 +45,8 @@ export class OrgLayoutFooterComponent implements OnInit {
   constructor(
     private store: Store<{ user: UserState, product: ProductState }>
   ) { 
+    this.isAuthenticated$ = this.store.select(selectUserIsLoading);
+    this.categories$ = this.store.select(selectCategories);
     this.isAuthenticated$.subscribe(value => {
       this.isLogged = value;
     })

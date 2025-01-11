@@ -4,63 +4,115 @@ import { RouterModule, Routes } from '@angular/router';
 import { TempMainLayoutComponent } from './components/temp-main-layout/temp-main-layout.component';
 import { TempAuthLayoutComponent } from './components/temp-auth-layout/temp-auth-layout.component';
 import { TempQuoterLayoutComponent } from './components/temp-quoter-layout/temp-quoter-layout.component';
-import { PgHomeComponent } from './module-catalog/pg-home/pg-home.component';
-import { PgProductDetailsComponent } from './module-catalog/pg-product-details/pg-product-details.component';
-import { PgNotFoundComponent } from './module-catalog/pg-not-found/pg-not-found.component';
-import { PgTermsAndConditionsComponent } from './module-catalog/pg-terms-and-conditions/pg-terms-and-conditions.component';
-import { PgPrivacyPolicyComponent } from './module-catalog/pg-privacy-policy/pg-privacy-policy.component';
-import { PgProductsComponent } from './module-catalog/pg-products/pg-products.component';
-import { PgServerErrorComponent } from './module-catalog/pg-server-error/pg-server-error.component';
-import { PgResetPasswordComponent } from './module-auth/pg-reset-password/pg-reset-password.component';
-import { PgForgotPasswordComponent } from './module-auth/pg-forgot-password/pg-forgot-password.component';
-import { PgSignUpComponent } from './module-auth/pg-sign-up/pg-sign-up.component';
-import { PgAccountActivatedComponent } from './module-auth/pg-account-activated/pg-account-activated.component';
 
 
 const routes: Routes = [
   
   {
-    path: 'cart',
-    component: TempQuoterLayoutComponent,
-    loadChildren: () => import('./module-cart/cart.module').then(m => m.CartModule)
-  },
-  {
-    path: 'orders',
-    component: TempQuoterLayoutComponent,
-    loadChildren: () => import('./module-orders/orders.module').then(m => m.OrdersModule)
-  },
-
-  {
-    path: '',
+    path: 'privacy-policy',
     component: TempMainLayoutComponent,
-    children: [
-      { path: '', component: PgHomeComponent },
-      { path: 'products', component: PgProductsComponent },
-      { path: 'products/:productId', component: PgProductDetailsComponent },
-      { path: 'terms-and-conditions', component: PgTermsAndConditionsComponent },
-      { path: 'privacy-policy', component: PgPrivacyPolicyComponent },
-    ],
+    loadChildren: () => import('./pages/page-privacy-policy/page-privacy-policy.module').then(m => m.PagePrivacyPolicyModule)
   },
   {
-    path: '',
-    component: TempAuthLayoutComponent,
-    children: [
-      { path: 'reset-password', component: PgResetPasswordComponent },
-      { path: 'auth/forgot-password', component: PgForgotPasswordComponent },
-      { path: 'auth/sign-up', component: PgSignUpComponent },
-      { path: 'verify', component: PgAccountActivatedComponent },
-    ],
-  },
-  {
-    path: '404',
+    path: 'terms-and-conditions',
     component: TempMainLayoutComponent,
-    children: [{ path: '', component: PgNotFoundComponent }],
+    loadChildren: () => import('./pages/page-terms-and-conditions/page-terms-and-conditions.module').then(m => m.PageTermsAndConditionsModule)
   },
   {
     path: 'server-error',
     component: TempMainLayoutComponent,
-    children: [{ path: '', component: PgServerErrorComponent }],
+    loadChildren: () => import('./pages/page-server-error/page-server-error.module').then(m => m.PageServerErrorModule)
   },  
+  {
+    path: '404',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
+  },
+  {
+    path: 'cart/thank-you',
+    component: TempQuoterLayoutComponent,
+    loadChildren: () => import('./pages/page-thank-you/page-thank-you.module').then(m => m.PageThankYouModule)
+  },
+  {
+    path: 'cart/shopping-cart',
+    component: TempQuoterLayoutComponent,
+    loadChildren: () => import('./pages/page-shopping-cart/page-shopping-cart.module').then(m => m.PageShoppingCartModule)
+  },
+  {
+    path: 'products',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-products/page-products.module').then(m => m.PageProductsModule)
+  },
+  {
+    path: 'cart/quote-submission',
+    component: TempQuoterLayoutComponent,
+    loadChildren: () => import('./pages/page-quote-submission/page-quote-submission.module').then(m => m.PageQuoteSubmissionModule)
+  },
+  {
+    path: 'auth/sign-up',
+    component: TempAuthLayoutComponent,
+    loadChildren: () => import('./pages/page-sign-up/page-sign-up.module').then(m => m.PageSignUpModule)
+  },
+  {
+    path: 'verify',
+    component: TempAuthLayoutComponent,
+    loadChildren: () => import('./pages/page-account-activated/page-account-activated.module').then(m => m.PageAccountActivatedModule)
+  },
+
+  {
+    path: 'reset-password',
+    component: TempAuthLayoutComponent,
+    loadChildren: () => import('./pages/page-reset-password/page-reset-password.module').then(m => m.PageResetPasswordModule)
+  },
+  {
+    path: 'auth/forgot-password',
+    component: TempAuthLayoutComponent,
+    loadChildren: () => import('./pages/page-forgot-password/page-forgot-password.module').then(m => m.PageForgotPasswordModule)
+  },
+  {
+    path: '',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-home/page-home.module').then(m => m.PageHomeModule)
+  },
+  {
+    path: 'products/:productId',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-product-details/page-product-details.module').then(m => m.PageProductDetailsModule)
+  },
+  {
+    path: 'orders',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-order-list/page-order-list.module').then(m => m.PageOrderListModule)
+  },
+  {
+    path: 'orders/quotes/:quoteId',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-quote-details/page-quote-details.module').then(m => m.PageQuoteDetailsModule)
+  },
+  {
+    path: 'orders/:orderId',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-order-details/page-order-details.module').then(m => m.PageOrderDetailsModule)
+  },
+  {
+    path: 'orders/in-progress/created',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-purchase-order-created/page-purchase-order-created.module').then(m => m.PagePurchaseOrderCreatedModule)
+  },
+  {
+    path: 'orders/in-progress/:purchaseOrderId',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-purchase-order-details/page-purchase-order-details.module').then(m => m.PagePurchaseOrderDetailsModule)
+  },
+
+  {
+    path: 'orders/in-progress/creation',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-purchase-order-creation/page-purchase-order-creation.module').then(m => m.PagePurchaseOrderCreationModule)
+  },  
+
+  // ====================================================================== //
+
   {
     path: '**',
     redirectTo: '404',

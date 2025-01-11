@@ -1,0 +1,22 @@
+<div class="quote-details-page">
+  <div class="breadcrumbs">
+    <a routerLink="/orders">
+        <ng-icon name="heroArrowLeft" size="16"></ng-icon>
+        Volver al administrador
+    </a>
+  </div>
+
+  <main class="quote-details-page__content" *ngIf="quote$ | async">
+    <section class="quote-details-page__content__products" *ngIf="quote$ | async">
+      <h1>DETALLES DE COTIZACIÓN</h1>
+      <h4 class="text-title-4 m-0">Partidas</h4>
+      <org-quote-item-card
+        *ngFor="let item of (quote$ | async)?.listQuotationItem"
+        [quoteItem]="item"
+      />
+    </section>
+    <section class="quote-details-page__content__summary">
+      <org-quote-summary-card [quoteProduct]="quote$ | async"/>
+    </section>
+  </main>
+</div>

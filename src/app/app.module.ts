@@ -18,11 +18,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
-import { CatalogModule } from './module-catalog/catalog.module';
-
 import { AppComponent } from './app.component';
-import { AuthInterceptorService } from './module-auth/auth-interceptor';
-import { AuthService } from './module-auth/auth.service';
+import { AuthInterceptorService } from './auth/auth-interceptor';
+import { AuthService } from './auth/auth.service';
 import { OrgFooterComponent } from './components/org-footer/org-footer.component';
 import { MolNavButtonComponent } from './components/mol-nav-button/mol-nav-button.component';
 import { OrgInfoCardComponent } from './components/org-info-card/org-info-card.component';
@@ -44,19 +42,19 @@ import { OrgLayoutQuoterHeaderComponent } from './components/org-layout-quoter-h
 import { MolUserMenuComponent } from './components/mol-user-menu/mol-user-menu.component';
 import { MolActiveOrderBannerComponent } from './components/mol-active-order-banner/mol-active-order-banner.component';
 import { MolCategoryMenuComponent } from './components/mol-category-menu/mol-category-menu.component';
-import { CartModule } from './module-cart/cart.module';
 import { AppCommonsModule } from './module-app-commons/app-commons.module';
-import { OrdersModule } from './module-orders/orders.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { PgAccountActivatedComponent } from './module-auth/pg-account-activated/pg-account-activated.component';
-import { PgForgotPasswordComponent } from './module-auth/pg-forgot-password/pg-forgot-password.component';
-import { PgResetPasswordComponent } from './module-auth/pg-reset-password/pg-reset-password.component';
-import { PgSignUpComponent } from './module-auth/pg-sign-up/pg-sign-up.component';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductEffects } from './store/effects/product.effects';
 import { CartEffects } from './store/effects/cart.effects';
 import { UserEffects } from './store/effects/user.effects';
+import { PagePrivacyPolicyModule } from './pages/page-privacy-policy/page-privacy-policy.module';
+import { PageTermsAndConditionsModule } from './pages/page-terms-and-conditions/page-terms-and-conditions.module';
+import { CatalogCommonsModule } from './module-catalog-commons/catalog-commons.module';
+import { orderReducer } from './store/reducers/order.reducer';
+import { viewReducer } from './store/reducers/view.reducer';
+import { OrderEffects } from './store/effects/order.effects';
 
 registerLocaleData(localeEs);
 
@@ -84,10 +82,6 @@ registerLocaleData(localeEs);
     OrgSplitScreenComponent,
     OrgInfoCardComponent,
 
-    PgSignUpComponent,
-    PgResetPasswordComponent,
-    PgForgotPasswordComponent,
-    PgAccountActivatedComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,11 +92,14 @@ registerLocaleData(localeEs);
     HttpClientModule,
 
     AppCommonsModule,
-    CartModule,
-    CatalogModule,
-    OrdersModule,
+    CatalogCommonsModule,
 
-    EffectsModule.forRoot([ProductEffects, CartEffects, UserEffects]),
+    // ============================ PAGES ============================ //
+    PagePrivacyPolicyModule,
+    PageTermsAndConditionsModule,
+
+    // ============================ ===== ============================//
+    EffectsModule.forRoot([ProductEffects, CartEffects, UserEffects, OrderEffects]),
 
     NgIconsModule.withIcons({
       heroArrowUpTray,
@@ -132,6 +129,8 @@ registerLocaleData(localeEs);
     provideState({ name: 'user', reducer: userReducer }),
     provideState({ name: 'product', reducer: productReducer }),
     provideState({ name: 'cart', reducer: cartReducer }),
+    provideState({ name: 'view', reducer: viewReducer }),
+    provideState({ name: 'order', reducer: orderReducer }),
     { provide: LOCALE_ID,  useValue: 'es'}
   ],
   bootstrap: [AppComponent],

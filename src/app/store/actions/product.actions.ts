@@ -32,12 +32,3 @@ export const addOutstandingProduct = createAction(
 export const loadCategories = createAction(
   '[Product]loadCategories'
 );
-
-/**
- * Exports loadCategoriesFailure action
- */
-export const loadCategoriesFailure = createAction(
-  '[Product]loadCategoriesFailure',
-  props<{ error: any }>()
-);
-

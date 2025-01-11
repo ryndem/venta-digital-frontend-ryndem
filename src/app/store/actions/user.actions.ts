@@ -3,6 +3,13 @@ import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
 
 /**
+ * Exports logout action
+ */
+export const logout = createAction(
+  '[User]logout'
+);
+
+/**
  * Exports updateUser action
  */
 export const updateUser = createAction(
@@ -27,6 +34,14 @@ export const updateAddresses = createAction(
 );
 
 /**
+ * Exports updateAddresses action
+ */
+export const updateIsLoginModalOpened = createAction(
+  '[User]updateIsLoginModalOpened',
+  props<{ isLoginModalOpened: boolean }>(),
+);
+
+/**
  * Exports updateSelectedOrderItems action
  */
 export const updateSelectedOrderItems = createAction(
@@ -39,7 +54,7 @@ export const updateSelectedOrderItems = createAction(
  */
 export const updateLoading = createAction(
   '[User]updateLoadingState',
-  props<{ loading: boolean }>()
+  props<{ isLoading: boolean }>()
 );
 
 /**
@@ -49,9 +64,3 @@ export const loadSession = createAction(
   '[User]loadSession'
 );
 
-/**
- * Export loadSessionError action
- */
-export const loadSessionError = createAction(
-  '[User]loadSessionError'
-);

@@ -45,6 +45,6 @@
       </div>
 
     </div>
-    <org-login-modal *ngIf="authService.isOpenLoginModal()"></org-login-modal>
+    <org-login-modal *ngIf="isLoginModalOpened$ | async"></org-login-modal>
   </div>
 </header>

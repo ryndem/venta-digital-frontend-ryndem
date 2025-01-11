@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Product } from 'app/model/product';
 import { environment } from 'environments/environment';
-import { AuthService } from 'app/module-auth/auth.service';
+import { AuthService } from 'app/auth/auth.service';
 import { PriceOffert } from 'app/model/price-offert';
 import { ProductResponse } from 'app/model/product-response';
 import { Router } from '@angular/router';
@@ -134,7 +134,7 @@ export class ProductsService {
   }
 
   /**
-   *
+   * Returns Outstanding product list
    * @param {string} productId
    * @return {Promise<ProductResponse>}
    */

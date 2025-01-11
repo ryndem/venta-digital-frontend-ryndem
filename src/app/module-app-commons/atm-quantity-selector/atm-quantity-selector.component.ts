@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NotificationService } from 'app/services/notification.service';
+import { Store } from '@ngrx/store';
+import { showErrorNotification } from 'app/store/actions/view.actions';
+import { ShoppingCartState } from 'app/store/states/cart.state';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -54,10 +56,10 @@ export class AtmQuantitySelectorComponent {
 
   /**
    * Creates an instance of AtmQuantitySelectorComponent.
-   * @param {NotificationService} notificationService
+   * @param {Store<{ ShoppingCartState }>} store
    */
   constructor(
-    private notificationService: NotificationService,
+    private store: Store<{ cart: ShoppingCartState }>,
   ) {
     this.quantityInput$
       .pipe(debounceTime(600))
@@ -120,8 +122,8 @@ export class AtmQuantitySelectorComponent {
    * @param {number} value
    */
   private updateQuantity(value: number): void {
-    if (!Number.isInteger(value)) {
-      this.notificationService.showError("El valor a ingresar debe ser un número entero");
+    if (!Number.isInteger(value)) { 
+      this.store.dispatch(showErrorNotification({ message: 'El valor a ingresar debe ser un número entero'}));
     }
 
     if (value < 1) {

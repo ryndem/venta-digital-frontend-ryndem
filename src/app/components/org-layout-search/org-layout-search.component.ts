@@ -4,6 +4,12 @@ import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-cl
 import { OptionsGroup } from 'app/model-props/options-group';
 import { ProductsService } from 'app/services/products.service';
 
+/**
+ * Header search component
+ * @export
+ * @class OrgLayoutSearchComponent
+ * @extends {AtmClosableComponent}
+ */
 @Component({
   selector: 'org-layout-search',
   templateUrl: './org-layout-search.component.html',
@@ -11,22 +17,49 @@ import { ProductsService } from 'app/services/products.service';
 })
 export class OrgLayoutSearchComponent extends AtmClosableComponent {
 
+  /**
+   * Collection to group search result by category
+   * @type {OptionsGroup[]}
+   */
   optionsGroups: OptionsGroup[] = [];
 
+  /**
+   * Search term to filter results
+   */
   searchTerm = '';
+
+  /**
+   * Debounce id reference
+   * @type {(number | null)}
+   */
   debounce: number | null = null;
+
+  /**
+   * Boolean to track loading state at search
+   */
   isSearching = false;
+
+
+  /**
+   * Boolean to track drop down result display
+   */
   isResultsVisible = false;
+
+
+  /**
+   * Minimum characters to search
+   * @private
+   */
   private MIN_SEARCH_LENGHT = 3;
 
   /**
    * Creates an instance of OrgLayoutSearchComponent.
-   * @param {ProductsService} productService
+   * @param {ProductsService} productSservice
    * @param {Router} router
    * @param {ActivatedRoute} currentRoute
    */
   constructor(
-      private productService: ProductsService,
+      private productsService: ProductsService,
       private router: Router,
       private currentRoute: ActivatedRoute) {
     super();
@@ -38,10 +71,18 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
     });
   }
 
+  /**
+   * Method overrided to close dropdown component
+   */
   override close() {
     this.isResultsVisible = false;
   }
 
+
+  /**
+   * Listener for enter key
+   * @return {*} 
+   */
   onEnter() {
     if(this.searchTerm?.length < this.MIN_SEARCH_LENGHT)
       return;
@@ -60,6 +101,11 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
     }
   }
 
+  /**
+   * Listener for search term change
+   * @param {Event} event
+   * @return {*} 
+   */
   onSearchTermChange(event: Event) {
     const { value } = event.target as HTMLInputElement;
 
@@ -79,9 +125,13 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
     }, 400) as unknown as number;
   }
 
+  /**
+   * Method to handle product search
+   * @param {string} term
+   */
   async searchProducts(term: string) {
     this.isSearching = true;
-    const result = await this.productService.searchProducts(term);
+    const result = await this.productsService.searchProducts(term);
     const items = result.map((r) => {
       return { label: r.description, value: r.idProducto };
     });
@@ -95,6 +145,9 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
     this.isSearching = false;
   }
 
+  /**
+   * Listener for close search component
+   */
   onCloseSearch() {
     if (this.isResultsVisible ) {
       this.isResultsVisible = false;
@@ -116,6 +169,9 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
 
   }
 
+  /**
+   * Listener for search component focus
+   */
   onFocusSearch() {
     this.isResultsVisible = this.optionsGroups.length > 0;
   }

@@ -27,10 +27,10 @@ export class QuotesService {
    */
   constructor(private httpClient: HttpClient) {}
 
-  
+
   /**
    * Loads quote by id
-   * @param {string} quoteId Quote id to load 
+   * @param {string} quoteId Quote id to load
    * @return {Promise<ShoppingCart>}
    */
   async getById(quoteId: string): Promise<ShoppingCart> {
@@ -39,7 +39,7 @@ export class QuotesService {
 
 
   /**
-   * Get quote page 
+   * Get quote page
    * @param {(string | null)} folio Quote folio to filter
    * @param {number} [pageSize=10] Quote page size
    * @param {number} [desiredPage=1]  Quote list page number
@@ -66,7 +66,7 @@ export class QuotesService {
    * @param {string} addressId Address id to filter list
    * @param {number} [pageSize=10] Quote page size
    * @param {number} [desiredPage=1] Quote list page number
-   * @return {Promise<QuotePage>} 
+   * @return {Promise<QuotePage>}
    */
   async getQuotesByAddressId(
     addressId: string,
@@ -88,7 +88,7 @@ export class QuotesService {
    * @param {QuoteFilter[]} filters Quote filters for the quote list page
    * @param {number} [pageSize=10] Quote page size
    * @param {number} [desiredPage=1] Quote list page number
-   * @return {Promise<QuotePage>} 
+   * @return {Promise<QuotePage>}
    */
   private getQuotesByFilters(
     filters: QuoteFilter[],

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { environment } from 'environments/environment';
-import { NotificationService } from 'app/services/notification.service';
+import { ShoppingCartState } from 'app/store/states/cart.state';
+import { Store } from '@ngrx/store';
+import { showErrorNotification } from 'app/store/actions/view.actions';
 
 /**
  * Component to download file by id
@@ -35,11 +37,11 @@ export class MolFileDownloaderComponent {
   /**
    * Creates an instance of MolFileDownloaderComponent.
    * @param {HttpClient} http
-   * @param {NotificationService} notificationService
+   * @param {Store<{ ShoppingCartState }>} store
    */
   constructor(
     private http: HttpClient,
-    private notificationService: NotificationService,
+    private store: Store<ShoppingCartState>,
   ) {}
 
   /**
@@ -57,9 +59,8 @@ export class MolFileDownloaderComponent {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-    }, (error) => {
-      console.error(error);
-      this.notificationService.showError("Error trying to download file.")
+    }, () => {
+      this.store.dispatch(showErrorNotification({ message: 'Error trying to download file.'}));
     });
   }
 }

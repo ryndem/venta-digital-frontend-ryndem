@@ -3,9 +3,16 @@ import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
-import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
+import { UserState } from 'app/store/states/user.state';
+import { selectCurrentUser, selectUserAddresses } from 'app/store/selectors/user.selectors';
 
+/**
+ * Address selector component
+ * @export
+ * @class MolAddressSelectorComponent
+ * @extends {AtmClosableComponent}
+ */
 @Component({
   selector: 'mol-address-selector',
   templateUrl: './mol-address-selector.component.html',
@@ -13,26 +20,66 @@ import { Observable } from 'rxjs';
 })
 export class MolAddressSelectorComponent extends AtmClosableComponent {
 
+  /**
+   * Allows 'Other' other address
+   */
   @Input() otherAddressDisabled = false;
 
+  /**
+   * Needs confirmation on address change
+   */
   @Input() needsConfirmation = false;
 
+  
+  /**
+   * Initial address selected
+   * @type {(string | null)}
+   */
   @Input() selectedAddressId : string | null = null;
 
+  /**
+   * Address selected emitter
+   */
   @Output() addressSelectedEmitter = new EventEmitter<Address>();
 
+  /**
+   * Selected 'Other' address emitter
+   */
   @Output() selectedOtherEmitter = new EventEmitter();
 
+  /**
+   * Boolean to track if dropdown is opened
+   */
   showAddresses = false;
+
+
+  /**
+   * Boolean to track the visibility of confirmation modal
+   */
   showConfirmationModal = false;
+
+  
+  /**
+   * Preselected address to show selected
+   * @type {(Address | null)}
+   */
   preSelectedAddress: Address | null = null;
+
+
+  /**
+   * Empty placeholder
+   */
   selectionLabel = 'Elige una dirección de entrega';
 
   /**
-  * Store references
+  * Store reference (user.user))
   */
-  user$: Observable<User | null> = this.store.select(state => state.user.user);
-  addresses$: Observable<Address[] | null> = this.store.select(state => state.user.addresses);
+  user$: Observable<User | null>;
+
+  /**
+  * Store reference (user.addresses)
+  */
+  addresses$: Observable<Address[]>;
 
   /**
    * Creates an instance of MolAddressSelectorComponent.
@@ -40,6 +87,8 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
    */
   constructor(private store: Store<{ user: UserState }>) {
     super();
+    this.user$ = this.store.select(selectCurrentUser);
+    this.addresses$ = this.store.select(selectUserAddresses);
     this.addresses$.subscribe( value => {
       this.initAddress(value);
     })
@@ -54,14 +103,24 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     return this.selectionLabel !== 'Elige una dirección de entrega' && this.selectionLabel !== 'Solicitar entrega en otra dirección';
   }
 
+  /**
+   * Method overrided to close dropdown
+   */
   override close() {
     this.showAddresses = false;
   }
 
+  /**
+   * Method to toggle drop down visibility
+   */
   toggleShowAddresses() {
     this.showAddresses = !this.showAddresses;
   }
 
+  /**
+   * Init addresses list
+   * @param {(Address[] | null)} addresses
+   */
   initAddress(addresses: Address[] | null) {
     if (addresses && this.selectedAddressId) {
       const selected = addresses.find(a => a.idAddress == this.selectedAddressId);
@@ -70,6 +129,11 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     }
   }
 
+  /**
+   * Method to handle select address action checking confirmation
+   * @param {(Address | null)} selected
+   * @return {*} 
+   */
   selectAddress(selected: Address | null ) {
     this.preSelectedAddress = selected;
     this.toggleShowAddresses();
@@ -82,6 +146,9 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     this.confirmSelection();
   }
 
+  /**
+   * Method to confirm selection
+   */
   confirmSelection() {
     if(this.preSelectedAddress) {
       this.selectOption(this.preSelectedAddress);
@@ -91,13 +158,19 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
     this.showConfirmationModal = false;
   }
 
+  /**
+   * Method to select the address after confirmation 
+   * @param {Address} address
+   */
   selectOption(address: Address) {
     this.addressSelectedEmitter.emit(address);
     this.selectionLabel = address.address || '';
   }
 
+  /**
+   * Mehod to select 'Other' Address
+   */
   selectOther() {
-
     this.selectedOtherEmitter.emit();
     this.selectionLabel = 'Solicitar entrega en otra dirección';
   }

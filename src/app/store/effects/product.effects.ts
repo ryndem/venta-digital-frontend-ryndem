@@ -37,7 +37,8 @@ export class ProductEffects {
             });
             return ProductActions.updateCategories({ categories });
           }),
-          catchError((error) => of(ProductActions.loadCategoriesFailure({ error })))
+          catchError(() => of({ type: '[Product]loadCategoriesFailure' }))
+
         )
       )
     )

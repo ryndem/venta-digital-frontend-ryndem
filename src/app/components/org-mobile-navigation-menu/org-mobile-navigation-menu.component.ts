@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'app/module-auth/auth.service';
 import { Category } from 'app/model/category';
-import { UserState } from 'app/store/reducers/user.reducer';
+import { logout } from 'app/store/actions/user.actions';
+import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
+import { UserState } from 'app/store/states/user.state';
+import { Observable } from 'rxjs';
 
 /**
  * Navigation menu for mobile resolutions
@@ -31,19 +33,19 @@ export class OrgMobileNavigationMenuComponent {
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$ = this.store.select(state => state.user.isLogged);
+  isLogged$: Observable<boolean>;
 
   /**
    * Creates an instance of OrgMobileNavigationMenuComponent.
-   * @param {AuthService} authService
    * @param {Store<{ user: UserState }>} store
    * @param {Router} router
    */
   constructor(
-    private authService: AuthService,
     private store: Store<{ user: UserState }>,
     private router: Router
-  ) { }
+  ) {
+    this.isLogged$ = this.store.select(selectUserIsLogged);
+  }
 
 
   /**
@@ -56,8 +58,8 @@ export class OrgMobileNavigationMenuComponent {
   /**
    * Logout event method
    */
-  logout(): void {
-    this.authService.logout();
+  logoutUser(): void {
+    this.store.dispatch(logout());
     this.onCloseMenu();
   }
 

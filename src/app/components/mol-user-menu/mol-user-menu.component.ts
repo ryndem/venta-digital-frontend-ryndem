@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { User } from 'app/model/user';
-import { UserState } from 'app/store/reducers/user.reducer';
 import { Observable } from 'rxjs';
-import { AuthService } from 'app/module-auth/auth.service';
 import { loadCart } from 'app/store/actions/cart.actions';
+import { UserState } from 'app/store/states/user.state';
+import { selectCurrentUser } from 'app/store/selectors/user.selectors';
+import { logout } from 'app/store/actions/user.actions';
 
 /**
  * User drop down header component
@@ -29,19 +30,19 @@ export class MolUserMenuComponent extends AtmClosableComponent {
   /**
   * Store reference (user.user)
   */
-  user$: Observable<User | null> = this.store.select(state => state.user.user);
+  user$: Observable<User | null>;
   
   /**
    * Creates an instance of MolUserMenuComponent.
-   * @param {AuthService} authService
    * @param {Store<{ user: UserState }>} store
    * @param {Router} router
    */
-  constructor(private authService: AuthService,
+  constructor(
     private store: Store<{ user: UserState }>,
     private router: Router
   ) {
     super();
+    this.user$ = this.store.select(selectCurrentUser);
   }
 
   /**
@@ -70,8 +71,8 @@ export class MolUserMenuComponent extends AtmClosableComponent {
   /**
    * Logs out the user from session
    */
-  logout() {
-    this.authService.logout();
+  logoutUser() {
+    this.store.dispatch(logout());
     this.store.dispatch(loadCart());
     this.isMenuOpened = false;
   }

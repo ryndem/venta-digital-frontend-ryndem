@@ -25,7 +25,7 @@ export class MetaService {
    * @param {string} pageTitle Title to set to the page
    * @param {{ [key: string]: string }[]} tags Tag map to update 
    */
-  updateMetaTagsAndTitle(pageTitle: string, tags: { [key: string]: string }[]) {
+  async updateMetaTagsAndTitle(pageTitle: string, tags: { [key: string]: string }[]) {
     this.title.setTitle(pageTitle);
 
     tags.forEach(tag => {
