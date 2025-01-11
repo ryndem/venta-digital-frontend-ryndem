@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { ViewState } from 'app/store/states/view.state';
 import { environment } from 'environments/environment';
 
 /**
@@ -18,10 +17,10 @@ export class PgPrivacyPolicyComponent {
 
   /**
    * Creates an instance of PgPrivacyPolicyComponent.
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
     this.setMetaTags();
   }

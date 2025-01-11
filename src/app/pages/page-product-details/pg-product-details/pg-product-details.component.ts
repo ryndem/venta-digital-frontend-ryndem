@@ -1,14 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input as RouterInput } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Product } from 'app/model/product';
-import { ProductsService } from 'app/services/products.service';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { UserState } from 'app/store/states/user.state';
 import { selectUserIsLoading } from 'app/store/selectors/user.selectors';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { selectProductDetails } from 'app/store/selectors/product.selectors';
+import { loadProductById } from 'app/store/actions/product.actions';
 
 /**
  * Page component to display product details
@@ -29,20 +27,9 @@ export class PgProductDetailsComponent {
   productId!: string;
 
   /**
-   * Product loaded
-   * @type {(Product | null)}
-   */
-  product: Product | null = null;
-
-  /**
    * Boolean to track related products visibility
    */
   isRelatedProductsVisible = false;
-
-  /**
-   * Boolean to track loading state visibility
-   */
-  isLoadingProducts = true;
 
   /**
    * Boolean to track if product is already loaded
@@ -55,17 +42,25 @@ export class PgProductDetailsComponent {
   isUserLoading$: Observable<boolean>;
 
   /**
+  * Store reference (product.productDetails(id))
+  */
+  product$: Observable<Product | null>;
+
+  /**
    * Creates an instance of PgProductDetailsComponent.
-   * @param {ProductsService} productsService
-   * @param {Store<{ user: UserState }>} store
-   * @param {Router} router
+   * @param {Store} store
    */
   constructor(
-    private productsService: ProductsService,
-    private store: Store<{ user: UserState }>,
-    private router: Router,
+    private store: Store,
   ) {
-    this.isUserLoading$ = this.store.select(selectUserIsLoading)
+    this.isUserLoading$ = this.store.select(selectUserIsLoading);
+    this.product$ = this.store.select(selectProductDetails(this.productId));
+
+    this.product$.subscribe(value => {
+      if(value) {
+        this.setMetaTags(value);
+      }
+    })
   }
 
 
@@ -82,19 +77,9 @@ export class PgProductDetailsComponent {
    * Load product
    */
   async loadProduct() {
-    this.isLoadingProducts = true;
     if (this.productId) {
-      try {
-        const product = await this.productsService.getProduct(this.productId)
-        this.product = product;
-        this.setMetaTags(product);
-      } catch (error) {
-        if (error instanceof HttpErrorResponse && error.status === 400) {
-          this.router.navigate(['404']);
-        }
-      } finally {
-        this.isLoadingProducts = false;
-      }
+      this.store.dispatch(loadProductById({productId: this.productId}));
+      this.product$ = this.store.select(selectProductDetails(this.productId));
     }
   }
 

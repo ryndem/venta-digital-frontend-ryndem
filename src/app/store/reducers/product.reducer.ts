@@ -25,5 +25,28 @@ export const productReducer = createReducer(
       ...state,
       outstandingProducts: products,
     };
+  }),
+  on(ProductActions.updateProductsPage, (state, { productsPage }) => {
+    return {
+      ...state,
+      productsPage,
+    };
+  }),
+
+  
+  on(ProductActions.addLoadedProduct, (state, { product }) => {
+    const products = [...state.productDetails];
+    const index = products.findIndex( p => p.idProduct == product.idProduct);
+
+    if(index >= 0) {
+      products[index] = product;
+    } else {
+      products.push(product);
+    }
+
+    return ({
+      ...state,
+      productDetails: products
+    })
   })
 );

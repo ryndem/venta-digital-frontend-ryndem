@@ -11,4 +11,12 @@ export const viewReducer = createReducer(
     ...state,
     isFileUploading
   })),
+  on(ViewActions.updateIsOutstandingProductsLoading, (state, { isOutstandingProductsLoading }) => ({
+    ...state,
+    isOutstandingProductsLoading
+  })),
+  on(ViewActions.updateIsProductsPageLoading, (state, { isProductsPageLoading }) => ({
+    ...state,
+    isProductsPageLoading
+  })),
 );

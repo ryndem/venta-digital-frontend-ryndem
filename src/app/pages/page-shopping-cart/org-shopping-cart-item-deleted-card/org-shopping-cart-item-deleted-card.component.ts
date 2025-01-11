@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { QuoteProduct } from 'app/model/quote-product';
 import { reAddProductToCart } from 'app/store/actions/cart.actions';
 import { selectCartIsLoading } from 'app/store/selectors/cart.selectors';
-import { ShoppingCartState } from 'app/store/states/cart.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -42,10 +41,10 @@ export class OrgShoppingCartItemDeletedCardComponent {
 
   /**
    * Creates an instance of OrgShoppingCartItemDeletedCardComponent.
-   * @param {Store<{ cart: ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
-      private store: Store<{ cart: ShoppingCartState }>
+      private store: Store
   ) { 
     this.isAddingToCar$ = this.store.select(selectCartIsLoading);
     this.isAddingToCar$.subscribe(value => {

@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
 import { selectCategories } from 'app/store/selectors/product.selectors';
-import { ProductState } from 'app/store/states/product.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -29,9 +28,9 @@ export class OrgCategoriesGalleryComponent {
  
   /**
    * Creates an instance of OrgCategoriesGalleryComponent.
-   * @param {Store<{ product: ProductState }>} store
+   * @param {Store} store
    */
-  constructor(private store: Store<{ product: ProductState }>) {
+  constructor(private store: Store) {
     this.categories$ = this.store.select(selectCategories);
    }
 

@@ -2,15 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
-import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
 import { SearchParams } from 'app/model/search-params';
-import { ProductsService } from 'app/services/products.service';
-import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { selectCategories } from 'app/store/selectors/product.selectors';
+import { loadProductPage } from 'app/store/actions/product.actions';
+import { updateIsProductsPageLoading, updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { selectCategories, selectProductPage } from 'app/store/selectors/product.selectors';
 import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
-import { ProductState } from 'app/store/states/product.state';
-import { UserState } from 'app/store/states/user.state';
+import { selectIsProductsPageLoading } from 'app/store/selectors/view.selectors';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -26,12 +24,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./pg-products.component.scss'],
 })
 export class PgProductsComponent implements OnInit {
-  
-  /**
-   * Product page loaded
-   * @type {(ProductResponse | null)}
-   */
-  productPage: ProductResponse | null = null;
   
   /**
    * Page size
@@ -58,20 +50,6 @@ export class PgProductsComponent implements OnInit {
    */
   sortDirection = 'ASC';
 
-  
-  /**
-   * Products to show
-   * @type {Product[]}
-   */
-  productss: Product[] = [];
-
-  
-  /**
-   * Boolean to track loading state
-   */
-  isLoading = false;
-
-  
   /**
    * Skeleton list array
    */
@@ -87,22 +65,32 @@ export class PgProductsComponent implements OnInit {
   */
   categories$: Observable<Category[]>;
 
+  /**
+   * Store reference (product.productPage)
+   */
+  productPage$: Observable<ProductResponse | null>;
+
+  /**
+   * Store reference (view.isProductPageLoading)
+   */
+  isLoading$: Observable<boolean>;
+
   
   /**
    * Creates an instance of PgProductsComponent.
-   * @param {ProductsService} productsService
    * @param {Router} router
    * @param {ActivatedRoute} currentRoute
-   * @param {Store<{ user: UserState, product: ProductState }>} store
+   * @param {Store} store
    */
   constructor(
-    private productsService: ProductsService,
     private router: Router,
     private currentRoute: ActivatedRoute,
-    private store: Store<{ user: UserState, product: ProductState }>,
+    private store: Store,
   ) {
     this.isLogged$ = this.store.select(selectUserIsLogged);
     this.categories$ = this.store.select(selectCategories);
+    this.productPage$ = this.store.select(selectProductPage);
+    this.isLoading$ = this.store.select(selectIsProductsPageLoading)
     this.setMetaTags();
   }
 
@@ -112,10 +100,13 @@ export class PgProductsComponent implements OnInit {
    * @readonly
    * @type {string}
    */
-  get showCurrentPaginationDetails(): string {
-    const start = (this.currentPage - 1) * this.pageSize + 1;
-    const end = Math.min(this.currentPage * this.pageSize, this.totalResults);
-    return `Mostrando del ${start} al ${end} de ${this.totalResults}`;
+  showCurrentPaginationDetails(page: ProductResponse | null): string {
+    if(page) {
+      const start = (this.currentPage - 1) * this.pageSize + 1;
+      const end = Math.min(this.currentPage * this.pageSize, page.totalResults);
+      return `Mostrando del ${start} al ${end} de ${page.totalResults}`;
+    }
+    return '';
   }
 
   /**
@@ -141,17 +132,8 @@ export class PgProductsComponent implements OnInit {
    * @param {SearchParams} searchParams
    */
   async loadPage(searchParams: SearchParams) {
-    this.isLoading = true;
-    try {
-      const productsPage = await this.productsService.listProductsByCategory(searchParams);
-      this.productPage = productsPage;
-      this.totalResults = productsPage.totalResults;
-      this.results = productsPage.results.length;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      this.isLoading = false;
-    }
+    this.store.dispatch(updateIsProductsPageLoading({isProductsPageLoading: true}));
+    this.store.dispatch(loadProductPage({searchParams}));
   }
 
   /**

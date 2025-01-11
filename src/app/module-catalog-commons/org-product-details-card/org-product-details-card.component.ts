@@ -32,9 +32,9 @@ export class OrgProductDetailsCardComponent implements OnChanges {
 
   /**
    * Product to show details
-   * @type {Product}
+   * @type {Product | null}
    */
-  @Input() product?: Product;
+  @Input() product?: Product | null;
 
   /**
    * Flag to hide/show all details

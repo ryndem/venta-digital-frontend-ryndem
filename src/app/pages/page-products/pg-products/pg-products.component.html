@@ -10,11 +10,11 @@
   <div class="products-page__list">
     <div class="products-page__list__header">
       <div class="text-header">
-        <span *ngIf="isLoading" class="text-gray-green-900">
+        <span *ngIf="isLoading$ | async" class="text-gray-green-900">
           <atm-loader-points message="Cargando resultados"/>
         </span>
-        <span class="text-gray-green-900" *ngIf="!isLoading && productPage && productPage.totalResults > 0">
-          {{ showCurrentPaginationDetails }}
+        <span class="text-gray-green-900" *ngIf="(isLoading$ | async) !== true && (productPage$ | async) && ((productPage$ | async)?.totalResults || 0) > 0">
+          {{ showCurrentPaginationDetails((productPage$ | async)) }}
         </span>
       </div>
 
@@ -22,7 +22,7 @@
         class="text-header"
         type="button"
         (click)="toggleSortDirection()"
-        [disabled]="isLoading"
+        [disabled]="isLoading$ | async"
       >
         <span class="text-gray-green-900">Ordenar:</span>
         <span class="text-bold sort text-gray-green-900" *ngIf="sortDirection === 'ASC'">
@@ -37,7 +37,7 @@
 
     <div
       class="empty-state"
-      *ngIf="!isLoading && productPage && productPage.totalResults === 0"
+      *ngIf="(isLoading$ | async) !== true && (productPage$ | async) && ((productPage$ | async)?.totalResults || 0) === 0"
     >
       <img src="assets/icons/search-loop.svg" alt="search loop">
       <h3 class="text-big text-uppercase m-0">Búsqueda sin resultados</h3>
@@ -56,19 +56,19 @@
       </div>
     </div>
 
-    <div class="products-page__skeleton-grid mb-16" *ngIf="isLoading">
+    <div class="products-page__skeleton-grid mb-16" *ngIf="isLoading$ | async">
       <atm-skeleton-product-card *ngFor="let item of skeletonList" />
     </div>
 
     <org-products-grid
-      *ngIf="productPage && !isLoading"
-      [products]="productPage"
+      *ngIf="(productPage$ | async) && (isLoading$ | async) !== true"
+      [products]="productPage$ | async"
       gridSectionClass="products-result"
     />
 
     <org-pager
-      *ngIf="!isLoading && productPage && productPage.totalResults > 0"
-      [totalResults]="productPage.totalResults"
+      *ngIf="(isLoading$ | async) !== true && (productPage$ | async) && ((productPage$ | async)?.totalResults || 0) > 0"
+      [totalResults]="(productPage$ | async)?.totalResults || 0"
       [pageSize]="pageSize"
     />
   </div>

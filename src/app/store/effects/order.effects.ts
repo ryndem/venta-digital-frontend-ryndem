@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, take } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { ShoppingCart } from 'app/model/shopping-cart';
 import { QuotesService } from 'app/services/quotes.service';
+import { CartService } from 'app/services/cart.service';
 
 
 /**
@@ -23,6 +24,7 @@ export class OrderEffects {
   constructor(
     private actions$: Actions,
     private quotesService: QuotesService,
+    private cartService: CartService,
   ) {}
 
   /**
@@ -39,5 +41,28 @@ export class OrderEffects {
       )
     )
   );
+
+  /**
+   * Effect to update express freight cart
+   */
+  updateExpressFreight$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrderActions.updateExpressFreight),
+      take(1),
+      mergeMap((action) =>
+        from(this.cartService.updateFreightExpress(
+              action.quoteItemId,
+              action.appliesFreightExpress,
+              action.addressId,
+              action.cartItems,
+            )).pipe(
+          mergeMap(() => of({type:'[Order]updateExpressFreight'})),
+          catchError(() => of({type: '[Order]updateExpressFreightFailure'}))
+        )
+      )
+    )
+  );
+
+  
 
 }

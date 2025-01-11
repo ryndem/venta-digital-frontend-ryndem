@@ -1,16 +1,16 @@
 <org-carousel/>
 
 <div class="home-container">
-  <div *ngIf="productResponse" class="home-container__oustanding">
+  <div class="home-container__oustanding">
     <h1 class="text-neutral-800 mb-16">Productos Destacados</h1>
 
-    <div class="home-container__skeleton-grid" *ngIf="isLoadingProducts">
+    <div class="home-container__skeleton-grid" *ngIf="isLoadingProducts$ | async">
       <atm-skeleton-product-card *ngFor="let item of skeletonList" />
     </div>
 
-    <org-products-grid
-      [products]="productResponse"
-      *ngIf="!isLoadingProducts"
+    <org-products-grid 
+      *ngIf="(isLoadingProducts$ | async) !== true"
+      [productList]="outstandingProducts$ | async"
     />
 
   </div>

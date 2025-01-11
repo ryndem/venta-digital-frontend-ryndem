@@ -12,7 +12,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AtmCarouselButtonComponent {
 
-  
   /**
    * Carousel item index
    */

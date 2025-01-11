@@ -13,6 +13,8 @@ import { RefreshShoppingCartResponse } from 'app/model/refresh-shpping-cart-resp
 import { Address } from 'app/model/address';
 import { UserState } from 'app/store/states/user.state';
 import { selectUserAddresses } from 'app/store/selectors/user.selectors';
+import { Router } from '@angular/router';
+import { showErrorNotification } from 'app/store/actions/view.actions';
 
 
 /**
@@ -54,12 +56,14 @@ export class CartService {
    * Creates an instance of CartService.
    * @param {NotificationService} notificationService
    * @param {Store<{ user: UserState }>} store
-   * @param {HttpClient} httpClient
+   * @param {HttpClient} httpClient,
+   * @param {Router} router,
    */
   constructor(
     private notificationService: NotificationService,
     private store: Store<UserState>,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router,
   ) {
     this.addresses$ = this.store.select(selectUserAddresses);
     this.addresses$.subscribe(value => {
@@ -188,7 +192,17 @@ export class CartService {
       listQuotationItem: cartItems,
       refresh: true,
     }
-   await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
+    
+    try {
+      await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
+      this.router.navigate(['cart/thank-you'], {
+        queryParams: {
+          quoteId: quoteId
+        }
+      });
+    } catch (error) {
+      this.store.dispatch(showErrorNotification({ message: 'No se pudo enviar la cotización'}));
+    }
   }
 
   /**

@@ -15,8 +15,8 @@ export class OrgProductDetailsComponent {
   
   /**
    * Product object to show
-   * @type {Product}
+   * @type {Product | null}
    */
-  @Input() product?: Product;
+  @Input() product?: Product | null;
   
 }

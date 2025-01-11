@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
 import { selectCategories } from 'app/store/selectors/product.selectors';
-import { ProductState } from 'app/store/states/product.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -33,12 +32,12 @@ export class OrgCategoriesBarComponent implements OnInit {
    * Creates an instance of OrgCategoriesBarComponent.
    * @param {Router} router
    * @param {ActivatedRoute} currentRoute
-   * @param {Store<{ product: ProductState }>} store
+   * @param {Store} store
    */
   constructor(
     private router: Router,
     private currentRoute: ActivatedRoute,
-    private store: Store<{ product: ProductState }>,
+    private store: Store,
   ) {
     this.categories$ = this.store.select(selectCategories);
   }

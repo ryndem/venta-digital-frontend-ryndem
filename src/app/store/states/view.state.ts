@@ -11,6 +11,8 @@ export interface ViewState {
      * @type {boolean}
      */
     isFileUploading: boolean;
+    isOutstandingProductsLoading: boolean;
+    isProductsPageLoading: boolean;
     
 }
 
@@ -19,5 +21,7 @@ export interface ViewState {
  */
 export const initialViewState: ViewState = {
     isFileUploading: false,
+    isOutstandingProductsLoading: false,
+    isProductsPageLoading: false,
 };
 

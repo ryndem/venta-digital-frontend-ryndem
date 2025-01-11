@@ -67,3 +67,11 @@ export const updateCartShippingAddress = createAction(
   props<{ addressId: string}>()
 )
 
+
+/** 
+ * Exports submitShoppingCart action
+*/
+export const submitShoppingCart = createAction(
+  '[Cart]submitShoppingCart',
+  props<{ quoteId: string, addressId: string | null, cartItems: QuoteProduct[] }>()
+)

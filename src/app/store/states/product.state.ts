@@ -1,5 +1,6 @@
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
+import { ProductResponse } from 'app/model/product-response';
 
 /**
  * Represents the values stored on the Products Store
@@ -34,6 +35,12 @@ export interface ProductState {
    * @type {(Product[] | null)}
    */
   outstandingProducts: Product[] | null;
+
+    /**
+   * List of the outstanding products.
+   * @type {(Product[] | null)}
+   */
+    productsPage: ProductResponse | null;
 }
 
 /**
@@ -44,5 +51,6 @@ export const initialProductState: ProductState = {
   selectedDetailsProductId: null,
   categories: [],
   outstandingProducts: null,
+  productsPage: null,
 };
 

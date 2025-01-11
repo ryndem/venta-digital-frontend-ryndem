@@ -7,3 +7,13 @@ export const selectIsFileUploading = createSelector(
     selectViewState,
     (state) => state.isFileUploading
 );
+
+export const selectIsOutstandingProductsLoading = createSelector(
+    selectViewState,
+    (state) => state.isOutstandingProductsLoading
+);
+
+export const selectIsProductsPageLoading = createSelector(
+    selectViewState,
+    (state) => state.isProductsPageLoading
+);

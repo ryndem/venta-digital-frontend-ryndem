@@ -8,8 +8,6 @@ import { loadCart } from 'app/store/actions/cart.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectCartIsLoading, selectCurrentCart } from 'app/store/selectors/cart.selectors';
 import { selectCategories } from 'app/store/selectors/product.selectors';
-import { ShoppingCartState } from 'app/store/states/cart.state';
-import { ProductState } from 'app/store/states/product.state';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -55,11 +53,11 @@ export class PgShoppingCartComponent implements OnInit {
 
   /**
    * Creates an instance of PgShoppingCartComponent.
-   * @param {Store<{ cart: ShoppingCartState, product: ProductState }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
-    private store: Store<{ cart: ShoppingCartState, product: ProductState }>,
+    private store: Store,
     private router: Router,
   ) {
     this.shoppingCart$ = this.store.select(selectCurrentCart);

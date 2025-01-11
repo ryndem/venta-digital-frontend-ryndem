@@ -8,8 +8,6 @@ import { loadQuoteById } from 'app/store/actions/order.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectQuoteDetails } from 'app/store/selectors/order.selectors';
 import { selectCurrentUser } from 'app/store/selectors/user.selectors';
-import { ShoppingCartState } from 'app/store/states/cart.state';
-import { UserState } from 'app/store/states/user.state';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -58,11 +56,11 @@ export class PgThankYouComponent implements OnInit {
   /**
    * Creates an instance of PgThankYouComponent.
    * @param {ActivatedRoute} currentRoute
-   * @param {Store<{ user: UserState, cart: ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
     private currentRoute: ActivatedRoute,
-    private store: Store<{ user: UserState, cart: ShoppingCartState }>,
+    private store: Store,
   ) {
     this.user$ = this.store.select(selectCurrentUser);
     this.quote$ = this.store.select(selectQuoteDetails(this.quoteId || ''));
@@ -92,16 +90,6 @@ export class PgThankYouComponent implements OnInit {
   async loadQuote() {
     if( this.quoteId ) {
       this.store.dispatch(loadQuoteById({quoteId: this.quoteId}));
-      
-
-      // if (this.quote.quotationDetails.address.trim() == '') {
-      //   this.showDisclaimer = true;
-      // }
-
-      // if (this.quote.listQuotationItem.filter(p => p.controlled).length > 0) {
-      //   this.showDisclaimer = true;
-      // }
-
     }
   }
 

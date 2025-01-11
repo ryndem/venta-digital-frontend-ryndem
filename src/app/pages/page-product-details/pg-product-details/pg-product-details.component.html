@@ -1,8 +1,8 @@
 <div class="product-details-page">
   <section class="product-details-page__main-product">
     <org-product-details-card
-      *ngIf="product && (isUserLoading$ |async) !== true; else skeletonDetail"
-      [product]="product"
+      *ngIf="(product$ | async) && (isUserLoading$ | async) !== true; else skeletonDetail"
+      [product]="(product$ | async)"
     >
       <button class="btn" (click)="toggleRelatedProducts(true)">
         <ng-icon name="heroSquaresPlus" size="24"></ng-icon>
@@ -15,8 +15,8 @@
     </ng-template>
 
     <org-product-details
-      [product]="product"
-      *ngIf="product && (isUserLoading$ |async) !== true; else skeletonDetailSummary"
+      [product]="product$ | async"
+      *ngIf="(product$ | async) && (isUserLoading$ |async) !== true; else skeletonDetailSummary"
     />
 
     <ng-template #skeletonDetailSummary>

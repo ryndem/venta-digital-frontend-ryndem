@@ -32,3 +32,18 @@ export const showErrorNotification = createAction(
   props<{ message: string}>()
 )
 
+/** 
+ * Exports updateIsOutstandingProductsLoading action
+*/
+export const updateIsOutstandingProductsLoading = createAction(
+  '[View]updateIsOutstandingProductsLoading',
+  props<{ isOutstandingProductsLoading: boolean}>()
+)
+
+/** 
+ * Exports updateIsProductsPageLoading action
+*/
+export const updateIsProductsPageLoading = createAction(
+  '[View]updateIsProductsPageLoading',
+  props<{ isProductsPageLoading: boolean}>()
+)

@@ -32,7 +32,7 @@ export class OrgProductsGridComponent implements OnInit, OnChanges {
    * Product list to show
    * @type {Product[]}
    */
-  @Input() productList: Product[] = [];
+  @Input() productList: Product[] | null = [];
 
   /**
    * Grid css class to add to the component
@@ -44,7 +44,7 @@ export class OrgProductsGridComponent implements OnInit, OnChanges {
    * Initializing method
    */
   ngOnInit(): void {
-    this.productList = this.products ? this.products.results : [];
+    this.productList = this.products ? this.products.results : this.productList;
   }
   
   /**

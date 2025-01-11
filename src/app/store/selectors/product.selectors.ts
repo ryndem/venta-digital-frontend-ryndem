@@ -13,8 +13,14 @@ export const selectOutstandingProducts = createSelector(
     (state) => state.outstandingProducts
 );
 
-export const selectProductDetails = createSelector(
+export const selectProductDetails = (id:string) => createSelector(
     selectProductState,
     (state) =>
-        state.productDetails.find((product) => product.idProduct === state.selectedDetailsProductId)
+        state.productDetails.find((product) => product.idProduct === id) || null
+);
+
+export const selectProductPage = createSelector(
+    selectProductState,
+    (state) =>
+        state.productsPage
 );
