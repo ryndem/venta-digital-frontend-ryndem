@@ -6,13 +6,20 @@
     </a>
   </div>
 
-  <main class="purchase-order-details-page__content" *ngIf="purchaseOrder">
-    <section class="purchase-order-details-page__content__products" *ngIf="purchaseOrder">
-      <h1>PARTIDAS DEL PEDIDO {{purchaseOrder.folio}}</h1>
+  <main class="purchase-order-details-page__content" *ngIf="(purchaseOrder$ | async) !== null">
+    <section class="purchase-order-details-page__content__products" *ngIf="(purchaseOrder$ | async) !== null">
+      <h1>PARTIDAS DEL PEDIDO {{(purchaseOrder$ | async)?.folio}}</h1>
       <h4 class="text-title-4 m-0">Partidas</h4>
+
+      <div class="order-details-page__content__products__items">
+        <org-order-quote-card 
+            *ngFor="let quote of (purchaseOrder$ | async)?.listQuotation" 
+            [purchaseOrder]="purchaseOrder$ | async"
+            [quote]="quote" />
+      </div>
     </section>
     <section class="purchase-order-details-page__content__summary">
-      <org-purchase-order-summary-card [purchaseOrder]="purchaseOrder"/>
+      <org-purchase-order-summary-card [purchaseOrder]="(purchaseOrder$ | async)"/>
     </section>
   </main>
 </div>

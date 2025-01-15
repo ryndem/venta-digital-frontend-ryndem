@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError, take } from 'rxjs/operators';
+import { map, mergeMap, catchError, take, debounceTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as CartActions from '../actions/cart.actions';
 import { CartService } from 'app/services/cart.service';
@@ -79,7 +79,7 @@ export class CartEffects {
   updateProductQuantity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.updateProductQuantity),
-      take(1),
+      debounceTime(100),
       mergeMap((action) =>
         from(this.cartService.updateQuantity(action.quoteItemId, action.quantity)).pipe(
           mergeMap(() => of({ type: '[Cart]updateProductQuantity' })),
@@ -95,6 +95,7 @@ export class CartEffects {
   removeProductFromCart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.removeProductFromCart),
+      debounceTime(100),
       mergeMap((action) =>
         from(this.cartService.updateQuantity(action.quoteItemId, 0)).pipe(
           mergeMap(() => of({ type: '[Cart]removeProductFromCart' })),
@@ -110,7 +111,7 @@ export class CartEffects {
   updateCartShippingAddress$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.updateCartShippingAddress),
-      take(1),
+      debounceTime(100),
       mergeMap((action) =>
         from(this.cartService.updateShippingAddress(action.addressId)).pipe(
           mergeMap(() => of({ type: '[Cart]updateCartShippingAddress' })),

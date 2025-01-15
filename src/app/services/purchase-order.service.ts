@@ -142,21 +142,21 @@ export class PurchaseOrderService {
    * @param {string} purchaseOrderId Purchase order id to order items products
    * @return {*} 
    */
-  async getProductsByPurchaseOrderId(purchaseOrderId: string, quoteId: string) {
+  async getItemsByPurchaseOrderId(purchaseOrderId: string, quoteId: string) {
     const body: PurchaseOrderRequest = {
       pageSize: 100,
       desiredPage: 1,
       filters: [
         {
-          FilterName: 'IdtpPedido',
+          FilterName: 'idPurchaseOrder',
           FilterValue: purchaseOrderId
         }, {
-          FilterName: 'IdcotCotizacion',
+          FilterName: 'idQuotation',
           FilterValue: quoteId
         }],
     };
 
-    return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/Order/ListOrderItemsDetails', body));
+    return await firstValueFrom(this.httpClient.post<OrderItemPage>(this.apiPath + '/PurchaseOrder/ListPurchaseOrderItemsDetails', body));
   }
 
   /**

@@ -1,4 +1,4 @@
-<div class="quote-totals">
+<div class="quote-totals" *ngIf="quote">
   <div class="quote-totals__item text-subtle">
     <span>Subtotal</span>
     <span>{{quote.quotationDetails.subtotal | usdCurrency}}</span>

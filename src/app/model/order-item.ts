@@ -17,7 +17,7 @@ export type OrderItem = {
    * @type {string}
    */
   idQuotationItem: string;
-  
+
   /**
    * The unique identifier for the product, if applicable.
    * @type {(string | null)}
@@ -96,6 +96,12 @@ export type OrderItem = {
    */
   numberOfPieces: number;
 
+    /**
+   * The quantity of the product ordered.
+   * @type {number}
+   */
+    pieceCount: number;
+
   /**
    * The price per unit of the product.
    * @type {number}
@@ -131,7 +137,7 @@ export type OrderItem = {
    * @type {OrderItemStatusTrack[]}
    */
   itemTracking: OrderItemStatusTrack[];
-  
+
 
   /**
    * Indicates whether express freight applies to the item.

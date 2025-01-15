@@ -1,7 +1,10 @@
 import { Component, Input as RouterInput } from '@angular/core';
 import { PurchaseOrder } from 'app/model/purchase-order';
 import { OrderItemPage } from 'app/model/order-item-page';
-import { PurchaseOrderService } from 'app/services/purchase-order.service';
+import { loadPurchaseOrderById } from 'app/store/actions/order.actions';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectPurchaseOrderDetails } from 'app/store/selectors/order.selectors';
 
 /**
  * Page component to display purchase order details
@@ -23,16 +26,16 @@ export class PgPurchaseOrderDetailsComponent {
   purchaseOrderId!: string;
 
   /**
-   * Purchase order 
-   * @type {(PurchaseOrder | null)}
-   */
-  purchaseOrder: PurchaseOrder | null = null;
-
-  /**
    * Product page
    * @type {(OrderItemPage | null)}
    */
   products: OrderItemPage | null = null;
+
+  /**
+   * Store reference (order.purchaseOrders(id))
+   * @type {(PurchaseOrder | null)}
+   */
+  purchaseOrder$: Observable<PurchaseOrder | null>;
 
   /**
    * Input id setter
@@ -40,21 +43,18 @@ export class PgPurchaseOrderDetailsComponent {
   @RouterInput('purchaseOrderId')
   set setInputId(purchaseOrderId: string) {
     this.purchaseOrderId = purchaseOrderId;
-    this.loadPurchaseOrder();
+    this.purchaseOrder$ = this.store.select(selectPurchaseOrderDetails(this.purchaseOrderId));
+    this.store.dispatch(loadPurchaseOrderById({purchaseOrderId: this.purchaseOrderId}));
   }
 
   /**
    * Creates an instance of PgPurchaseOrderDetailsComponent.
-   * @param {PurchaseOrderService} purchaseOrderService
+   * @param {Store} store
    */
-  constructor(private purchaseOrderService: PurchaseOrderService) {}
-
-  /**
-   * Method to load purchase order 
-   */
-  async loadPurchaseOrder() {
-    this.purchaseOrder = await this.purchaseOrderService.getById(this.purchaseOrderId);
-    this.products = await this.purchaseOrderService.getProductsByPurchaseOrderId(this.purchaseOrderId, '5ddbc2d5-18a3-40f4-afd6-840c25a0f996');
+  constructor(
+    private store: Store
+  ) {
+    this.purchaseOrder$ = this.store.select(selectPurchaseOrderDetails(this.purchaseOrderId));
   }
 
 }

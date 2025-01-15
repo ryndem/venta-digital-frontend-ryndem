@@ -192,7 +192,7 @@ export class CartService {
       listQuotationItem: cartItems,
       refresh: true,
     }
-    
+
     try {
       await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/SendQuotation', body));
       this.router.navigate(['cart/thank-you'], {
@@ -211,28 +211,32 @@ export class CartService {
   * @param {number} quantity Quote Item new quantity
   */
   async updateQuantity(quoteItemId: string, quantity: number) {
-    this.store.dispatch(updateCartIsLoading({ isLoading: true}))
+    if (!this.cart) return;
 
-    const products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
-    const product = products.find(p => p.idQuotationItem == quoteItemId);
+    this.store.dispatch(updateCartIsLoading({ isLoading: true })); // Set loading to true
 
-    if(product) {
+    try {
+      const products: QuoteProduct[] = JSON.parse(JSON.stringify(this.cart?.listQuotationItem));
+      const product = products.find((p) => p.idQuotationItem === quoteItemId);
+
+      if (!product) return;
+
       product.quantity = quantity;
 
       const body = {
         idQuotation: this.cart?.quotationDetails.idQuotation,
         refresh: false,
-        listQuotationItem: products
+        listQuotationItem: products,
       };
 
-      try {
-        await firstValueFrom(this.httpClient.post<string>(this.apiPath+ '/RefreshShoppingCart', body));
-      } catch ( error ) {
-        console.error(error);
-      }
+      await firstValueFrom(this.httpClient.post<string>(this.apiPath + '/RefreshShoppingCart', body));
+
       this.load();
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    } finally {
+      this.store.dispatch(updateCartIsLoading({ isLoading: false }));
     }
-    this.store.dispatch(updateCartIsLoading({ isLoading: false }));
   }
 
 

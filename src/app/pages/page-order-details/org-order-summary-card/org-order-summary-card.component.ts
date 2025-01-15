@@ -22,7 +22,7 @@ export class OrgOrderSummaryCardComponent {
    * Confirmed order to show summay
    * @type {ConfirmedOrder}
    */
-  @Input() order!: ConfirmedOrder;
+  @Input() order!: ConfirmedOrder | null;
 
   /**
    * Boolean to track customer info section

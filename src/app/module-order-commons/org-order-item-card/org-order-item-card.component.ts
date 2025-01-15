@@ -22,6 +22,12 @@ export class OrgOrderItemCardComponent implements OnInit{
   @Input() orderItem!: OrderItem;
 
   /**
+   * Boolean to track if the track is hidden
+   * @type {boolean}
+   */
+  @Input() hideTracking = false;
+
+  /**
    * Product presentation image path
    * @type {(string | null)}
    */

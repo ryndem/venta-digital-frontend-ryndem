@@ -2,11 +2,12 @@ import { Component, Input as RouterInput } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ConfirmedOrder } from 'app/model/confirmed-order';
 import { OrderItem } from 'app/model/order-item';
-import { Quote } from 'app/model/quote';
-import { OrderService } from 'app/services/order.service';
+import { loadConfirmedOrderById } from 'app/store/actions/order.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { selectConfirmedOrderDetails } from 'app/store/selectors/order.selectors';
 import { ViewState } from 'app/store/states/view.state';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 /**
  * Page component to display order details
@@ -25,12 +26,6 @@ export class PgOrderDetailsComponent {
    * @type {string}
    */
   orderId!: string;
-
-  /**
-   * Order infomation
-   * @type {(ConfirmedOrder | null)}
-   */
-  order: ConfirmedOrder | null = null;
 
   /**
    * List of all order items
@@ -56,12 +51,18 @@ export class PgOrderDetailsComponent {
   isLoadingItems = false;
 
   /**
+   * Store reference (order.orders(id))
+   */
+  order$: Observable<ConfirmedOrder | null>;
+
+  /**
    * Method to set order id from url
    */
   @RouterInput('orderId')
   set setInputId(orderId: string) {
     this.orderId = orderId;
-    this.loadOrder();
+    this.order$ = this.store.select(selectConfirmedOrderDetails(this.orderId));
+    this.store.dispatch(loadConfirmedOrderById({confirmedOrderId: this.orderId}));
   }
   
   /**
@@ -70,41 +71,12 @@ export class PgOrderDetailsComponent {
    * @param {Store<ViewState>} store
    */
   constructor(
-    private orderService: OrderService,
     private store: Store<ViewState>,
   ) {
+    this.order$ = this.store.select(selectConfirmedOrderDetails(this.orderId));
     this.setMetaTags();
    }
 
-  /**
-   * Method to load order information
-   */
-  async loadOrder() {
-    this.order = await this.orderService.getById(this.orderId);
-    this.loadItems();
-  }
-
-  /**
-   * Method to handle select quote action
-   * @param {(Quote | null)} quote
-   */
-  async selectQuote(quote: Quote | null) {
-    this.selectedQuoteId = quote? quote.idQuotation : null;
-    this.loadItems();
-  }
-
-  /**
-   * Load order items
-   */
-  async loadItems() {
-    if (this.selectedQuoteId) {
-      this.isLoadingItems = true;
-      const itemsPage = await this.orderService.getItemsByOrderId(this.orderId, this.selectedQuoteId);
-      this.orderItems = itemsPage.results;
-      this.filterItems();
-      this.isLoadingItems = false;
-    }
-  }
 
   /**
    * Method to filter order items

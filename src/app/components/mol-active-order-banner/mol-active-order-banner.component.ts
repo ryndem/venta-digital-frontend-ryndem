@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectUserHasOrderItemsSelected, selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { UserState } from 'app/store/states/user.state';
@@ -27,12 +28,21 @@ export class MolActiveOrderBannerComponent {
   isLogged$: Observable<boolean>;
 
   /**
+ * Check if the current path is in Purchase Order Creation Page
+ */
+  isInProgressOrderCreation: boolean;
+
+  /**
    * Creates an instance of MolActiveOrderBannerComponent.
    * @param {Store<{ user: UserState }>} store
    */
-  constructor(private store: Store<{ user: UserState }>) {
+  constructor(
+    private store: Store<{ user: UserState }>,
+    private router: Router,
+  ) {
     this.isLogged$ = this.store.select(selectUserIsLogged);
     this.hasOrderItemsSelected$ = this.store.select(selectUserHasOrderItemsSelected);
+    this.isInProgressOrderCreation = this.router.url === '/orders/in-progress/creation';
   }
 
 }

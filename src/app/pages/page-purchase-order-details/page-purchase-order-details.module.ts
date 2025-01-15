@@ -9,6 +9,7 @@ import { AppCommonsModule } from 'app/module-app-commons/app-commons.module';
 import { OrgPurchaseOrderTotalsComponent } from './org-purchase-order-totals/org-purchase-order-totals.component';
 import { OrgPurchaseOrderItemCardComponent } from './org-purchase-order-item-card/org-purchase-order-item-card.component';
 import { heroBoltSolid } from '@ng-icons/heroicons/solid';
+import { OrderCommonsModule } from 'app/module-order-commons/order-commons.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { heroBoltSolid } from '@ng-icons/heroicons/solid';
     PagePurchaseOrderDetailsRoutingModule,
     AppCommonsModule,
     CommonModule,
+    OrderCommonsModule,
     NgIconsModule.withIcons({
       heroArrowLeft,
       heroBoltSolid,

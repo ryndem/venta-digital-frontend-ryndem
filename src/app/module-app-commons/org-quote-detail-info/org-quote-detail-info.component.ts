@@ -17,5 +17,5 @@ export class OrgQuoteDetailInfoComponent {
    * Quote to show details info
    * @type {ShoppingCart}
    */
-  @Input() quote!: ShoppingCart;
+  @Input() quote!: ShoppingCart | null;
 }

@@ -7,8 +7,6 @@ import { NgIconsModule } from '@ng-icons/core';
 import { heroArrowLeft, heroFolder, heroFolderOpen } from '@ng-icons/heroicons/outline';
 import { AppCommonsModule } from 'app/module-app-commons/app-commons.module';
 import { OrderCommonsModule } from 'app/module-order-commons/order-commons.module';
-import { OrgOrderQuoteCardComponent } from './org-order-quote-card/org-order-quote-card.component';
-import { OrgOrderItemCardComponent } from './org-order-item-card/org-order-item-card.component';
 import { heroBoltSolid } from '@ng-icons/heroicons/solid';
 
 
@@ -16,8 +14,6 @@ import { heroBoltSolid } from '@ng-icons/heroicons/solid';
   declarations: [
     PgOrderDetailsComponent,
     OrgOrderSummaryCardComponent,
-    OrgOrderQuoteCardComponent,
-    OrgOrderItemCardComponent,
   ],
   imports: [
     PageOrderDetailsRoutingModule,

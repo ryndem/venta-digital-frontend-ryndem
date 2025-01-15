@@ -24,11 +24,6 @@ import { selectUserIsLoading } from 'app/store/selectors/user.selectors';
 export class OrgLayoutFooterComponent implements OnInit {
 
   /**
-   * Boolean to track if the user is authenticated
-   */
-  isLogged = false;
-
-  /**
   * Store reference (product.categories)
   */
   categories$: Observable<Category[]>;
@@ -47,9 +42,6 @@ export class OrgLayoutFooterComponent implements OnInit {
   ) { 
     this.isAuthenticated$ = this.store.select(selectUserIsLoading);
     this.categories$ = this.store.select(selectCategories);
-    this.isAuthenticated$.subscribe(value => {
-      this.isLogged = value;
-    })
   }
   
   /**
@@ -59,7 +51,6 @@ export class OrgLayoutFooterComponent implements OnInit {
     await this.loadSessionAndCart();
     this.initCategories();
   }
-
 
   /**
    * Method to load product categories

@@ -10,6 +10,13 @@ export const logout = createAction(
 );
 
 /**
+ * Exports logout success action
+*/
+export const logoutSuccess = createAction(
+  '[User]logoutSuccess'
+);
+
+/**
  * Exports updateUser action
  */
 export const updateUser = createAction(

@@ -1,5 +1,5 @@
 <div class="quote-info text-small-regular">
-  <div class="quote-info__column__one">
+  <div class="quote-info__column__one" *ngIf="quote">
     <div class="folio">
       <span>Folio</span>
       <span class="text-body-medium folio-blue">
@@ -25,12 +25,12 @@
 
     <div>
       <span class="date-label">Creación: </span>
-      <span>{{quote.quotationDetails.registrationDate | date:'dd/MM/YYYY'}}</span>
+      <span>{{(quote?.quotationDetails?.registrationDate || '') | date:'dd/MM/YYYY'}}</span>
     </div>
 
     <div>
       <span class="date-label">Expiración: </span>
-      <span>{{quote.quotationDetails.expirationDate | date:'dd/MM/YYYY'}}</span>
+      <span>{{(quote?.quotationDetails?.expirationDate || '') | date:'dd/MM/YYYY'}}</span>
     </div>
   </div>
 </div>

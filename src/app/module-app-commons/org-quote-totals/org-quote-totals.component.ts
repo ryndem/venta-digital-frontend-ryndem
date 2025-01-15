@@ -17,6 +17,6 @@ export class OrgQuoteTotalsComponent {
    * Quote totals to show
    * @type {ShoppingCart}
    */
-  @Input() quote!: ShoppingCart;
+  @Input() quote!: ShoppingCart | null;
   
 }

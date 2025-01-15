@@ -25,21 +25,10 @@ import { Observable } from 'rxjs';
 export class PgThankYouComponent implements OnInit {
 
   /**
-   * Created quote loaded
-   * @type {(ShoppingCart | null)}
-   */
-  quote: ShoppingCart | null = null;
-
-  /**
    * Quote id of the created quote
    * @type {(string | null)}
    */
   quoteId: string | null = null;
-
-  /**
-   * Boolean to show traditional method quote diclaimer
-   */
-  showDisclaimer = false;
 
   /**
   * Store reference (user.user)
@@ -75,6 +64,7 @@ export class PgThankYouComponent implements OnInit {
     this.currentRoute.queryParams.subscribe((params) => {
       this.quoteId = params['quoteId'];
       if(this.quoteId) {
+        console.log('select quote', this.quoteId);
         this.quote$ = this.store.select(selectQuoteDetails(this.quoteId));
       }
       this.loadQuote();
@@ -92,6 +82,21 @@ export class PgThankYouComponent implements OnInit {
       this.store.dispatch(loadQuoteById({quoteId: this.quoteId}));
     }
   }
+
+  /**
+   * Method to calculate if the disclaimer shoul be shown
+   */
+    async getDisclaimerVisibility(quote: ShoppingCart | null) {
+      if (quote?.quotationDetails.address.trim() == '') {
+        return true;
+      }
+
+      if ((quote?.listQuotationItem.filter(p => p.controlled).length || 0) > 0) {
+        return true;
+      }
+
+      return false;
+    }
 
   /**
    * Updates page meta tags

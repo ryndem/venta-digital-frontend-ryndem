@@ -21,7 +21,7 @@
     <div class="order-item-card__details__units">
       <div class="text-paragraph text-700">
         <span class="text-small-regular text-neutral-500">Cant.</span>
-        {{orderItem.numberOfPieces}}
+        {{orderItem.pieceCount || orderItem.numberOfPieces }}
       </div>
       <div class="text-paragraph text-700">
         <span class="text-small-regular text-neutral-500">U.Medida</span>
@@ -49,9 +49,9 @@
     </div>
   </div>
 
-  <div class="order-item-card__status">
+  <div class="order-item-card__status" *ngIf="!hideTracking">
     <div>
-      <span class="item-status" [class]="orderItem.key">
+      <span class="item-status" [class]="orderItem.key" *ngIf="orderItem.tracking">
         {{orderItem.tracking}}
       </span>
     </div>
@@ -76,7 +76,7 @@
           {{ tracking.FechaRegistro  | date:'h:mm a'}}
           <span *ngIf="!tracking.FechaRegistro">-</span>
         </div>
-        
+
         <div class="track-status">{{ tracking.Seguimiento}}</div>
       </div>
     </div>

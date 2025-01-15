@@ -23,7 +23,7 @@ export class OrgPurchaseOrderSummaryCardComponent {
    * Purchase order to show
    * @type {PurchaseOrder}
    */
-  @Input() purchaseOrder!: PurchaseOrder;
+  @Input() purchaseOrder!: PurchaseOrder | null;
 
   /**
    * Boolean to track customer info section

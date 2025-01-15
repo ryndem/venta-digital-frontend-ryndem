@@ -100,16 +100,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/page-purchase-order-created/page-purchase-order-created.module').then(m => m.PagePurchaseOrderCreatedModule)
   },
   {
+    path: 'orders/in-progress/creation',
+    component: TempMainLayoutComponent,
+    loadChildren: () => import('./pages/page-purchase-order-creation/page-purchase-order-creation.module').then(m => m.PagePurchaseOrderCreationModule)
+  },  
+  {
     path: 'orders/in-progress/:purchaseOrderId',
     component: TempMainLayoutComponent,
     loadChildren: () => import('./pages/page-purchase-order-details/page-purchase-order-details.module').then(m => m.PagePurchaseOrderDetailsModule)
   },
 
-  {
-    path: 'orders/in-progress/creation',
-    component: TempMainLayoutComponent,
-    loadChildren: () => import('./pages/page-purchase-order-creation/page-purchase-order-creation.module').then(m => m.PagePurchaseOrderCreationModule)
-  },  
+
 
   // ====================================================================== //
 

@@ -5,6 +5,7 @@
  */
 
 import { ConfirmedOrder } from "app/model/confirmed-order";
+import { OrderItem } from "app/model/order-item";
 import { PurchaseOrder } from "app/model/purchase-order";
 import { ShoppingCart } from "app/model/shopping-cart";
 
@@ -17,6 +18,17 @@ export interface OrderState {
     quotes: ShoppingCart[];
     purchaseOrders: PurchaseOrder[];
     confirmedOrders: ConfirmedOrder[];
+
+    purchaseOrderItems: Array<{
+          purchaseOrderId: string;
+          quoteId: string;
+          items: OrderItem[];
+        }>;
+    confirmedOrderItems: Array<{
+        confirmedOrderId: string;
+        quoteId: string;
+        items: OrderItem[];
+      }>;
 }
 
 /**
@@ -24,6 +36,8 @@ export interface OrderState {
  */
 export const initialOrderState: OrderState = {
     quotes: [],
+    purchaseOrderItems: [],
+    confirmedOrderItems: [],
     purchaseOrders: [],
     confirmedOrders: [],
 };

@@ -45,7 +45,7 @@ export class UserEffects {
         ofType(UserActions.logout),
         mergeMap(() =>
           from(this.authService.logout()).pipe(
-            mergeMap(() => of({ type: '[User]logout' })),
+            mergeMap(() => of({ type: '[User]logoutSuccess' })),
             catchError(() => of({ type: '[User]logoutFailure' }))
           )
         )
