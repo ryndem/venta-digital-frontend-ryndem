@@ -26,12 +26,20 @@ import { updateIsOutstandingProductsLoading, updateIsProductsPageLoading } from 
   providedIn: 'root',
 })
 export class ProductsService {
-  
+
   /**
    * Path for server error page
    * @private
    */
   private SERVER_ERROR_PAGE_PATH = '/server-error';
+
+
+
+  /**
+   * Path for not found page
+   * @private
+   */
+  private NOT_FOUND_PAGE_PATH = '/404';
 
   /**
    * Creates an instance of ProductsService.
@@ -54,7 +62,7 @@ export class ProductsService {
    * @return {Promise<ProductResponse>}
    */
   async listProductsByCategory(searchParams: SearchParams) {
-    
+
     const body: SearchProductProps = {
       pageSize: searchParams.pageSize,
       desiredPage: searchParams.page,
@@ -76,7 +84,7 @@ export class ProductsService {
     }
 
     const apiPath: string = this.getApiPath();
-    
+
     try {
       this.store.dispatch(updateIsProductsPageLoading({isProductsPageLoading: true}));
       const page = await firstValueFrom(this.httpClient.post<ProductResponse>(apiPath, body));
@@ -93,7 +101,7 @@ export class ProductsService {
   /**
    * Returns api path for the current user
    * @private
-   * @return {*}  {string} 
+   * @return {*}  {string}
    */
   private getApiPath(): string {
     if (this.authService.isAuthenticated()) {
@@ -188,7 +196,7 @@ export class ProductsService {
   /**
    * Get product by id
    * @param {string} productId
-   * @return {Promise<Product>} 
+   * @return {Promise<Product>}
    */
   async getProduct(productId: string): Promise<Product> {
     let apiPath = `${environment.apiUrl}/ProductWeb/${productId}`;
@@ -205,6 +213,15 @@ export class ProductsService {
       if (error instanceof HttpErrorResponse) {
         if (error.status === 500) {
           this.redirectToSeverErrorPage();
+        }
+
+        if (error.status === 400) {
+          const errorBody = error.error;
+          if (errorBody?.errors?.IdProduct) {
+            this.redirectToNotFoundPage();
+          } else {
+            console.error(errorBody);
+          }
         }
       }
       throw error;
@@ -249,7 +266,7 @@ export class ProductsService {
   /**
    * Search product by search criteria
    * @param {string} search
-   * @return {Promise<SearchedProduct[]>} 
+   * @return {Promise<SearchedProduct[]>}
    */
   async searchProducts(search: string): Promise<SearchedProduct[]> {
     const body: SearchProductRequest = {
@@ -270,11 +287,19 @@ export class ProductsService {
   }
 
   /**
-   * Retirect user to error page
+   * Redirect user to error page
    * @private
    */
   private redirectToSeverErrorPage() {
     this.router.navigate([ this.SERVER_ERROR_PAGE_PATH ]);
+  }
+
+  /**
+   * Redirect user to not found page
+   * @private
+  */
+  private redirectToNotFoundPage() {
+    this.router.navigate([this.NOT_FOUND_PAGE_PATH]);
   }
 
 }

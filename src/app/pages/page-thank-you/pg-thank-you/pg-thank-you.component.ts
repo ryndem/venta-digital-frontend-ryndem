@@ -39,7 +39,11 @@ export class PgThankYouComponent implements OnInit {
   * Store reference (order.quotes[id])
   */
   quote$: Observable<ShoppingCart | null>;
-  
+
+  /**
+   * Variable to storage if the disclaimer message should be shown
+  */
+  disclaimerVisible: boolean = false;
 
 
   /**
@@ -56,16 +60,18 @@ export class PgThankYouComponent implements OnInit {
     this.setMetaTags();
   }
 
-  
+
   /**
    * Initializing method
    */
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe((params) => {
       this.quoteId = params['quoteId'];
-      if(this.quoteId) {
-        console.log('select quote', this.quoteId);
+      if (this.quoteId) {
         this.quote$ = this.store.select(selectQuoteDetails(this.quoteId));
+        this.quote$.subscribe((quote) => {
+          this.disclaimerVisible = this.getDisclaimerVisibility(quote);
+        });
       }
       this.loadQuote();
     });
@@ -73,7 +79,7 @@ export class PgThankYouComponent implements OnInit {
     this.store.dispatch(loadCart());
   }
 
-  
+
   /**
    * Method to load created quote information
    */
@@ -84,26 +90,25 @@ export class PgThankYouComponent implements OnInit {
   }
 
   /**
-   * Method to calculate if the disclaimer shoul be shown
+   * Method to calculate if the disclaimer should be shown
    */
-    async getDisclaimerVisibility(quote: ShoppingCart | null) {
-      if (quote?.quotationDetails.address.trim() == '') {
-        return true;
-      }
-
-      if ((quote?.listQuotationItem.filter(p => p.controlled).length || 0) > 0) {
-        return true;
-      }
-
-      return false;
+  getDisclaimerVisibility(quote: ShoppingCart | null) {
+    if (quote?.quotationDetails.address.trim() === '') {
+      return true;
     }
+
+    if ((quote?.listQuotationItem.filter(p => p.controlled).length || 0) > 0) {
+      return true;
+    }
+    return false;
+  }
 
   /**
    * Updates page meta tags
    */
   setMetaTags() {
     this.store.dispatch(updateMetaTagsAndTitle({
-      pageTitle: 'Gracias por su Cotización - Proquifa', 
+      pageTitle: 'Gracias por su Cotización - Proquifa',
       tags: [
         {
           name: 'description',

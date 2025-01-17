@@ -203,6 +203,7 @@ export class CartService {
     } catch (error) {
       this.store.dispatch(showErrorNotification({ message: 'No se pudo enviar la cotización'}));
     }
+    this.load();
   }
 
   /**

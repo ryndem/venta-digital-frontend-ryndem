@@ -13,7 +13,6 @@ import { OrderItem, PurchaseOrderForm } from 'app/model/purchase-order-form';
 import { Observable } from 'rxjs';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
-import { UserState } from 'app/store/states/user.state';
 import { selectCurrentUser, selectUserHasOrderItemsSelected } from 'app/store/selectors/user.selectors';
 import { showErrorNotification } from 'app/store/actions/view.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
@@ -169,13 +168,13 @@ export class PgPurchaseOrderCreationComponent {
    * Creates an instance of PgPurchaseOrderCreationComponent.
    * @param {QuotesService} quotesService
    * @param {PurchaseOrderService} purchaseOrderService
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
     private quotesService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
-    private store: Store<{ user: UserState }>,
+    private store: Store,
     private router: Router,
   ) {
     this.user$ = this.store.select(selectCurrentUser);
