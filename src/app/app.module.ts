@@ -55,6 +55,7 @@ import { CatalogCommonsModule } from './module-catalog-commons/catalog-commons.m
 import { orderReducer } from './store/reducers/order.reducer';
 import { viewReducer } from './store/reducers/view.reducer';
 import { OrderEffects } from './store/effects/order.effects';
+import { ViewEffects } from './store/effects/view.effects';
 
 registerLocaleData(localeEs);
 
@@ -99,7 +100,7 @@ registerLocaleData(localeEs);
     PageTermsAndConditionsModule,
 
     // ============================ ===== ============================//
-    EffectsModule.forRoot([ProductEffects, CartEffects, UserEffects, OrderEffects]),
+    EffectsModule.forRoot([ProductEffects, CartEffects, UserEffects, OrderEffects, ViewEffects]),
 
     NgIconsModule.withIcons({
       heroArrowUpTray,

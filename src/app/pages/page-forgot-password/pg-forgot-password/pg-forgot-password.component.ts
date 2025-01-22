@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'app/auth/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { ViewState } from 'app/store/states/view.state';
+import { updateIsPasswordResetted, updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectIsPasswordResetted } from 'app/store/selectors/view.selectors';
+import { sendForgotPasswordEmail } from 'app/store/actions/user.actions';
 
 /**
  * Page component to create a reset user password request
@@ -28,22 +28,21 @@ export class PgForgotPasswordComponent implements OnInit {
   /**
    * Boolean to track if the password is resetted
    */
-  isPasswordResetted = false;
+  isPasswordResetted$: Observable<boolean>;
 
   /**
    * Creates an instance of PgForgotPasswordComponent.
    * @param {FormBuilder} fb
-   * @param {AuthService} authService
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
+    this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: false }))
+    this.isPasswordResetted$ = this.store.select(selectIsPasswordResetted)
     this.setMetaTags();
    }
-
 
   /**
    * Initializing method
@@ -66,26 +65,13 @@ export class PgForgotPasswordComponent implements OnInit {
    * @return {*} 
    */
   async onSubmit() {
-
     if (this.forgotPasswordForm.invalid) {
       this.forgotPasswordForm.markAllAsTouched();
       return;
     }
 
     const { email } = this.forgotPasswordForm.value;
-
-    try {
-      await this.authService.sendForgotPasswordEmail(email);
-      this.isPasswordResetted = true;
-    } catch (error: unknown) {
-      if (error instanceof HttpErrorResponse) {
-        if (error.status === 410) {
-          this.isPasswordResetted = true;
-        }
-      } else {
-        console.error('An unexpected error occurred');
-      }
-    }
+    this.store.dispatch(sendForgotPasswordEmail({email}));
   }
 
   /**

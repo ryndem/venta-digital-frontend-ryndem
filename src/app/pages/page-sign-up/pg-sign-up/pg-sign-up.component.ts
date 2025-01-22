@@ -1,11 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'app/auth/auth.service';
+import { resetSignUpRequest, userSignUp } from 'app/store/actions/user.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { ViewState } from 'app/store/states/view.state';
+import { selectIsSignUpRequested, selectIsSignUpReviewPending, selectIsSignUpServerError, selectSignUpErrorMessage } from 'app/store/selectors/user.selectors';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 /**
  * Page component to create a user sign up request
@@ -30,36 +30,41 @@ export class PgSignUpComponent implements OnInit {
   isPasswordVisible = false;
 
   /**
-   * Boolean to track if the request failed/rejected by the API
+   * Store reference (user.isSignUpServerError)
    */
-  isServerError = false;
+  isServerError$: Observable<boolean>;
 
   /**
-   * Boolean to track if the sign up is already sent
+   * Store reference (user.isSignUpRequested)
    */
-  isSingupRequested = false;
+  isSignUpRequested$: Observable<boolean>;
 
   /**
-   * Boolean to track if the user has to be reviewed
+   * Store reference (user.isSignUpReviewPending)
    */
-  isReviewPending = false;
+  isSignUpReviewPending$: Observable<boolean>;
 
   /**
-   * Sign up request error message
+   * Store reference (user.errorMessage)
    */
-  errorMessage = '';
+  errorMessage$: Observable<string>;
+
+
+
 
   /**
    * Creates an instance of PgSignUpComponent.
    * @param {FormBuilder} fb
-   * @param {AuthService} authService
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
+    this.isServerError$ = this.store.select(selectIsSignUpServerError);
+    this.isSignUpRequested$ = this.store.select(selectIsSignUpRequested);
+    this.isSignUpReviewPending$ = this.store.select(selectIsSignUpReviewPending);
+    this.errorMessage$ = this.store.select(selectSignUpErrorMessage);
     this.setMetaTags();
   }
 
@@ -68,6 +73,7 @@ export class PgSignUpComponent implements OnInit {
    */
   ngOnInit(): void {
     this.initializeForm();
+    this.store.dispatch(resetSignUpRequest());
   }
 
   /**
@@ -107,41 +113,19 @@ export class PgSignUpComponent implements OnInit {
 
     const data = this.signUpForm.value;
 
-    try {
-      this.isServerError = false;
-      this.errorMessage = '';
-
-      const response = await this.authService.signUp(
-        data.email,
-        data.company,
-        data.rfc,
-        data.name,
-        data.lastName,
-        data.phoneNumber,
-        data.jobTitle,
-        data.password,
-        data.registryType === 'isFinalUser',
-        data.registryType === 'isReseller',
-      );
-      this.isSingupRequested = true;
-      if (response.status === "pending") {
-        this.isReviewPending = true;
-      }
-    } catch (e: unknown) {
-      if (e instanceof HttpErrorResponse) {
-        if (e.error?.type === 'code_not_found_customer') {
-          this.isSingupRequested = true;
-          this.isReviewPending = true;
-        } else if (e.error?.type === 'code_password_requirement') {
-          this.isServerError = true;
-          this.errorMessage = 'Lo sentimos, tu contraseña no cumple con los requisitos mínimos de seguridad. Intenta una nueva.';
-        } else {
-          this.isServerError = true;
-          this.errorMessage =
-            'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.';
-        }
-      }
-    }
+    this.store.dispatch(resetSignUpRequest());
+    this.store.dispatch(userSignUp({
+      email: data.email,
+      company: data.company,
+      rfc: data.rfc,
+      name: data.name,
+      lastName: data.lastName,
+      phoneNumber: data.phoneNumber,
+      jobTitle: data.jobTitle,
+      password: data.password,
+      isFinalUser: data.registryType === 'isFinalUser',
+      isReseller: data.registryType === 'isReseller',
+    }));
   }
 
   /**

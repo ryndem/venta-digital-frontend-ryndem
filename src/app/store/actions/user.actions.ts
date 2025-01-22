@@ -71,3 +71,86 @@ export const loadSession = createAction(
   '[User]loadSession'
 );
 
+/**
+ * Export sendForgotPasswordEmail action
+ */
+export const sendForgotPasswordEmail = createAction(
+  '[User]sendForgotPasswordEmail',
+  props<{ email: string }>()
+);
+
+
+/**
+ * Export userSignUp action
+ */
+export const userSignUp = createAction(
+  '[User]userSignUp',
+  props<{ 
+    email: string,
+    company: string,
+    rfc: string,
+    name: string,
+    lastName: string,
+    phoneNumber: string,
+    jobTitle: string,
+    password: string,
+    isFinalUser: boolean,
+    isReseller: boolean,
+  }>()
+);
+
+/**
+ * Export resetSignUpRequest action
+ */
+export const resetSignUpRequest = createAction(
+  '[User]resetSignUpRequest'
+);
+
+
+/**
+ * Export updateIsSignUpRequested action
+ */
+export const updateIsSignUpRequested = createAction(
+  '[User]updateIsSignUpRequested',
+  props<{ isSignUpRequested: boolean }>()
+);
+
+/**
+ * Export updateIsSignUpReviewPending action
+ */
+export const updateIsSignUpReviewPending = createAction(
+  '[User]updateIsSignUpReviewPending',
+  props<{ isSignUpReviewPending: boolean }>()
+);
+
+/**
+ * Export updateIsSignUpServerError action
+ */
+export const updateIsSignUpServerError = createAction(
+  '[User]updateIsSignUpServerError',
+  props<{ isSignUpServerError: boolean }>()
+);
+
+/**
+ * Export updateErrorMessage action
+ */
+export const updateSignUpErrorMessage = createAction(
+  '[User]updateSignUpErrorMessage',
+  props<{ signUpErrorMessage: string }>()
+);
+
+/**
+ * Export validatePasswordToken action
+ */
+export const validatePasswordToken = createAction(
+  '[User]validatePasswordToken',
+  props<{ token: string }>()
+);
+
+/**
+ * Export resetPassword action
+ */
+export const resetPassword = createAction(
+  '[User]resetPassword',
+  props<{ token: string, password: string }>()
+);

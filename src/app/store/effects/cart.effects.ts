@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError, take, debounceTime } from 'rxjs/operators';
+import { map, mergeMap, catchError, debounceTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as CartActions from '../actions/cart.actions';
 import { CartService } from 'app/services/cart.service';
@@ -127,10 +127,9 @@ export class CartEffects {
     submitShoppingCart$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CartActions.submitShoppingCart),
-        take(1),
         mergeMap((action) =>
           from(this.cartService.submit(action.quoteId, action.addressId, action.cartItems)).pipe(
-            mergeMap(() => of({ type: '[Cart]submitShoppingCart' })),
+            mergeMap(() => of({ type: '[Cart]submitShoppingCartSuccess' })),
             catchError(() => of({ type: '[Cart]submitShoppingCart' }))
           )
         )

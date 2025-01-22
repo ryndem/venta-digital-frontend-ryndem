@@ -48,5 +48,74 @@ export const productReducer = createReducer(
       ...state,
       productDetails: products
     })
-  })
+  }),
+
+  on(ProductActions.updateAlternativeProducts, (state, { productId, products }) => {
+    const alternatives = [...state.alternativeProducts];
+    const index = alternatives.findIndex( p => p.productId == productId);
+
+    if(index >= 0) {
+      alternatives[index] = {
+        productId: productId,
+        products: products
+      };
+    } else {
+      alternatives.push({
+        productId: productId,
+        products: products
+      });
+    }
+
+    return ({
+      ...state,
+      alternativeProducts: alternatives
+    })
+  }),
+
+  on(ProductActions.updateComplementaryProducts, (state, { productId, products }) => {
+    const complementaries = [...state.complementaryProducts];
+    const index = complementaries.findIndex( p => p.productId == productId);
+
+    if(index >= 0) {
+      complementaries[index] = {
+        productId: productId,
+        products: products
+      };
+    } else {
+      complementaries.push({
+        productId: productId,
+        products: products
+      });
+    }
+
+    return ({
+      ...state,
+      complementaryProducts: complementaries
+    })
+  }),
+
+  on(ProductActions.updateProductPrice, (state, { product }) => {
+    const prices = [...state.productPrices];
+    const index = prices.findIndex( p => p.productId == product.idProduct);
+
+    if(index >= 0) {
+      prices[index] = {
+        productId: product.idProduct,
+        priceVD: product.offert.unitPrice,
+        priceWeb: product.offert.unitPriceWeb
+      };
+    } else {
+      prices.push({
+        productId: product.idProduct,
+        priceVD: product.offert.unitPrice,
+        priceWeb: product.offert.unitPriceWeb
+      });
+    }
+
+    return ({
+      ...state,
+      productPrices: prices
+    })
+  }),
+
 );

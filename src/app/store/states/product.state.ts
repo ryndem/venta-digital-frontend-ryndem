@@ -40,7 +40,24 @@ export interface ProductState {
    * List of the outstanding products.
    * @type {(Product[] | null)}
    */
-    productsPage: ProductResponse | null;
+  productsPage: ProductResponse | null;
+  
+  alternativeProducts: Array<{
+    productId: string;
+    products: Product[];
+  }>;
+
+  complementaryProducts: Array<{
+    productId: string;
+    products: Product[];
+  }>;
+
+  productPrices: Array<{
+    productId: string;
+    priceVD: number;
+    priceWeb: number;
+  }>;
+
 }
 
 /**
@@ -52,5 +69,8 @@ export const initialProductState: ProductState = {
   categories: [],
   outstandingProducts: null,
   productsPage: null,
+  alternativeProducts: [],
+  complementaryProducts: [],
+  productPrices: [],
 };
 

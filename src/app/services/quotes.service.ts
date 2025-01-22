@@ -34,7 +34,6 @@ export class QuotesService {
    * @return {Promise<ShoppingCart>}
    */
   async getById(quoteId: string): Promise<ShoppingCart> {
-    console.log('GET BY ID', quoteId);
     return firstValueFrom(this.httpClient.get<ShoppingCart>(`${this.apiPath}?idQuotation=${quoteId}`));
   }
 

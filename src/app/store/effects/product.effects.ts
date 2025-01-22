@@ -7,6 +7,7 @@ import { CategoriesService } from 'app/services/categories.service';
 import { Category } from 'app/model/category';
 import { ProductsService } from 'app/services/products.service';
 import { Product } from 'app/model/product';
+import { ProductResponse } from 'app/model/product-response';
 
 
 /**
@@ -91,6 +92,51 @@ export class ProductEffects {
         from(this.productsService.getProduct(action.productId)).pipe(
           map((product: Product) => ProductActions.addLoadedProduct({product: product})),
           catchError(() => of({type: '[Order]loadProductByIdFailure'}))
+        )
+      )
+    )
+  );
+
+  /**
+   * Effect to load alternative products by product id
+   */
+  loadAlternativeProducts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.loadAlternativeProducts),
+      mergeMap((action) =>
+        from(this.productsService.listAlternativeProducts(action.productId)).pipe(
+          map((productResponse: ProductResponse) => ProductActions.updateAlternativeProducts({productId: action.productId, products: productResponse.results})),
+          catchError(() => of({type: '[Order]loadAlternativeProductsFailure'}))
+        )
+      )
+    )
+  );
+
+  /**
+   * Effect to load complementary products by product id
+   */
+  listComplementaryProducts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.loadComplementaryProducts),
+      mergeMap((action) =>
+        from(this.productsService.listComplementaryProducts(action.productId)).pipe(
+          map((productResponse: ProductResponse) => ProductActions.updateComplementaryProducts({productId: action.productId, products: productResponse.results})),
+          catchError(() => of({type: '[Order]listComplementaryProductsFailure'}))
+        )
+      )
+    )
+  );
+
+  /**
+   * Effect to load complementary products by product id
+   */
+  loadProductPrice$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.loadProductPrice),
+      mergeMap((action) =>
+        from(this.productsService.getProduct(action.productId)).pipe(
+          map((product: Product) => ProductActions.updateProductPrice({product: product})),
+          catchError(() => of({type: '[Order]loadProductPriceFailure'}))
         )
       )
     )

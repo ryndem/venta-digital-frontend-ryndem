@@ -6,7 +6,7 @@ import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
 
-/** 
+/**
  * Exports updateExpressFreight action
 */
 export const updateExpressFreight = createAction(
@@ -19,19 +19,27 @@ export const updateExpressFreight = createAction(
   }>()
 )
 
-/** 
+/**
+ * Exports updateExpressFreightSuccess action
+*/
+export const updateExpressFreightSuccess = createAction(
+  '[Order]updateExpressFreightSuccess'
+);
+
+
+/**
  * Exports submitShoppingCart action
 */
 export const submitShoppingCart = createAction(
   '[Order]submitShoppingCart',
   props<{
-    quoteId: string, 
-    addressId: string | null, 
+    quoteId: string,
+    addressId: string | null,
     cartItems: QuoteProduct[]
   }>()
 )
 
-/** 
+/**
  * Exports loadQuoteById action
 */
 export const loadQuoteById = createAction(
@@ -39,7 +47,7 @@ export const loadQuoteById = createAction(
   props<{ quoteId: string}>()
 )
 
-/** 
+/**
  * Exports addLoadedQuote action
 */
 export const addLoadedQuote = createAction(
@@ -47,7 +55,7 @@ export const addLoadedQuote = createAction(
   props<{ quote: ShoppingCart}>()
 )
 
-/** 
+/**
  * Exports loadPurchaseOrderById action
 */
 export const loadPurchaseOrderById = createAction(
@@ -55,7 +63,7 @@ export const loadPurchaseOrderById = createAction(
   props<{ purchaseOrderId: string }>()
 )
 
-/** 
+/**
  * Exports addLoadedPurchaseOrder action
 */
 export const addLoadedPurchaseOrder = createAction(
@@ -64,7 +72,7 @@ export const addLoadedPurchaseOrder = createAction(
 )
 
 
-/** 
+/**
  * Exports loadConfirmedOrderById action
 */
 export const loadConfirmedOrderById = createAction(
@@ -72,7 +80,7 @@ export const loadConfirmedOrderById = createAction(
   props<{ confirmedOrderId: string }>()
 )
 
-/** 
+/**
  * Exports addLoadedConfirmedOrder action
 */
 export const addLoadedConfirmedOrder = createAction(
@@ -80,7 +88,7 @@ export const addLoadedConfirmedOrder = createAction(
   props<{ confirmedOrder: ConfirmedOrder}>()
 )
 
-/** 
+/**
  * Exports loadPurchaseOrderItems action
 */
 export const loadPurchaseOrderItems = createAction(
@@ -89,7 +97,7 @@ export const loadPurchaseOrderItems = createAction(
 )
 
 
-/** 
+/**
  * Exports loadConfirmedOrderItems action
 */
 export const loadConfirmedOrderItems = createAction(
@@ -98,7 +106,7 @@ export const loadConfirmedOrderItems = createAction(
 )
 
 
-/** 
+/**
  * Exports addLoadedPurchaseOrderItems action
 */
 export const addLoadedPurchaseOrderItems = createAction(
@@ -106,7 +114,7 @@ export const addLoadedPurchaseOrderItems = createAction(
   props<{ purchaseOrderId: string, quoteId: string, items: OrderItem[]}>()
 )
 
-/** 
+/**
  * Exports addLoadedConfirmedOrderItems action
 */
 export const addLoadedConfirmedOrderItems = createAction(

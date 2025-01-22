@@ -50,6 +50,11 @@ export interface UserState {
    */
   isLoading: boolean;
 
+
+  isSignUpRequested: boolean;
+  isSignUpReviewPending: boolean;
+  isSignUpServerError: boolean;
+  signUpErrorMessage: string;
 }
 
 /**
@@ -62,5 +67,11 @@ export const initialUserState: UserState = {
   addresses: [],
   hasOrderItemsSelected: false,
   isLoginModalOpened: false,
-  isLoading: true
+  isLoading: true,
+  isSignUpRequested: false,
+  isSignUpReviewPending: false,
+  isSignUpServerError: false,
+  signUpErrorMessage: '',
 };
+
+

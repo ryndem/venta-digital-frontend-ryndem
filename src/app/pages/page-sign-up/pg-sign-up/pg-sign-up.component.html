@@ -1,4 +1,4 @@
-<div *ngIf="!isSingupRequested">
+<div *ngIf="(isSignUpRequested$ | async) === false">
   <p class="text-title-2">REGISTRO</p>
 
   <p class="text-subtle mb-32">
@@ -312,9 +312,9 @@
       </div>
     </div>
 
-    <div class="error-alert text-body" *ngIf="isServerError">
+    <div class="error-alert text-body" *ngIf="(isServerError$ | async) === true">
       <p class="text-title-5">Error al enviar el formulario</p>
-      {{errorMessage}}
+      {{(errorMessage$ | async)}}
     </div>
 
     <button [disabled]="signUpForm.invalid">Registrarme</button>
@@ -323,7 +323,7 @@
   <a class="text-blue-600 text-body" routerLink>Cancelar y Regresar</a>
 </div>
 
-<div class="justify-centered" *ngIf="isSingupRequested && !isReviewPending">
+<div class="justify-centered" *ngIf="(isSignUpRequested$ | async) === true && (isSignUpReviewPending$ | async) !== true">
   <p class="text-title-2 mb-16">TU REGISTRO ESTÁ CASI COMPLETO</p>
 
   <p class="text-paragraph mb-16">Sigue estos pasos para finalizar</p>
@@ -351,7 +351,7 @@
   <a routerLink="/" class="form-button">Regresar al inicio</a>
 </div>
 
-<div class="sign-up__in-review justify-centered " *ngIf="isSingupRequested && isReviewPending">
+<div class="sign-up__in-review justify-centered " *ngIf="(isSignUpRequested$ | async) === true && (isSignUpReviewPending$ | async) === true">
   <p class="text-title-2 mb-16">TU REGISTRO ESTÁ EN REVISIÓN</p>
 
   <p class="text-paragraph mb-16">

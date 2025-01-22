@@ -13,7 +13,12 @@ export interface ViewState {
     isFileUploading: boolean;
     isOutstandingProductsLoading: boolean;
     isProductsPageLoading: boolean;
-    
+    isPasswordResetted: boolean;
+
+    isResetPasswordTokenValid: boolean;
+    isResetPasswordRestError: boolean;
+    isResetPasswordTokenExpired: boolean;
+    isResetPasswordChangeSuccess: boolean;
 }
 
 /**
@@ -23,5 +28,10 @@ export const initialViewState: ViewState = {
     isFileUploading: false,
     isOutstandingProductsLoading: false,
     isProductsPageLoading: false,
+    isPasswordResetted: false,
+    isResetPasswordTokenValid: false,
+    isResetPasswordRestError: false,
+    isResetPasswordTokenExpired: false,
+    isResetPasswordChangeSuccess: false,
 };
 

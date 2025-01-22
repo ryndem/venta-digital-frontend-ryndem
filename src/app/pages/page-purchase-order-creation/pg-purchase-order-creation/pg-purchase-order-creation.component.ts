@@ -13,9 +13,11 @@ import { OrderItem, PurchaseOrderForm } from 'app/model/purchase-order-form';
 import { Observable } from 'rxjs';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
+import { UserState } from 'app/store/states/user.state';
 import { selectCurrentUser, selectUserHasOrderItemsSelected } from 'app/store/selectors/user.selectors';
 import { showErrorNotification } from 'app/store/actions/view.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * Page component to create purchase order
@@ -168,13 +170,13 @@ export class PgPurchaseOrderCreationComponent {
    * Creates an instance of PgPurchaseOrderCreationComponent.
    * @param {QuotesService} quotesService
    * @param {PurchaseOrderService} purchaseOrderService
-   * @param {Store} store
+   * @param {Store<{ user: UserState }>} store
    * @param {Router} router
    */
   constructor(
     private quotesService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
-    private store: Store,
+    private store: Store<{ user: UserState }>,
     private router: Router,
   ) {
     this.user$ = this.store.select(selectCurrentUser);
@@ -490,8 +492,12 @@ export class PgPurchaseOrderCreationComponent {
             purchaseOrderId: order.idPurchaseOrder
           }
         });
-      } catch (error) {
-        this.store.dispatch(showErrorNotification({ message: 'Error al crear orden'}));
+      } catch (error: unknown) {
+        if (error instanceof HttpErrorResponse) {
+          this.store.dispatch(showErrorNotification({ message: error.error.detail}));
+        } else {
+          this.store.dispatch(showErrorNotification({ message: 'Error al crear orden'}));
+        }
         this.isCreatingOrder = false
       }
 

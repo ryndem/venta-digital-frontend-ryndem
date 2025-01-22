@@ -99,12 +99,15 @@
           <div class="product-details-card__info__market__pricing">
             <p
               class="text-paragraph text-gray-green-500 line-through"
-              *ngIf="priceWeb"
+              *ngIf="(priceWeb$ | async ) !== null"
             >
-              {{ priceWeb | usdCurrency }}
+              {{ (priceWeb$ | async ) | usdCurrency }}
             </p>
-            <p class="regular-price text-primary-500">
-              {{ priceVD | usdCurrency }}
+            <p 
+                class="regular-price text-primary-500"
+                *ngIf="(priceVD$ | async ) !== null"
+            >
+              {{ (priceVD$ | async ) | usdCurrency }}
               <span class="text-paragraph text-gray-green-900">p/u</span>
             </p>
           </div>

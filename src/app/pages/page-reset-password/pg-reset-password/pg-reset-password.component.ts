@@ -1,12 +1,12 @@
-import { AuthService } from 'app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { ViewState } from 'app/store/states/view.state';
+import { updateIsResetPasswordRestError, updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectIsResetPasswordChangeSuccess, selectIsResetPasswordRestError, selectIsResetPasswordTokenExpired, selectIsResetPasswordTokenValid } from 'app/store/selectors/view.selectors';
+import { resetPassword, validatePasswordToken } from 'app/store/actions/user.actions';
 
 /**
  * Page component to reset user password
@@ -27,47 +27,38 @@ export class PgResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
 
   /**
-   * Flag to validate token
-   */
-  isTokenValid = false;
-
-  /**
    * Flag to show password
    */
   isPasswordVisible = false;
-
-  /**
-   * Flag for API request error
-   */
-  restError = false;
-
-  /**
-   * Flag for token expiration
-   */
-  isTokenExpired = false;
-
-  /**
-   * Flag for password change success
-   */
-  isPasswordChangeSuccess = false;
 
   /**
    * Change password token
    */
   token = '';
 
+
+
+  isTokenValid$: Observable<boolean>;
+  restError$: Observable<boolean>;
+  isTokenExpired$: Observable<boolean>;
+  isPasswordChangeSuccess$: Observable<boolean>;
+
+  
   /**
    * Creates an instance of PgResetPasswordComponent.
    * @param {FormBuilder} fb
-   * @param {AuthService} authService
    * @param {ActivatedRoute} currentRoute
+   * * @param {Store} store
    */
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private currentRoute: ActivatedRoute,
-    private store: Store<ViewState>
+    private store: Store
   ) {
+    this.isTokenValid$ = this.store.select(selectIsResetPasswordTokenValid);
+    this.restError$ = this.store.select(selectIsResetPasswordRestError);
+    this.isTokenExpired$ = this.store.select(selectIsResetPasswordTokenExpired);
+    this.isPasswordChangeSuccess$ = this.store.select(selectIsResetPasswordChangeSuccess);
     this.setMetaTags();
   }
 
@@ -80,10 +71,10 @@ export class PgResetPasswordComponent implements OnInit {
       if (params['token']) {
         const token = params['token'].replace(/ /g, '+');
         const decodedToken = decodeURIComponent(token);
-        this.processActivation(decodedToken);
+        this.store.dispatch(validatePasswordToken({token: decodedToken}))
         this.token = decodedToken;
       } else {
-        this.restError = true;
+        this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))
       }
     });
   }
@@ -113,25 +104,6 @@ export class PgResetPasswordComponent implements OnInit {
   }
 
   /**
-   * Method to validate activation
-   * @param {string} token
-   */
-  async processActivation(token: string) {
-    try {
-      await this.authService.validateRequestResetPassword(token);
-      this.isTokenValid = true;
-    } catch (error: unknown) {
-      if (error instanceof HttpErrorResponse) {
-        if (error.error?.type === "code_requestResetToken_expired" ) {
-          this.isTokenExpired = true;
-        } else {
-          this.restError = true;
-        }
-      }
-    }
-  }
-
-  /**
    * Method to manage submit action
    * @return {*}  {Promise<void>}
    */
@@ -142,14 +114,7 @@ export class PgResetPasswordComponent implements OnInit {
     }
 
     const { password } = this.resetPasswordForm.value;
-
-    try {
-      await this.authService.resetPassword(this.token, password);
-      if (this.restError) this.restError = false;
-      this.isPasswordChangeSuccess = true;
-    } catch (error) {
-      this.restError = true;
-    }
+    this.store.dispatch(resetPassword({ token: this.token, password: password}))
   }
 
   /**

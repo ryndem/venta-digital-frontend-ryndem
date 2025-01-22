@@ -31,6 +31,28 @@ export const userReducer = createReducer(
   on(UserActions.updateLoading, (state, { isLoading }) => ({
     ...state,
     isLoading
-  }))
+  })),
+  on(UserActions.resetSignUpRequest, (state) => ({
+    ...state,
+    isSignUpRequested: false,
+    isSignUpReviewPending: false,
+    isSignUpServerError: false,
+    signUpErrorMessage: '',
+  })),
+  on(UserActions.updateIsSignUpRequested, (state, { isSignUpRequested }) => ({
+    ...state,
+    isSignUpRequested
+  })),
+  on(UserActions.updateIsSignUpReviewPending, (state, { isSignUpReviewPending }) => ({
+    ...state,
+    isSignUpReviewPending
+  })),
+  on(UserActions.updateSignUpErrorMessage, (state, { signUpErrorMessage }) => ({
+    ...state,
+    signUpErrorMessage
+  })),
+  on(UserActions.updateIsSignUpServerError, (state, { isSignUpServerError }) => ({
+    ...state,
+    isSignUpServerError
+  })),
 );
-

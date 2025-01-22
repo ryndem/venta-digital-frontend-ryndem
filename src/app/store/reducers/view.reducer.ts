@@ -19,4 +19,26 @@ export const viewReducer = createReducer(
     ...state,
     isProductsPageLoading
   })),
+  on(ViewActions.updateIsPasswordResetted, (state, { isPasswordResetted }) => ({
+    ...state,
+    isPasswordResetted
+  })),
+
+  on(ViewActions.updateIsResetPasswordTokenValid, (state, { isResetPasswordTokenValid }) => ({
+    ...state,
+    isResetPasswordTokenValid
+  })),
+  on(ViewActions.updateIsResetPasswordTokenExpired, (state, { isResetPasswordTokenExpired }) => ({
+    ...state,
+    isResetPasswordTokenExpired
+  })),
+  on(ViewActions.updateIsResetPasswordRestError, (state, { isResetPasswordRestError }) => ({
+    ...state,
+    isResetPasswordRestError
+  })),
+  on(ViewActions.updateIsResetPasswordChangeSuccess, (state, { isResetPasswordChangeSuccess }) => ({
+    ...state,
+    isResetPasswordChangeSuccess
+  })),
+  
 );

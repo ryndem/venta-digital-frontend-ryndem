@@ -47,7 +47,7 @@ export class OrderEffects {
               action.addressId,
               action.cartItems,
             )).pipe(
-          mergeMap(() => of({type:'[Order]updateExpressFreight'})),
+          mergeMap(() => of({type:'[Order]updateExpressFreightSuccess'})),
           catchError(() => of({type: '[Order]updateExpressFreightFailure'}))
         )
       )
@@ -108,8 +108,8 @@ export class OrderEffects {
       mergeMap((action) =>
         from(this.purchaseOrderService.getItemsByPurchaseOrderId(action.purchaseOrderId, action.quoteId)).pipe(
           map((itemsPage: OrderItemPage) => OrderActions.addLoadedPurchaseOrderItems({
-            purchaseOrderId: action.purchaseOrderId, 
-            quoteId: action.quoteId, 
+            purchaseOrderId: action.purchaseOrderId,
+            quoteId: action.quoteId,
             items: itemsPage.results
           })),
           catchError(() => of({type: '[Order]loadPurchaseOrderItemsFailure'}))
@@ -127,8 +127,8 @@ export class OrderEffects {
       mergeMap((action) =>
         from(this.orderService.getItemsByOrderId(action.confirmedOrderId, action.quoteId)).pipe(
           map((itemsPage: OrderItemPage) => OrderActions.addLoadedConfirmedOrderItems({
-            confirmedOrderId: action.confirmedOrderId, 
-            quoteId: action.quoteId, 
+            confirmedOrderId: action.confirmedOrderId,
+            quoteId: action.quoteId,
             items: itemsPage.results
           })),
           catchError(() => of({type: '[Order]loadConfirmedOrderItemsFailure'}))

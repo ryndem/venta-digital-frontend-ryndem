@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { mergeMap, catchError, throttleTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as ViewActions from '../actions/view.actions';
 import { MetaService } from 'app/services/meta.service';
@@ -37,40 +37,42 @@ export class ViewEffects {
       ofType(ViewActions.updateMetaTagsAndTitle),
       mergeMap((action) =>
         from(this.metaService.updateMetaTagsAndTitle(action.pageTitle, action.tags)).pipe(
-          map(() => of('[View]updateMetaTagsAndTitle')),
-          catchError(() => of('[View]updateMetaTagsAndTitleFailure'))
+          mergeMap(() => of({ type: '[View]updateMetaTagsAndTitle'})),
+          catchError(() => of({ type: '[View]updateMetaTagsAndTitleFailure'}))
         )
       )
     )
   );
 
-    /**
+  /**
    * Effect to show success notification
    */
-    showSuccessNotification$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(ViewActions.showSuccessNotification),
-        mergeMap((action) =>
-          from(this.notificationService.showSuccess(action.message)).pipe(
-            mergeMap(() => of({ type: '[Cart]showSuccessNotification' })),
-            catchError(() => of({ type: '[Cart]showSuccessNotificationFailure' }))
-          )
+  showSuccessNotification$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ViewActions.showSuccessNotification),
+      throttleTime(2000),
+      mergeMap((action) =>
+        from(this.notificationService.showSuccess(action.message)).pipe(
+          mergeMap(() => of({ type: '[View]showSuccessNotification' })),
+          catchError(() => of({ type: '[View]showSuccessNotificationFailure' }))
         )
       )
-    );
+    )
+  );
   
-      /**
-     * Effect to show error notification
-     */
-      showErrorNotification$ = createEffect(() =>
-        this.actions$.pipe(
-          ofType(ViewActions.showErrorNotification),
-          mergeMap((action) =>
-            from(this.notificationService.showError(action.message)).pipe(
-              mergeMap(() => of({ type: '[Cart]showErrorNotification' })),
-              catchError(() => of({ type: '[Cart]showErrorNotificationFailure' }))
-            )
-          )
+  /**
+   * Effect to show error notification
+   */
+  showErrorNotification$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ViewActions.showErrorNotification),
+      throttleTime(2000),
+      mergeMap((action) =>
+        from(this.notificationService.showError(action.message)).pipe(
+          mergeMap(() => of({ type: '[View]showErrorNotification' })),
+          catchError(() => of({ type: '[View]showErrorNotificationFailure' }))
         )
-      );
+      )
+    )
+  );
 }

@@ -37,3 +37,25 @@ export const selectIsLoginModalOpened = createSelector(
     selectUserState,
     (state) => state.isLoginModalOpened
 );
+
+
+
+export const selectIsSignUpServerError = createSelector(
+    selectUserState,
+    (state) => state.isSignUpServerError
+);
+
+export const selectIsSignUpRequested = createSelector(
+    selectUserState,
+    (state) => state.isSignUpRequested
+);
+
+export const selectIsSignUpReviewPending = createSelector(
+    selectUserState,
+    (state) => state.isSignUpReviewPending
+);
+
+export const selectSignUpErrorMessage = createSelector(
+    selectUserState,
+    (state) => state.signUpErrorMessage
+);

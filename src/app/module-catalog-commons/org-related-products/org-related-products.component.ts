@@ -1,6 +1,9 @@
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-import { ProductResponse } from 'app/model/product-response';
-import { ProductsService } from 'app/services/products.service';
+import { Store } from '@ngrx/store';
+import { Product } from 'app/model/product';
+import { loadAlternativeProducts, loadComplementaryProducts } from 'app/store/actions/product.actions';
+import { selectAlternativeProducts, selectComplementaryProducts } from 'app/store/selectors/product.selectors';
+import { Observable } from 'rxjs';
 
 /**
  * Component to show product related products
@@ -20,18 +23,6 @@ export class OrgRelatedProductsComponent implements OnChanges {
    * @type {string}
    */
   @Input() productId!: string;
-  
-  /**
-   * List of alternative products
-   * @type {(ProductResponse | null)}
-   */
-  alternativeProducts: ProductResponse | null = null;
-
-  /**
-   * List of complementary products
-   * @type {(ProductResponse | null)}
-   */
-  complementaryProducts: ProductResponse | null = null;
 
   /**
    * Flag to show alternative products
@@ -48,11 +39,19 @@ export class OrgRelatedProductsComponent implements OnChanges {
    */
   skeletonList = Array(4).fill(0);
 
+  alternativeProducts$: Observable<Product[] | null>;
+  complementaryProducts$: Observable<Product[] | null>;
+
   /**
    * Creates an instance of OrgRelatedProductsComponent.
    * @param {ProductsService} productsService
    */
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private store: Store,
+  ) {
+    this.alternativeProducts$ = this.store.select(selectAlternativeProducts(this.productId));
+    this.complementaryProducts$ = this.store.select(selectComplementaryProducts(this.productId));
+  }
 
   /**
    * Listens changes on input values
@@ -61,8 +60,10 @@ export class OrgRelatedProductsComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const productId: SimpleChange = changes['productId'];
     if (productId) {
-      this.alternativeProducts = null;
-      this.complementaryProducts = null;
+      this.alternativeProducts$ = this.store.select(selectAlternativeProducts(this.productId));
+      this.complementaryProducts$ = this.store.select(selectComplementaryProducts(this.productId));
+      this.store.dispatch(loadAlternativeProducts({productId: this.productId}));
+      this.store.dispatch(loadComplementaryProducts({productId: this.productId}));
       this.updateProducts(true);
     }
   }
@@ -73,40 +74,6 @@ export class OrgRelatedProductsComponent implements OnChanges {
    */
   async updateProducts(isAlternative: boolean) {
     this.isShowingAlternativeProducts = isAlternative;
-
-    if (this.isShowingAlternativeProducts) {
-      this.loadAlternatives();
-    } else if (!this.isShowingAlternativeProducts) {
-      this.loadComplementary();
-    }
-  }
-
-  /**
-   * Method to load alternative products
-   */
-  async loadAlternatives() {
-    if (!this.alternativeProducts) {
-      this.isEmptyResult = false;
-      const results = await this.productsService.listAlternativeProducts(
-        this.productId,
-      );
-      this.alternativeProducts = results;
-    }
-    this.isEmptyResult = this.alternativeProducts.results.length == 0;
-  }
-
-  /**
-   * Method to load complementary products
-   */
-  async loadComplementary() {
-    if (!this.complementaryProducts) {
-      this.isEmptyResult = false;
-      const results = await this.productsService.listComplementaryProducts(
-        this.productId,
-      );
-      this.complementaryProducts = results;
-    }
-    this.isEmptyResult = this.complementaryProducts.results.length == 0;
   }
 
 }

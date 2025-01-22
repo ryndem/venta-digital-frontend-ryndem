@@ -24,3 +24,27 @@ export const selectProductPage = createSelector(
     (state) =>
         state.productsPage
 );
+
+export const selectAlternativeProducts = (productId:string) => createSelector(
+    selectProductState,
+    (state) =>
+        state.alternativeProducts.find((product) => product.productId === productId)?.products || null
+);
+
+export const selectComplementaryProducts = (productId:string) => createSelector(
+    selectProductState,
+    (state) =>
+        state.complementaryProducts.find((product) => product.productId === productId)?.products || null
+);
+
+export const selectProductPriceWeb = (productId: string) => createSelector(
+    selectProductState,
+    (state) =>
+        state.productPrices.find((product) => product.productId === productId)?.priceWeb || null
+);
+
+export const selectProductPriceVD = (productId:string) => createSelector(
+    selectProductState,
+    (state) =>
+        state.productPrices.find((product) => product.productId === productId)?.priceVD || null
+);

@@ -74,7 +74,50 @@ export const loadProductById = createAction(
   props<{ productId: string }>()
 );
 
+/**
+ * Exports loadAlternativeProducts action
+ */
+export const loadAlternativeProducts = createAction(
+  '[Product]loadAlternativeProducts',
+  props<{ productId: string }>()
+);
 
+/**
+ * Exports loadComplementaryProducts action
+ */
+export const loadComplementaryProducts = createAction(
+  '[Product]loadComplementaryProducts',
+  props<{ productId: string }>()
+);
 
+/**
+ * Exports updateAlternativeProducts action
+ */
+export const updateAlternativeProducts = createAction(
+  '[Product]updateAlternativeProducts',
+  props<{ productId: string, products: Product[] }>()
+);
 
+/**
+ * Exports updateComplementaryProducts action
+ */
+export const updateComplementaryProducts = createAction(
+  '[Product]updateComplementaryProducts',
+  props<{ productId: string, products: Product[] }>()
+);
 
+/**
+ * Exports loadProductPrice action
+ */
+export const loadProductPrice = createAction(
+  '[Product]loadProductPrice',
+  props<{ productId: string }>()
+);
+
+/**
+ * Exports updateProductPrice action
+ */
+export const updateProductPrice = createAction(
+  '[Product]updateProductPrice',
+  props<{ product: Product }>()
+);

@@ -43,7 +43,7 @@ export const reAddProductToCart = createAction(
   props<{ product: QuoteProduct }>()
 );
 
-/** 
+/**
  * Exports updateProductQuantity action
 */
 export const updateProductQuantity = createAction(
@@ -51,7 +51,7 @@ export const updateProductQuantity = createAction(
   props<{ quoteItemId: string, quantity: number}>()
 )
 
-/** 
+/**
  * Exports deleteProductFromCart action
 */
 export const removeProductFromCart = createAction(
@@ -59,7 +59,7 @@ export const removeProductFromCart = createAction(
   props<{ quoteItemId: string}>()
 )
 
-/** 
+/**
  * Exports updateCartShippingAddress action
 */
 export const updateCartShippingAddress = createAction(
@@ -68,10 +68,18 @@ export const updateCartShippingAddress = createAction(
 )
 
 
-/** 
+/**
  * Exports submitShoppingCart action
 */
 export const submitShoppingCart = createAction(
   '[Cart]submitShoppingCart',
   props<{ quoteId: string, addressId: string | null, cartItems: QuoteProduct[] }>()
 )
+
+
+/**
+ * Export submitShoppingCartSuccess action
+*/
+export const submitShoppingCartSuccess = createAction(
+  '[Cart]submitShoppingCartSuccess',
+);

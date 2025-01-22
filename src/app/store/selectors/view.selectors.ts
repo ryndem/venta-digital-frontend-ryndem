@@ -17,3 +17,29 @@ export const selectIsProductsPageLoading = createSelector(
     selectViewState,
     (state) => state.isProductsPageLoading
 );
+
+export const selectIsPasswordResetted = createSelector(
+    selectViewState,
+    (state) => state.isPasswordResetted
+);
+
+
+export const selectIsResetPasswordTokenValid = createSelector(
+    selectViewState,
+    (state) => state.isResetPasswordTokenValid
+);
+
+export const selectIsResetPasswordRestError = createSelector(
+    selectViewState,
+    (state) => state.isResetPasswordRestError
+);
+
+export const selectIsResetPasswordTokenExpired = createSelector(
+    selectViewState,
+    (state) => state.isResetPasswordTokenExpired
+);
+
+export const selectIsResetPasswordChangeSuccess = createSelector(
+    selectViewState,
+    (state) => state.isResetPasswordChangeSuccess
+);

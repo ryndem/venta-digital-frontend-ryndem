@@ -1,13 +1,13 @@
 import { environment } from 'environments/environment';
 import { Injectable, signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthToken } from 'app/model/auth-token';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateAddresses, updateIsLogged, updateIsLoginModalOpened, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/actions/user.actions';
+import { updateAddresses, updateIsLogged, updateIsLoginModalOpened, updateIsSignUpRequested, updateIsSignUpReviewPending, updateIsSignUpServerError, updateLoading, updateSelectedOrderItems, updateSignUpErrorMessage, updateUser } from 'app/store/actions/user.actions';
 import { AddressResponse } from 'app/model/address-response';
-import { UserState } from 'app/store/states/user.state';
+import { showErrorNotification, updateIsPasswordResetted, updateIsResetPasswordChangeSuccess, updateIsResetPasswordRestError, updateIsResetPasswordTokenExpired, updateIsResetPasswordTokenValid } from 'app/store/actions/view.actions';
 
 /**
  * Service to manage user authentication
@@ -71,11 +71,11 @@ export class AuthService {
   /**
    * Creates an instance of AuthService.
    * @param {HttpClient} httpClient
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    */
   constructor(
     private httpClient: HttpClient,
-    private store: Store<{ user: UserState }>,
+    private store: Store,
   ) { }
 
   /**
@@ -364,7 +364,6 @@ export class AuthService {
    * @param {string} password
    * @param {boolean} isFinalUser
    * @param {boolean} isReseller
-   * @return {Promise<{ email: string, status: string }>}
    */
   async signUp(
     email: string,
@@ -377,7 +376,7 @@ export class AuthService {
     password: string,
     isFinalUser: boolean,
     isReseller: boolean,
-  ): Promise<{ email: string, status: string }> {
+  ) {
     const body = {
       email,
       customerName,
@@ -390,21 +389,55 @@ export class AuthService {
       isFinalUser,
       isReseller,
     };
-    const result = await firstValueFrom(
-      this.httpClient.post<Promise<{ email: string, status: string }>>(`${environment.apiUrl}/UserRegistration`, body),
-    );
-    return result;
+    console.log('ERROR ', body);
+    if(!email) {
+      return;
+    }
+    try {
+      const result = await firstValueFrom(this.httpClient.post<Promise<{ email: string, status: string }>>(`${environment.apiUrl}/UserRegistration`, body));
+
+      this.store.dispatch(updateIsSignUpRequested({isSignUpRequested: true}));
+      if (result.status === 'pending') {
+        this.store.dispatch(updateIsSignUpReviewPending({isSignUpReviewPending: true}));
+      }
+    } catch (e: unknown) {
+      if (e instanceof HttpErrorResponse) {
+        if (e.error?.type === 'code_not_found_customer') {
+          this.store.dispatch(updateIsSignUpRequested({isSignUpRequested: true}));
+          this.store.dispatch(updateIsSignUpReviewPending({isSignUpReviewPending: true}));
+        } else if (e.error?.type === 'code_password_requirement') {
+          this.store.dispatch(updateIsSignUpServerError({isSignUpServerError: true}));
+          this.store.dispatch(updateSignUpErrorMessage({signUpErrorMessage: 'Lo sentimos, tu contraseña no cumple con los requisitos mínimos de seguridad. Intenta una nueva.'}));
+        } else {
+          this.store.dispatch(updateIsSignUpServerError({isSignUpServerError: true}));
+          this.store.dispatch(updateSignUpErrorMessage({signUpErrorMessage: 'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.'}));
+        }
+      }
+    }
   }
 
   /**
    * Send forgot password request
    * @param {string} email
-   * @return {Promise<void>}
    */
-  async sendForgotPasswordEmail(email: string): Promise<void> {
-    await firstValueFrom(
-      this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email })
-    )
+  async sendForgotPasswordEmail(email: string) {
+    console.log('EMAIL - ', email);
+    try {
+      await firstValueFrom(this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email }));
+      this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
+      console.log('111 ');
+    } catch (error: unknown) { 
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 410) {
+          console.log('222 ');
+          this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
+        }
+      } else {
+        console.log('333 ');
+        console.error('An unexpected error occurred');
+      }
+    }
+
   }
 
   /**
@@ -412,12 +445,20 @@ export class AuthService {
    * @param {string} token
    */
   async validateRequestResetPassword(token: string) {
-    await firstValueFrom(
-      this.httpClient.post(
-        `${environment.apiUrl}/validateRequestResetPassword`,
-        { requestResetToken: token }
+    try {
+      await firstValueFrom(
+        this.httpClient.post(`${environment.apiUrl}/validateRequestResetPassword`, { requestResetToken: token })
       )
-    )
+      this.store.dispatch(updateIsResetPasswordTokenValid({isResetPasswordTokenValid: true}));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error?.type === "code_requestResetToken_expired" ) {
+          this.store.dispatch(updateIsResetPasswordTokenExpired({isResetPasswordTokenExpired: true}));
+        } else {
+          this.store.dispatch(updateIsResetPasswordRestError({isResetPasswordRestError: true}));
+        }
+      }
+    }
   }
 
   /**
@@ -426,13 +467,33 @@ export class AuthService {
    * @param {string} newPassword
    * @return {Promise<void>}
    */
-  async resetPassword(token: string, newPassword: string): Promise<void> {
-    await firstValueFrom(
-      this.httpClient.post(
-        `${environment.apiUrl}/resetPassword`,
-        { token, password: newPassword }
+  async resetPassword(token: string, newPassword: string) {
+
+    try {
+      await firstValueFrom(
+        this.httpClient.post(`${environment.apiUrl}/resetPassword`, { token, password: newPassword })
       )
-    )
+      this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: false}))
+      this.store.dispatch(updateIsResetPasswordChangeSuccess({isResetPasswordChangeSuccess: true}));
+    } catch (error) {
+      if( error instanceof HttpErrorResponse ) {
+        if( error.error?.type === 'code_password_is_current') {
+          console.log('ERROR !!!! ' + error.error?.detail);
+          this.store.dispatch(showErrorNotification({message: error.error?.detail}))
+        } else {
+          this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))
+        }
+      } else {
+        this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))
+      }
+      
+    }
+
+
+
+
+    
   }
 
 }
+

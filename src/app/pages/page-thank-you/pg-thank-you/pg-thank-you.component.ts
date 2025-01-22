@@ -43,7 +43,7 @@ export class PgThankYouComponent implements OnInit {
   /**
    * Variable to storage if the disclaimer message should be shown
   */
-  disclaimerVisible: boolean = false;
+  disclaimerVisible = false;
 
 
   /**

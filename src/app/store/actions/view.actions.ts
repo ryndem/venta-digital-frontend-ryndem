@@ -47,3 +47,48 @@ export const updateIsProductsPageLoading = createAction(
   '[View]updateIsProductsPageLoading',
   props<{ isProductsPageLoading: boolean}>()
 )
+
+/**
+ * Export updateIsPasswordResetted action
+ */
+export const updateIsPasswordResetted = createAction(
+  '[View]updateIsPasswordResetted',
+  props<{ isPasswordResetted: boolean }>()
+);
+
+
+
+
+
+
+/**
+ * Export updateIsResetPasswordTokenValid action
+ */
+export const updateIsResetPasswordTokenValid = createAction(
+  '[View]updateIsResetPasswordTokenValid',
+  props<{ isResetPasswordTokenValid: boolean }>()
+);
+
+/**
+ * Export updateIsResetPasswordRestError action
+ */
+export const updateIsResetPasswordRestError = createAction(
+  '[View]updateIsResetPasswordRestError',
+  props<{ isResetPasswordRestError: boolean }>()
+);
+
+/**
+ * Export updateIsResetPasswordTokenExpired action
+ */
+export const updateIsResetPasswordTokenExpired = createAction(
+  '[View]updateIsResetPasswordTokenExpired',
+  props<{ isResetPasswordTokenExpired: boolean }>()
+);
+
+/**
+ * Export updateIsResetPasswordChangeSuccess action
+ */
+export const updateIsResetPasswordChangeSuccess = createAction(
+  '[View]updateIsResetPasswordChangeSuccess',
+  props<{ isResetPasswordChangeSuccess: boolean }>()
+);
