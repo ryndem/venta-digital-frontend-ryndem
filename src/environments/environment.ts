@@ -8,8 +8,8 @@
  */
 export const environment = {
   production: true,
-  apiUrl: 'https://172.24.32.35:442/VentaDigital',
-  authApiUrl: 'https://172.24.32.35:9001',
+  apiUrl: 'https://172.24.32.47:446/VentaDigital',
+  authApiUrl: 'https://172.24.32.47:9001',
   fileBucket: 'mailbot',
-  baseUrl: 'https://172.24.32.35:442/VentaDigitalFront/#'
+  baseUrl: 'https://172.24.32.47:444/VentaDigitalFront/#'
 };
