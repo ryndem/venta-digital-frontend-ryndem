@@ -18,18 +18,24 @@
     </button>
   </div>
 
-  <div class="search__results" *ngIf="isSearching">
+  <div class="search__results" *ngIf="isProductSearchActive$ | async">
     <div class="search__results__group">
       <p class="search__results__group__title text-body-medium">
         Buscando productos
       </p>
     </div>
   </div>
-
-  <div class="search__results" *ngIf="!isSearching && isResultsVisible && optionsGroups.length > 0 && (searchTerm?.length||0) > 0">
+  
+  <div class="search__results" *ngIf="
+        (isProductSearchActive$ | async)!==false && 
+        isResultsVisible && 
+        ((searchResults$ | async)?.length || 0) > 0 && 
+        (searchTerm?.length||0) > 0
+    ">
+    
     <div
       class="search__results__group"
-      *ngFor="let optionsGroup of optionsGroups"
+      *ngFor="let optionsGroup of (searchResults$ | async)"
     >
       <p class="search__results__group__title text-title-5">
         {{ optionsGroup.title }}

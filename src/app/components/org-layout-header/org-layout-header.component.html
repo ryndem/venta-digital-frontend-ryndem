@@ -29,7 +29,7 @@
       <mol-nav-button
         class="org-layout-header__account"
         (click)="openLogin()"
-        *ngIf="(isAuthenticated$ | async) !== true && (isLoadingUser$ | async) !== true"
+        *ngIf="(isAuthenticated$ | async) === false"
       >
         <ng-icon class="icon" name="heroUser" size="24"></ng-icon>
         <span>Iniciar Sesión</span>

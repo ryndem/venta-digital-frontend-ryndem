@@ -5,7 +5,6 @@ import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-cl
 import { User } from 'app/model/user';
 import { Observable } from 'rxjs';
 import { loadCart } from 'app/store/actions/cart.actions';
-import { UserState } from 'app/store/states/user.state';
 import { selectCurrentUser } from 'app/store/selectors/user.selectors';
 import { logout } from 'app/store/actions/user.actions';
 
@@ -34,11 +33,11 @@ export class MolUserMenuComponent extends AtmClosableComponent {
   
   /**
    * Creates an instance of MolUserMenuComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
-    private store: Store<{ user: UserState }>,
+    private store: Store,
     private router: Router
   ) {
     super();

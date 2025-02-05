@@ -5,8 +5,10 @@
  */
 
 import { ConfirmedOrder } from "app/model/confirmed-order";
+import { OrderFile } from "app/model/order-file";
 import { OrderItem } from "app/model/order-item";
 import { PurchaseOrder } from "app/model/purchase-order";
+import { QuoteItem } from "app/model/quote";
 import { ShoppingCart } from "app/model/shopping-cart";
 
 export interface OrderState {
@@ -29,6 +31,11 @@ export interface OrderState {
         quoteId: string;
         items: OrderItem[];
       }>;
+
+    uploadedOrderFile: OrderFile | null; 
+
+    orderList: QuoteItem[] | null;
+    isLoadingOrders: boolean;
 }
 
 /**
@@ -40,5 +47,8 @@ export const initialOrderState: OrderState = {
     confirmedOrderItems: [],
     purchaseOrders: [],
     confirmedOrders: [],
+    uploadedOrderFile: null,
+    orderList: null,
+    isLoadingOrders: false,
 };
 

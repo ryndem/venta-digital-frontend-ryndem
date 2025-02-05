@@ -4,6 +4,7 @@ import { map, mergeMap, catchError, throttleTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as UserActions from '../actions/user.actions';
 import { AuthService } from 'app/auth/auth.service';
+import { updateActivationState } from '../actions/view.actions';
 
 
 /**
@@ -130,5 +131,25 @@ export class UserEffects {
         ),
       ),
     );
+
+
+  /**
+   * Effect to activate user
+   */
+  activateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.activateUser),
+      throttleTime(5000),
+      mergeMap(action =>
+        from(this.authService.activateUser(action.token)).pipe(
+          map(() => updateActivationState({activationState:'successfull'})),
+          catchError(() => {
+            updateActivationState({activationState:'error'})
+            return of({type:'[User]activateUserFailure'});
+          }),
+        )
+      ),
+    ),
+  );
 
 }

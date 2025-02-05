@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { AuthService } from 'app/auth/auth.service';
 import { loadCart } from 'app/store/actions/cart.actions';
 import { loadSession, updateIsLoginModalOpened } from 'app/store/actions/user.actions';
-import { UserState } from 'app/store/states/user.state';
 
 /**
  * Login modal component
@@ -46,11 +45,12 @@ export class OrgLoginModalComponent implements OnInit {
    * Creates an instance of OrgLoginModalComponent.
    * @param {FormBuilder} fb
    * @param {AuthService} authService
+   * @param {Store} store
    */
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private store: Store<{ user: UserState }>
+    private store: Store
   ) { }
 
   /**

@@ -81,11 +81,11 @@
     <!-- Price -->
     <div class="product__details__shopping" *ngIf="isLogged && product.typeKey !== 'training'">
       <div class="product__details__shopping__price">
-        <p class="text-small text-gray-green-500 line-through" *ngIf="priceWeb">
-          {{ priceWeb | usdCurrency }}
+        <p class="text-small text-gray-green-500 line-through">
+          {{ product.offert.unitPriceWeb| usdCurrency }}
         </p>
         <p class="text-regular-title text-primary-500">
-          {{ priceVD | usdCurrency }}
+          {{ product.offert.unitPrice | usdCurrency }}
         </p>
       </div>
       <atm-shopping-button [product]="product" />
@@ -95,7 +95,7 @@
       <span>Comunícate con Asesor Comercial para cotizar.</span>
     </div>
 
-    <div class="product__details__shopping__price__blurred"  *ngIf="!isLogged && (isUserLoading$ | async) !== true">
+    <div class="product__details__shopping__price__blurred"  *ngIf="isLogged === false">
       <p class="blurred-text no-select">{{ 1234 | usdCurrency }}</p>
       <span class="login-text text-x-small text-primary-500" (click)="openLoginModal($event)" >
         Inicia sesión para ver precios

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
 import { ProductResponse } from 'app/model/product-response';
 import { SearchParams } from 'app/model/search-params';
 import { loadProductPage } from 'app/store/actions/product.actions';
-import { updateIsProductsPageLoading, updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectCategories, selectProductPage } from 'app/store/selectors/product.selectors';
 import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { selectIsProductsPageLoading } from 'app/store/selectors/view.selectors';
@@ -23,18 +23,18 @@ import { Observable } from 'rxjs';
   templateUrl: './pg-products.component.html',
   styleUrls: ['./pg-products.component.scss'],
 })
-export class PgProductsComponent implements OnInit {
-  
+export class PgProductsComponent {
+
   /**
    * Page size
    */
   pageSize = 12;
-  
+
   /**
    * Current product page
    */
   currentPage = 1;
-  
+
   /**
    * Total results loaded for the filters selected
    */
@@ -58,7 +58,7 @@ export class PgProductsComponent implements OnInit {
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
   * Store reference (product.categories)
@@ -75,7 +75,11 @@ export class PgProductsComponent implements OnInit {
    */
   isLoading$: Observable<boolean>;
 
-  
+  /**
+   * Boolean to track if the user is logged
+  */
+  isLogged = false;
+
   /**
    * Creates an instance of PgProductsComponent.
    * @param {Router} router
@@ -90,7 +94,24 @@ export class PgProductsComponent implements OnInit {
     this.isLogged$ = this.store.select(selectUserIsLogged);
     this.categories$ = this.store.select(selectCategories);
     this.productPage$ = this.store.select(selectProductPage);
-    this.isLoading$ = this.store.select(selectIsProductsPageLoading)
+    this.isLoading$ = this.store.select(selectIsProductsPageLoading);
+    this.isLogged$.subscribe(value => {
+      if (value !== null) {
+        this.isLogged = value;
+        this.currentRoute.queryParams.subscribe(async (params) => {
+          const searchParams: SearchParams = {
+            pageSize: this.pageSize,
+            page: params['page'] || 1,
+            sortDirection: params['sortDirection'] || 'ASC',
+            category: params['category'],
+            q: params['searchTerm'],
+          };
+          this.currentPage = searchParams.page;
+          this.sortDirection = searchParams.sortDirection;
+          this.loadPage(searchParams);
+        });
+      }
+    })
     this.setMetaTags();
   }
 
@@ -109,30 +130,13 @@ export class PgProductsComponent implements OnInit {
     return '';
   }
 
-  /**
-   * Initializing method
-   */
-  async ngOnInit(): Promise<void> {
-    this.currentRoute.queryParams.subscribe(async (params) => {
-      const searchParams: SearchParams = {
-        pageSize: this.pageSize,
-        page: params['page'] || 1,
-        sortDirection: params['sortDirection'] || 'ASC',
-        category: params['category'],
-        q: params['searchTerm'],
-      };
-      this.currentPage = searchParams.page;
-      this.sortDirection = searchParams.sortDirection;
-      this.loadPage(searchParams);
-    });
-  }
+
 
   /**
    * Load product page
    * @param {SearchParams} searchParams
    */
   async loadPage(searchParams: SearchParams) {
-    this.store.dispatch(updateIsProductsPageLoading({isProductsPageLoading: true}));
     this.store.dispatch(loadProductPage({searchParams}));
   }
 

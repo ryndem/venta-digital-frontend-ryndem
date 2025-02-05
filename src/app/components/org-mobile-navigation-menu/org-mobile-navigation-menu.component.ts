@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Category } from 'app/model/category';
 import { logout } from 'app/store/actions/user.actions';
 import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
-import { UserState } from 'app/store/states/user.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -33,15 +32,15 @@ export class OrgMobileNavigationMenuComponent {
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
    * Creates an instance of OrgMobileNavigationMenuComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
-    private store: Store<{ user: UserState }>,
+    private store: Store,
     private router: Router
   ) {
     this.isLogged$ = this.store.select(selectUserIsLogged);

@@ -6,6 +6,9 @@ import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { OrdersBodyRequest } from 'app/model/orders-body-request';
 import { ConfirmedOrderPage } from 'app/model/confirmed-order-page';
+import { updateIsLoadingOrders, updateOrderList } from 'app/store/actions/order.actions';
+import { QuoteItem } from 'app/model/quote';
+import { Store } from '@ngrx/store';
 
 /**
  * Service to manage orders API calls
@@ -26,7 +29,10 @@ export class OrderService {
    * Creates an instance of OrderService.
    * @param {HttpClient} httpClient
    */
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store,
+  ) { }
 
 
   /**
@@ -56,7 +62,21 @@ export class OrderService {
     }
     body.filters = filters;
 
-    return await firstValueFrom(this.httpClient.post<ConfirmedOrderPage>(this.apiPath + '/Order/ListOrder', body));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: true}));
+    const orderPage = await firstValueFrom(this.httpClient.post<ConfirmedOrderPage>(this.apiPath + '/Order/ListOrder', body));
+    
+    const confirmedOrders: QuoteItem[] = orderPage.results.map(confirmedOrder => {
+      return {
+        id: confirmedOrder.idOrder,
+        folio: confirmedOrder.internalOrderNumber,
+        registrationDate: confirmedOrder.registrationDate,
+        items: confirmedOrder.totalItems,
+        total: confirmedOrder.totalAmount,
+      }
+    })
+
+    this.store.dispatch(updateOrderList({orderList: confirmedOrders}));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: false}));
   }
 
   /**

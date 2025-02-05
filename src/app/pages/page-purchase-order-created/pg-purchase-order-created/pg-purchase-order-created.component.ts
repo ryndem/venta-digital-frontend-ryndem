@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { PurchaseOrder } from 'app/model/purchase-order';
-import { PurchaseOrderService } from 'app/services/purchase-order.service';
+import { loadPurchaseOrderById } from 'app/store/actions/order.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
-import { ViewState } from 'app/store/states/view.state';
+import { selectPurchaseOrderDetails } from 'app/store/selectors/order.selectors';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 /**
  * Page component to show purchase order creation confirmation
@@ -21,33 +22,23 @@ import { environment } from 'environments/environment';
 export class PgPurchaseOrderCreatedComponent implements OnInit {
 
   /**
-   * Booleand to track loading state
-   */
-  isLoading = true;
-  
-  /**
    * Purchase order id
    * @type {(string | null)}
    */
   purchaseOrderId: string | null = null;
-  
-  /**
-   * Purchase order loaded
-   * @type {(PurchaseOrder | null)}
-   */
-  order: PurchaseOrder | null = null;
+
+  order$: Observable<PurchaseOrder | null>;
 
   /**
    * Creates an instance of PgPurchaseOrderCreatedComponent.
-   * @param {PurchaseOrderService} purchaseOrderService
    * @param {ActivatedRoute} currentRoute
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
-    private purchaseOrderService : PurchaseOrderService,
     private currentRoute: ActivatedRoute,
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
+    this.order$ = this.store.select(selectPurchaseOrderDetails(this.purchaseOrderId || ''));
     this.setMetaTags();
   }
 
@@ -57,6 +48,7 @@ export class PgPurchaseOrderCreatedComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.currentRoute.queryParams.subscribe((params) => {
       this.purchaseOrderId = params['purchaseOrderId'];
+      this.order$ = this.store.select(selectPurchaseOrderDetails(this.purchaseOrderId || ''));
       this.loadPurchaseOrder();
     });
   }
@@ -66,8 +58,7 @@ export class PgPurchaseOrderCreatedComponent implements OnInit {
    */
   async loadPurchaseOrder() {
     if( this.purchaseOrderId ) {
-      this.order = await this.purchaseOrderService.getById(this.purchaseOrderId);
-      this.isLoading = false;
+      this.store.dispatch(loadPurchaseOrderById({purchaseOrderId: this.purchaseOrderId}));
     }
   }
 

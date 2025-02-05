@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { QuotesService } from 'app/services/quotes.service';
@@ -13,8 +13,7 @@ import { OrderItem, PurchaseOrderForm } from 'app/model/purchase-order-form';
 import { Observable } from 'rxjs';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
-import { UserState } from 'app/store/states/user.state';
-import { selectCurrentUser, selectUserHasOrderItemsSelected } from 'app/store/selectors/user.selectors';
+import { selectCurrentUser, selectUserHasOrderItemsSelected, selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { showErrorNotification } from 'app/store/actions/view.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +28,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './pg-purchase-order-creation.component.html',
   styleUrls: ['./pg-purchase-order-creation.component.scss'],
 })
-export class PgPurchaseOrderCreationComponent {
+export class PgPurchaseOrderCreationComponent implements OnInit {
 
   /**
    * Purchase order quote page size
@@ -42,7 +41,7 @@ export class PgPurchaseOrderCreationComponent {
    * @type {Quote[]}
    */
   quotes: Quote[] = [];
-  
+
   /**
    * Purchase order available products
    * @type {QuoteProduct[]}
@@ -116,12 +115,32 @@ export class PgPurchaseOrderCreationComponent {
 
   /**
    * Purchase order totals
-   * @type {{ subtotal: number; saleTax: number; total: number }}
+   * @type {{ subtotal: number; saleTax: number; total: number; freightExpressDetails: { amount: number; itemCount: number; }; freightOutsiderDetails: { amount: number; itemCount: number; }; }}
    */
-  totals: { subtotal: number; saleTax: number; total: number } = {
+  totals: {
+    subtotal: number;
+    saleTax: number;
+    total: number;
+    freightExpressDetails: {
+      amount: number;
+      itemCount: number;
+    },
+    freightOutsiderDetails: {
+      amount: number;
+      itemCount: number;
+    }
+  } = {
     subtotal: 0,
     saleTax: 0,
-    total: 0
+    total: 0,
+    freightExpressDetails: {
+      amount: 0,
+      itemCount: 0
+    },
+    freightOutsiderDetails: {
+      amount: 0,
+      itemCount: 0,
+    }
   };
 
   /**
@@ -157,6 +176,13 @@ export class PgPurchaseOrderCreationComponent {
   contactId: string | null = null;
 
   /**
+   * Boolean to track if all items was added to order
+   * @type {boolean}
+   *
+  */
+  isAllItemsWasAddedToOrder = false;
+
+  /**
    * Store reference (user.user)
    */
   user$: Observable<User | null>;
@@ -167,21 +193,27 @@ export class PgPurchaseOrderCreationComponent {
   hasOrderItemsSelected$: Observable<boolean>;
 
   /**
+   * Store reference (user.isLogged)
+   */
+  isAuthenticated$: Observable<boolean | null>;
+
+  /**
    * Creates an instance of PgPurchaseOrderCreationComponent.
    * @param {QuotesService} quotesService
    * @param {PurchaseOrderService} purchaseOrderService
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
     private quotesService: QuotesService,
     private purchaseOrderService: PurchaseOrderService,
-    private store: Store<{ user: UserState }>,
+    private store: Store,
     private router: Router,
   ) {
+    this.isAuthenticated$ = this.store.select(selectUserIsLogged);
     this.user$ = this.store.select(selectCurrentUser);
     this.hasOrderItemsSelected$ = this.store.select(selectUserHasOrderItemsSelected);
-    
+
     this.user$.subscribe(value => {
       if(value) {
         this.customerId = value.idCustomer;
@@ -199,6 +231,36 @@ export class PgPurchaseOrderCreationComponent {
   }
 
   /**
+   * Get empty message
+   * @return {string}
+  */
+  getEmptyMessage(): string {
+    return !this.isItemsLoading && this.selectedAddressId && this.availableProducts.length === 0
+      ? 'No se encontraron partidas <br> relacionadas a tu búsqueda.'
+      : 'Prueba agregando algunas de la columna de cotizaciones vigentes.';
+  }
+
+  /** *
+   * Check if all items are was included in a order
+   * @return {boolean}
+  */
+  allItemsWasAddedToOrder(quoteProducts: QuoteProduct[]): boolean {
+    if(quoteProducts.length === 0) return false;
+    return quoteProducts.every(quote => quote.inPurchaseOrder);
+  }
+
+  /**
+   * Initializing method
+   */
+  async ngOnInit() {
+    this.isAuthenticated$.subscribe((isAuthenticated) => {
+      if (isAuthenticated == false) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+  /**
    * Loads purchase order in progress
    */
   async initSavedState() {
@@ -206,8 +268,8 @@ export class PgPurchaseOrderCreationComponent {
 
     if( orderForm ) {
       this.isSavedLoad = true;
-      await this.setAddressSelected( orderForm.addressId );
       this.selectedProducts = orderForm.orderItems;
+      await this.setAddressSelected( orderForm.addressId );
       this.fileId = orderForm.idFile;
       this.purchaseOrderNumber = orderForm.purchaseOrderNumber;
     }
@@ -216,7 +278,7 @@ export class PgPurchaseOrderCreationComponent {
   /**
    * Lintens when the addres is updates
    * @param {(Address | null)} address
-   * @return {*} 
+   * @return {*}
    */
   async onAddressSelected(address: Address | null) {
     if(!address) return;
@@ -252,7 +314,7 @@ export class PgPurchaseOrderCreationComponent {
   /**
    * Method to handle quote page change
    * @param {number} newPage
-   * @return {*} 
+   * @return {*}
    */
   async quotesPageChange(newPage: number) {
     if(!this.selectedAddressId) return;
@@ -296,13 +358,14 @@ export class PgPurchaseOrderCreationComponent {
     */
    updateProducts() {
     if(this.selectedAddressId) {
-      this.availableProducts =  this.selectedQuote? this.updateAvailableProducts(this.selectedQuote?.listQuotationItem) : [];
-      this.availableProducts = this.availableProducts.filter(p => this.selectedProducts.findIndex(pi => pi.item.idQuotationItem == p.idQuotationItem)<0);
 
       this.purchaseOrderForm.purchaseOrderNumber = this.purchaseOrderNumber.trim();
       this.purchaseOrderForm.orderItems = this.selectedProducts;
       this.purchaseOrderForm.addressId = this.selectedAddressId;
       this.purchaseOrderForm.idFile = this.fileId;
+
+      this.availableProducts =  this.selectedQuote? this.updateAvailableProducts(this.selectedQuote?.listQuotationItem) : [];
+      this.availableProducts = this.availableProducts.filter(p => this.selectedProducts.findIndex(pi => pi.item.idQuotationItem == p.idQuotationItem)<0);
 
       if( this.isSavedLoad ) {
         this.isSavedLoad = false;
@@ -316,7 +379,7 @@ export class PgPurchaseOrderCreationComponent {
   }
 
   /**
-   * Method to update order totals 
+   * Method to update order totals
    */
   async updateTotals() {
     if(this.customerId && this.contactId && !this.isUpdatingTotals) {
@@ -339,10 +402,30 @@ export class PgPurchaseOrderCreationComponent {
         this.totals = {
           subtotal: summary.subtotal,
           saleTax: summary.saleTax,
-          total: summary.total
+          total: summary.total,
+          freightOutsiderDetails: {
+            amount: summary.freightOutsiderDetails.amount,
+            itemCount: summary.freightOutsiderDetails.itemCount
+          },
+          freightExpressDetails: {
+            amount: summary.freightExpressDetails.amount,
+            itemCount: summary.freightExpressDetails.itemCount
+          },
         }
       } catch (error) {
-        this.totals = { subtotal: 0, saleTax: 0, total: 0 }
+        this.totals = {
+          subtotal: 0,
+          saleTax: 0,
+          total: 0,
+          freightExpressDetails: {
+            amount: 0,
+            itemCount: 0
+          },
+          freightOutsiderDetails: {
+            amount: 0,
+            itemCount: 0,
+          }
+        }
       }
       this.isUpdatingTotals = false;
     }
@@ -356,11 +439,21 @@ export class PgPurchaseOrderCreationComponent {
   updateAvailableProducts(products: QuoteProduct[]) : QuoteProduct[] {
     let result = products;
 
+    const allItemsWasAddedToOrder = this.allItemsWasAddedToOrder(products);
+    this.isAllItemsWasAddedToOrder = allItemsWasAddedToOrder;
+
+    if (allItemsWasAddedToOrder) {
+      this.tabFilter = 'in-order';
+      result = result.filter(item => item.inPurchaseOrder);
+    }
+
     if ( this.tabFilter === 'available' ) {
       result = result.filter(item => !item.inPurchaseOrder);
     } else if ( this.tabFilter === 'in-order' ) {
       result = result.filter(item => item.inPurchaseOrder);
     }
+
+
 
     if( this.textFilter.length > 0 ) {
       result = result.filter( item => {
@@ -437,7 +530,6 @@ export class PgPurchaseOrderCreationComponent {
    */
   onFileUploaded(orderFile: OrderFile) {
     this.fileId = orderFile.idFile;
-    this.updateTotals();
   }
 
 
@@ -510,7 +602,7 @@ export class PgPurchaseOrderCreationComponent {
    */
   setMetaTags() {
     this.store.dispatch(updateMetaTagsAndTitle({
-        pageTitle: 'Creación de Pedido - Proquifa', 
+        pageTitle: 'Creación de Pedido - Proquifa',
         tags: [
           {
             name: 'description',

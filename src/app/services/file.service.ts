@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { OrderFile } from 'app/model/order-file';
+import { Store } from '@ngrx/store';
+import { updateIsFileUploading } from 'app/store/actions/view.actions';
+import { updateUploadedOrderFile } from 'app/store/actions/order.actions';
 
 /**
  * Service to manage file upload to API
@@ -32,7 +35,8 @@ export class FileService {
    * @param {HttpClient} httpClient
    */
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private store: Store,
   ) {}
 
   
@@ -43,7 +47,17 @@ export class FileService {
    * @return {Promise<OrderFile>} 
    */
   async uploadFile (formData: FormData) {
-    return firstValueFrom(this.httpClient.post<OrderFile>(this.apiPath+ '/FileUpload/' + this.fileBucket, formData));
+    try {
+      this.store.dispatch(updateIsFileUploading({ isFileUploading: true }))
+      const orderFile = await firstValueFrom(this.httpClient.post<OrderFile>(this.apiPath+ '/FileUpload/' + this.fileBucket, formData));
+      this.store.dispatch(updateUploadedOrderFile({orderFile: orderFile}));
+
+    } catch(error) {
+      this.store.dispatch(updateUploadedOrderFile({orderFile: null}));
+      console.error('ERROR', error)
+    } finally {
+      this.store.dispatch(updateIsFileUploading({ isFileUploading: false }))
+    }
   }
 
 

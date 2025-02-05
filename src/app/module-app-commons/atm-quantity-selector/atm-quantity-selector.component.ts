@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { showErrorNotification } from 'app/store/actions/view.actions';
-import { ShoppingCartState } from 'app/store/states/cart.state';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -56,10 +55,10 @@ export class AtmQuantitySelectorComponent {
 
   /**
    * Creates an instance of AtmQuantitySelectorComponent.
-   * @param {Store<{ ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<{ cart: ShoppingCartState }>,
+    private store: Store,
   ) {
     this.quantityInput$
       .pipe(debounceTime(600))

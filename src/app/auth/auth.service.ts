@@ -5,7 +5,7 @@ import { AuthToken } from 'app/model/auth-token';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateAddresses, updateIsLogged, updateIsLoginModalOpened, updateIsSignUpRequested, updateIsSignUpReviewPending, updateIsSignUpServerError, updateLoading, updateSelectedOrderItems, updateSignUpErrorMessage, updateUser } from 'app/store/actions/user.actions';
+import { updateAddresses, updateIsLogged, updateIsLoginModalOpened, updateIsSignUpRequested, updateIsSignUpReviewPending, updateIsSignUpServerError, updateSelectedOrderItems, updateSignUpErrorMessage, updateUser } from 'app/store/actions/user.actions';
 import { AddressResponse } from 'app/model/address-response';
 import { showErrorNotification, updateIsPasswordResetted, updateIsResetPasswordChangeSuccess, updateIsResetPasswordRestError, updateIsResetPasswordTokenExpired, updateIsResetPasswordTokenValid } from 'app/store/actions/view.actions';
 
@@ -189,7 +189,6 @@ export class AuthService {
    */
   async loadSession(): Promise<User | null> {
     const token = localStorage.getItem(this.TOKEN_KEY);
-    this.store.dispatch(updateLoading({ isLoading: true }));
     if (token) {
       try {
         this.authToken.set(token);
@@ -202,14 +201,14 @@ export class AuthService {
 
         this.updateUserSelections();
         
-        this.store.dispatch(updateLoading({ isLoading: false }))
         return user;
       } catch (error) {
         this.authToken.set(null);
         this.updateUser(null);
       } 
+    } else {
+      this.updateUser(null);
     }
-    this.store.dispatch(updateLoading({ isLoading: false }));
     return null;
   }
 
@@ -389,7 +388,6 @@ export class AuthService {
       isFinalUser,
       isReseller,
     };
-    console.log('ERROR ', body);
     if(!email) {
       return;
     }
@@ -421,19 +419,15 @@ export class AuthService {
    * @param {string} email
    */
   async sendForgotPasswordEmail(email: string) {
-    console.log('EMAIL - ', email);
     try {
       await firstValueFrom(this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email }));
       this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
-      console.log('111 ');
     } catch (error: unknown) { 
       if (error instanceof HttpErrorResponse) {
         if (error.status === 410) {
-          console.log('222 ');
           this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
         }
       } else {
-        console.log('333 ');
         console.error('An unexpected error occurred');
       }
     }
@@ -478,7 +472,6 @@ export class AuthService {
     } catch (error) {
       if( error instanceof HttpErrorResponse ) {
         if( error.error?.type === 'code_password_is_current') {
-          console.log('ERROR !!!! ' + error.error?.detail);
           this.store.dispatch(showErrorNotification({message: error.error?.detail}))
         } else {
           this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))

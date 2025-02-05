@@ -18,7 +18,7 @@ export class OrgQuoteOrderListComponent {
    * Order list to show
    * @type {QuoteItem[]}
    */
-  @Input() quotes!: QuoteItem[];
+  @Input() quotes!: QuoteItem[] | null;
 
   /**
    * Current list tab

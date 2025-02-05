@@ -10,9 +10,9 @@ export interface UserState {
 
   /**
    * Indicates if the current user is logged
-   * @type {boolean}
+   * @type {boolean | null}
    */
-  isLogged: boolean;
+  isLogged: boolean | null;
   
   /**
    * Contains the logged user information
@@ -44,34 +44,29 @@ export interface UserState {
    */
   isLoginModalOpened: boolean;
 
-  /**
-   * Indicates if the user information is already loaded
-   * @type {boolean}
-   */
-  isLoading: boolean;
-
-
   isSignUpRequested: boolean;
   isSignUpReviewPending: boolean;
   isSignUpServerError: boolean;
   signUpErrorMessage: string;
+
+  activationState: 'loading'|'successfull'|'error';
 }
 
 /**
  * Specify initial state for UserState
  */
 export const initialUserState: UserState = {
-  isLogged: false,
+  isLogged: null,
   user: null,
   name: null,
   addresses: [],
   hasOrderItemsSelected: false,
   isLoginModalOpened: false,
-  isLoading: true,
   isSignUpRequested: false,
   isSignUpReviewPending: false,
   isSignUpServerError: false,
   signUpErrorMessage: '',
+  activationState: 'loading'
 };
 
 

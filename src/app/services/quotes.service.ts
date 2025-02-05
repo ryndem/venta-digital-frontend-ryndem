@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { QuoteItem } from 'app/model/quote';
 import { QuotePage } from 'app/model/quote-page';
 import { QuoteFilter, QuotesBodyRequest } from 'app/model/quotes-body-request';
 import { ShoppingCart } from 'app/model/shopping-cart';
+import { updateIsLoadingOrders, updateOrderList } from 'app/store/actions/order.actions';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -25,7 +28,10 @@ export class QuotesService {
    * Creates an instance of QuotesService.
    * @param {HttpClient} httpClient
    */
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store,
+  ) {}
 
 
   /**
@@ -49,7 +55,7 @@ export class QuotesService {
     folio: string | null,
     pageSize = 10,
     desiredPage = 1,
-  ): Promise<QuotePage> {
+  ) {
     const filters = [];
 
     if(folio && folio.length > 0) {
@@ -58,7 +64,22 @@ export class QuotesService {
         'FilterValue': folio
       });
     }
-    return this.getQuotesByFilters(filters, pageSize, desiredPage);
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: true}));
+    const quotePage = await this.getQuotesByFilters(filters, pageSize, desiredPage);
+
+    const quotes: QuoteItem[] = quotePage.results.map(quote => {
+      return {
+        id: quote.idQuotation,
+        folio: quote.folio,
+        registrationDate: quote.registrationDate,
+        items: quote.items,
+        total: quote.total,
+        expirationDate: quote.expirationDate,
+        isValid: quote.isValid
+      }
+    })
+    this.store.dispatch(updateOrderList({orderList: quotes}));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: false}));
   }
 
   /**

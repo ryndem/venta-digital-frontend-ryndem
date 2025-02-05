@@ -53,6 +53,12 @@
                   }
                 }
               }
+
+              .quotes {
+                .quote {
+                    cursor: pointer;
+                }
+              }
             }
             .quotes {
               display: flex;

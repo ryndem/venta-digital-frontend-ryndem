@@ -28,10 +28,6 @@ export const userReducer = createReducer(
     ...state,
     isLoginModalOpened
   })),
-  on(UserActions.updateLoading, (state, { isLoading }) => ({
-    ...state,
-    isLoading
-  })),
   on(UserActions.resetSignUpRequest, (state) => ({
     ...state,
     isSignUpRequested: false,

@@ -10,6 +10,8 @@ import { PurchaseOrderForm } from 'app/model/purchase-order-form';
 import { PurchaseOrderRequest } from 'app/model/purchase-order-body-request';
 import { PurchaseOrderPage } from 'app/model/purchase-order-page';
 import { UserState } from 'app/store/states/user.state';
+import { QuoteItem } from 'app/model/quote';
+import { updateIsLoadingOrders, updateOrderList } from 'app/store/actions/order.actions';
 
 /**
  * Service to manage purchase orders API calls
@@ -130,11 +132,26 @@ export class PurchaseOrderService {
       body.Folio = folio;
     }
 
-    return await firstValueFrom(
+    const orderPage = await firstValueFrom(
       this.httpClient.post<PurchaseOrderPage>(
         this.apiPath + '/PurchaseOrder/ListPurchaseOrder', body
       )
     );
+
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: true}));
+    const purchaseOrders: QuoteItem[] = orderPage.results.map(purchaseOrder => {
+      return {
+        id: purchaseOrder.idPurchaseOrder,
+        folio: purchaseOrder.folio,
+        registrationDate: purchaseOrder.registrationDate,
+        items: purchaseOrder.items,
+        total: purchaseOrder.total,
+      }
+    });
+
+    this.store.dispatch(updateOrderList({orderList: purchaseOrders}));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: false}));
+
   }
 
   /**

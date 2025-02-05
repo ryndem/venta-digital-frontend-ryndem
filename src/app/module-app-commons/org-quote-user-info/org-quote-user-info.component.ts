@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { User } from 'app/model/user';
 import { selectCurrentUser } from 'app/store/selectors/user.selectors';
-import { UserState } from 'app/store/states/user.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -32,9 +31,9 @@ export class OrgQuoteUserInfoComponent {
 
   /**
    * Creates an instance of OrgQuoteUserInfoComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    */
-  constructor (private store: Store<{ user: UserState }>) { 
+  constructor (private store: Store) { 
     this.user$ = this.store.select(selectCurrentUser);
   }
 }

@@ -8,9 +8,14 @@ export const selectCategories = createSelector(
     (state) => state.categories
 );
 
-export const selectOutstandingProducts = createSelector(
-    selectProductState,
-    (state) => state.outstandingProducts
+export const selectFeaturedProducts = createSelector(
+  selectProductState,
+  (state) => state.featuredProducts
+);
+
+export const selectIsLoadingFeaturedProducts = createSelector(
+  selectProductState,
+  (state) => state.isLoadingFeaturedProducts
 );
 
 export const selectProductDetails = (id:string) => createSelector(
@@ -48,3 +53,10 @@ export const selectProductPriceVD = (productId:string) => createSelector(
     (state) =>
         state.productPrices.find((product) => product.productId === productId)?.priceVD || null
 );
+
+export const selectSearchResults = createSelector(
+    selectProductState,
+    (state) =>
+        state.searchResults
+);
+

@@ -2,10 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Product } from 'app/model/product';
 import { ImageUtils } from 'app/utils/image.utils';
-import { ProductsService } from 'app/services/products.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { selectUserIsLoading, selectUserIsLogged } from 'app/store/selectors/user.selectors';
+import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
 
 /**
@@ -20,7 +19,7 @@ import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
   styleUrls: ['./org-product-card.component.scss'],
 })
 export class OrgProductCardComponent implements OnInit {
-  
+
   /**
    * Product to show in the card
    * @type {Product}
@@ -75,36 +74,32 @@ export class OrgProductCardComponent implements OnInit {
    * Boolean to track if the user is currently logged
    */
   isLogged = false;
-  
+
+  /**
+   * Flag to track if the prices has already loaded
+   */
+    isPriceLoaded = false;
+
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$: Observable<boolean>;
-
-  /**
-   * Store reference (user.loading)
-   */
-  isUserLoading$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
    * Creates an instance of OrgProductCardComponent.
    * @param {ImageUtils} imageUtils
-   * @param {ProductsService} productsService
-   * @param {Store<{ user: { loading: boolean; isLogged: boolean } }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
     private imageUtils: ImageUtils,
-    private productsService: ProductsService,
-    private store: Store<{ user: { loading: boolean; isLogged: boolean } }>,
+    private store: Store,
     private router: Router
   ) {
-    this.isUserLoading$ = this.store.select(selectUserIsLoading)
     this.isLogged$ = this.store.select(selectUserIsLogged)
     this.isLogged$.subscribe(value => {
       if (value != this.isLogged) {
-        this.isLogged = value;
-        this.loadPriceOffer();
+        this.isLogged = value == true;
       }
     });
   }
@@ -117,7 +112,6 @@ export class OrgProductCardComponent implements OnInit {
     this.presentationImgPath = this.imageUtils.getPresentationImage(this.product);
     this.brandImgPath = this.imageUtils.getBrandImage(this.product);
     this.setHasExistingStock();
-    this.loadPriceOffer();
   }
 
   /**
@@ -128,21 +122,6 @@ export class OrgProductCardComponent implements OnInit {
       this.product?.hasStock && (this.product?.existingStockQuantity || 0) > 0;
   }
 
-  /**
-   * Loads price offer for the current user
-   */
-  private async loadPriceOffer() {
-    if(this.product) {
-      this.priceVD = this.product?.offert.unitPrice;
-      this.priceWeb = this.product?.offert.unitPriceWeb;
-
-      if(!this.priceWeb && this.isLogged) {
-        const product = await this.productsService.getProduct( this.product?.idProduct );
-        this.priceVD = product.offert.unitPrice;
-        this.priceWeb = product.offert.unitPriceWeb;
-      }
-    }
-  }
 
   /**
    * Calculates if the product can be purchased

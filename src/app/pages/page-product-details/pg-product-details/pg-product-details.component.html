@@ -1,7 +1,7 @@
 <div class="product-details-page">
   <section class="product-details-page__main-product">
     <org-product-details-card
-      *ngIf="(product$ | async) && (isUserLoading$ | async) !== true; else skeletonDetail"
+      *ngIf="(product$ | async) && (isAuthenticated$ | async) !== null; else skeletonDetail"
       [product]="(product$ | async)"
     >
       <button class="btn" (click)="toggleRelatedProducts(true)">
@@ -16,7 +16,7 @@
 
     <org-product-details
       [product]="product$ | async"
-      *ngIf="(product$ | async) && (isUserLoading$ |async) !== true; else skeletonDetailSummary"
+      *ngIf="(product$ | async) && (isAuthenticated$ | async) !== null; else skeletonDetailSummary"
     />
 
     <ng-template #skeletonDetailSummary>

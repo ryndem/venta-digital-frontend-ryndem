@@ -3,15 +3,12 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { QuoteItem } from 'app/model/quote';
-import { QuotesService } from 'app/services/quotes.service';
-import { PurchaseOrderService } from 'app/services/purchase-order.service';
-import { OrderService } from 'app/services/order.service';
-import { User } from 'app/model/user';
 import { OrderTab } from 'app/model/order-tabs';
 import { environment } from 'environments/environment';
-import { loadSession } from 'app/store/actions/user.actions';
 import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
+import { selectIsLoadingOrders, selectOrderList } from 'app/store/selectors/order.selectors';
+import { loadOrders, loadPurchaseOrders, loadQuotes, updateOrderList } from 'app/store/actions/order.actions';
 
 /**
  * Page component to show orders list
@@ -51,21 +48,10 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
   isFilterClosed = false;
 
   /**
-   * Order list
-   * @type {(QuoteItem[] | null)}
-   */
-  orders: QuoteItem[] | null = null;
-
-  /**
    * Search filter model
    */
   searchFilter = '';
 
-  /**
-   * Boolean to track loading state
-   */
-  isLoadingOrders = false;
-  
   /**
    * Skeleton collection
    */
@@ -81,27 +67,38 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
    */
   allLoaded = false;
 
+  // /**
+  //  * Boolean to track loading state
+  //  */
+  // isLoadingOrders = false;
+
+  /**
+   * Store reference (user.isLogged)
+   */
+  isAuthenticated$: Observable<boolean | null>;
+
+  /**
+   * Store reference (orders.orderList)
+   */
+  orderList$: Observable<QuoteItem[] | null>;
+
   /**
   * Store reference (user.isLogged)
-  */
-  isAuthenticated$: Observable<boolean>;
+  */ 
+  isLoadingOrders$: Observable<boolean>;
 
   /**
    * Creates an instance of PgOrderListComponent.
-   * @param {QuotesService} quotesService
-   * @param {PurchaseOrderService} purchaseOrderService
-   * @param {OrderService} orderService
-   * @param {Store<{ user: { isLogged: boolean, user: User } }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
-    private quotesService: QuotesService,
-    private purchaseOrderService: PurchaseOrderService,
-    private orderService: OrderService,
-    private store: Store<{ user: { isLogged: boolean, user: User } }>,
+    private store: Store,
     private router: Router,
   ) {
     this.isAuthenticated$ = this.store.select(selectUserIsLogged);
+    this.orderList$ = this.store.select(selectOrderList);
+    this.isLoadingOrders$ = this.store.select(selectIsLoadingOrders);
 
     this.tabs = [
       {
@@ -127,10 +124,8 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
    * Initializing method
    */
   async ngOnInit() {
-    this.store.dispatch(loadSession());
-
     this.isAuthenticated$.subscribe((isAuthenticated) => {
-      if (isAuthenticated) {
+      if (isAuthenticated == true) {
         this.loadOrders();
       } else {
         this.router.navigate(['/']);
@@ -185,82 +180,21 @@ export class PgOrderListComponent implements OnInit, OnDestroy {
    * @param {boolean} [tabChanged=false]
    */
   async loadOrders(tabChanged = false) {
-    if (this.allLoaded || this.isLoadingOrders) return;
-
-    this.isLoadingOrders = true;
 
     if(tabChanged) {
-      this.orders = [];
+      this.store.dispatch(updateOrderList({ orderList: []}))
     }
 
-    try {
-      if (this.currentTab.key === 'quotes') {
-        const page = await this.quotesService.getQuotes(
-          this.searchFilter,
-          this.PAGE_SIZE,
-          this.currentPage,
-        );
-        if (this.currentPage > this.getTotalPages(page.totalResults)) {
-          this.allLoaded = true;
-        } else {
-          const quotes: QuoteItem[] = page.results.map(quote => {
-            return {
-              id: quote.idQuotation,
-              folio: quote.folio,
-              registrationDate: quote.registrationDate,
-              items: quote.items,
-              total: quote.total,
-              expirationDate: quote.expirationDate,
-              isValid: quote.isValid
-            }
-          })
-          this.orders = this.orders ? [...this.orders, ...quotes] : quotes;
-          this.currentPage++;
-          this.allLoaded = this.currentPage > this.getTotalPages(page.totalResults);
-        }
-      }
+    if (this.currentTab.key === 'quotes') {
+      this.store.dispatch(loadQuotes({ searchFilter: this.searchFilter, pageSize: this.PAGE_SIZE, page: this.currentPage}))
+    }
 
-      if (this.currentTab.key === 'in-progress') {
-        const page = await this.purchaseOrderService.getPurchaseOrders(
-          this.searchFilter,
-          this.PAGE_SIZE,
-          this.currentPage,
-        );
-        if (this.currentPage > this.getTotalPages(page.totalResults)) {
-          this.allLoaded = true;
-        } else {
-          const purchaseOrders: QuoteItem[] = page.results.map(purchaseOrder => {
-            return {
-              id: purchaseOrder.idPurchaseOrder,
-              folio: purchaseOrder.folio,
-              registrationDate: purchaseOrder.registrationDate,
-              items: purchaseOrder.items,
-              total: purchaseOrder.total,
-            }
-          })
-          this.orders = this.orders ? [...this.orders, ...purchaseOrders] : purchaseOrders;
-          this.currentPage++;
-          this.allLoaded = this.currentPage > this.getTotalPages(page.totalResults);
-        }
-      }
+    if (this.currentTab.key === 'in-progress') {
+      this.store.dispatch(loadPurchaseOrders({ searchFilter: this.searchFilter, pageSize: this.PAGE_SIZE, page: this.currentPage}))
+    }
 
-      if (this.currentTab.key === 'confirmed') {
-        const page = await this.orderService.getOrders(this.searchFilter, this.isFilterClosed);
-        const confirmedOrders: QuoteItem[] = page.results.map(confirmedOrder => {
-          return {
-            id: confirmedOrder.idOrder,
-            folio: confirmedOrder.internalOrderNumber,
-            registrationDate: confirmedOrder.registrationDate,
-            items: confirmedOrder.totalItems,
-            total: confirmedOrder.totalAmount,
-          }
-        })
-        this.orders = confirmedOrders;
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.isLoadingOrders = false;
+    if (this.currentTab.key === 'confirmed') {
+      this.store.dispatch(loadOrders({ searchFilter: this.searchFilter, isClosed: this.isFilterClosed}));
     }
   }
 

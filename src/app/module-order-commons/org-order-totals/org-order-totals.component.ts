@@ -19,7 +19,7 @@ export class OrgOrderTotalsComponent implements OnInit {
    * Order to show totals
    * @type {(ConfirmedOrder | PurchaseOrder)}
    */
-  @Input() order!: ConfirmedOrder | PurchaseOrder;
+  @Input() order!: ConfirmedOrder | PurchaseOrder | null;
   
   /**
    * Order express freight outsider items total
@@ -60,23 +60,25 @@ export class OrgOrderTotalsComponent implements OnInit {
    * Initializing method
    */
   ngOnInit(): void {
-    const order = (this.order as ConfirmedOrder);
-    if(order.totalVAT) {
-      this.subTotal = order.subtotal || 0;
-      this.expressFreightItems = order.expressFreightItems || 0;
-      this.expressFreightTotal = order.expressFreightTotal || 0;
-      this.taxAmount = order.totalVAT || 0;
-      this.totalAmount = order.totalAmount || 0;
-    }
-    const purchaseOrder = (this.order as PurchaseOrder);
-    if(purchaseOrder.saleTax) {
-      this.subTotal = purchaseOrder.subtotal || 0;
-      this.expressFreightOutsiderItems = purchaseOrder.freightOutsiderDetails?.itemCount || 0;
-      this.expressFreightOutsiderTotal = purchaseOrder.freightOutsiderDetails?.amount || 0;
-      this.expressFreightItems = purchaseOrder.freightExpressDetails?.itemCount || 0;
-      this.expressFreightTotal = purchaseOrder.freightExpressDetails?.amount || 0;
-      this.taxAmount = purchaseOrder.saleTax || 0;
-      this.totalAmount = purchaseOrder.total || 0;
+    if(this.order) {
+      const order = (this.order as ConfirmedOrder);
+      if(order.totalVAT) {
+        this.subTotal = order.subtotal || 0;
+        this.expressFreightItems = order.expressFreightItems || 0;
+        this.expressFreightTotal = order.expressFreightTotal || 0;
+        this.taxAmount = order.totalVAT || 0;
+        this.totalAmount = order.totalAmount || 0;
+      }
+      const purchaseOrder = (this.order as PurchaseOrder);
+      if(purchaseOrder.saleTax) {
+        this.subTotal = purchaseOrder.subtotal || 0;
+        this.expressFreightOutsiderItems = purchaseOrder.freightOutsiderDetails?.itemCount || 0;
+        this.expressFreightOutsiderTotal = purchaseOrder.freightOutsiderDetails?.amount || 0;
+        this.expressFreightItems = purchaseOrder.freightExpressDetails?.itemCount || 0;
+        this.expressFreightTotal = purchaseOrder.freightExpressDetails?.amount || 0;
+        this.taxAmount = purchaseOrder.saleTax || 0;
+        this.totalAmount = purchaseOrder.total || 0;
+      }
     }
 
   }
