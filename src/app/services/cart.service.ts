@@ -223,15 +223,14 @@ export class CartService {
       if (!product) return;
 
       product.quantity = quantity;
-
       const body = {
         idQuotation: this.cart?.quotationDetails.idQuotation,
         refresh: false,
+        addressId: this.firstAddressId,
         listQuotationItem: products,
       };
 
       await firstValueFrom(this.httpClient.post<string>(this.apiPath + '/RefreshShoppingCart', body));
-
       this.load();
     } catch (error) {
       console.error('Error updating quantity:', error);
