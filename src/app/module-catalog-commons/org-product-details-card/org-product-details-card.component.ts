@@ -75,7 +75,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
   /**
    * Store reference (user.isLogged)
    */
-  isLogged$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
    * Store reference (cart.isLoading)
@@ -105,7 +105,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
 
     this.isLogged$.subscribe(value => {
       if (value != this.isLogged) {
-        this.isLogged = value;
+        this.isLogged = value === true;
         this.loadPriceOffer();
       }
     });
@@ -149,14 +149,7 @@ export class OrgProductDetailsCardComponent implements OnChanges {
   async loadPriceOffer() {
     if(this.product && !this.isPriceLoaded) {
       this.store.dispatch(loadProductPrice({ productId: this.product.idProduct}))
-      //this.priceVD = this.product?.offert.unitPrice;
-      //this.priceWeb = this.product?.offert.unitPriceWeb;
-
-      //if(!this.priceWeb && this.isLogged) {
-        //const product = await this.productsService.getProduct( this.product?.idProduct );
-        //this.priceVD = product.offert.unitPrice;
-        //this.priceWeb = product.offert.unitPriceWeb;
-      //}
+      this.isPriceLoaded = true;
     }
   }
 

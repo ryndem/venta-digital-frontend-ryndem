@@ -19,6 +19,7 @@ export interface ViewState {
     isResetPasswordRestError: boolean;
     isResetPasswordTokenExpired: boolean;
     isResetPasswordChangeSuccess: boolean;
+    isProductSearchActive: boolean;
 }
 
 /**
@@ -33,5 +34,6 @@ export const initialViewState: ViewState = {
     isResetPasswordRestError: false,
     isResetPasswordTokenExpired: false,
     isResetPasswordChangeSuccess: false,
+    isProductSearchActive: false,
 };
 

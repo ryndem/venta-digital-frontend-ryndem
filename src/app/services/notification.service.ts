@@ -22,7 +22,6 @@ export class NotificationService {
    * @param {string} message Notification message
    */
   async showSuccess(message: string) {
-    console.log('SHOW SUCCESS ' + message)
     this.toastr.success(message);
   }
 
@@ -31,7 +30,6 @@ export class NotificationService {
    * @param {string} message Notification message
    */
   async showError(message: string) {
-    console.log('SHOW ERROR ' + message);
     this.toastr.error(message);
   }
 }

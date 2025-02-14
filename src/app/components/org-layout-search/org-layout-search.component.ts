@@ -2,7 +2,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { OptionsGroup } from 'app/model-props/options-group';
-import { ProductsService } from 'app/services/products.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectIsProductSearchActive } from 'app/store/selectors/view.selectors';
+import { updateIsProductSearchActive } from 'app/store/actions/view.actions';
+import { searchProducts } from 'app/store/actions/product.actions';
+import { selectSearchResults } from 'app/store/selectors/product.selectors';
 
 /**
  * Header search component
@@ -18,12 +23,6 @@ import { ProductsService } from 'app/services/products.service';
 export class OrgLayoutSearchComponent extends AtmClosableComponent {
 
   /**
-   * Collection to group search result by category
-   * @type {OptionsGroup[]}
-   */
-  optionsGroups: OptionsGroup[] = [];
-
-  /**
    * Search term to filter results
    */
   searchTerm = '';
@@ -35,16 +34,12 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
   debounce: number | null = null;
 
   /**
-   * Boolean to track loading state at search
-   */
-  isSearching = false;
-
-
-  /**
    * Boolean to track drop down result display
    */
   isResultsVisible = false;
 
+  isProductSearchActive$: Observable<boolean>;
+  searchResults$: Observable<OptionsGroup[]>;
 
   /**
    * Minimum characters to search
@@ -52,18 +47,21 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
    */
   private MIN_SEARCH_LENGHT = 3;
 
+
   /**
    * Creates an instance of OrgLayoutSearchComponent.
-   * @param {ProductsService} productSservice
    * @param {Router} router
    * @param {ActivatedRoute} currentRoute
    */
   constructor(
-      private productsService: ProductsService,
       private router: Router,
-      private currentRoute: ActivatedRoute) {
+      private currentRoute: ActivatedRoute,
+      private store: Store,
+    ) {
     super();
-
+    this.isProductSearchActive$ = this.store.select(selectIsProductSearchActive);
+    this.searchResults$ = this.store.select(selectSearchResults);
+    
     this.currentRoute.queryParams.subscribe((params) => {
       if (params['searchTerm'] != this.searchTerm) {
         this.searchTerm = params['searchTerm'];
@@ -130,19 +128,10 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
    * @param {string} term
    */
   async searchProducts(term: string) {
-    this.isSearching = true;
-    const result = await this.productsService.searchProducts(term);
-    const items = result.map((r) => {
-      return { label: r.description, value: r.idProducto };
-    });
-    this.optionsGroups = [];
+    this.store.dispatch(updateIsProductSearchActive({ isProductSearchActive: true}));
+    this.store.dispatch(searchProducts({ searchTerm: term}));
 
-    this.optionsGroups.push({
-      title: 'Resultados',
-      items: items,
-    });
     this.isResultsVisible = true;
-    this.isSearching = false;
   }
 
   /**
@@ -173,6 +162,6 @@ export class OrgLayoutSearchComponent extends AtmClosableComponent {
    * Listener for search component focus
    */
   onFocusSearch() {
-    this.isResultsVisible = this.optionsGroups.length > 0;
+    //this.isResultsVisible = this.optionsGroups.length > 0;
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError, take } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as ProductActions from '../actions/product.actions';
 import { CategoriesService } from 'app/services/categories.service';
@@ -8,7 +8,9 @@ import { Category } from 'app/model/category';
 import { ProductsService } from 'app/services/products.service';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
-
+import { SearchedProduct } from 'app/model-props/searched-product';
+import { OptionsGroup } from 'app/model-props/options-group';
+import { updateIsProductSearchActive } from '../actions/view.actions';
 
 /**
  * Product effects to update product state
@@ -26,7 +28,7 @@ export class ProductEffects {
    * @param {ProductsService} productsService
    */
   constructor(
-    private actions$: Actions, 
+    private actions$: Actions,
     private categoriesService: CategoriesService,
     private productsService: ProductsService,
   ) {}
@@ -52,20 +54,25 @@ export class ProductEffects {
   );
 
   /**
-   * Effect to load product categories
-   */
-  loadOutstandingProducts$ = createEffect(() =>
+   * Effect to load featured products
+  */
+
+  loadFeaturedProducts$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ProductActions.loadOutstandingProducts),
-      take(1),
+      ofType(ProductActions.loadFeaturedProducts),
       mergeMap(() =>
-        from(this.productsService.listOutstandingProducts()).pipe(
-          mergeMap(() => of({type: '[Product]loadOutstandingProducts'})),
-          catchError(() => of({ type: '[Product]loadOutstandingProductsFailure' }))
+        this.productsService.listFeaturedProducts().pipe(
+          map((response) => ProductActions.loadFeaturedProductsSuccess({
+            featuredProducts: response.results
+          })),
+          catchError((error) => of(
+            ProductActions.loadFeaturedProductsFailure({ error: error.message }))
+          )
         )
       )
     )
   );
+
 
   /**
    * Effect to load product categories
@@ -141,5 +148,32 @@ export class ProductEffects {
       )
     )
   );
-  
+
+  /**
+   * Effect to load complementary products by product id
+   */
+    searchProducts$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ProductActions.searchProducts),
+        mergeMap((action) =>
+          from(this.productsService.searchProducts(action.searchTerm)).pipe(
+            map((results: SearchedProduct[]) => {
+              const items = results.map((r) => {
+                return { label: r.description, value: r.idProducto };
+              });
+              const optionsGroups: OptionsGroup[] = [];
+              optionsGroups.push({
+                title: 'Resultados',
+                items: items,
+              });
+
+              updateIsProductSearchActive({ isProductSearchActive: false})
+              return ProductActions.updateSearchResults({searchResults: optionsGroups});
+            }),
+            catchError(() => of({type: '[Order]searchProductsFailure'}))
+          )
+        )
+      )
+    );
+
 }

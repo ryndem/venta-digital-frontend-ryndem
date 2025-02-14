@@ -11,21 +11,21 @@ export const productReducer = createReducer(
     ...state,
     categories: categories,
   })),
-  on(
-    ProductActions.updateOutstandingProducts,
-    (state, { outstandingProducts }) => ({
-      ...state,
-      outstandingProducts: outstandingProducts,
-    })
-  ),
-  on(ProductActions.addOutstandingProduct, (state, { outstandingProduct }) => {
-    const products = (state.outstandingProducts || []).slice();
-    products.push(outstandingProduct);
-    return {
-      ...state,
-      outstandingProducts: products,
-    };
-  }),
+  on(ProductActions.loadFeaturedProducts, (state) => ({
+    ...state,
+    isLoadingFeaturedProducts: true,
+    error: null
+  })),
+  on(ProductActions.loadFeaturedProductsSuccess, (state, { featuredProducts }) => ({
+    ...state,
+    featuredProducts,
+    isLoadingFeaturedProducts: false
+  })),
+  on(ProductActions.loadFeaturedProductsFailure, (state, { error }) => ({
+    ...state,
+    isLoadingFeaturedProducts: false,
+    error
+  })),
   on(ProductActions.updateProductsPage, (state, { productsPage }) => {
     return {
       ...state,
@@ -33,7 +33,7 @@ export const productReducer = createReducer(
     };
   }),
 
-  
+
   on(ProductActions.addLoadedProduct, (state, { product }) => {
     const products = [...state.productDetails];
     const index = products.findIndex( p => p.idProduct == product.idProduct);
@@ -117,5 +117,13 @@ export const productReducer = createReducer(
       productPrices: prices
     })
   }),
+
+  on(
+    ProductActions.updateSearchResults,
+    (state, { searchResults }) => ({
+      ...state,
+      searchResults: searchResults
+    })
+  ),
 
 );

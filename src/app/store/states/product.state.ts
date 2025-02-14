@@ -1,3 +1,4 @@
+import { OptionsGroup } from 'app/model-props/options-group';
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
@@ -31,17 +32,24 @@ export interface ProductState {
   categories: Category[];
 
   /**
-   * List of the outstanding products.
+   * List of the featured products.
    * @type {(Product[] | null)}
-   */
-  outstandingProducts: Product[] | null;
+  */
+
+  featuredProducts: Product[] | null
+
+  /**
+   * Determines if the loading featured products is loading.
+   * @type {Boolean}
+  */
+  isLoadingFeaturedProducts: boolean;
 
     /**
    * List of the outstanding products.
    * @type {(Product[] | null)}
    */
   productsPage: ProductResponse | null;
-  
+
   alternativeProducts: Array<{
     productId: string;
     products: Product[];
@@ -58,6 +66,8 @@ export interface ProductState {
     priceWeb: number;
   }>;
 
+  searchResults: OptionsGroup[];
+
 }
 
 /**
@@ -67,10 +77,12 @@ export const initialProductState: ProductState = {
   productDetails: [],
   selectedDetailsProductId: null,
   categories: [],
-  outstandingProducts: null,
   productsPage: null,
   alternativeProducts: [],
   complementaryProducts: [],
   productPrices: [],
+  searchResults: [],
+  featuredProducts: [],
+  isLoadingFeaturedProducts: false
 };
 

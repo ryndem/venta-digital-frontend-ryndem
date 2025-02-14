@@ -43,3 +43,8 @@ export const selectIsResetPasswordChangeSuccess = createSelector(
     selectViewState,
     (state) => state.isResetPasswordChangeSuccess
 );
+
+export const selectIsProductSearchActive = createSelector(
+    selectViewState,
+    (state) => state.isProductSearchActive
+);

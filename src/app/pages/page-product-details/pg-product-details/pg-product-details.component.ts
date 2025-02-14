@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Product } from 'app/model/product';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { selectUserIsLoading } from 'app/store/selectors/user.selectors';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectProductDetails } from 'app/store/selectors/product.selectors';
 import { loadProductById } from 'app/store/actions/product.actions';
+import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
 
 /**
  * Page component to display product details
@@ -37,9 +37,9 @@ export class PgProductDetailsComponent {
   isProductLoaded = false;
 
   /**
-  * Store reference (user.loading)
+  * Store reference (user.isLogged)
   */
-  isUserLoading$: Observable<boolean>;
+  isAuthenticated$: Observable<boolean | null>;
 
   /**
   * Store reference (product.productDetails(id))
@@ -53,7 +53,7 @@ export class PgProductDetailsComponent {
   constructor(
     private store: Store,
   ) {
-    this.isUserLoading$ = this.store.select(selectUserIsLoading);
+    this.isAuthenticated$ = this.store.select(selectUserIsLogged);
     this.product$ = this.store.select(selectProductDetails(this.productId));
 
     this.product$.subscribe(value => {

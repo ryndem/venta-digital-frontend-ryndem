@@ -320,7 +320,7 @@
     <button [disabled]="signUpForm.invalid">Registrarme</button>
   </form>
 
-  <a class="text-blue-600 text-body" routerLink>Cancelar y Regresar</a>
+  <a class="text-blue-600 text-body" href="#" (click)="goBack($event)">Cancelar y Regresar</a>
 </div>
 
 <div class="justify-centered" *ngIf="(isSignUpRequested$ | async) === true && (isSignUpReviewPending$ | async) !== true">

@@ -5,8 +5,6 @@ import { addProductToCart } from 'app/store/actions/cart.actions';
 import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
 import { selectCartIsLoading } from 'app/store/selectors/cart.selectors';
 import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
-import { ShoppingCartState } from 'app/store/states/cart.state';
-import { UserState } from 'app/store/states/user.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -41,20 +39,20 @@ export class AtmShoppingButtonComponent {
   /**
    * Store reference (user.isLogged)
    */
-  isLogged$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
    * Creates an instance of AtmShoppingButtonComponent.
    * @param {AuthService} authService
-   * @param {Store<{ user: UserState, cart: ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<{ user: UserState, cart: ShoppingCartState }>,
+    private store: Store,
   ) { 
     this.isAddingToCar$ = this.store.select(selectCartIsLoading);
     this.isLogged$ = this.store.select(selectUserIsLogged);
     this.isLogged$.subscribe(value => {
-      this.isAuthenticated = value;
+      this.isAuthenticated = value == true;
     })
   }
 

@@ -1,7 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { ConfirmedOrder } from 'app/model/confirmed-order';
+import { OrderFile } from 'app/model/order-file';
 import { OrderItem } from 'app/model/order-item';
 import { PurchaseOrder } from 'app/model/purchase-order';
+import { QuoteItem } from 'app/model/quote';
 import { QuoteProduct } from 'app/model/quote-product';
 import { ShoppingCart } from 'app/model/shopping-cart';
 
@@ -120,4 +122,60 @@ export const addLoadedPurchaseOrderItems = createAction(
 export const addLoadedConfirmedOrderItems = createAction(
   '[Order]addLoadedConfirmedOrderItems',
   props<{ confirmedOrderId: string, quoteId: string, items: OrderItem[]}>()
+)
+
+/**
+ * Exports uploadPurchaseOrderFile action
+*/
+export const uploadPurchaseOrderFile = createAction(
+  '[Order]uploadPurchaseOrderFile',
+  props<{ fileForm: FormData }>()
+)
+
+/**
+ * Exports updateUploadedOrderFile action
+*/
+export const updateUploadedOrderFile = createAction(
+  '[Order]updateUploadedOrderFile',
+  props<{ orderFile: OrderFile | null }>()
+)
+
+/**
+ * Exports updateOrderList action
+*/
+export const updateOrderList = createAction(
+  '[Order]updateOrderList',
+  props<{ orderList: QuoteItem[] | null }>()
+)
+
+/**
+ * Exports updateIsLoadingOrders action
+*/
+export const updateIsLoadingOrders = createAction(
+  '[Order]updateIsLoadingOrders',
+  props<{ isLoadingOrders: boolean }>()
+)
+
+/**
+ * Exports loadQuotes action
+*/
+export const loadQuotes = createAction(
+  '[Order]loadQuotes',
+  props<{ searchFilter: string, pageSize: number, page: number }>()
+)
+
+/**
+ * Exports loadPurchaseOrders action
+*/
+export const loadPurchaseOrders = createAction(
+  '[Order]loadPurchaseOrders',
+  props<{ searchFilter: string, pageSize: number, page: number }>()
+)
+
+/**
+ * Exports loadOrders action
+*/
+export const loadOrders = createAction(
+  '[Order]loadOrders',
+  props<{ searchFilter: string, isClosed: boolean }>()
 )

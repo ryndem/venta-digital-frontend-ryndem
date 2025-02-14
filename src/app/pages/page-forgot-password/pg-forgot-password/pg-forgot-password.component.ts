@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectIsPasswordResetted } from 'app/store/selectors/view.selectors';
 import { sendForgotPasswordEmail } from 'app/store/actions/user.actions';
+import { Location } from '@angular/common';
 
 /**
  * Page component to create a reset user password request
@@ -38,6 +39,7 @@ export class PgForgotPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
+    private location: Location
   ) {
     this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: false }))
     this.isPasswordResetted$ = this.store.select(selectIsPasswordResetted)
@@ -62,7 +64,7 @@ export class PgForgotPasswordComponent implements OnInit {
 
   /**
    * Method to handle form submit
-   * @return {*} 
+   * @return {*}
    */
   async onSubmit() {
     if (this.forgotPasswordForm.invalid) {
@@ -75,11 +77,19 @@ export class PgForgotPasswordComponent implements OnInit {
   }
 
   /**
+   * Method to Navigates back in the platform's history.
+  */
+  goBack(event: Event): void {
+    event.preventDefault();
+    this.location.back();
+  }
+
+  /**
    * Updates page meta tags
    */
   setMetaTags() {
     this.store.dispatch(updateMetaTagsAndTitle({
-      pageTitle: 'Olvidé mi Contraseña - Proquifa', 
+      pageTitle: 'Olvidé mi Contraseña - Proquifa',
       tags: [
         {
           name: 'description',

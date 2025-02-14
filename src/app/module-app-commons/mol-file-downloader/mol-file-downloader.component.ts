@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { environment } from 'environments/environment';
-import { ShoppingCartState } from 'app/store/states/cart.state';
 import { Store } from '@ngrx/store';
 import { showErrorNotification } from 'app/store/actions/view.actions';
 
@@ -37,11 +36,11 @@ export class MolFileDownloaderComponent {
   /**
    * Creates an instance of MolFileDownloaderComponent.
    * @param {HttpClient} http
-   * @param {Store<{ ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
     private http: HttpClient,
-    private store: Store<ShoppingCartState>,
+    private store: Store,
   ) {}
 
   /**

@@ -99,6 +99,26 @@ export const orderReducer = createReducer(
       confirmedOrderItems: confirmedOrderItems
     })
   }),
+  on(OrderActions.updateUploadedOrderFile, (state, { orderFile }) => {
+    return ({
+      ...state,
+      uploadedOrderFile: orderFile
+    })
+  }),
+
+  on(OrderActions.updateIsLoadingOrders, (state, { isLoadingOrders }) => {
+    return ({
+      ...state,
+      isLoadingOrders: isLoadingOrders
+    })
+  }),
+
+  on(OrderActions.updateOrderList, (state, { orderList }) => {
+    return ({
+      ...state,
+      orderList: orderList
+    })
+  }),
 
 );
 

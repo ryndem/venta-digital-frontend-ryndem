@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
-import { selectUserIsLoading, selectUserIsLogged } from 'app/store/selectors/user.selectors';
-import { UserState } from 'app/store/states/user.state';
+import { selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { Observable } from 'rxjs';
 
 /**
@@ -20,21 +19,15 @@ export class AtmAuthBannerComponent {
   /**
   * Store reference (user.isLogged)
   */
-  isLogged$: Observable<boolean>;
-  
-  /**
-  * Store reference (user.loading)
-  */
-  isLoadingUser$: Observable<boolean>;
+  isLogged$: Observable<boolean | null>;
 
   /**
    * Creates an instance of AtmAuthBannerComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<{ user: UserState }>
+    private store: Store
   ) {
-    this.isLoadingUser$ = this.store.select(selectUserIsLoading);
     this.isLogged$ = this.store.select(selectUserIsLogged);
   }
 
