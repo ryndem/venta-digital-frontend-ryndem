@@ -5,7 +5,6 @@ import { OrderItem } from 'app/model/order-item';
 import { loadConfirmedOrderById } from 'app/store/actions/order.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectConfirmedOrderDetails } from 'app/store/selectors/order.selectors';
-import { ViewState } from 'app/store/states/view.state';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -68,10 +67,10 @@ export class PgOrderDetailsComponent {
   /**
    * Creates an instance of PgOrderDetailsComponent.
    * @param {OrderService} orderService
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
     this.order$ = this.store.select(selectConfirmedOrderDetails(this.orderId));
     this.setMetaTags();

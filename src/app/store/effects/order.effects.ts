@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, throttleTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { ShoppingCart } from 'app/model/shopping-cart';
@@ -11,6 +11,7 @@ import { PurchaseOrder } from 'app/model/purchase-order';
 import { OrderService } from 'app/services/order.service';
 import { ConfirmedOrder } from 'app/model/confirmed-order';
 import { OrderItemPage } from 'app/model/order-item-page';
+import { FileService } from 'app/services/file.service';
 
 
 /**
@@ -25,6 +26,10 @@ export class OrderEffects {
    * Creates an instance of CartEffects.
    * @param {Actions} actions$
    * @param {QuotesService} quotesService
+   * * @param {PurchaseOrderService} purchaseOrderService
+   * * @param {OrderService} orderService
+   * * @param {CartService} cartService
+   * * @param {FileService} fileService
    */
   constructor(
     private actions$: Actions,
@@ -32,6 +37,7 @@ export class OrderEffects {
     private purchaseOrderService: PurchaseOrderService,
     private orderService: OrderService,
     private cartService: CartService,
+    private fileService: FileService,
   ) {}
 
   /**
@@ -137,4 +143,67 @@ export class OrderEffects {
     )
   );
 
+  /**
+   * Effect to upload purchase order file
+   */
+  uploadPurchaseOrderFile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrderActions.uploadPurchaseOrderFile),
+      throttleTime(8000),
+      mergeMap((action) =>
+        from(this.fileService.uploadFile(action.fileForm)).pipe(
+          mergeMap(() => of({type:'[Order]uploadPurchaseOrderFile'})),
+          catchError(() => of({type: '[Order]uploadPurchaseOrderFileFailure'}))
+        )
+      )
+    )
+  );
+
+
+
+  /**
+   * Effect to load quotes
+   */
+  loadQuotes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrderActions.loadQuotes),
+      throttleTime(5000),
+      mergeMap((action) =>
+        from(this.quotesService.getQuotes(action.searchFilter, action.pageSize, action.page)).pipe(
+          mergeMap(() => of({type:'[Order]loadQuotes'})),
+          catchError(() => of({type: '[Order]loadQuotesFailure'}))
+        )
+      )
+    )
+  );
+
+  /**
+   * Effect to load purchase orders
+   */
+  loadPurchaseOrders$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrderActions.loadPurchaseOrders),
+      mergeMap((action) =>
+        from(this.purchaseOrderService.getPurchaseOrders(action.searchFilter, action.pageSize, action.page)).pipe(
+          mergeMap(() => of({type:'[Order]loadPurchaseOrders'})),
+          catchError(() => of({type: '[Order]loadPurchaseOrdersFailure'}))
+        )
+      )
+    )
+  );
+
+  /**
+   * Effect to load orders
+   */
+  loadOrders$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrderActions.loadOrders),
+      mergeMap((action) =>
+        from(this.orderService.getOrders(action.searchFilter, action.isClosed)).pipe(
+          mergeMap(() => of({type:'[Order]loadPurchaseOrders'})),
+          catchError(() => of({type: '[Order]loadPurchaseOrdersFailure'}))
+        )
+      )
+    )
+  );
 }

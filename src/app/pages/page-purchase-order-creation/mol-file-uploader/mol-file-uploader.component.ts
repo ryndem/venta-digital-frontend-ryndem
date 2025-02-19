@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FileService } from 'app/services/file.service';
 import { OrderFile } from 'app/model/order-file';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectIsFileUploading } from 'app/store/selectors/view.selectors';
+import { uploadPurchaseOrderFile } from 'app/store/actions/order.actions';
+import { selectUploadedOrderFile } from 'app/store/selectors/order.selectors';
 
 /**
  * Component to upload file to the API
@@ -28,11 +29,6 @@ export class MolFileUploaderComponent {
   @Output() fileRemovedEmitter = new EventEmitter<void>();
 
   /**
-   * Flag to indicate if the file is uploading
-   */
-  isUploading = false;
-
-  /**
    * Name of the file selected
    * @type {(string | null)}
    */
@@ -41,27 +37,29 @@ export class MolFileUploaderComponent {
   /**
    * Store reference (view.isFileUploading)
    */
-    isFileUploading$: Observable<boolean>;
+  isFileUploading$: Observable<boolean>;
+
+  /**
+   * Store reference (view.isFileUploading)
+   */
+  uploadedOrderFile$: Observable<OrderFile | null>;
 
   /**
    * Creates an instance of MolFileUploaderComponent.
-   * @param {FileService} fileService
+   * @param {Store} store
    */
   constructor(
-    private fileService: FileService,
     private store: Store,
   ) {
     this.isFileUploading$ = this.store.select(selectIsFileUploading);
+    this.uploadedOrderFile$ = this.store.select(selectUploadedOrderFile);
+    this.uploadedOrderFile$.subscribe((newValue => {
+      if (newValue) {
+        this.fileUploadedEmitter.emit(newValue);
+      }
+    }));
+    
   }
-
-  /**
-   * File upload sucess event
-   * @readonly
-   */
-  get fileUploadSuccess() {
-    return !this.isUploading && this.fileName;
-  }
-
   /**
    * File selected event
    * @param {Event} event
@@ -69,14 +67,11 @@ export class MolFileUploaderComponent {
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.isUploading = true;
-      const formData = new FormData();
-      this.fileName = input.files[0].name;
-      formData.append('file', input.files[0], input.files[0].name);
+      const fileForm = new FormData();
+      fileForm.append('file', input.files[0], input.files[0].name);
+      this.store.dispatch(uploadPurchaseOrderFile({fileForm}));
 
-      const response = await this.fileService.uploadFile(formData);
-      this.fileUploadedEmitter.emit(response);
-      this.isUploading = false;
+      this.fileName = input.files[0].name;
     }
   }
 

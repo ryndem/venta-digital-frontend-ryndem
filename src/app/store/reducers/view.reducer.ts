@@ -40,5 +40,13 @@ export const viewReducer = createReducer(
     ...state,
     isResetPasswordChangeSuccess
   })),
+  on(ViewActions.updateActivationState, (state, { activationState }) => ({
+    ...state,
+    activationState
+  })),
+  on(ViewActions.updateIsProductSearchActive, (state, { isProductSearchActive }) => ({
+    ...state,
+    isProductSearchActive
+  })),
   
 );

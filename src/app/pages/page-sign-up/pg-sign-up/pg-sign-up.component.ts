@@ -6,6 +6,7 @@ import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectIsSignUpRequested, selectIsSignUpReviewPending, selectIsSignUpServerError, selectSignUpErrorMessage } from 'app/store/selectors/user.selectors';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
 
 /**
  * Page component to create a user sign up request
@@ -60,6 +61,7 @@ export class PgSignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
+    private location: Location
   ) {
     this.isServerError$ = this.store.select(selectIsSignUpServerError);
     this.isSignUpRequested$ = this.store.select(selectIsSignUpRequested);
@@ -128,12 +130,22 @@ export class PgSignUpComponent implements OnInit {
     }));
   }
 
+
+  /**
+   * Method to Navigates back in the platform's history.
+  */
+  goBack(event: Event): void {
+    event.preventDefault();
+    this.location.back();
+  }
+
+
   /**
    * Updates page meta tags
    */
   setMetaTags() {
     this.store.dispatch(updateMetaTagsAndTitle({
-      pageTitle: 'Registrar Usuario - Proquifa', 
+      pageTitle: 'Registrar Usuario - Proquifa',
       tags: [
         {
           name: 'description',

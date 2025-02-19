@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-closable.component';
 import { Category } from 'app/model/category';
 import { Observable } from 'rxjs';
-import { ProductState } from 'app/store/states/product.state';
 import { selectCategories } from 'app/store/selectors/product.selectors';
 
 /**
@@ -31,9 +30,9 @@ export class MolCategoryMenuComponent extends AtmClosableComponent {
 
   /**
    * Creates an instance of MolCategoryMenuComponent.
-   * @param {Store<{ product: ProductState}>} store
+   * @param {Store} store
    */
-  constructor(private store: Store<{ product: ProductState}>) {
+  constructor(private store: Store) {
     super();
     this.categories$ = this.store.select(selectCategories);
   }

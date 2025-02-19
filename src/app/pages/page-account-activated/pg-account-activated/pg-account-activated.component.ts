@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'app/auth/auth.service';
+import { Store } from '@ngrx/store';
+import { activateUser } from 'app/store/actions/user.actions';
+import { updateActivationState } from 'app/store/actions/view.actions';
+import { selectActivationState } from 'app/store/selectors/user.selectors';
+import { Observable } from 'rxjs';
 
 /**
  * Page component to display account activation confirmation
@@ -17,20 +21,25 @@ export class PgAccountActivatedComponent {
   /**
    * Component state
    */
-  state = 'loading';
+  state$: Observable<string>;
+
+  token: string | null = null;
 
   /**
    * Creates an instance of PgAccountActivatedComponent.
-   * @param {AuthService} authService
    * @param {ActivatedRoute} currentRoute
+   * @param {Store} store
    */
   constructor(
-    private authService: AuthService,
     private currentRoute: ActivatedRoute,
+    private store: Store,
   ) {
+    this.state$ = this.store.select(selectActivationState);
+    this.store.dispatch(updateActivationState({ activationState: 'loading'}));
     this.currentRoute.queryParams.subscribe((params) => {
-      if (params['token']) {
-        this.processActivation(params['token']);
+      if (params['token'] && !this.token) {
+        this.token = params['token']
+        this.processActivation();
       }
     });
   }
@@ -39,12 +48,9 @@ export class PgAccountActivatedComponent {
    * Method to handle account activation action
    * @param {string} token
    */
-  async processActivation(token: string) {
-    try {
-      await this.authService.activateUser(token);
-      this.state = 'successfull';
-    } catch (error) {
-      this.state = 'error';
+  async processActivation() {
+    if (this.token) {
+      this.store.dispatch(activateUser({token: this.token}));
     }
   }
   

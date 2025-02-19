@@ -82,6 +82,7 @@
             <div class="filters">
                 <div class="tabs">
                     <button type="button" class="btn text-body-medium"
+                            [disabled]="isAllItemsWasAddedToOrder"
                             [ngClass]="{'selected':tabFilter==='available'}"
                             (click)="updateTab('available')">Disponibles</button>
                     <button type="button" class="btn text-body-medium"
@@ -114,9 +115,14 @@
                             (addedToOrderEmitter)="onAddedToOrderEmitter($event)"/>
                     </div>
 
-                    <div class="empty-state" *ngIf="!isItemsLoading && availableProducts.length === 0">
+                    <div class="empty-state" *ngIf="!isItemsLoading && availableProducts.length === 0 && !selectedAddressId">
                         <div class="circle-icon"><img src="assets/icons/truck.svg" alt="truck icon"/></div>
                         <span class="text-neutral-400 text-subtle">Elige una dirección de entrega para visualizar tus cotizaciones disponibles.</span>
+                    </div>
+
+                    <div class="empty-state" *ngIf="!isItemsLoading && selectedAddressId && availableProducts.length === 0">
+                      <div class="circle-icon"><img src="assets/icons/empty-page.svg" alt="page icon" /></div>
+                      <span class="text-neutral-400 text-subtle">No se encontraron partidas <br> relacionadas a tu búsqueda.</span>
                     </div>
                 </div>
 
@@ -145,7 +151,9 @@
 
                 <div class="empty-state" *ngIf="selectedProducts && selectedProducts.length === 0">
                     <div class="circle-icon"><img src="assets/icons/empty-page.svg" alt="page icon"/></div>
-                    <span class="text-neutral-400 text-subtle">Prueba agregando algunas de la columna de cotizaciones vigentes.</span>
+
+                    <span class="text-neutral-400 text-subtle" [innerHTML]="getEmptyMessage()"></span>
+
                 </div>
             </div>
         </div>
@@ -178,6 +186,24 @@
                     <div class="double-field text-body">
                         <div>I.V.A.</div>
                         <div>{{ totals.saleTax | usdCurrency }}</div>
+                    </div>
+                    <div class="double-field text-body">
+                      <div>
+                        Flete Foráneo
+                        <span *ngIf="totals.freightOutsiderDetails.itemCount > 0">
+                          ( {{ totals.freightOutsiderDetails.itemCount }} partida{{ totals.freightOutsiderDetails.itemCount > 1 ? 's' : null }} )
+                        </span>
+                      </div>
+                      <div> {{ totals.freightOutsiderDetails.amount | usdCurrency }} </div>
+                    </div>
+                    <div class="double-field text-body">
+                      <div>
+                        Flete Express
+                        <span *ngIf="totals.freightExpressDetails.itemCount > 0">
+                          ( {{ totals.freightExpressDetails.itemCount }} partida{{ totals.freightExpressDetails.itemCount > 1 ? 's' : null }})
+                        </span>
+                      </div>
+                      <div>{{ totals.freightExpressDetails.amount | usdCurrency }}  </div>
                     </div>
                     <div class="double-field">
                         <div class="text-paragraph">Total</div>

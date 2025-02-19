@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { PurchaseOrder } from 'app/model/purchase-order';
 import { User } from 'app/model/user';
 import { selectCurrentUser } from 'app/store/selectors/user.selectors';
-import { UserState } from 'app/store/states/user.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -38,9 +37,9 @@ export class OrgPurchaseOrderSummaryCardComponent {
   
   /**
    * Creates an instance of OrgPurchaseOrderSummaryCardComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    */
-  constructor(private store: Store<{ user: UserState }>) {
+  constructor(private store: Store) {
     this.user$ = this.store.select(selectCurrentUser);
   }
   

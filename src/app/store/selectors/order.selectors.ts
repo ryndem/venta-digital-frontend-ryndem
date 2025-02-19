@@ -27,3 +27,18 @@ export const selectPurchaseOrderItems = (purchaseOrderId: string, quoteId: strin
     selectOrderState,
     (state) => state.purchaseOrderItems.find(poi => poi.purchaseOrderId == purchaseOrderId && poi.quoteId == quoteId)?.items || null
 );
+
+export const selectUploadedOrderFile = createSelector(
+    selectOrderState,
+    (state) => state.uploadedOrderFile
+);
+
+export const selectOrderList = createSelector(
+    selectOrderState,
+    (state) => state.orderList
+);
+
+export const selectIsLoadingOrders = createSelector(
+    selectOrderState,
+    (state) => state.isLoadingOrders
+);

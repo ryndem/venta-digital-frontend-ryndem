@@ -5,12 +5,9 @@ import { Category } from 'app/model/category';
 import { User } from 'app/model/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserState } from 'app/store/states/user.state';
-import { ProductState } from 'app/store/states/product.state';
-import { ShoppingCartState } from 'app/store/states/cart.state';
 import { selectCategories } from 'app/store/selectors/product.selectors';
 import { selectCurrentCart } from 'app/store/selectors/cart.selectors';
-import { selectCurrentUser, selectIsLoginModalOpened, selectUserIsLoading, selectUserIsLogged } from 'app/store/selectors/user.selectors';
+import { selectCurrentUser, selectIsLoginModalOpened, selectUserIsLogged } from 'app/store/selectors/user.selectors';
 import { updateIsLoginModalOpened } from 'app/store/actions/user.actions';
 
 /**
@@ -38,7 +35,7 @@ export class OrgLayoutHeaderComponent {
   /**
    * Boolean to track if the user is logged
    */
-  isLogged = false;
+  isLogged: boolean | null = false;
 
   /**
   * Store reference (product.categories)
@@ -51,14 +48,9 @@ export class OrgLayoutHeaderComponent {
   user$: Observable<User | null>;
 
   /**
-  * Store reference (user.loading)
-  */
-  isLoadingUser$: Observable<boolean>;
-
-  /**
   * Store reference (user.isLogged)
   */
-  isAuthenticated$: Observable<boolean>;
+  isAuthenticated$: Observable<boolean | null>;
 
   /**
   * Store reference (cart.shoppingCart)
@@ -72,22 +64,13 @@ export class OrgLayoutHeaderComponent {
 
   /**
    * Creates an instance of OrgLayoutHeaderComponent.
-   * @param {Store<{
-   *       user: UserState,
-   *       product: ProductState,
-   *       cart: ShoppingCartState
-   *     }>} store
+   * @param {Store} store
    * @param {Router} router
    */
   constructor(
-    private store: Store<{
-      user: UserState,
-      product: ProductState,
-      cart: ShoppingCartState
-    }>,
+    private store: Store,
     private router: Router
   ) {
-    this.isLoadingUser$ = this.store.select(selectUserIsLoading);
     this.user$ = this.store.select(selectCurrentUser);
     this.isAuthenticated$ = this.store.select(selectUserIsLogged);
     this.categories$ = this.store.select(selectCategories);
@@ -131,7 +114,7 @@ export class OrgLayoutHeaderComponent {
    * Refirects to shopping cart page
    */
   goToShoppingCart() {
-    if(!this.isLogged) {
+    if(this.isLogged == false) {
       this.openLogin();
     } else {
       this.router.navigate(['cart/shopping-cart']);

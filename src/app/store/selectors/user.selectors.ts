@@ -13,11 +13,6 @@ export const selectCurrentUser = createSelector(
     (state) => state.user
 );
 
-export const selectUserIsLoading = createSelector(
-    selectUserState,
-    (state) => state.isLoading
-);
-
 export const selectUserHasOrderItemsSelected = createSelector(
     selectUserState,
     (state) => state.hasOrderItemsSelected
@@ -39,7 +34,6 @@ export const selectIsLoginModalOpened = createSelector(
 );
 
 
-
 export const selectIsSignUpServerError = createSelector(
     selectUserState,
     (state) => state.isSignUpServerError
@@ -58,4 +52,9 @@ export const selectIsSignUpReviewPending = createSelector(
 export const selectSignUpErrorMessage = createSelector(
     selectUserState,
     (state) => state.signUpErrorMessage
+);
+
+export const selectActivationState = createSelector(
+    selectUserState,
+    (state) => state.activationState
 );

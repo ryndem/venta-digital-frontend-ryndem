@@ -1,4 +1,4 @@
-<div class="auth-banner" *ngIf="(isLogged$ | async) !== true && (isLoadingUser$ | async) !== true">
+<div class="auth-banner" *ngIf="(isLogged$ | async) === false">
   <img
     src="assets/icons/shopping-cart-plus-banner.svg"
     alt="agregar al carrito"

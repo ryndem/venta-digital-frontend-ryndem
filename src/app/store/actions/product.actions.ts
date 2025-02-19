@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { OptionsGroup } from 'app/model-props/options-group';
 import { Category } from 'app/model/category';
 import { Product } from 'app/model/product';
 import { ProductResponse } from 'app/model/product-response';
@@ -13,33 +14,10 @@ export const updateCategories = createAction(
 );
 
 /**
- * Exports updateOutstandingProducts action
- */
-export const updateOutstandingProducts = createAction(
-  '[Product]updateOutstandingProducts',
-  props<{ outstandingProducts: Product[] | null }>()
-);
-
-/**
- * Exports addOutstandingProduct action
- */
-export const addOutstandingProduct = createAction(
-  '[Product]addOutstandingProduct',
-  props<{ outstandingProduct: Product }>()
-);
-
-/**
  * Exports loadCategories action
  */
 export const loadCategories = createAction(
   '[Product]loadCategories'
-);
-
-/**
- * Exports loadCategories action
- */
-export const loadOutstandingProducts = createAction(
-  '[Product]loadOutstandingProducts'
 );
 
 /**
@@ -120,4 +98,41 @@ export const loadProductPrice = createAction(
 export const updateProductPrice = createAction(
   '[Product]updateProductPrice',
   props<{ product: Product }>()
+);
+
+/**
+ * Export searchProducts action
+ */
+export const searchProducts = createAction(
+  '[Product]searchProducts',
+  props<{ searchTerm: string }>()
+);
+
+/**
+ * Export updateSearchResults action
+ */
+export const updateSearchResults = createAction(
+  '[Product]updateSearchResults',
+  props<{ searchResults: OptionsGroup[] }>()
+);
+
+/**
+ * Export loadFeaturedProducts action
+*/
+export const loadFeaturedProducts = createAction('[Product]LoadFeaturedProducts');
+
+/**
+ * Export loadFeaturedProductsSuccess action
+*/
+export const loadFeaturedProductsSuccess = createAction(
+  '[Product]LoadFeaturedProductsSuccess',
+  props<{ featuredProducts: Product[] }>()
+);
+
+/**
+ * Export loadFeaturedProductsSuccess action
+*/
+export const loadFeaturedProductsFailure = createAction(
+  '[Product]LoadFeaturedProductsFailure',
+  props<{ error: string }>()
 );

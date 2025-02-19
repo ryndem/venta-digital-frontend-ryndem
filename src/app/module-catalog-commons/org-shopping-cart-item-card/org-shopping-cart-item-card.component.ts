@@ -4,7 +4,6 @@ import { QuoteProduct } from 'app/model/quote-product';
 import { ImageUtils } from 'app/utils/image.utils';
 import { removeProductFromCart, updateProductQuantity } from 'app/store/actions/cart.actions';
 import { selectCartIsLoading } from 'app/store/selectors/cart.selectors';
-import { ShoppingCartState } from 'app/store/states/cart.state';
 import { Observable } from 'rxjs';
 
 /**
@@ -92,11 +91,11 @@ export class OrgShoppingCartItemCardComponent implements OnInit, OnChanges {
   /**
    * Creates an instance of OrgShoppingCartItemCardComponent.
    * @param {ImageUtils} imageUtils
-   * @param {Store<{ cart: ShoppingCartState }>} store
+   * @param {Store} store
    */
   constructor(
       private imageUtils: ImageUtils,
-      private store: Store<{ cart: ShoppingCartState }>
+      private store: Store
   ) { 
     this.isAddingToCar$ = this.store.select(selectCartIsLoading);
   }

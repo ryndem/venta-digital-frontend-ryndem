@@ -57,14 +57,6 @@ export const updateSelectedOrderItems = createAction(
 );
 
 /**
- * Exports updateLoading action
- */
-export const updateLoading = createAction(
-  '[User]updateLoadingState',
-  props<{ isLoading: boolean }>()
-);
-
-/**
  * Export loadSession action
  */
 export const loadSession = createAction(
@@ -153,4 +145,13 @@ export const validatePasswordToken = createAction(
 export const resetPassword = createAction(
   '[User]resetPassword',
   props<{ token: string, password: string }>()
+);
+
+
+/**
+ * Export activateUser action
+ */
+export const activateUser = createAction(
+  '[User]activateUser',
+  props<{ token: string }>()
 );

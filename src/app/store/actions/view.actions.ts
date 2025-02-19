@@ -92,3 +92,19 @@ export const updateIsResetPasswordChangeSuccess = createAction(
   '[View]updateIsResetPasswordChangeSuccess',
   props<{ isResetPasswordChangeSuccess: boolean }>()
 );
+
+/**
+ * Export updateActivationState action
+ */
+export const updateActivationState = createAction(
+  '[View]updateActivationState',
+  props<{ activationState: 'loading'|'successfull'|'error' }>()
+);
+
+/**
+ * Export updateIsProductSearchActive action
+ */
+export const updateIsProductSearchActive = createAction(
+  '[View]updateIsProductSearchActive',
+  props<{ isProductSearchActive: boolean }>()
+);

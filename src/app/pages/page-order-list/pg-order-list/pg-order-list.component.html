@@ -35,7 +35,7 @@
                 class="btn text-body"
                 [ngClass]="{'selected': !isFilterClosed }"
                 (click)="updateCloseFilter(false)"
-                [disabled]="isLoadingOrders"
+                [disabled]="isLoadingOrders$ | async"
               >
                 Abiertos
               </button>
@@ -44,7 +44,7 @@
                 class="btn text-body"
                 [ngClass]="{'selected': isFilterClosed}"
                 (click)="updateCloseFilter(true)"
-                [disabled]="isLoadingOrders"
+                [disabled]="isLoadingOrders$ | async"
               >
                 Cerrados
               </button>
@@ -55,18 +55,18 @@
         <div class="order-list-pages">
           <!-- Orders List -->
           <org-quote-order-list
-            [quotes]="orders"
-            *ngIf="orders && orders.length > 0"
+            [quotes]="orderList$ | async"
+            *ngIf="((orderList$ | async)?.length || 0) > 0"
             [currentTab]="currentTab.key"
           />
 
           <!-- Skeleton Loader for Infinite Scroll -->
-          <div class="order-list-page__skeleton-grid" *ngIf="isLoadingOrders">
+          <div class="order-list-page__skeleton-grid" *ngIf="isLoadingOrders$ | async">
             <atm-skeleton-order-card *ngFor="let items of skeletonList"></atm-skeleton-order-card>
           </div>
 
           <!-- Empty State -->
-          <div class="order-list-page__content__empty-state" *ngIf="!isLoadingOrders && orders && orders.length === 0">
+          <div class="order-list-page__content__empty-state" *ngIf="(isLoadingOrders$ | async) !== true && ((orderList$ | async)?.length || 0) === 0">
             <div class="img-halo">
               <img src="assets/icons/empty-page.svg" alt="Empty State">
             </div>

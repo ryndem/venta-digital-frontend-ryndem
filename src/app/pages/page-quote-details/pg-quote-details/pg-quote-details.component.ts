@@ -4,7 +4,6 @@ import { ShoppingCart } from 'app/model/shopping-cart';
 import { loadQuoteById } from 'app/store/actions/order.actions';
 import { updateMetaTagsAndTitle } from 'app/store/actions/view.actions';
 import { selectQuoteDetails } from 'app/store/selectors/order.selectors';
-import { ViewState } from 'app/store/states/view.state';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -42,10 +41,10 @@ export class PgQuoteDetailsComponent {
 
   /**
    * Creates an instance of PgQuoteDetailsComponent.
-   * @param {Store<ViewState>} store
+   * @param {Store} store
    */
   constructor(
-    private store: Store<ViewState>,
+    private store: Store,
   ) {
     this.quote$ = this.store.select(selectQuoteDetails(this.quoteId));
     this.setMetaTags();

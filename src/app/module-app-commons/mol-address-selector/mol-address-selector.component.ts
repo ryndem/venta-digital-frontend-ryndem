@@ -4,7 +4,6 @@ import { AtmClosableComponent } from 'app/module-app-commons/atm-closable/atm-cl
 import { Address } from 'app/model/address';
 import { User } from 'app/model/user';
 import { Observable } from 'rxjs';
-import { UserState } from 'app/store/states/user.state';
 import { selectCurrentUser, selectUserAddresses } from 'app/store/selectors/user.selectors';
 
 /**
@@ -83,9 +82,9 @@ export class MolAddressSelectorComponent extends AtmClosableComponent {
 
   /**
    * Creates an instance of MolAddressSelectorComponent.
-   * @param {Store<{ user: UserState }>} store
+   * @param {Store} store
    */
-  constructor(private store: Store<{ user: UserState }>) {
+  constructor(private store: Store) {
     super();
     this.user$ = this.store.select(selectCurrentUser);
     this.addresses$ = this.store.select(selectUserAddresses);

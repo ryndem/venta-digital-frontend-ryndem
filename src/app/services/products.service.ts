@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Product } from 'app/model/product';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/auth/auth.service';
@@ -13,8 +13,8 @@ import { SearchParams } from 'app/model/search-params';
 import { ProductOffertBodyRequest } from 'app/model/product-offert-body-request';
 import { SearchProductRequest } from 'app/model/search-product';
 import { Store } from '@ngrx/store';
-import { addOutstandingProduct, updateProductsPage } from 'app/store/actions/product.actions';
-import { updateIsOutstandingProductsLoading, updateIsProductsPageLoading } from 'app/store/actions/view.actions';
+import { updateProductsPage } from 'app/store/actions/product.actions';
+import { updateIsProductsPageLoading } from 'app/store/actions/view.actions';
 
 
 /**
@@ -126,32 +126,27 @@ export class ProductsService {
   }
 
   /**
-   * Loads outstanding products list
-   */
-  async listOutstandingProducts() {
-    this.store.dispatch(updateIsOutstandingProductsLoading({ isOutstandingProductsLoading: true}));
-    await this.addOutstandingProduct('2c2541b6-9294-4aad-bcc3-4540c1d5825a');
-    await this.addOutstandingProduct('e2a24279-27a6-4fab-a320-e8ca77849938');
-    await this.addOutstandingProduct('538213ed-6e5e-4206-8675-c88dc87879ae');
-    await this.addOutstandingProduct('9c2abd1b-542e-40fc-b239-ce2ce41d8b0f');
-    await this.addOutstandingProduct('5c17eb76-2207-4644-b752-a6063c1fc8ef');
-    await this.addOutstandingProduct('39c33489-ef29-4bfe-bdba-2636be3d3688');
-    await this.addOutstandingProduct('37a416f7-65c4-4e7d-adb9-4da281744f0b');
-    await this.addOutstandingProduct('c9c8601e-18bf-4f26-b476-3894dbb41868');
-    this.store.dispatch(updateIsOutstandingProductsLoading({ isOutstandingProductsLoading: false}));
-  }
+  * Returns Featured product list
+  * @return {Observable<ProductResponse>}
+  */
+  listFeaturedProducts(): Observable<ProductResponse> {
+    const body = {
+      pageSize: 6,
+      desiredPage: 1,
+      filters: [
+        {
+          filterName: 'featured',
+          filterValue: 'true',
+        },
+      ],
+    };
 
-  private async addOutstandingProduct(productId: string) {
-    try {
-      const product = await this.getProduct(productId);
-      this.store.dispatch(addOutstandingProduct({ outstandingProduct: product}));
-    } catch (error) {
-      console.error(error);
-    }
+    const apiPath: string = this.getApiPath();
+    return this.httpClient.post<ProductResponse>(apiPath, body);
   }
 
   /**
-   * Returns Outstanding product list
+   * Returns alternative product list
    * @param {string} productId
    * @return {Promise<ProductResponse>}
    */
