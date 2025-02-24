@@ -3,9 +3,9 @@
   "version": "0.0.4",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration develop",
+    "start": "ng serve",
     "build": "ng build",
-    "build-test": "ng build --configuration develop",
+    "build:develop": "ng build --configuration develop",
     "watch": "ng build --watch --configuration develop",
     "test": "ng test",
     "lint": "ng lint --quiet",
