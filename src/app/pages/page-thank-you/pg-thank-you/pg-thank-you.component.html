@@ -1,0 +1,50 @@
+<div class="thank-you-page container">
+
+  <div class="thank-you-page__loader" *ngIf="(quote$ | async) === null">
+    <atm-loader-points />
+  </div>
+
+  <div *ngIf="(quote$ | async) !== null">
+    <div class="thank-you-page__content">
+      <div class="thank-you-page__content__header">
+        <h1 class="text-big text-primary-500">Su Cotización ha sido <br/> enviada con éxito</h1>
+        <p class="text-paragraph">En los próximos minutos recibirás un mensaje de confirmación al correo {{(user$ | async)?.emailUser}}</p>
+        <div class="disclaimer text-amber-500" *ngIf="disclaimerVisible">
+          <span class="text-body-medium">El equipo de asesores comerciales tomará esta cotización. Aunque fue enviada con éxito, no se verá en el listado de 'Cotizaciones Vigentes' porque se llevará por el método tradicional.</span>
+          <img src="assets/icons/info.svg" alt="information">
+        </div>
+      </div>
+
+      <div class="thank-you-page__content__quote__items">
+        <h5 class="text-title-5">Partidas</h5>
+        <org-quote-item-card
+          *ngFor="let item of (quote$ | async)?.listQuotationItem"
+          [quoteItem]="item"
+        />
+      </div>
+
+      <div class="thank-you-page__content__summary">
+        <org-quote-detail-info [quote]="quote$ | async" />
+
+        <org-quote-totals [quote]="(quote$ | async)"/>
+
+        <div class="customer-info">
+          <h4>Información del cliente</h4>
+          <org-quote-user-info [address]="(quote$ | async)?.quotationDetails?.address"/>
+        </div>
+
+      </div>
+
+      <div class="thank-you-page__content__next__step">
+        <h3 class="text-title-3">Convierte tu cotización <br> en una orden de compra</h3>
+        <span class="text-paragraph">Es el último paso para recibir pronto <br> tus productos.</span>
+        <div class="actions">
+          <button type="button" class="btn quotes-link text-body-medium" routerLink="/orders">Ir a Mis Cotizaciones</button>
+          <button type="button" class="btn primary-link text-body-medium" routerLink="" *ngIf="disclaimerVisible">Ir al Catálogo</button>
+          <button type="button" class="btn primary-link text-body-medium" routerLink="/orders/in-progress/creation" *ngIf="!disclaimerVisible">Tramitar Pedido</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

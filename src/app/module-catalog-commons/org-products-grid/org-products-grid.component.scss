@@ -1,0 +1,22 @@
+.products-grid {
+  display: grid;
+  gap: 10px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+  &.products-result {
+    gap: 8px;
+  }
+
+  @media (min-width: 1024px) {
+    column-gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 16px;
+    &.products-result {
+      gap: 16px;
+    }
+    &.alternative-complementary {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

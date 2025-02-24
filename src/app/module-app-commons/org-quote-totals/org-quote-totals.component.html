@@ -1,0 +1,22 @@
+<div class="quote-totals" *ngIf="quote">
+  <div class="quote-totals__item text-subtle">
+    <span>Subtotal</span>
+    <span>{{quote.quotationDetails.subtotal | usdCurrency}}</span>
+  </div>
+  <div class="quote-totals__item text-subtle">
+    <span>Flete Foráneo ({{quote.freightOutsiderDetails?.itemCount}})</span>
+    <span>{{quote.freightOutsiderDetails?.amount | usdCurrency}}</span>
+  </div>
+  <div class="quote-totals__item text-subtle">
+    <span>Flete Express ({{quote.freightExpressDetails?.itemCount}})</span>
+    <span>{{quote.freightExpressDetails?.amount | usdCurrency}}</span>
+  </div>
+  <div class="quote-totals__item text-subtle">
+    <span>IVA</span>
+    <span>{{quote.quotationDetails.saleTax | usdCurrency}}</span>
+  </div>
+  <div class="quote-totals__total">
+    <span class="text-paragraph">Total</span>
+    <strong class="text-title-3 text-primary-500">{{quote.quotationDetails.total | usdCurrency}} </strong>
+  </div>
+</div>

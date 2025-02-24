@@ -1,24 +1,47 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Category } from 'app/model/category';
+import { CategoryInfo } from 'app/model/category-info';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
 
+/**
+ * Service to manage categories API calls
+ * @export
+ * @class CategoriesService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesService {
-  private apiPath: string = environment.apiUrl + '/ProductCategory';
-  categories: Category[] | null = null;
 
+  
+  /**
+   * API base path for the categories requests
+   */
+  private apiPath: string = environment.apiUrl + '/ProductCategory';
+
+
+  /**
+   * Creates an instance of CategoriesService.
+   * @param {HttpClient} httpClient
+   */
   constructor(private httpClient: HttpClient) {}
 
+  /**
+   * Loads category list from API
+   * @return {Promise<Category[]>}
+   */
   async list(): Promise<Category[]> {
     return firstValueFrom(this.httpClient.get<Category[]>(this.apiPath));
   }
 
+  /**
+   * Update image properties to category object
+   * @param {Category} category Category to update description and icon
+   */
   setProperties(category: Category) {
-    const descriptions: any = {
+    const descriptions: CategoryInfo = {
       standards:
         'Referencias analíticas para resultados confiables y precisos.',
       reagents: 'Pureza garantizada para resultados exactos.',
@@ -30,7 +53,7 @@ export class CategoriesService {
       labware: 'Maneja muestras y datos asociados de manera eficiente.',
       default: '-',
     };
-    const icons: any = {
+    const icons: CategoryInfo = {
       standards: 'assets/imgs/categories/standards.svg',
       reagents: 'assets/imgs/categories/reactive.svg',
       controlled: 'assets/imgs/categories/lock.svg',

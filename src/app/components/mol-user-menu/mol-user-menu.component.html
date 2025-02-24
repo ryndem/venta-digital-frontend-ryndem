@@ -1,0 +1,13 @@
+<div class="user-menu text-body-medium only-web" *ngIf="user$ | async">
+
+  <button type="button" class="user-menu__name btn" (click)="toggleShowMenu()">
+    <ng-icon class="icon" name="heroUser" size="24"></ng-icon>
+    <span *ngIf="user$ | async">Hola, {{ (user$ | async)?.firstNameUser }}</span>
+  </button>
+
+  <div class="user-menu__opts" *ngIf="isMenuOpened">
+    <button type="button" class="btn" (click)="goToOrders()">Ver Cotizaciones</button>
+    <button type="button" class="btn logout-btn" (click)="logoutUser()">Cerrar Sesión</button>
+  </div>
+
+</div>

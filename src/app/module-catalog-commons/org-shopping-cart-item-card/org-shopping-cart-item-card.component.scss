@@ -1,0 +1,223 @@
+.shopping-cart-item-card {
+  border-radius: 2px;
+  border: solid 1px var(--neutral-400);
+  column-gap: 4px;
+  display: grid;
+  grid-template-areas: "header action"
+                        "info   info"
+                        "totals totals";
+  grid-template-columns: 1fr auto;
+  padding: 0.5rem;
+  row-gap: 0.8rem;
+  &__header {
+    align-items: center;
+    column-gap: 0.5rem;
+    display: grid;
+    grid-area: header;
+    grid-template-columns: auto 1fr auto;
+
+    .cas-cat {
+      column-gap: 0.5rem;
+      display: grid;
+    }
+
+    .cas,
+    .cat {
+      align-items: center;
+      display: flex;
+      gap: 4px;
+      p {
+        font-weight: 650;
+      }
+    }
+
+    .presentation {
+      img {
+        height: 50px;
+        width: 50px;
+      }
+    }
+    .brand {
+      padding: 0.5rem;
+      img {
+        height: 32px;
+        width: 32px;
+      }
+    }
+  }
+
+  &__action {
+    grid-area: action;
+    button {
+      border-color: var(--neutral-400);
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__info {
+    grid-area: info;
+    .controlled {
+      align-items: center;
+      display: flex;
+      gap: 4px;
+    }
+  }
+  &__totals {
+    align-items: baseline;
+    display: grid;
+    gap: 16px;
+    grid-area: totals;
+    grid-template-areas:  "quantities measures prices total";
+    grid-template-columns: 18% 17.5% 17.5% calc(47% - 48px);
+    .quantities {
+      grid-area: quantities;
+      .delivery {
+        font-style: italic;
+      }
+    }
+
+    .measures {
+      grid-area: measures;
+    }
+
+    .prices {
+      grid-area: prices;
+      &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .not-price {
+        text-decoration: line-through;
+      }
+      .price {
+        font-family: var(--font-primary);
+      }
+    }
+
+    .total {
+      grid-area: total;
+      text-align: right;
+    }
+
+    .column {
+      display: grid;
+      height: 100%;
+    }
+  }
+
+  &__shipping {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    p#shipping {
+      color: var(--gray-green-900);
+      font-family: var(--font-secondary);
+      font-size: 14px;
+      font-style: italic;
+      line-height: 20px;
+    }
+    .check-button {
+      align-items: center;
+      background-color: transparent;
+      border-radius: 2px;
+      border: 1px solid gray;
+      cursor: pointer;
+      display: flex;
+      height: 20px;
+      justify-content: center;
+      padding: 0px;
+      width: 20px;
+      &:disabled {
+        cursor: default;
+      }
+    }
+    .express-tag {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+      &.disabled {
+        opacity: 0.5;
+      }
+      .express-tag-label {
+        align-items: center;
+        display: flex;
+        gap: 4px;
+        span {
+          font-family: var(--font-secondary);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-areas: "header"
+                         "info"
+                         "totals"
+                         "shipping"
+                         "action";
+    grid-template-columns: 1fr;
+    &__totals {
+      display: grid;
+      grid-area: totals;
+      grid-template-areas:  "measures prices"
+                            "quantities total"
+      ;
+      grid-template-columns: 0.5fr 1fr;
+      gap: 4px;
+      .prices {
+        text-align: right;
+        &__items {
+          align-items: center;
+          flex-direction: row;
+          gap: 4px;
+          justify-content: end;
+        }
+        .not-price {
+          font-size: 12px;
+        }
+        .price {
+          font-size: 14px;
+          letter-spacing: 0.5px;
+          line-height: 20px;
+        }
+      }
+      .total-price {
+        font-size: 20px;
+        line-height: 24px;
+      }
+      .column {
+        display: grid;
+        height: auto;
+      }
+    }
+
+    &__shipping {
+      align-items: start;
+      flex-direction: column;
+      grid-area: shipping;
+    }
+
+    &__action {
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: white;
+    border: 1px solid black;
+    outline: 1px solid #E5E7EB;
+  }
+
+  input[type="checkbox"] {
+    accent-color: white;
+  }
+}

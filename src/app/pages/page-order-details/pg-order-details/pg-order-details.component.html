@@ -1,0 +1,47 @@
+<div class="order-details-page">
+  <div class="breadcrumbs">
+    <a routerLink="/orders">
+      <ng-icon name="heroArrowLeft" size="16"></ng-icon>
+      Volver al administrador
+    </a>
+  </div>
+
+  <main class="order-details-page__content" *ngIf="order$ | async">
+    
+    <section class="order-details-page__content__products" *ngIf="order$ | async">
+
+      <div class="order-details-page__content__products__filters">
+        <h1>PARTIDAS DEL PEDIDO {{(order$ | async)?.folio}}</h1>
+
+        <div class="filters">
+          <h4 class="text-title-4 m-0">Cotizaciones</h4>
+          <div class="filters__quotes">
+            <button class="btn text-body-medium" [ngClass]="{selected : !selectedQuoteId}" type="button">Todas</button> 
+            <button 
+                  type="button" 
+                  class="btn text-body-medium" 
+                  *ngFor="let quote of (order$ | async)?.listQuotation"
+                  [ngClass]="{selected : selectedQuoteId === quote.idQuotation}">
+              {{ quote.folio }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="text-title-4 m-0">Partidas</h4>
+
+      <div class="order-details-page__content__products__items">
+        <org-order-quote-card 
+            *ngFor="let quote of (order$ | async)?.listQuotation" 
+            [order]="(order$ | async)"
+            [quote]="quote" 
+            [selectedQuoteId]="selectedQuoteId"/>
+      </div>
+
+    </section>
+
+    <section class="order-details-page__content__summary">
+      <org-order-summary-card [order]="order$ | async"/>
+    </section>
+  </main>
+</div>

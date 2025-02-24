@@ -1,23 +1,51 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfirmedOrder } from 'app/model/confirmed-order';
-import { QuotePage } from 'app/model/quote-page';
 import { OrderItemPage } from 'app/model/order-item-page';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
+import { OrdersBodyRequest } from 'app/model/orders-body-request';
+import { ConfirmedOrderPage } from 'app/model/confirmed-order-page';
+import { updateIsLoadingOrders, updateOrderList } from 'app/store/actions/order.actions';
+import { QuoteItem } from 'app/model/quote';
+import { Store } from '@ngrx/store';
 
+/**
+ * Service to manage orders API calls
+ * @export
+ * @class OrderService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
+  
+  /**
+   * API base path for the orders requests
+   */
   private apiPath: string = environment.apiUrl;
-  constructor(private httpClient: HttpClient) {}
+
+  /**
+   * Creates an instance of OrderService.
+   * @param {HttpClient} httpClient
+   */
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store,
+  ) { }
 
 
-  async getOrders(folio: string|null, isClosed: boolean) {
-    const body:any = {
+  /**
+   * Loads order by isClosed filter
+   * @param {(string | null)} folio Order folio to filter request
+   * @param {boolean} isClosed Bolean to specify the status of the confirmed order to load list
+   * @return {*} 
+   */
+  async getOrders(folio: string | null, isClosed: boolean) {
+    const body: OrdersBodyRequest = {
       pageSize: 100,
-      desiredPage: 1
+      desiredPage: 1,
+      filters: []
     };
     const filters = [];
 
@@ -26,28 +54,48 @@ export class OrderService {
       'FilterValue': isClosed
     });
 
-    if(folio && folio.length > 0) {
+    if (folio && folio.length > 0) {
       filters.push({
         'FilterName': 'Folio',
         'FilterValue': folio
       });
     }
-    body. filters = filters;
+    body.filters = filters;
 
-    return await firstValueFrom(this.httpClient.post<QuotePage>(this.apiPath + '/Order/ListOrder', body));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: true}));
+    const orderPage = await firstValueFrom(this.httpClient.post<ConfirmedOrderPage>(this.apiPath + '/Order/ListOrder', body));
+    
+    const confirmedOrders: QuoteItem[] = orderPage.results.map(confirmedOrder => {
+      return {
+        id: confirmedOrder.idOrder,
+        folio: confirmedOrder.internalOrderNumber,
+        registrationDate: confirmedOrder.registrationDate,
+        items: confirmedOrder.totalItems,
+        total: confirmedOrder.totalAmount,
+      }
+    })
+
+    this.store.dispatch(updateOrderList({orderList: confirmedOrders}));
+    this.store.dispatch(updateIsLoadingOrders({isLoadingOrders: false}));
   }
 
+  /**
+   * Method to load order item by order id and quote id
+   * @param {string} orderId Order id to load items
+   * @param {string} quoteId Quote id to load items
+   * @return {*} 
+   */
   async getItemsByOrderId(orderId: string, quoteId: string) {
-    const body:any = {
+    const body: OrdersBodyRequest = {
       pageSize: 100,
-      desiredPage: 1,
+      desiredPage: 1, 
       filters: [
         {
-            FilterName: 'IdtpPedido',
-            FilterValue: orderId
-        },{
-            FilterName: 'IdcotCotizacion',
-            FilterValue: quoteId
+          FilterName: 'IdtpPedido',
+          FilterValue: orderId
+        }, {
+          FilterName: 'IdcotCotizacion',
+          FilterValue: quoteId
         }],
     };
 
@@ -55,6 +103,12 @@ export class OrderService {
   }
 
 
+
+  /**
+   * Loads order by id
+   * @param {string} orderId Id from order to load
+   * @return {*} 
+   */
   getById(orderId: string) {
     return firstValueFrom(this.httpClient.get<ConfirmedOrder>(`${this.apiPath}/Order/OrderDetails?IdOrder=${orderId}`));
   }

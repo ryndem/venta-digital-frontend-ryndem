@@ -10,16 +10,35 @@ import { Observable, throwError, from } from 'rxjs';
 import { AuthService } from './auth.service';
 import { catchError, switchMap } from 'rxjs/operators';
 
+/**
+ * Interceptor to handle every http request
+ * @export
+ * @class AuthInterceptorService
+ * @implements {HttpInterceptor}
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
 
-  intercept(
-    req: HttpRequest<any>,
+  /**
+   * Creates an instance of AuthInterceptorService.
+   * @param {AuthService} authService
+   */
+  constructor(private authService: AuthService) { }
+
+  /**
+   * Method to intercept every http request to add auth bearer token if exists
+   *
+   * @template T
+   * @param {HttpRequest<T>} req
+   * @param {HttpHandler} next
+   * @return {*}  {Observable<HttpEvent<T>>}
+   */
+  intercept<T>(
+    req: HttpRequest<T>,
     next: HttpHandler,
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<T>> {
     const token = this.authService.authToken();
 
     let authReq = req;

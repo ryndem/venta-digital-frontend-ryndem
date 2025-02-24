@@ -1,41 +1,104 @@
 import { environment } from 'environments/environment';
 import { Injectable, signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthToken } from 'app/model/auth-token';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'app/model/user';
 import { Store } from '@ngrx/store';
-import { updateAddresses, updateIsLogged, updateLoading, updateSelectedOrderItems, updateUser } from 'app/store/users/user.actions';
+import { updateAddresses, updateIsLogged, updateIsLoginModalOpened, updateIsSignUpRequested, updateIsSignUpReviewPending, updateIsSignUpServerError, updateSelectedOrderItems, updateSignUpErrorMessage, updateUser } from 'app/store/actions/user.actions';
 import { AddressResponse } from 'app/model/address-response';
+import { showErrorNotification, updateIsPasswordResetted, updateIsResetPasswordChangeSuccess, updateIsResetPasswordRestError, updateIsResetPasswordTokenExpired, updateIsResetPasswordTokenValid } from 'app/store/actions/view.actions';
 
+/**
+ * Service to manage user authentication
+ * @export
+ * @class AuthService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private httpClient: HttpClient,
-    private store: Store<any>,
-  ) { }
-  private TOKEN_KEY = 'authtoken';
-  private SESSION_KEY = 'sessionid';
-  private REFRESH_TOKEN_KEY = 'refresh_token';
-  private ORDER_FORM = 'purchase-order-form';
 
-  isOpenLoginModal = signal<boolean>(false);
+  /**
+   * Key to store authentication token
+   * @private
+   */
+  private TOKEN_KEY = 'authtoken';
+  
+  /**
+   * Key to store session id
+   * @private
+   */
+  private SESSION_KEY = 'sessionid';
+  
+  /**
+   * Key to store refresh token
+   * @private
+   */
+  private REFRESH_TOKEN_KEY = 'refresh_token';
+  
+  /**
+   * Key to store purchase order form
+   * @private
+   */
+  private ORDER_FORM = 'purchase-order-form';
+  
+  /**
+   * Boolean to track if the user is authenticated
+   */
   isAuthenticated = signal<boolean>(false);
+  
+  /**
+   * Authentication token
+   */
   authToken = signal<string | null>(null);
+  
+  /**
+   * User currently aunthenticated
+   */
   currentUser = signal<User | null>(null);
+  
+  /**
+   * User first address id
+   */
   addressId = signal<string | null>(null);
+  
+  /**
+   * User customer id
+   */
   customerId = signal<string | null>(null);
 
+  /**
+   * Creates an instance of AuthService.
+   * @param {HttpClient} httpClient
+   * @param {Store} store
+   */
+  constructor(
+    private httpClient: HttpClient,
+    private store: Store,
+  ) { }
+
+  /**
+   * Close login modal
+   */
   closeLoginModal() {
-    this.isOpenLoginModal.set(false);
+    this.store.dispatch(updateIsLoginModalOpened({ isLoginModalOpened: false }));
   }
 
+  /**
+   * Open login modal
+   */
   openLoginModal() {
-    this.isOpenLoginModal.set(true);
+    this.store.dispatch(updateIsLoginModalOpened({ isLoginModalOpened: true }));
   }
 
+  /**
+   * Method to handle login action
+   *
+   * @param {string} username
+   * @param {string} password
+   * @return {Promise<AuthToken>}
+   */
   async login(username: string, password: string): Promise<AuthToken> {
     const form: URLSearchParams = this.getLoginForm(username, password);
 
@@ -63,6 +126,10 @@ export class AuthService {
     return token;
   }
 
+  /**
+   * Method to refresh authentication token
+   * @return {(Promise<AuthToken | null>)}
+   */
   async refreshToken(): Promise<AuthToken | null> {
     const refresh_token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
     if (!refresh_token) return null;
@@ -99,7 +166,10 @@ export class AuthService {
     }
   }
 
-  logout() {
+  /**
+   * Method to close session
+   */
+  async logout() {
     const sessionId = localStorage.getItem(this.SESSION_KEY);
     firstValueFrom(
       this.httpClient.post<string>(
@@ -107,14 +177,18 @@ export class AuthService {
         '',
       ),
     );
+
     this.authToken.set(null);
     this.updateUser(null);
     localStorage.clear();
   }
 
+  /**
+   * Load user session 
+   * @return {(Promise<User | null>)}
+   */
   async loadSession(): Promise<User | null> {
     const token = localStorage.getItem(this.TOKEN_KEY);
-    this.store.dispatch(updateLoading({ loading: true }));
     if (token) {
       try {
         this.authToken.set(token);
@@ -126,27 +200,34 @@ export class AuthService {
         this.updateUser(user);
 
         this.updateUserSelections();
-
+        
         return user;
       } catch (error) {
         this.authToken.set(null);
         this.updateUser(null);
-      } finally {
-        this.store.dispatch(updateLoading({ loading: false }))
-      }
+      } 
+    } else {
+      this.updateUser(null);
     }
-    this.store.dispatch(updateLoading({ loading: false }));
     return null;
   }
 
+  /**
+   * Load user information
+   * @return {Promise<User>}
+   */
   async loadUserInfo(): Promise<User> {
-    const result: any = await firstValueFrom(
-      this.httpClient.post<any>(`${environment.apiUrl}/WhoAmI`, ''),
+    const result = await firstValueFrom(
+      this.httpClient.post<User>(`${environment.apiUrl}/WhoAmI`, ''),
     );
 
     return result;
   }
 
+  /**
+   * Method to load current user address
+   * @return {Promise<AddressResponse>}
+   */
   async loadUserAddress(): Promise<AddressResponse> {
     const filters = {
       Filters: [
@@ -160,7 +241,7 @@ export class AuthService {
         },
       ],
     };
-    const result: any = await firstValueFrom(
+    const result = await firstValueFrom(
       this.httpClient.post<AddressResponse>(
         `${environment.apiUrl}/Address/ListAddress`,
         filters,
@@ -170,6 +251,11 @@ export class AuthService {
     return result;
   }
 
+  /**
+   * Method to update user addresses
+   * @private
+   * @param {(AddressResponse | null)} addresses
+   */
   private updateAddress(addresses: AddressResponse | null) {
     if(addresses && addresses.results) {
       this.store.dispatch(
@@ -184,6 +270,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Method to update user
+   * @private
+   * @param {(User | null)} user
+   */
   private updateUser(user: User | null) {
     if (user) {
       this.isAuthenticated.set(true);
@@ -200,12 +291,21 @@ export class AuthService {
     }
   }
 
+  /**
+   * Method to update order form
+   * @private
+   */
   private updateUserSelections() {
     if( localStorage.getItem(this.ORDER_FORM)) {
       this.store.dispatch(updateSelectedOrderItems({hasOrderItemsSelected: true}));
     }
   }
 
+  /**
+   * Temporal session id
+   * @param {string} idSessionTemp
+   * @return {Promise<void>}
+   */
   async closeMultipleSessions(idSessionTemp: string): Promise<void> {
     try {
     await firstValueFrom(
@@ -219,6 +319,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Method to activate user 
+   * @param {string} token
+   * @return {Promise<void>}
+   */
   async activateUser(token: string): Promise<void> {
     await firstValueFrom(
       this.httpClient.post<string>(
@@ -228,6 +333,13 @@ export class AuthService {
     );
   }
 
+  /**
+   * Initialize login form
+   * @private
+   * @param {string} username
+   * @param {string} password
+   * @return  {URLSearchParams}
+   */
   private getLoginForm(username: string, password: string): URLSearchParams {
     const form = new URLSearchParams();
     form.set('username', username);
@@ -239,6 +351,19 @@ export class AuthService {
     return form;
   }
 
+  /**
+   * Method to send sign up request
+   * @param {string} email
+   * @param {string} customerName
+   * @param {string} taxId
+   * @param {string} firstName
+   * @param {string} lastName
+   * @param {string} phone
+   * @param {string} position
+   * @param {string} password
+   * @param {boolean} isFinalUser
+   * @param {boolean} isReseller
+   */
   async signUp(
     email: string,
     customerName: string,
@@ -250,7 +375,7 @@ export class AuthService {
     password: string,
     isFinalUser: boolean,
     isReseller: boolean,
-  ): Promise<{ email: string, status: string }> {
+  ) {
     const body = {
       email,
       customerName,
@@ -263,34 +388,105 @@ export class AuthService {
       isFinalUser,
       isReseller,
     };
-    const result = await firstValueFrom(
-      this.httpClient.post<Promise<{ email: string, status: string }>>(`${environment.apiUrl}/UserRegistration`, body),
-    );
-    return result;
+    if(!email) {
+      return;
+    }
+    try {
+      const result = await firstValueFrom(this.httpClient.post<Promise<{ email: string, status: string }>>(`${environment.apiUrl}/UserRegistration`, body));
+
+      this.store.dispatch(updateIsSignUpRequested({isSignUpRequested: true}));
+      if (result.status === 'pending') {
+        this.store.dispatch(updateIsSignUpReviewPending({isSignUpReviewPending: true}));
+      }
+    } catch (e: unknown) {
+      if (e instanceof HttpErrorResponse) {
+        if (e.error?.type === 'code_not_found_customer') {
+          this.store.dispatch(updateIsSignUpRequested({isSignUpRequested: true}));
+          this.store.dispatch(updateIsSignUpReviewPending({isSignUpReviewPending: true}));
+        } else if (e.error?.type === 'code_password_requirement') {
+          this.store.dispatch(updateIsSignUpServerError({isSignUpServerError: true}));
+          this.store.dispatch(updateSignUpErrorMessage({signUpErrorMessage: 'Lo sentimos, tu contraseña no cumple con los requisitos mínimos de seguridad. Intenta una nueva.'}));
+        } else {
+          this.store.dispatch(updateIsSignUpServerError({isSignUpServerError: true}));
+          this.store.dispatch(updateSignUpErrorMessage({signUpErrorMessage: 'Lo sentimos, parece que ha ocurrido un problema al enviar tu formulario. Por favor, inténtalo nuevamente.'}));
+        }
+      }
+    }
   }
 
-  async sendForgotPasswordEmail(email: string): Promise<void> {
-    await firstValueFrom(
-      this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email })
-    )
+  /**
+   * Send forgot password request
+   * @param {string} email
+   */
+  async sendForgotPasswordEmail(email: string) {
+    try {
+      await firstValueFrom(this.httpClient.post(`${environment.apiUrl}/ForgotPassword`, { email }));
+      this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
+    } catch (error: unknown) { 
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 410) {
+          this.store.dispatch(updateIsPasswordResetted({ isPasswordResetted: true }))
+        }
+      } else {
+        console.error('An unexpected error occurred');
+      }
+    }
+
   }
 
+  /**
+   * Validates reset password token
+   * @param {string} token
+   */
   async validateRequestResetPassword(token: string) {
-    await firstValueFrom(
-      this.httpClient.post(
-        `${environment.apiUrl}/validateRequestResetPassword`,
-        { requestResetToken: token }
+    try {
+      await firstValueFrom(
+        this.httpClient.post(`${environment.apiUrl}/validateRequestResetPassword`, { requestResetToken: token })
       )
-    )
+      this.store.dispatch(updateIsResetPasswordTokenValid({isResetPasswordTokenValid: true}));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.error?.type === "code_requestResetToken_expired" ) {
+          this.store.dispatch(updateIsResetPasswordTokenExpired({isResetPasswordTokenExpired: true}));
+        } else {
+          this.store.dispatch(updateIsResetPasswordRestError({isResetPasswordRestError: true}));
+        }
+      }
+    }
   }
 
-  async resetPassword(token: string, newPassword: string): Promise<void> {
-    await firstValueFrom(
-      this.httpClient.post(
-        `${environment.apiUrl}/resetPassword`,
-        { token, password: newPassword }
+  /**
+   * Method to update password
+   * @param {string} token
+   * @param {string} newPassword
+   * @return {Promise<void>}
+   */
+  async resetPassword(token: string, newPassword: string) {
+
+    try {
+      await firstValueFrom(
+        this.httpClient.post(`${environment.apiUrl}/resetPassword`, { token, password: newPassword })
       )
-    )
+      this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: false}))
+      this.store.dispatch(updateIsResetPasswordChangeSuccess({isResetPasswordChangeSuccess: true}));
+    } catch (error) {
+      if( error instanceof HttpErrorResponse ) {
+        if( error.error?.type === 'code_password_is_current') {
+          this.store.dispatch(showErrorNotification({message: error.error?.detail}))
+        } else {
+          this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))
+        }
+      } else {
+        this.store.dispatch(updateIsResetPasswordRestError({ isResetPasswordRestError: true}))
+      }
+      
+    }
+
+
+
+
+    
   }
 
 }
+

@@ -1,0 +1,18 @@
+<div class="not-found">
+  <div class="not-found__image">
+    <img src="assets/icons/not-found.svg" alt="not found" />
+  </div>
+  <h1 class="text-neutral-900 m-0">No hemos encontrado la página que buscas.</h1>
+  <p class="not-found__instructions text-center text-gray-green-800">
+    Revisa la dirección URL o explora nuestro amplio <br class="only-web">catálogo de opciones.
+  </p>
+
+  <div class="not-found__categories">
+    <div class="not-found__categories__item">
+      <atm-category-card
+        *ngFor="let navigationItem of categories$ | async"
+        [category]="navigationItem"
+      ></atm-category-card>
+    </div>
+  </div>
+</div>

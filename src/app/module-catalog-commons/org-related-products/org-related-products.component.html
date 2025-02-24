@@ -1,0 +1,55 @@
+<div class="related-products">
+  <div class="related-products__header">
+    <h3 class="text-title-4 m-0">Descubre más productos</h3>
+  </div>
+
+  <div class="related-products__tabs">
+    <button [ngClass]="{ active: isShowingAlternativeProducts }" (click)="updateProducts(true)" >
+      Alternativos
+    </button>
+    <button [ngClass]="{ active: !isShowingAlternativeProducts }" (click)="updateProducts(false)" >
+      Complementarios
+    </button>
+  </div>
+
+  <div class="related-products__list" *ngIf="
+        isShowingAlternativeProducts && 
+        (alternativeProducts$ | async) === null">
+    <org-products-grid
+      *ngIf="(alternativeProducts$ | async) !== null"
+      [productList]="alternativeProducts$ | async"
+      gridSectionClass="alternative-complementary"
+    />
+    <div *ngIf="(alternativeProducts$ | async) === null" class="skeleton-grid">
+      <atm-skeleton-product-card *ngFor="let item of skeletonList"/>
+    </div>
+  </div>
+
+
+  <div class="related-products__list" *ngIf="
+          !isShowingAlternativeProducts && 
+          (complementaryProducts$ | async) === null">
+      <org-products-grid
+        *ngIf="(complementaryProducts$ | async) !== null"
+        [productList]="complementaryProducts$ | async"
+        gridSectionClass="alternative-complementary"
+      />
+      <div *ngIf="(complementaryProducts$ | async) === null" class="skeleton-grid">
+        <atm-skeleton-product-card *ngFor="let item of skeletonList" />
+      </div>
+  </div>
+
+  <div class="empty-state" *ngIf="
+        ( (alternativeProducts$ | async) !== null &&
+        (alternativeProducts$ | async) !== null ) &&
+        (((alternativeProducts$ | async)?.length || 0) === 0 || 
+        ((complementaryProducts$ | async)?.length || 0) === 0 )
+      ">
+    <img src="assets/icons/search-loop.svg" alt="search loop">
+    <h3 class="text-title-3 text-zinc-400 no-transform">No encontramos productos para mostrar</h3>
+    <span class="text-paragraph text-neutral-400"
+      >Por el momento no contamos con sugerencias para mostrar, por favor
+      consulta este apartado más tarde.</span
+    >
+  </div>
+</div>

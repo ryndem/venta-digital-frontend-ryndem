@@ -1,0 +1,35 @@
+<div class="file-uploader">
+  <div>
+    <div class="circle-icon xs-small dark" *ngIf="!fileName || (isFileUploading$ | async)===true">
+      <img
+        src="assets/icons/page.svg"
+        alt="icon pdf"
+        width="25"
+        height="32"
+      >
+    </div>
+    <img
+      *ngIf="fileName && (isFileUploading$ | async)!==true"
+      src="assets/icons/pdf-icon.png"
+      alt="icon pdf"
+      width="24"
+      height="24"
+    >
+  </div>
+  <div class="disclaimer text-body-medium text-blue-600 underline">
+    <div *ngIf="!fileName || (isFileUploading$ | async)" (click)="fileInput.click()">
+      <span>Sube Tu Archivo</span>
+      <span>De Orden De Compra Aquí</span>
+      <input #fileInput type="file" accept=".pdf" class="display-none" (change)="onFileSelected($event)" />
+    </div>
+    <div *ngIf="fileName && (isFileUploading$ | async)!==true">
+      {{fileName}}
+    </div>
+    <div *ngIf="isFileUploading$ | async">
+      <atm-loader-points/>
+    </div>
+  </div>
+  <button class="remove-file" (click)="onFileDeleted()" *ngIf="fileName && (isFileUploading$ | async)!==true">
+    <ng-icon name="heroXMark" size="24" color="#EF4444"/>
+  </button>
+</div>

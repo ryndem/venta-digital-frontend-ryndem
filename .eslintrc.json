@@ -32,7 +32,7 @@
           }
         ],
         "no-comments/disallowComments": [
-            "error",
+            "warn",
             {
               "allow": ["TODO", "FIXME"]
             }

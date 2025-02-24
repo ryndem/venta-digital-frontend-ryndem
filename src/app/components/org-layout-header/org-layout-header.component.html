@@ -1,0 +1,50 @@
+<header id="org-layout-header-container">
+  <div class="org-layout-header">
+    <button class="org-layout-header__menu" (click)="openMobileMenu()">
+      <ng-icon name="heroBars3" size="24" color="white"></ng-icon>
+    </button>
+
+    <div class="org-layout-header__navigation">
+      <img
+        routerLink=""
+        class="org-layout-header__navigation__logo"
+        src="assets/icons/proquifa-logo-nav.svg"
+        alt=""
+      />
+
+      <mol-category-menu />
+    </div>
+
+    <org-mobile-navigation-menu
+      *ngIf="isMobileMenuOpen && (categories$ | async)"
+      class="org-layout-header__catalogs--mobile"
+      [categories]="(categories$ | async)"
+      (closeMenu)="closeMobileMenu()"
+    >
+    </org-mobile-navigation-menu>
+
+    <org-layout-search class="org-layout-header__search"></org-layout-search>
+
+    <div class="org-layout-header__actions">
+      <mol-nav-button
+        class="org-layout-header__account"
+        (click)="openLogin()"
+        *ngIf="(isAuthenticated$ | async) === false"
+      >
+        <ng-icon class="icon" name="heroUser" size="24"></ng-icon>
+        <span>Iniciar Sesión</span>
+      </mol-nav-button>
+
+      <mol-user-menu></mol-user-menu>
+
+      <div (click)="goToShoppingCart()">
+        <mol-nav-button class="org-layout-header__cart">
+          <ng-icon name="heroShoppingCart" size="24"></ng-icon>
+          <span class="counter text-x-small" *ngIf="((shoppingCart$ | async)?.listQuotationItem?.length || 0) > 0">{{(shoppingCart$ | async)?.listQuotationItem?.length || 0}}</span>
+          </mol-nav-button>
+      </div>
+
+    </div>
+    <org-login-modal *ngIf="isLoginModalOpened$ | async"></org-login-modal>
+  </div>
+</header>

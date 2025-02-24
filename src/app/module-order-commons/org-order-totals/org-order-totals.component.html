@@ -1,0 +1,22 @@
+<div class="order-totals" *ngIf="subTotal">
+  <div class="order-totals__item text-subtle">
+    <span>Subtotal</span>
+    <span>{{subTotal | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle" *ngIf="expressFreightOutsiderTotal">
+    <span>Flete Foráneo ({{expressFreightOutsiderItems}})</span>
+    <span>{{expressFreightOutsiderTotal | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle" *ngIf="expressFreightTotal">
+    <span>Flete Express ({{expressFreightItems}})</span>
+    <span>{{expressFreightTotal | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__item text-subtle" *ngIf="taxAmount">
+    <span>IVA</span>
+    <span>{{taxAmount | usdCurrency}}</span>
+  </div>
+  <div class="order-totals__total">
+    <span class="text-paragraph">Total</span>
+    <strong class="text-title-3 text-primary-500">{{totalAmount | usdCurrency}} </strong>
+  </div>
+</div>

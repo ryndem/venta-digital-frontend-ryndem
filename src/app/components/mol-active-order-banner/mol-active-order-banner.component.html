@@ -1,0 +1,9 @@
+<div
+  class="active-order-banner"
+  *ngIf="(hasOrderItemsSelected$ | async) && (isLogged$ | async) && !isInProgressOrderCreation"
+>
+  <div class="active-order-banner__content text-paragraph">
+    <span class="text-700">Tienes un trámite de pedido en curso</span>, si cierras sesión perderás tu avance.
+    <a routerLink="/orders/in-progress/creation" class="text-orange-800">Ir a mi trámite en curso</a> y continuar pedido.
+  </div>
+</div>
