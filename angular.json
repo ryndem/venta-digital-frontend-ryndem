@@ -44,6 +44,54 @@
             "baseHref": "/VentaDigitalFront/"
           },
           "configurations": {
+            "develop": {
+              "aot": true,
+              "baseHref": "/ProquifaDotNet/",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "300kb",
+                  "maximumError": "300kb"
+                }
+              ],
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "outputPath": "dist/dev",
+              "sourceMap": true
+            },
+            "local": {
+              "aot": false,
+              "baseHref": "/",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "300kb",
+                  "maximumError": "300kb"
+                }
+              ],
+              "extractLicenses": false,
+              "optimization": false,
+              "outputHashing": "none",
+              "outputPath": "dist/ProquifaDotNet",
+              "sourceMap": true
+            },
             "production": {
               "budgets": [
                 {
@@ -58,32 +106,24 @@
                 }
               ],
               "outputHashing": "all"
-            },
-            "develop": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.develop.ts"
-                }
-              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "proquifa:build:production"
-            },
             "develop": {
               "browserTarget": "proquifa:build:develop"
+            },
+            "local": {
+              "browserTarget": "proquifa:build:local"
+            },
+            "production": {
+              "browserTarget": "proquifa:build:production"
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
