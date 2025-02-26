@@ -71,6 +71,33 @@
               "outputPath": "dist/dev",
               "sourceMap": true
             },
+            "r10-dev": {
+              "aot": true,
+              "baseHref": "/VentaDigitalFront/",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "300kb",
+                  "maximumError": "300kb"
+                }
+              ],
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.r10-dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "outputPath": "dist/dev",
+              "sourceMap": true
+            },
             "local": {
               "aot": false,
               "baseHref": "/",
@@ -115,6 +142,9 @@
           "configurations": {
             "dev": {
               "browserTarget": "proquifa:build:dev"
+            },
+            "r10-dev": {
+              "browserTarget": "proquifa:build:r10-dev"
             },
             "local": {
               "browserTarget": "proquifa:build:local"
