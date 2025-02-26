@@ -95,7 +95,7 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "outputPath": "dist/dev",
+              "outputPath": "dist/r10-dev",
               "sourceMap": true
             },
             "local": {
