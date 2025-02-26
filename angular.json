@@ -44,9 +44,9 @@
             "baseHref": "/VentaDigitalFront/"
           },
           "configurations": {
-            "develop": {
+            "dev": {
               "aot": true,
-              "baseHref": "/ProquifaDotNet/",
+              "baseHref": "/VentaDigitalFront/",
               "budgets": [
                 {
                   "type": "initial",
@@ -113,8 +113,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "develop": {
-              "browserTarget": "proquifa:build:develop"
+            "dev": {
+              "browserTarget": "proquifa:build:dev"
             },
             "local": {
               "browserTarget": "proquifa:build:local"
