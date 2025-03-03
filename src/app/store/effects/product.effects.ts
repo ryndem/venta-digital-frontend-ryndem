@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { from, of } from 'rxjs';
+import { map, mergeMap, catchError } from 'rxjs/operators';
+import { of, from } from 'rxjs';
 import * as ProductActions from '../actions/product.actions';
 import { CategoriesService } from 'app/services/categories.service';
 import { Category } from 'app/model/category';
@@ -20,6 +20,8 @@ import { Store } from '@ngrx/store';
  */
 @Injectable()
 export class ProductEffects {
+
+
   /**
    * Creates an instance of ProductEffects.
    * @param {Actions} actions$
@@ -42,9 +44,9 @@ export class ProductEffects {
       ofType(ProductActions.loadCategories),
       mergeMap(() =>
         from(this.categoriesService.list()).pipe(
-          map((categories: Category[]) => {
-            categories.forEach(category => {
-              this.categoriesService.setProperties(category);
+          map((categories:Category[]) => {
+            categories.forEach( category => {
+                this.categoriesService.setProperties(category);
             });
             return ProductActions.updateCategories({ categories });
           }),
@@ -56,29 +58,24 @@ export class ProductEffects {
 
   /**
    * Effect to load featured products
-   */
+  */
 
   loadFeaturedProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadFeaturedProducts),
       mergeMap(() =>
         this.productsService.listFeaturedProducts().pipe(
-          map(response =>
-            ProductActions.loadFeaturedProductsSuccess({
-              featuredProducts: response.results,
-            })
-          ),
-          catchError(error =>
-            of(
-              ProductActions.loadFeaturedProductsFailure({
-                error: error.message,
-              })
-            )
+          map((response) => ProductActions.loadFeaturedProductsSuccess({
+            featuredProducts: response.results
+          })),
+          catchError((error) => of(
+            ProductActions.loadFeaturedProductsFailure({ error: error.message }))
           )
         )
       )
     )
   );
+
 
   /**
    * Effect to load product categories
@@ -86,11 +83,9 @@ export class ProductEffects {
   loadProductPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadProductPage),
-      mergeMap(action =>
-        from(
-          this.productsService.listProductsByCategory(action.searchParams)
-        ).pipe(
-          mergeMap(() => of({ type: '[Product]loadProductPage' })),
+      mergeMap((action) =>
+        from(this.productsService.listProductsByCategory(action.searchParams)).pipe(
+          mergeMap(() => of({type: '[Product]loadProductPage'})),
           catchError(() => of({ type: '[Product]loadProductPageFailure' }))
         )
       )
@@ -103,12 +98,10 @@ export class ProductEffects {
   loadProductById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadProductById),
-      mergeMap(action =>
+      mergeMap((action) =>
         from(this.productsService.getProduct(action.productId)).pipe(
-          map((product: Product) =>
-            ProductActions.addLoadedProduct({ product: product })
-          ),
-          catchError(() => of({ type: '[Order]loadProductByIdFailure' }))
+          map((product: Product) => ProductActions.addLoadedProduct({product: product})),
+          catchError(() => of({type: '[Order]loadProductByIdFailure'}))
         )
       )
     )
@@ -120,19 +113,10 @@ export class ProductEffects {
   loadAlternativeProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadAlternativeProducts),
-      mergeMap(action =>
-        from(
-          this.productsService.listAlternativeProducts(action.productId)
-        ).pipe(
-          map((productResponse: ProductResponse) =>
-            ProductActions.updateAlternativeProducts({
-              productId: action.productId,
-              products: productResponse.results,
-            })
-          ),
-          catchError(() =>
-            of({ type: '[Order]loadAlternativeProductsFailure' })
-          )
+      mergeMap((action) =>
+        from(this.productsService.listAlternativeProducts(action.productId)).pipe(
+          map((productResponse: ProductResponse) => ProductActions.updateAlternativeProducts({productId: action.productId, products: productResponse.results})),
+          catchError(() => of({type: '[Order]loadAlternativeProductsFailure'}))
         )
       )
     )
@@ -144,19 +128,10 @@ export class ProductEffects {
   listComplementaryProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadComplementaryProducts),
-      mergeMap(action =>
-        from(
-          this.productsService.listComplementaryProducts(action.productId)
-        ).pipe(
-          map((productResponse: ProductResponse) =>
-            ProductActions.updateComplementaryProducts({
-              productId: action.productId,
-              products: productResponse.results,
-            })
-          ),
-          catchError(() =>
-            of({ type: '[Order]listComplementaryProductsFailure' })
-          )
+      mergeMap((action) =>
+        from(this.productsService.listComplementaryProducts(action.productId)).pipe(
+          map((productResponse: ProductResponse) => ProductActions.updateComplementaryProducts({productId: action.productId, products: productResponse.results})),
+          catchError(() => of({type: '[Order]listComplementaryProductsFailure'}))
         )
       )
     )
@@ -185,29 +160,28 @@ export class ProductEffects {
   /**
    * Effect to load complementary products by product id
    */
-  searchProducts$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.searchProducts),
-      mergeMap(action =>
-        from(this.productsService.searchProducts(action.searchTerm)).pipe(
-          map((results: SearchedProduct[]) => {
-            const items = results.map(r => {
-              return { label: r.description, value: r.idProducto };
-            });
-            const optionsGroups: OptionsGroup[] = [];
-            optionsGroups.push({
-              title: 'Resultados',
-              items: items,
-            });
+    searchProducts$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ProductActions.searchProducts),
+        mergeMap((action) =>
+          from(this.productsService.searchProducts(action.searchTerm)).pipe(
+            map((results: SearchedProduct[]) => {
+              const items = results.map((r) => {
+                return { label: r.description, value: r.idProducto };
+              });
+              const optionsGroups: OptionsGroup[] = [];
+              optionsGroups.push({
+                title: 'Resultados',
+                items: items,
+              });
 
-            updateIsProductSearchActive({ isProductSearchActive: false });
-            return ProductActions.updateSearchResults({
-              searchResults: optionsGroups,
-            });
-          }),
-          catchError(() => of({ type: '[Order]searchProductsFailure' }))
+              updateIsProductSearchActive({ isProductSearchActive: false})
+              return ProductActions.updateSearchResults({searchResults: optionsGroups});
+            }),
+            catchError(() => of({type: '[Order]searchProductsFailure'}))
+          )
         )
       )
-    )
-  );
+    );
+
 }
