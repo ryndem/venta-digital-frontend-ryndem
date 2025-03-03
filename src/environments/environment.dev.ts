@@ -11,5 +11,5 @@ export const environment = {
   apiUrl: 'https://172.24.32.36:446/VentaDigital',
   authApiUrl: 'https://172.24.32.36:9001',
   fileBucket: 'mailbot',
-  baseUrl: 'https://172.24.32.36:448/VentaDigitalFront/#'
+  baseUrl: 'https://172.24.32.36:446/VentaDigitalFront/#'
 };
