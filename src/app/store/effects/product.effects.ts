@@ -11,6 +11,7 @@ import { ProductResponse } from 'app/model/product-response';
 import { SearchedProduct } from 'app/model-props/searched-product';
 import { OptionsGroup } from 'app/model-props/options-group';
 import { updateIsProductSearchActive } from '../actions/view.actions';
+import { Store } from '@ngrx/store';
 
 /**
  * Product effects to update product state
@@ -26,11 +27,13 @@ export class ProductEffects {
    * @param {Actions} actions$
    * @param {CategoriesService} categoriesService
    * @param {ProductsService} productsService
+   * @param {Store} store
    */
   constructor(
     private actions$: Actions,
     private categoriesService: CategoriesService,
     private productsService: ProductsService,
+    private store: Store
   ) {}
 
   /**
@@ -140,10 +143,15 @@ export class ProductEffects {
   loadProductPrice$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadProductPrice),
-      mergeMap((action) =>
+      mergeMap(action =>
         from(this.productsService.getProduct(action.productId)).pipe(
-          map((product: Product) => ProductActions.updateProductPrice({product: product})),
-          catchError(() => of({type: '[Order]loadProductPriceFailure'}))
+          map((product: Product) => {
+            this.store.dispatch(
+              ProductActions.addLoadedProduct({ product: product })
+            );
+            return ProductActions.updateProductPrice({ product: product });
+          }),
+          catchError(() => of({ type: '[Order]loadProductPriceFailure' }))
         )
       )
     )
