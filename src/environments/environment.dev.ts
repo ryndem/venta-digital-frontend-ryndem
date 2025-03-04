@@ -1,5 +1,5 @@
 /**
- * Object to specify variables for UAT environment
+ * Object to specify variables for DEV environment
  * @property {boolean} production Bolean to specify if the environment is production env
  * @property {string} apiUrl API Url
  * @property {string} authApiUrl Auth API Url
@@ -11,5 +11,5 @@ export const environment = {
   apiUrl: 'https://172.24.32.36:446/VentaDigital',
   authApiUrl: 'https://172.24.32.36:9001',
   fileBucket: 'mailbot',
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'https://172.24.32.36:446/VentaDigitalFront/#'
 };
