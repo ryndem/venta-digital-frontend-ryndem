@@ -7,9 +7,9 @@
  * @property {string} baseUrl App base Url
  */
 export const environment = {
-  production: false,
-  apiUrl: 'https://172.24.32.36:446/VentaDigital',
-  authApiUrl: 'https://172.24.32.36:9001',
+  production: true,
+  apiUrl: 'https://172.24.32.47:446/VentaDigital',
+  authApiUrl: 'https://172.24.32.47:9001',
   fileBucket: 'mailbot',
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'https://172.24.32.47:444/VentaDigitalFront/#'
 };
